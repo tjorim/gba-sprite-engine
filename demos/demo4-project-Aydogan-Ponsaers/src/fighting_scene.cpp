@@ -29,10 +29,18 @@ void FightingScene::load() {
     goku = Builder
             .withData(goku_data, sizeof(goku_data))
             .withSize(SIZE_32_32)
-            .withAnimated(3, 2)
-            .withLocation(GBA_SCREEN_WIDTH / 2 - 32, GBA_SCREEN_HEIGHT / 2 - 32)
+            .withAnimated(3, 3)
+            .withLocation(32, GBA_SCREEN_HEIGHT / 2 - 32)
+            .withinBounds()
             .buildPtr();
 }
 
 void FightingScene::tick(u16 keys) {
+    if(keys & KEY_UP){
+        goku->setVelocity(0,+2);
+    } else if(keys & KEY_DOWN){
+        goku->setVelocity(0,-2);
+    }else {
+        goku->setVelocity(0,0);
+    }
 }
