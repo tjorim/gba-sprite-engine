@@ -15,3 +15,9 @@ void level1::load() {
     bg = std::unique_ptr<Background>(new Background(1, background_simpleTiles, sizeof(background_simpleTiles), map, sizeof(map)));
     bg.get()->useMapScreenBlock(16);
 }
+
+std::vector<Sprite *> level1::sprites() {
+    return{};
+}
+
+void level1::tick(u16 keys) {}
