@@ -18,7 +18,7 @@ add_library(${PROJECT_NAME}
         src/background/text_stream.cpp
         src/background/background.cpp
         src/effects/fade_out_scene.cpp
-        src/sound_control.cpp src/scene.cpp ../SuperLuigi/main.cpp)
+        src/sound_control.cpp src/scene.cpp ../SuperLuigi/main.cpp ../SuperLuigi/level1.cpp ../SuperLuigi/level1.h)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>

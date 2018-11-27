@@ -9,10 +9,13 @@
 #include <libgba-sprite-engine/palette/palette_manager.h>
 #include <libgba-sprite-engine/allocator.h>
 
+#include "level1.h"
+
 int main(){
     std::shared_ptr<GBAEngine> engine(new GBAEngine());
 
-    //create scene and set to engine
+    level1 *level1 = new level1(engine);
+
     while(true){
         engine->update();
     }
