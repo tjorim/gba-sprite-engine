@@ -1,9 +1,9 @@
 project(SuperLuigi)
 
 add_executable(${PROJECT_NAME}.elf
-        main.cpp
-        level1.cpp
-        level1.h)
+        src/main.cpp
+        src/level1.cpp
+        src/level1.h)
 
 target_link_libraries(${PROJECT_NAME}.elf gba-sprite-engine)
 
