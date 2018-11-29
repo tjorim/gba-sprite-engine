@@ -12,7 +12,7 @@ void level1::load() {
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager(background_simplePal,
                                                                   sizeof(background_simplePal)));
 
-    bg = std::unique_ptr<Background>(new Background(1, background_simpleTiles, sizeof(background_simpleTiles), map, sizeof(map)));
+    bg = std::unique_ptr<Background>(new Background(1, background_simpleTiles, sizeof(background_simpleTiles), background_simpleMap, sizeof(background_simpleMap)));
     bg.get()->useMapScreenBlock(16);
 }
 
