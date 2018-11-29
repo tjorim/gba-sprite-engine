@@ -9,6 +9,7 @@ std::vector<Background *> level1::backgrounds() {
 }
 
 void level1::load() {
+    foregroundPalette = std::unique_ptr<ForegroundPaletteManager> (new ForegroundPaletteManager());
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager(background_simplePal,
                                                                   sizeof(background_simplePal)));
 

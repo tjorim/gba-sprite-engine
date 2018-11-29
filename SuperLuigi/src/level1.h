@@ -13,6 +13,7 @@
 
 class level1 : public Scene{
 private:
+    //the background
     std::unique_ptr<Background> bg;
 
 
