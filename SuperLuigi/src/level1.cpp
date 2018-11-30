@@ -40,12 +40,21 @@ std::vector<Sprite *> level1::sprites() {
 void level1::tick(u16 keys) {
 
     if(keys & KEY_RIGHT){
-        if(luigi->getCurrentFrame()<4) luigi->animateToFrame(luigi->getCurrentFrame()+1);
-        else luigi->animateToFrame(0);
+        if(luigi->getVelocity().y == 0 && luigi->getCurrentFrame()<4) luigi->animateToFrame(luigi->getCurrentFrame()+1);
+        else if (luigi->getVelocity().y == 0)luigi->animateToFrame(0);
         scrollX +=1;
         bg->scroll(scrollX,scrollY);
     }
-    else{
-        luigi->animateToFrame(0);
+
+    if(keys & KEY_UP){
+        if(luigi->getY() == GBA_SCREEN_HEIGHT-40) luigi->setVelocity(0,-1);
+        luigi->animateToFrame(5);
     }
+    else{
+        if(luigi->getY() == GBA_SCREEN_HEIGHT-40) {
+            luigi->setVelocity(0, 0);
+            if(!(keys & KEY_RIGHT)) luigi->animateToFrame(0);
+        }
+    }
+    if(luigi->getY() == GBA_SCREEN_HEIGHT-80) luigi->setVelocity(0,1);
 }
