@@ -10,12 +10,13 @@
 #include <libgba-sprite-engine/allocator.h>
 
 #include "level1.h"
-
+#include "start_scene.h"
 int main(){
     std::shared_ptr<GBAEngine> engine(new GBAEngine());
 
-    level1* level_1 = new level1(engine);
-    engine->setScene(level_1);
+    start_scene* startScene = new start_scene(engine);
+    engine->setScene(startScene);
+
 
     while(true){
         engine->update();

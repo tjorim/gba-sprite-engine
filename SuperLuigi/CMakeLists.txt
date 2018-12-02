@@ -3,7 +3,7 @@ project(SuperLuigi)
 add_executable(${PROJECT_NAME}.elf
         src/main.cpp
         src/level1.cpp
-        src/level1.h src/background.h src/Luigi.h)
+        src/level1.h src/background.h src/Luigi.h src/start_scene.cpp src/start_scene.h)
 
 target_link_libraries(${PROJECT_NAME}.elf gba-sprite-engine)
 

@@ -16,7 +16,7 @@ void level1::load() {
     foregroundPalette = std::unique_ptr<ForegroundPaletteManager> (new ForegroundPaletteManager(luigi_animationPal, sizeof(luigi_animationPal)));
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager(bg_palette, sizeof(bg_palette)));
 
-    bg = std::unique_ptr<Background>(new Background(1, background, sizeof(background), map, sizeof(map)));
+    bg = std::unique_ptr<Background>(new Background(1, background, sizeof(background), background_tilesMap, sizeof(background_tilesMap)));
     bg.get()->useMapScreenBlock(16);
 
     SpriteBuilder<Sprite> builder;
