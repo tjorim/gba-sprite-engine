@@ -14,7 +14,7 @@
 int main(){
     std::shared_ptr<GBAEngine> engine(new GBAEngine());
 
-    level1 *level_1 = new level1(engine);
+    level1* level_1 = new level1(engine);
     engine->setScene(level_1);
 
     while(true){
