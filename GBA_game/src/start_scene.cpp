@@ -52,4 +52,7 @@ void StartScene::load() {
 }
 
 void StartScene::tick(u16 keys) {
+    if(keys & KEY_ANY) {
+        engine->setScene(new ArkanoidGameScene(engine));
+    }
 }

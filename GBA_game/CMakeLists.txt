@@ -4,7 +4,7 @@ add_executable(${PROJECT_NAME}.elf
         src/main.cpp
         src/start_scene.cpp
         src/start_scene.h
-        src/background.h src/backgroundtest.h)
+        src/background.h src/backgroundtest.h src/game_play_scene.cpp src/game_play_scene.h)
 
 target_link_libraries(${PROJECT_NAME}.elf gba-sprite-engine)
 
