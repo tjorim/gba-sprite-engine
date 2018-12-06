@@ -27,7 +27,7 @@ void level1::load() {
     luigi = affineBuilder
             .withData(luigi_animationTiles, sizeof(luigi_animationTiles))
             .withSize(SIZE_16_32)
-            .withLocation(GBA_SCREEN_WIDTH/2-8, GBA_SCREEN_HEIGHT-40)
+            .withLocation(GBA_SCREEN_WIDTH/2-8, GBA_SCREEN_HEIGHT-45)
             .withAnimated(5,10)
             .buildPtr();
     luigi->stopAnimating();
@@ -35,7 +35,7 @@ void level1::load() {
     goomba = affineBuilder
             .withData(goombaTiles, sizeof(goombaTiles))
             .withSize(SIZE_32_32)
-            .withLocation(GBA_SCREEN_WIDTH-8, GBA_SCREEN_HEIGHT-40)
+            .withLocation(GBA_SCREEN_WIDTH-8, GBA_SCREEN_HEIGHT-45)
             .withAnimated(3,10)
             .buildPtr();
 }
@@ -57,11 +57,11 @@ void level1::tick(u16 keys) {
     }
 
     if(keys & KEY_UP){
-        if(luigi->getY() == GBA_SCREEN_HEIGHT-40) luigi->setVelocity(0,-1);
+        if(luigi->getY() == GBA_SCREEN_HEIGHT-45) luigi->setVelocity(0,-1);
         luigi->animateToFrame(5);
     }
     else{
-        if(luigi->getY() == GBA_SCREEN_HEIGHT-40) {
+        if(luigi->getY() == GBA_SCREEN_HEIGHT-45) {
             luigi->setVelocity(0, 0);
             if(!(keys & KEY_RIGHT)) luigi->animateToFrame(0);
         }
