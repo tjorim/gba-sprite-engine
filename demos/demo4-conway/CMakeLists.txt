@@ -1,10 +1,8 @@
-project(arkanoid)
+project(conway)
 
 add_executable(${PROJECT_NAME}.elf
-        src/main.cpp
-        src/pats.h
-        src/arkanoid_game_scene.cpp
-        src/arkanoid_game_scene.h src/spritedata.h src/dead.h src/SplashScreen.cpp src/SplashScreen.h src/splashimage.h)
+        src/main.cpp src/ConwayScene.cpp src/ConwayScene.h
+        src/NaiveConwayScene.cpp src/NaiveConwayScene.h src/bg.h src/ConwaySeeder.cpp src/ConwaySeeder.h src/ActiveTrackingConwayScene.cpp src/ActiveTrackingConwayScene.h)
 
 target_link_libraries(${PROJECT_NAME}.elf gba-sprite-engine)
 
