@@ -7,13 +7,15 @@
 #include "level1.h"
 #include "background.h"
 #include "Luigi.h"
+#include "sharedPal.h"
+#include "goomba.h"
 
 std::vector<Background *> level1::backgrounds() {
     return {bg.get()};
 }
 
 void level1::load() {
-    foregroundPalette = std::unique_ptr<ForegroundPaletteManager> (new ForegroundPaletteManager(luigi_animationPal, sizeof(luigi_animationPal)));
+    foregroundPalette = std::unique_ptr<ForegroundPaletteManager> (new ForegroundPaletteManager(spritesPal, sizeof(spritesPal)));
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager(bg_palette, sizeof(bg_palette)));
 
     bg = std::unique_ptr<Background>(new Background(1, background_data, sizeof(background_data), map, sizeof(map)));
@@ -30,10 +32,19 @@ void level1::load() {
             .buildPtr();
     luigi->stopAnimating();
 
+    goomba = affineBuilder
+            .withData(goombaTiles, sizeof(goombaTiles))
+            .withSize(SIZE_32_32)
+            .withLocation(GBA_SCREEN_WIDTH-8, GBA_SCREEN_HEIGHT-40)
+            .withAnimated(3,10)
+            .buildPtr();
 }
 
 std::vector<Sprite *> level1::sprites() {
-    return{luigi.get()};
+    return{
+        luigi.get(),
+        goomba.get()
+    };
 }
 
 void level1::tick(u16 keys) {

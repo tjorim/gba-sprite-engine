@@ -17,6 +17,7 @@ private:
     //the background
     std::unique_ptr<Background> bg;
     std::unique_ptr<AffineSprite> luigi;
+    std::unique_ptr<AffineSprite> goomba;
     int scrollX, scrollY;
 
 public:
