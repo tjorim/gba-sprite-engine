@@ -12,6 +12,7 @@
 #include "start_scene.h"
 #include "background.h"
 #include "../../demos/demo1-basicfeatures/src/sample_sound.h"
+#include "backgroundtest.h"
 
 std::vector<Background *> StartScene::backgrounds() {
     return {
@@ -25,7 +26,8 @@ std::vector<Sprite *> StartScene::sprites() {
 
 void StartScene::load() {
     foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager());
-    backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager(backgroundPal, sizeof(backgroundPal)));
+    //backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager(backgroundPal, sizeof(backgroundPal)));
+    backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager(FFIV_WM_Background_GBAPal, sizeof(FFIV_WM_Background_GBAPal)));
 
     //SpriteBuilder<Sprite> builder;
 /*
@@ -39,9 +41,12 @@ void StartScene::load() {
     TextStream::instance().setText("PRESS START", 3, 8);
     engine->enqueueMusic(zelda_music_16K_mono, zelda_music_16K_mono_bytes);
 */
-    bg = std::unique_ptr<Background>(new Background(1, backgroundTiles, sizeof(backgroundTiles
-    ), backgroundMap, sizeof(backgroundMap)));
-    bg.get()->useMapScreenBlock(16);
+    //bg = std::unique_ptr<Background>(new Background(1, backgroundTiles, sizeof(backgroundTiles
+    //), backgroundMap, sizeof(backgroundMap)));
+    
+    bg = std::unique_ptr<Background>(new Background(1, FFIV_WM_Background_GBATiles, sizeof(FFIV_WM_Background_GBATiles
+    ), FFIV_WM_Background_GBAMap, sizeof(FFIV_WM_Background_GBAMap)));
+    bg.get()->useMapScreenBlock(24);
 }
 
 void StartScene::tick(u16 keys) {
