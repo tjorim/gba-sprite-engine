@@ -43,7 +43,7 @@ void StartScene::load() {
 */
     //bg = std::unique_ptr<Background>(new Background(1, backgroundTiles, sizeof(backgroundTiles
     //), backgroundMap, sizeof(backgroundMap)));
-    
+
     bg = std::unique_ptr<Background>(new Background(1, FFIV_WM_Background_GBATiles, sizeof(FFIV_WM_Background_GBATiles
     ), FFIV_WM_Background_GBAMap, sizeof(FFIV_WM_Background_GBAMap)));
     bg.get()->useMapScreenBlock(24);
