@@ -53,7 +53,8 @@ void Sprite::syncVelocity() {
 
 void Sprite::syncAnimation() {
     int offset = w == 64 ? 2 : 1;   // 64xY sprites don't seem to cut currFrame * w
-    int newTileIndex = this->tileIndex + (currentFrame * w * offset);
+    int width = w == 16 ? 8 : w;    // 16xY sprites: frame 192 -> 200 (x8) (skip last 2 bpps)
+    int newTileIndex = this->tileIndex + (currentFrame * width * offset);
 
     oam->attr2 &= OAM_TILE_OFFSET_CLEAR;
     oam->attr2 |= (newTileIndex & OAM_TILE_OFFSET_NEW);
@@ -132,13 +133,13 @@ void Sprite::buildOam(int tileIndex) {
     if(!oam) {
         this->oam = std::unique_ptr<OBJ_ATTR>(new OBJ_ATTR());
 
-        this->oam->attr0 = ATTR0_Y(this->y) |
+        this->oam->attr0 = ATTR0_Y(this->y & 0x00FF) |
                 ATTR0_MODE(0) |
                 (GFX_MODE << 10) |
                 (MOSAIC_MODE << 12) |
                 (COLOR_MODE_256 << 13) |
                 (this->shape_bits << 14);
-        this->oam->attr1 = this->x |
+        this->oam->attr1 = (this->x & 0x01FF) |
                 (AFFINE_FLAG_NONE_SET_YET << 9) |
                 (HORIZONTAL_FLIP_FLAG << 12) |
                 (VERTICAL_FLIP_FLAG << 13) |
