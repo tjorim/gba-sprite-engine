@@ -34,8 +34,8 @@ void level1::load() {
 
     goomba = affineBuilder
             .withData(goombaTiles, sizeof(goombaTiles))
-            .withSize(SIZE_32_32)
-            .withLocation(GBA_SCREEN_WIDTH-8, GBA_SCREEN_HEIGHT-45)
+            .withSize(SIZE_16_16)
+            .withLocation(GBA_SCREEN_WIDTH-32, GBA_SCREEN_HEIGHT-29)
             .withAnimated(3,10)
             .buildPtr();
 }

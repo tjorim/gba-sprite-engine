@@ -15,7 +15,7 @@
 //	+ 48 tiles Metatiled by 2x4 not compressed
 //	Total size: 512 + 3072 = 3584
 //
-//	Time-stamp: 2018-11-30, 17:21:31
+//	Time-stamp: 2018-12-07, 11:17:49
 //	Exported by Cearn's GBA Image Transmogrifier, v0.8.6
 //	( http://www.coranac.com/projects/#grit )
 //
@@ -280,6 +280,7 @@ const unsigned short luigi_animationPal[256] __attribute__((aligned(4)))=
         };
 
 //}}BLOCK(luigi_animation)
+
 
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_LUIGI_H

@@ -15,7 +15,7 @@
 //	+ palette 65 entries, not compressed
 //	Total size: 130 = 130
 //
-//	Time-stamp: 2018-12-06, 18:45:01
+//	Time-stamp: 2018-12-07, 11:22:41
 //	Exported by Cearn's GBA Image Transmogrifier, v0.8.6
 //	( http://www.coranac.com/projects/#grit )
 //
@@ -30,12 +30,13 @@ const unsigned short spritesPal[66] __attribute__((aligned(4)))=
                 0x427E,0x52FE,0x52FE,0x56FE,0x4F58,0x4F3F,0x4F3F,0x4F3F,
                 0x4F3F,0x533F,0x575F,0x5B5F,0x5B7F,0x5F7F,0x5F7F,0x5F7F,
                 0x7319,0x7339,0x733A,0x733A,0x637F,0x679F,0x7FFF,0x7FFF,
-                0x3DEF,0x1CE7,0x6739,0x294A,0x56B5,0x4631,0x2108,0x2D6B,
+                0x1CE7,0x2108,0x294A,0x2D6B,0x318C,0x3DEF,0x4631,0x56B5,
 
-                0x318C,
+                0x6739,
         };
 
 //}}BLOCK(sprites)
+
 
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_SHAREDPAL_H
