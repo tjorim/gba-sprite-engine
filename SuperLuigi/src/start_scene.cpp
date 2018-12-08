@@ -11,6 +11,7 @@
 #include "start_scene.h"
 #include "Luigi.h"
 #include "level1.h"
+#include "sharedPal.h"
 
 std::vector<Background *> start_scene::backgrounds() {
     return {};
@@ -22,7 +23,7 @@ std::vector<Sprite *> start_scene::sprites() {
 }
 
 void start_scene::load() {
-    foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager(luigi_animationPal, sizeof(luigi_animationPal)));
+    foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager(spritesPal, sizeof(spritesPal)));
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager());
 
     TextStream::instance().setText("PRESS START", 3, 8);

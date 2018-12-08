@@ -27,7 +27,7 @@ void level1::load() {
     luigi = affineBuilder
             .withData(luigi_animationTiles, sizeof(luigi_animationTiles))
             .withSize(SIZE_16_32)
-            .withLocation(GBA_SCREEN_WIDTH/2-8, GBA_SCREEN_HEIGHT-45)
+            .withLocation(GBA_SCREEN_WIDTH/2-8, GBA_SCREEN_HEIGHT-bottomHeightFor32)
             .withAnimated(5,10)
             .buildPtr();
     luigi->stopAnimating();
@@ -35,7 +35,7 @@ void level1::load() {
     goomba = affineBuilder
             .withData(goombaTiles, sizeof(goombaTiles))
             .withSize(SIZE_16_16)
-            .withLocation(GBA_SCREEN_WIDTH-32, GBA_SCREEN_HEIGHT-29)
+            .withLocation(GBA_SCREEN_WIDTH, GBA_SCREEN_HEIGHT-bottomHeightFor16)
             .withAnimated(3,10)
             .buildPtr();
 }
@@ -48,23 +48,27 @@ std::vector<Sprite *> level1::sprites() {
 }
 
 void level1::tick(u16 keys) {
+    goomba->setVelocity(-1,0);
 
     if(keys & KEY_RIGHT){
         if(luigi->getVelocity().y == 0 && luigi->getCurrentFrame()<4) luigi->animateToFrame(luigi->getCurrentFrame()+1);
         else if (luigi->getVelocity().y == 0)luigi->animateToFrame(0);
         scrollX +=1;
         bg->scroll(scrollX,scrollY);
+        goomba->setVelocity(-2,0);
     }
 
     if(keys & KEY_UP){
-        if(luigi->getY() == GBA_SCREEN_HEIGHT-45) luigi->setVelocity(0,-1);
+        if(luigi->getY() == GBA_SCREEN_HEIGHT-bottomHeightFor32) luigi->setVelocity(0,-1);
         luigi->animateToFrame(5);
     }
     else{
-        if(luigi->getY() == GBA_SCREEN_HEIGHT-45) {
+        if(luigi->getY() == GBA_SCREEN_HEIGHT-bottomHeightFor32) {
             luigi->setVelocity(0, 0);
             if(!(keys & KEY_RIGHT)) luigi->animateToFrame(0);
         }
     }
     if(luigi->getY() == GBA_SCREEN_HEIGHT-80) luigi->setVelocity(0,1);
+
+    if(goomba->getX() <= 0) goomba->moveTo(GBA_SCREEN_WIDTH, GBA_SCREEN_HEIGHT-bottomHeightFor16);
 }

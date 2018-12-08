@@ -18,13 +18,13 @@ private:
     std::unique_ptr<Background> bg;
     std::unique_ptr<AffineSprite> luigi;
     std::unique_ptr<AffineSprite> goomba;
-    int scrollX, scrollY;
+    int scrollX, scrollY, bottomHeightFor32, bottomHeightFor16;
 
 public:
     std::vector<Sprite *> sprites() override;
     std::vector<Background *> backgrounds() override;
 
-    level1(std::shared_ptr<GBAEngine> engine) : Scene(engine), scrollX(0), scrollY(0) {}
+    level1(std::shared_ptr<GBAEngine> engine) : Scene(engine), scrollX(0), scrollY(0), bottomHeightFor32(45), bottomHeightFor16(29) {}
 
     void load() override;
     void tick(u16 keys) override;
