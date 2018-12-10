@@ -30,7 +30,7 @@ std::vector<Background *> GamePlayScene::backgrounds() {
 }
 
 void GamePlayScene::load() {
-    foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager());
+    foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager(Sonic_spritesPal, sizeof(Sonic_spritesPal)));
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager());
 
     SpriteBuilder<AffineSprite> affineBuilder;
@@ -38,7 +38,7 @@ void GamePlayScene::load() {
     player = affineBuilder
             .withData(Sonic_spritesTiles, sizeof(Sonic_spritesTiles))
             .withSize(SIZE_32_64)
-            .withAnimated(8,10)
+            .withAnimated(8,50)
             .withLocation(GBA_SCREEN_WIDTH/2, GBA_SCREEN_HEIGHT/2)
             .buildPtr();
 
