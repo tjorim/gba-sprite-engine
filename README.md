@@ -137,7 +137,7 @@ Sample rotation demo 3.
 
 **Sprite animation is built-in**! Just feed your sprite data to the builder and use `.withAnimated(amountOfFrames, frameDelay)`. Remember to position each frame in one column in the image itself (vertically). Like this:
 
-![lama gif example](https://github.com/wgroeneveld/gba-sprite-engine/blob/master/demos/demo1-basicfeatures/lama.png?raw=true)
+![lama gif example](https://github.com/wgroeneveld/gba-sprite-engine/blob/master/demos/demo1-basicfeatures/img/lama.png?raw=true)
 
 Useful sprite methods:
 
@@ -190,6 +190,16 @@ Useful text manipulation:
 * `setFontStyle(const void* data, int size)` if you prefer your own font face.
 
 Changing the font style assumes a tile width of 32 and the same symbol indexes! It also resets the font color and map so call this before doing anything else. 
+
+#### Utilities
+
+There's a game `Timer` class available using `engine->getTimer()`. It counts miliseconds, seconds, minutes and hours. 
+Do not forget this is an estimate as modulo and divide operations are expensive. 
+
+Each VBlank occurs every 280806 cycles (`CYCLES_PER_BLANK`), each cycle is 59.59ns
+So, each VBlank occurs every 16.73322954 miliseconds or 16733.22954 microseconds.
+The microseconds after the comma are rounded so irregularities are bound to occur after hours of timing..
+
 
 #### Error logging
 
