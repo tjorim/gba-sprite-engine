@@ -2,7 +2,7 @@
 // Created by joost on 6/12/2018.
 //
 
-#include "game_play_scene.h"
+#include "scene_level1.h"
 
 //
 // Created by Wouter Groeneveld on 28/07/18.
@@ -15,21 +15,21 @@
 #include <libgba-sprite-engine/gba_engine.h>
 #include <libgba-sprite-engine/effects/fade_out_scene.h>
 #include "Sonic_sprites.h"
-#include "game_play_scene.h"
+#include "scene_level1.h"
 
-std::vector<Sprite *> GamePlayScene::sprites() {
+std::vector<Sprite *> SceneLevel1::sprites() {
     return {
             player.get()
     };
 }
 
-std::vector<Background *> GamePlayScene::backgrounds() {
+std::vector<Background *> SceneLevel1::backgrounds() {
     return {
             //bg.get()
     };
 }
 
-void GamePlayScene::load() {
+void SceneLevel1::load() {
     foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager(Sonic_spritesPal, sizeof(Sonic_spritesPal)));
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager());
 
@@ -37,7 +37,7 @@ void GamePlayScene::load() {
 
     player = affineBuilder
             .withData(Sonic_spritesTiles, sizeof(Sonic_spritesTiles))
-            .withSize(SIZE_32_64)
+            .withSize(SIZE_64_64)
             .withAnimated(8,50)
             .withLocation(GBA_SCREEN_WIDTH/2, GBA_SCREEN_HEIGHT/2)
             .buildPtr();
@@ -48,7 +48,7 @@ void GamePlayScene::load() {
     //bg.get()->useMapScreenBlock(16);
 }
 
-void GamePlayScene::tick(u16 keys) {
+void SceneLevel1::tick(u16 keys) {
    /* if(keys & KEY_START) {
         if(!engine->isTransitioning()) {
             //engine->enqueueSound(zelda_secret_16K_mono, zelda_secret_16K_mono_bytes);

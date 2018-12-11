@@ -13,7 +13,7 @@
 #include "background.h"
 #include "../../demos/demo1-basicfeatures/src/sample_sound.h"
 #include "backgroundtest.h"
-#include "game_play_scene.h"
+#include "scene_level1.h"
 
 std::vector<Background *> StartScene::backgrounds() {
     return {
@@ -54,6 +54,6 @@ void StartScene::load() {
 
 void StartScene::tick(u16 keys) {
     if(keys & KEY_ANY) {
-        engine->setScene(new GamePlayScene(engine));
+        engine->setScene(new SceneLevel1(engine));
     }
 }

@@ -10,13 +10,13 @@
 #include <libgba-sprite-engine/scene.h>
 #include <libgba-sprite-engine/background/background.h>
 
-class GamePlayScene : public Scene{
+class SceneLevel1 : public Scene{
 private:
     std::unique_ptr<AffineSprite> player;
 
 public:
 
-    GamePlayScene(std::shared_ptr<GBAEngine> engine) : Scene(engine) {}
+    SceneLevel1(std::shared_ptr<GBAEngine> engine) : Scene(engine) {}
     std::vector<Sprite *> sprites() override;
     std::vector<Background *> backgrounds() override;
 
