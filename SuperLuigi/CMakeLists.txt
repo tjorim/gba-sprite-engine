@@ -9,7 +9,7 @@ add_executable(${PROJECT_NAME}.elf
         src/start_scene.cpp
         src/start_scene.h
         src/goomba.h
-        src/sharedPal.h)
+        src/sharedPal.h src/music.h src/music.h)
 
 target_link_libraries(${PROJECT_NAME}.elf gba-sprite-engine)
 

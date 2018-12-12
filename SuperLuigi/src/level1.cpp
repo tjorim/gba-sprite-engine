@@ -9,6 +9,7 @@
 #include "Luigi.h"
 #include "sharedPal.h"
 #include "goomba.h"
+#include "music.h"
 
 std::vector<Background *> level1::backgrounds() {
     return {bg.get()};
@@ -38,6 +39,8 @@ void level1::load() {
             .withLocation(GBA_SCREEN_WIDTH, GBA_SCREEN_HEIGHT-bottomHeightFor16)
             .withAnimated(3,10)
             .buildPtr();
+
+    engine->enqueueMusic(Tarantella_Napolitana, sizeof(Tarantella_Napolitana));
 }
 
 std::vector<Sprite *> level1::sprites() {
