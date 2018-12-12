@@ -14,6 +14,7 @@
 #include "../../demos/demo1-basicfeatures/src/sample_sound.h"
 #include "backgroundtest.h"
 #include "scene_level1.h"
+#include "Sound.h"
 
 std::vector<Background *> StartScene::backgrounds() {
     return {
@@ -50,6 +51,8 @@ void StartScene::load() {
     ), FFIV_WM_Background_GBAMap, sizeof(FFIV_WM_Background_GBAMap)));
      */
     bg.get()->useMapScreenBlock(28);
+    engine.get()->enqueueMusic(test, sizeof(test), 88200);
+    //engine.get()->enqueueSound(test, sizeof(test), 41100);
 }
 
 void StartScene::tick(u16 keys) {

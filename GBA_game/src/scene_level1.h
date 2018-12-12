@@ -13,10 +13,12 @@
 class SceneLevel1 : public Scene{
 private:
     std::unique_ptr<AffineSprite> player;
+    std::unique_ptr<Background> bg;
 
+    int scrollX, scrollY;
 public:
 
-    SceneLevel1(std::shared_ptr<GBAEngine> engine) : Scene(engine) {}
+    SceneLevel1(std::shared_ptr<GBAEngine> engine) : Scene(engine), scrollX(0), scrollY(0) {}
     std::vector<Sprite *> sprites() override;
     std::vector<Background *> backgrounds() override;
 
