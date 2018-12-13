@@ -72,9 +72,9 @@ void FoodScene::tick(u16 keys) {
     }
 
     removeBulletsOffScreen();
-    TextStream::instance().setText(std::string("bullets: ") + std::to_string(bullets.size()), 1, 1);
+    TextStream::instance().setText(std::string("bullets: ") + std::to_string(avatar->getX()), 1, 1);
     TextStream::instance().setText(std::string("cooldown: ") + std::to_string(bulletCooldown), 2, 1);
-    TextStream::instance().setText(std::string("angle pa/pb: ") + hex(avatar->getMatrix()->pa) + std::string("/") + hex(avatar->getMatrix()->pb), 3, 1);
+    TextStream::instance().setText(std::string("angle pa/pb: ") + std::to_string(avatar->getMatrix()->pa) + std::string("/") + hex(avatar->getMatrix()->pb), 3, 1);
     TextStream::instance().setText(std::string("angle pc/pd: ") + hex(avatar->getMatrix()->pc) + std::string("/") + hex(avatar->getMatrix()->pd), 4, 1);
 
     /*
