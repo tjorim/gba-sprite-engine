@@ -18,7 +18,7 @@ private:
     int scrollX, scrollY;
 public:
 
-    SceneLevel1(std::shared_ptr<GBAEngine> engine) : Scene(engine), scrollX(0), scrollY(0) {}
+    SceneLevel1(std::shared_ptr<GBAEngine> engine) : Scene(engine), scrollX(0), scrollY(60) {}
     std::vector<Sprite *> sprites() override;
     std::vector<Background *> backgrounds() override;
 
