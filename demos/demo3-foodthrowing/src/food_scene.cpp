@@ -12,7 +12,7 @@
 #include "bullet.h"
 #include "bullet_data.h"
 
-#define AVATAR_ROTATION_DIFF (128 * 2)
+#define AVATAR_ROTATION_DIFF (128 * 6)
 #define MAX_AMOUNT_OF_BULLETS 40
 #define BULLET_COOLDOWN_START 20
 
@@ -41,25 +41,9 @@ void FoodScene::removeBulletsOffScreen() {
             bullets.end());
 }
 
-std::string hex(int val) {
-    std::stringstream sstream;
-    sstream << std::hex << val;
-    std::string result = sstream.str();
-    return result;
+VECTOR FoodScene::rotateAround(VECTOR center, VECTOR point) {
+    return GBAVector(center).rotateAsCenter(point, avatarRotation);
 }
-
-u32 hex_int(u32 decimalValue) {
-    return (((decimalValue) & 0xF) + (((decimalValue) >> 4) * 10));
-}
-
-VECTOR randomDestinations[6] = {
-        {GBA_SCREEN_WIDTH, GBA_SCREEN_HEIGHT},
-        {0, 0},
-        {GBA_SCREEN_WIDTH / 2, GBA_SCREEN_HEIGHT},
-        {GBA_SCREEN_WIDTH, GBA_SCREEN_HEIGHT / 2},
-        {GBA_SCREEN_WIDTH, 0},
-        {0, GBA_SCREEN_HEIGHT}
-};
 
 void FoodScene::tick(u16 keys) {
     avatar->animateToFrame(0);
@@ -74,17 +58,10 @@ void FoodScene::tick(u16 keys) {
     removeBulletsOffScreen();
     TextStream::instance().setText(std::string("bullets: ") + std::to_string(bullets.size()), 1, 1);
     TextStream::instance().setText(std::string("cooldown: ") + std::to_string(bulletCooldown), 2, 1);
-    TextStream::instance().setText(std::string("angle pa/pb: ") + hex(avatar->getMatrix()->pa) + std::string("/") + hex(avatar->getMatrix()->pb), 3, 1);
-    TextStream::instance().setText(std::string("angle pc/pd: ") + hex(avatar->getMatrix()->pc) + std::string("/") + hex(avatar->getMatrix()->pd), 4, 1);
 
-    /*
-    int defaultx = hex_int(GBA_SCREEN_WIDTH / 2 - 20), defaulty = hex_int(GBA_SCREEN_HEIGHT - 20);
+    TextStream::instance().setText(std::string("angle pa/pb: ") + std::to_string(avatar->getMatrix()->pa) + std::string("/") + std::to_string(avatar->getMatrix()->pb), 3, 1);
+    TextStream::instance().setText(std::string("angle pc/pd: ") + std::to_string(avatar->getMatrix()->pc) + std::string("/") + std::to_string(avatar->getMatrix()->pd), 4, 1);
 
-    auto newx = toDecimal((avatar->getMatrix()->pa * defaultx + avatar->getMatrix()->pb * defaulty) >> 8);
-    auto newy = toDecimal((avatar->getMatrix()->pc * defaultx + avatar->getMatrix()->pd * defaulty) >> 8);
-
-    TextStream::instance().setText(std::string("translated x/y: ") + std::to_string(newx) + std::string(",") + std::to_string(newy), 16, 1);
-*/
     if(keys & KEY_LEFT) {
         avatarRotation -= AVATAR_ROTATION_DIFF;
     } else if(keys & KEY_RIGHT) {
@@ -98,7 +75,9 @@ void FoodScene::tick(u16 keys) {
             bullets.push_back(createBullet());
 
             auto &b = bullets.at(bullets.size() - 1);
-            b->setDestination(randomDestinations[rand() % 6]);
+            auto destination = rotateAround(avatar->getCenter(), defaultBulletTarget);
+            TextStream::instance().setText(std::string("shooting dest: ") + std::to_string(destination.x) + std::string(",") + std::to_string(destination.y), 16, 1);
+            b->setDestination(destination);
         }
     }
 
@@ -136,4 +115,7 @@ void FoodScene::load() {
             .withLocation(GBA_SCREEN_WIDTH + 20, GBA_SCREEN_HEIGHT + 20)
             .buildPtr();
     bulletCooldown = BULLET_COOLDOWN_START;
+
+    // rotation of a point on a circle within the resolution means our radius should be big enough
+    defaultBulletTarget = { GBA_SCREEN_WIDTH / 2, GBA_SCREEN_HEIGHT + (GBA_SCREEN_WIDTH / 2) - avatar->getCenter().y + 40};
 }

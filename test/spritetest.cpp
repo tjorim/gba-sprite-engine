@@ -3,6 +3,8 @@
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
 #include "gtest/gtest.h"
 
+#include <bitset>
+
 const u32 kul_data [] = {
         0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
         0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x02, 0x02, 0x02, 0x02, 0x02,
@@ -179,9 +181,15 @@ const u32 kul_data [] = {
 
 class SpriteWithStubOam : public Sprite {
 public:
-    SpriteWithStubOam() : Sprite(nullptr, imageSize, x, y, SIZE_8_8) {
+    SpriteWithStubOam(SpriteSize size) : Sprite(nullptr, imageSize, x, y, size) {
         oam = std::unique_ptr<OBJ_ATTR>(new OBJ_ATTR());
     }
+
+    OBJ_ATTR* buildOamForTesting(int tileIndex = 0) {
+        buildOam(tileIndex);
+        return oam.get();
+    }
+
 };
 
 class SpriteSuite : public ::testing::Test {
@@ -193,9 +201,20 @@ protected:
     }
 
     virtual void SetUp() {
-        s = new SpriteWithStubOam();
+        s = new SpriteWithStubOam(SIZE_8_8);
     }
 };
+
+TEST_F(SpriteSuite, Sync_Animation_Updates_OAM_To_Next_Frame) {
+    s = new SpriteWithStubOam(SIZE_16_32);
+    s->makeAnimated(2, 0);
+    auto oam = s->buildOamForTesting(208); // should start at 224 (11100000) after a frame update
+    s->update();
+
+    auto attr2 = std::bitset<16>(oam->attr2).to_string();
+
+    ASSERT_EQ(std::string("0000000011100000"), attr2);
+}
 
 
 TEST_F(SpriteSuite, Animated_Sprite_Increases_Current_Frame_After_Delay) {
@@ -232,6 +251,16 @@ TEST_F(SpriteSuite, CollidesWith_B_Half_In_A_On_X_Axis_Collides) {
     auto b = SpriteBuilder<Sprite>().withLocation(20, 10).withSize(SIZE_16_16).buildPtr();
 
     ASSERT_TRUE(a->collidesWith(*b));
+}
+
+TEST_F(SpriteSuite, MovesToNegativeCoordsAreMaskedIntoOAM) {
+    s->moveTo(-10, -15);
+    auto oam = s->buildOamForTesting();
+    auto attr0 = std::bitset<16>(oam->attr0).to_string();
+    auto attr1 = std::bitset<16>(oam->attr1).to_string();
+
+    ASSERT_EQ(std::string("0000000011110001"), attr0);
+    ASSERT_EQ(std::string("0000000111110110"), attr1);
 }
 
 TEST_F(SpriteSuite, BuildingWithSize_SetsWidthAndHeight) {

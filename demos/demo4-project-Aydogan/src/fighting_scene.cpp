@@ -6,6 +6,8 @@
 #include <libgba-sprite-engine/sprites/affine_sprite.h>
 #include <libgba-sprite-engine/gba_engine.h>
 #include "fighting_scene.h"
+#include "goku.h"
+#include "dragonballs.h"
 //changes overnemen van upstream endan met timer verder werken we gaan onze dragonballs met een tijds interval moeten kunnen spawnen en voortbegewen
 
 

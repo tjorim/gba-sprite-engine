@@ -9,10 +9,15 @@
 
 std::unique_ptr<SoundControl> GBAEngine::activeChannelA;
 std::unique_ptr<SoundControl> GBAEngine::activeChannelB;
+std::unique_ptr<Timer> GBAEngine::timer;
 
 void GBAEngine::vsync() {
     while (REG_VCOUNT >= 160);
     while (REG_VCOUNT < 160);
+}
+
+Timer* GBAEngine::getTimer() {
+    return GBAEngine::timer.get();
 }
 
 void GBAEngine::onVBlank() {
@@ -23,6 +28,8 @@ void GBAEngine::onVBlank() {
     unsigned short tempInterruptState = REG_IF;
 
     if((REG_IF & INTERRUPT_VBLANK) == INTERRUPT_VBLANK) {
+        GBAEngine::timer->onvblank();
+
         if(GBAEngine::activeChannelA) {
             if(GBAEngine::activeChannelA->done()) {
                 GBAEngine::activeChannelA->reset();
@@ -91,6 +98,7 @@ void GBAEngine::enqueueSound(const s8 *data, int totalSamples, int sampleRate, S
 }
 
 GBAEngine::GBAEngine() {
+    GBAEngine::timer = std::unique_ptr<Timer>(new Timer());
     // setup screen control flags
     REG_DISPCNT = DCNT_MODE0 | DCNT_OBJ | DCNT_OBJ_1D | DCNT_BG0 | DCNT_BG1 | DCNT_BG2 | DCNT_BG3;
 
@@ -100,6 +108,7 @@ GBAEngine::GBAEngine() {
     *IRQ_CALLBACK = (u32) &GBAEngine::onVBlank;
 
     REG_SNDDSCNT = 0;
+    disableTextBg = false;
     Allocator::free();
 }
 
@@ -131,6 +140,10 @@ void GBAEngine::transitionIntoScene(Scene* scene, SceneEffect* effect) {
 }
 
 void GBAEngine::cleanupPreviousScene()  {
+    for(auto bg : currentScene->backgrounds()) {
+        bg->clearData();
+    }
+
     delete currentScene;
     sceneToTransitionTo = nullptr;
     delete currentEffectForTransition;
@@ -140,7 +153,9 @@ void GBAEngine::setScene(Scene* scene) {
     dequeueAllSounds();
     if(this->currentScene) {
         cleanupPreviousScene();
-        TextStream::instance().clear();
+        if(!this->disableTextBg) {
+            TextStream::instance().clear();
+        }
     }
     scene->load();
 
@@ -155,7 +170,9 @@ void GBAEngine::setScene(Scene* scene) {
     }
     bgPalette->persist();
 
-    TextStream::instance().persist();
+    if(!this->disableTextBg) {
+        TextStream::instance().persist();
+    }
 
     for(const auto bg : scene->backgrounds()) {
         bg->persist();

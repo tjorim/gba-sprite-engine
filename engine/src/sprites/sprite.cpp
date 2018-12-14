@@ -18,6 +18,10 @@ Sprite::Sprite(const void *imageData, int imageSize, int x, int y, SpriteSize si
     setAttributesBasedOnSize(size);
 }
 
+void Sprite::moveTo(VECTOR location) {
+    moveTo(location.x, location.y);
+}
+
 void Sprite::moveTo(int x, int y) {
     this->x = x;
     this->y = y;
@@ -52,9 +56,7 @@ void Sprite::syncVelocity() {
 }
 
 void Sprite::syncAnimation() {
-    int offset = w == 64 ? 2 : 1;   // 64xY sprites don't seem to cut currFrame * w
-    int newTileIndex = this->tileIndex + (currentFrame * w * offset);
-
+    int newTileIndex = this->tileIndex + (currentFrame * (this->animation_offset * 2));
     oam->attr2 &= OAM_TILE_OFFSET_CLEAR;
     oam->attr2 |= (newTileIndex & OAM_TILE_OFFSET_NEW);
 }
@@ -98,18 +100,18 @@ void Sprite::update() {
 
 void Sprite::setAttributesBasedOnSize(SpriteSize size) {
     switch (size) {
-        case SIZE_8_8:   size_bits = 0; shape_bits = 0; w = 8; h = 8; break;
-        case SIZE_16_16: size_bits = 1; shape_bits = 0; w = 16; h = 16; break;
-        case SIZE_32_32: size_bits = 2; shape_bits = 0; w = 32; h = 32; break;
-        case SIZE_64_64: size_bits = 3; shape_bits = 0; w = 64; h = 64; break;
-        case SIZE_16_8:  size_bits = 0; shape_bits = 1; w = 16; h = 8; break;
-        case SIZE_32_8:  size_bits = 1; shape_bits = 1; w = 32; h = 8; break;
-        case SIZE_32_16: size_bits = 2; shape_bits = 1; w = 32; h = 16; break;
-        case SIZE_64_32: size_bits = 3; shape_bits = 1; w = 64; h = 32; break;
-        case SIZE_8_16:  size_bits = 0; shape_bits = 2; w = 8; h = 16; break;
-        case SIZE_8_32:  size_bits = 1; shape_bits = 2; w = 8; h = 32; break;
-        case SIZE_16_32: size_bits = 2; shape_bits = 2; w = 16; h = 32; break;
-        case SIZE_32_64: size_bits = 3; shape_bits = 2; w = 32; h = 64; break;
+        case SIZE_8_8:   size_bits = 0; shape_bits = 0; w = 8; h = 8; animation_offset = 1; break;
+        case SIZE_16_16: size_bits = 1; shape_bits = 0; w = 16; h = 16; animation_offset = 4; break;
+        case SIZE_32_32: size_bits = 2; shape_bits = 0; w = 32; h = 32; animation_offset = 16; break;
+        case SIZE_64_64: size_bits = 3; shape_bits = 0; w = 64; h = 64; animation_offset = 64; break;
+        case SIZE_16_8:  size_bits = 0; shape_bits = 1; w = 16; h = 8; animation_offset = 2; break;
+        case SIZE_32_8:  size_bits = 1; shape_bits = 1; w = 32; h = 8; animation_offset = 4; break;
+        case SIZE_32_16: size_bits = 2; shape_bits = 1; w = 32; h = 16; animation_offset = 8; break;
+        case SIZE_64_32: size_bits = 3; shape_bits = 1; w = 64; h = 32; animation_offset = 32; break;
+        case SIZE_8_16:  size_bits = 0; shape_bits = 2; w = 8; h = 16; animation_offset = 2; break;
+        case SIZE_8_32:  size_bits = 1; shape_bits = 2; w = 8; h = 32; animation_offset = 4; break;
+        case SIZE_16_32: size_bits = 2; shape_bits = 2; w = 16; h = 32; animation_offset = 8; break;
+        case SIZE_32_64: size_bits = 3; shape_bits = 2; w = 32; h = 64; animation_offset = 32; break;
     }
 }
 
@@ -132,13 +134,13 @@ void Sprite::buildOam(int tileIndex) {
     if(!oam) {
         this->oam = std::unique_ptr<OBJ_ATTR>(new OBJ_ATTR());
 
-        this->oam->attr0 = ATTR0_Y(this->y) |
+        this->oam->attr0 = ATTR0_Y(this->y & 0x00FF) |
                 ATTR0_MODE(0) |
                 (GFX_MODE << 10) |
                 (MOSAIC_MODE << 12) |
                 (COLOR_MODE_256 << 13) |
                 (this->shape_bits << 14);
-        this->oam->attr1 = this->x |
+        this->oam->attr1 = (this->x & 0x01FF) |
                 (AFFINE_FLAG_NONE_SET_YET << 9) |
                 (HORIZONTAL_FLIP_FLAG << 12) |
                 (VERTICAL_FLIP_FLAG << 13) |
