@@ -4,16 +4,14 @@
 
 
 #include <libgba-sprite-engine/sprites/affine_sprite.h>
-#include <libgba-sprite-engine/gba/tonc_memmap.h>
 #include <libgba-sprite-engine/gba_engine.h>
-#include <libgba-sprite-engine/background/text_stream.h>
 #include "fighting_scene.h"
-#include "goku.h"
+//changes overnemen van upstream endan met timer verder werken we gaan onze dragonballs met een tijds interval moeten kunnen spawnen en voortbegewen
 
 
 std::vector<Sprite *> FightingScene::sprites() {
     return {
-        goku.get()
+            goku.get(), dragonballs.get()
     };
 }
 
@@ -30,9 +28,20 @@ void FightingScene::load() {
             .withData(goku_data, sizeof(goku_data))
             .withSize(SIZE_32_32)
             .withAnimated(3, 3)
-            .withLocation(32, GBA_SCREEN_HEIGHT / 2 - 32)
+            .withLocation(16, GBA_SCREEN_HEIGHT / 2 - 32)
             .withinBounds()
             .buildPtr();
+
+    dragonballs = Builder
+            .withData(dragonballs_data, sizeof(dragonballs_data))
+            .withSize(SIZE_32_32)
+            .withAnimated(6, 3)
+            .withLocation(64, GBA_SCREEN_HEIGHT / 2 - 32)
+            .withinBounds()
+            .buildPtr();
+
+    dragonballs->stopAnimating();
+
 }
 
 void FightingScene::tick(u16 keys) {

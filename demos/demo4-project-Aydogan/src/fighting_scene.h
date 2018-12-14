@@ -12,6 +12,7 @@
 class FightingScene : public Scene {
 private:
     std::unique_ptr<Sprite> goku;
+    std::unique_ptr<Sprite> dragonballs;
 
 public:
     explicit FightingScene(const std::shared_ptr<GBAEngine>) : Scene(engine) {}

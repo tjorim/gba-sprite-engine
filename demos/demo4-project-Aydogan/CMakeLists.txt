@@ -1,4 +1,4 @@
-project(opdracht_aydogan_ponsaers)
+project(opdracht_aydogan)
 
 add_executable(${PROJECT_NAME}.elf
         src/main.cpp
