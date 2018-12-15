@@ -9,11 +9,13 @@
 #include <libgba-sprite-engine/sprites/affine_sprite.h>
 #include <libgba-sprite-engine/scene.h>
 #include <libgba-sprite-engine/background/background.h>
+#include "player.h"
 
 class SceneLevel1 : public Scene{
 private:
-    std::unique_ptr<AffineSprite> player;
+    std::unique_ptr<AffineSprite> sonic;
     std::unique_ptr<Background> bg;
+    std::shared_ptr<Player> player = std::make_shared<Player>(3);
 
     int scrollX, scrollY;
 public:

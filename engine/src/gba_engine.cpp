@@ -139,6 +139,10 @@ void GBAEngine::transitionIntoScene(Scene* scene, SceneEffect* effect) {
     currentEffectForTransition->setSceneToAffect(this->currentScene);
 }
 
+void GBAEngine::setNullptrAsCurrentEffectForTransistion() {
+    currentEffectForTransition = nullptr;
+}
+
 void GBAEngine::cleanupPreviousScene()  {
     for(auto bg : currentScene->backgrounds()) {
         bg->clearData();
