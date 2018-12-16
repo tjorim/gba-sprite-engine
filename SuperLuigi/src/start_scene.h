@@ -10,6 +10,7 @@
 class start_scene: public Scene {
 private:
     std::unique_ptr<AffineSprite> luigi;
+    std::unique_ptr<AffineSprite> goomba;
 public:
     std::vector<Sprite *> sprites() override;
     std::vector<Background *> backgrounds() override;

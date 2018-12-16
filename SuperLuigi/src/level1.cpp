@@ -11,6 +11,7 @@
 #include "sharedPal.h"
 #include "goomba.h"
 #include "music.h"
+#include "QuestionBlock.h"
 
 #define bottomHeightFor32 45
 #define bottomHeightFor16 29
@@ -44,6 +45,13 @@ void level1::load() {
             .withAnimated(3,5)
             .buildPtr();
 
+    questionBlock = affineBuilder
+                    .withData(question_blockTiles, sizeof(question_blockTiles))
+                    .withSize(SIZE_16_16)
+                    .withLocation(GBA_SCREEN_WIDTH/2+10,GBA_SCREEN_HEIGHT-bottomHeightFor32-30)
+                    .withAnimated(0,1)
+                    .buildPtr();
+
     engine->enqueueMusic(Tarantella_Napolitana, sizeof(Tarantella_Napolitana));
 }
 
@@ -51,6 +59,7 @@ std::vector<Sprite *> level1::sprites() {
 
     std::vector<Sprite*> sprites;
     sprites.push_back(luigi.get());
+    sprites.push_back(questionBlock.get());
     if(!goombaDEAD)sprites.push_back(goomba.get());
 
     return sprites;
@@ -58,37 +67,49 @@ std::vector<Sprite *> level1::sprites() {
 
 void level1::tick(u16 keys) {
     goomba->setVelocity(-1,0);
+    questionBlock->setVelocity(0,0);
 
     if(keys & KEY_RIGHT){
         if(luigi->getVelocity().y == 0) luigi->animate();
+        questionBlock-> setVelocity(-1,0);
         scrollX +=1;
         bg->scroll(scrollX,scrollY);
         goomba->setVelocity(goomba->getVelocity().x-1,0);
     }
     else if(luigi->getVelocity().y == 0){
+
         luigi->stopAnimating();
         luigi->animateToFrame(0);
     }
 
     if(keys & KEY_UP){
+
         if(luigi->getY() == GBA_SCREEN_HEIGHT-bottomHeightFor32) luigi->setVelocity(0,-1);
         luigi->stopAnimating();
         luigi->animateToFrame(5);
     }
     else{
+
         if(luigi->getY() == GBA_SCREEN_HEIGHT-bottomHeightFor32) {
             luigi->setVelocity(0, 0);
             if(!(keys & KEY_RIGHT)) luigi->animateToFrame(0);
         }
     }
-    if(luigi->getY() == GBA_SCREEN_HEIGHT-80) luigi->setVelocity(0,1);
+    if(luigi->getY() == GBA_SCREEN_HEIGHT-110) luigi->setVelocity(0,1);
 
     if(goomba->getX() <= 0) goomba->moveTo(GBA_SCREEN_WIDTH, GBA_SCREEN_HEIGHT-bottomHeightFor16);
+    if(questionBlock->getX() <=0) questionBlock->moveTo(GBA_SCREEN_WIDTH,GBA_SCREEN_HEIGHT-bottomHeightFor32-30);
 
     if(luigi->collidesWith(*goomba) && (luigi->getY() == GBA_SCREEN_HEIGHT-bottomHeightFor32) && !goombaDEAD){
         TextStream::instance().setText("DEAD", 0,0);
         goomba->stopAnimating();
         goomba->setVelocity(0,0);
+    }
+
+    if(luigi ->collidesWith(*questionBlock) && (luigi->getDy()) >0) {
+        luigi->setVelocity(0,1);
+        questionBlock->stopAnimating();
+        questionBlock->animateToFrame(2);
     }
 
     if(luigi->collidesWith(*goomba) && luigi->getVelocity().y > 0 && luigi->getY()+32 >= GBA_SCREEN_HEIGHT-bottomHeightFor16){

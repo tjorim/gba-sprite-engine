@@ -11,6 +11,7 @@
 #include "start_scene.h"
 #include "Luigi.h"
 #include "level1.h"
+#include "goomba.h"
 #include "sharedPal.h"
 
 std::vector<Background *> start_scene::backgrounds() {
@@ -19,7 +20,13 @@ std::vector<Background *> start_scene::backgrounds() {
 
 
 std::vector<Sprite *> start_scene::sprites() {
-    return { luigi.get()  };
+
+    std::vector<Sprite*> sprites;
+    sprites.push_back(luigi.get());
+    sprites.push_back(goomba.get());
+
+    return { sprites
+    };
 }
 
 void start_scene::load() {
@@ -38,10 +45,18 @@ void start_scene::load() {
             .withAnimated(5,10)
             .buildPtr();
 
-
+    goomba = affineBuilder
+            .withData(goombaTiles, sizeof(goombaTiles))
+            .withSize(SIZE_16_16)
+            .withLocation(GBA_SCREEN_WIDTH/2 -20 , GBA_SCREEN_HEIGHT/2 +16)
+            .withAnimated(3,5)
+            .buildPtr();
 }
 
 void start_scene::tick(u16 keys) {
+    if(keys){
+        goomba ->flipHorizontally(true);
+    }
     if(keys & KEY_START) {
         if(!engine->isTransitioning()) {
 

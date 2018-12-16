@@ -18,6 +18,7 @@ private:
     std::unique_ptr<Background> bg;
     std::unique_ptr<AffineSprite> luigi;
     std::unique_ptr<AffineSprite> goomba;
+    std::unique_ptr<AffineSprite> questionBlock;
     int scrollX, scrollY;
     bool goombaDEAD;
 
