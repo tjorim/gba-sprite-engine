@@ -6,13 +6,41 @@
 #include "Level1_scene.h"
 #include "Level1_background.h"
 #include "Scene_sprites.h"
+//#include "Portal_music.h"
+
 
 
 std::vector<Sprite *> Level1_scene::sprites() {
     std::vector<Sprite*> sprites;
-    if (bullet != NULL){
-        sprites.push_back(red_bullet.get());
+    if (redBullet != NULL){
+        sprites.push_back(red_bullet_sprite.get());
     }
+    if (blueBullet != NULL){
+        sprites.push_back(blue_bullet_sprite.get());
+    }
+    for(auto& s : verticalPortalWallVec) {
+        sprites.push_back(s);
+    }
+
+    for(auto& s : horizontalPortalWallVec) {
+        sprites.push_back(s);
+    }
+
+    for(auto& s : verticalWallVec) {
+        sprites.push_back(s);
+    }
+
+    for(auto& s : horizontalWallVec) {
+        sprites.push_back(s);
+    }
+
+    sprites.push_back(verticalPortalWall.get());
+    sprites.push_back(horizontalPortalWall.get());
+    sprites.push_back(verticalWall.get());
+    sprites.push_back(horizontalWall.get());
+
+
+    sprites.push_back(verticalRedPortal.get());
     sprites.push_back(chell.get());
     sprites.push_back(visier.get());
     return {sprites};
@@ -24,15 +52,125 @@ std::vector<Background *> Level1_scene::backgrounds() {
     };
 }
 
-std::unique_ptr<Red_bullet> Level1_scene::createBullet() {
-    return std::unique_ptr<Red_bullet>(new Red_bullet(spriteBuilder
-    ->withLocation(240, 160)
-    .buildWithDataOf(*red_bullet.get())));
+void Level1_scene::moveChell(u16 keys) {
+    int xSnelheid  = 0;
+    int ySnelheid  = 1;
+
+    if (chell->collidesWith(*verticalRedPortal.get())){
+        chell->moveTo(0, 0);
+    }
+    if (keys & KEY_LEFT) {
+        xSnelheid = -1;
+    }
+
+    if (keys & KEY_RIGHT) {
+        xSnelheid = 1;
+    }
+    if (keys & KEY_A) {
+        ySnelheid = -1;
+    }
+    if (keys & KEY_B) {
+        ySnelheid = 1;
+    }
+
+    /*// jump AND gravity
+    if (keys & KEY_A && chell->getVelocity().y == 0) {
+        if(jump == false) {
+            ySnelheid = -2;
+            jump = true;
+            chellY = chell->getY();
+        }
+    }
+    if(jump == true){
+        ySnelheid = -2;
+    }
+
+    if( chell->getY()<= chellY-50){
+        jump == false;
+        ySnelheid = 1;
+    }
+
+    //Collision detection
+    for(auto& s : verticalPortalWallVec) {
+        if (chell->collidesWith(*s)){
+            if (chell->getX() < s->getX()){
+                if (xSnelheid > 0) { xSnelheid = 0; }
+            }
+            if (chell->getX() > s->getX()){
+                if (xSnelheid < 0) { xSnelheid = 0; }
+            }
+        }
+    }
+    for(auto& k : horizontalPortalWallVec) {
+        if (chell->collidesWith(*k)){
+            if (chell->getY() < k->getY()){
+                if (ySnelheid > 0) { ySnelheid = 0; }
+            }
+            if (chell->getY() > k->getY()){
+                if (ySnelheid < 0) { ySnelheid = 0; }
+            }
+        }
+    }
+
+    for(auto& s : verticalWallVec) {
+        if (chell->collidesWith(*s)){
+            if (chell->getX() < s->getX()){
+                if (xSnelheid > 0) { xSnelheid = 0; }
+            }
+            if (chell->getX() > s->getX()){
+                if (xSnelheid < 0) { xSnelheid = 0; }
+            }
+        }
+    }
+    for(auto& k : horizontalWallVec) {
+        if (chell->collidesWith(*k)){
+            if (chell->getY() < k->getY()){
+                if (ySnelheid > 0) { ySnelheid = 0; }
+            }
+            if (chell->getY() > k->getY()){
+                if (ySnelheid < 0) { ySnelheid = 0; }
+            }
+        }
+    }
+*/
+    if (chell->collidesWith(*verticalPortalWall)) {
+        if (chell->getY() < verticalPortalWall->getY()) {
+            if (ySnelheid > 0) { ySnelheid = 0; }
+        }
+        if (chell->getY() > verticalPortalWall->getY()) {
+            if (ySnelheid < 0) { ySnelheid = 0; }
+        }
+    }
+    if (chell->collidesWith(*horizontalPortalWall)) {
+        if (chell->getY() < horizontalPortalWall->getY()) {
+            if (ySnelheid > 0) { ySnelheid = 0; }
+        }
+        if (chell->getY() > horizontalPortalWall->getY()) {
+            if (ySnelheid < 0) { ySnelheid = 0; }
+        }
+    }
+    if (chell->collidesWith(*verticalWall)) {
+        if (chell->getY() < verticalWall->getY()) {
+            if (ySnelheid > 0) { ySnelheid = 0; }
+        }
+        if (chell->getY() > verticalWall->getY()) {
+            if (ySnelheid < 0) { ySnelheid = 0; }
+        }
+    }
+    if (chell->collidesWith(*horizontalWall)) {
+        if (chell->getY() < horizontalWall->getY()) {
+            if (ySnelheid > 0) { ySnelheid = 0; }
+        }
+        if (chell->getY() > horizontalWall->getY()) {
+            if (ySnelheid < 0) { ySnelheid = 0; }
+        }
+    }
+
+
+    chell->setVelocity(xSnelheid,ySnelheid);
+    visier->setVelocity(xSnelheid,ySnelheid);
 }
 
-void Level1_scene::removeBullet(std::unique_ptr<Sprite> &sprite){
-
-}
 
 void Level1_scene::load() {
     foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager(sharedPal, sizeof(sharedPal)));
@@ -40,67 +178,140 @@ void Level1_scene::load() {
 
     SpriteBuilder<Sprite> builder;
     SpriteBuilder<AffineSprite> affineBuilder;
-    spriteBuilder = std::unique_ptr<SpriteBuilder<Sprite>>(new SpriteBuilder<Sprite>);
+    spriteBuilder1 = std::unique_ptr<SpriteBuilder<Sprite>>(new SpriteBuilder<Sprite>);
+    spriteBuilder2 = std::unique_ptr<SpriteBuilder<Sprite>>(new SpriteBuilder<Sprite>);
 
     chell = builder
             .withData(chellTiles, sizeof(chellTiles))
             .withSize(SIZE_16_32)
             .withAnimated(4, 6)
-            .withLocation(30,GBA_SCREEN_HEIGHT - chell->getHeight() - 40)
+            .withLocation(50,50)
+            .buildPtr();
+
+    for(auto& s : verticalPortalWallCoordinaten) {
+        verticalPortalWall = builder
+                .withData(Vertical_shootableTiles, sizeof(Vertical_shootableTiles))
+                .withSize(SIZE_8_32)
+                .withLocation(s[0],s[1])
+                .buildPtr();
+        //verticalPortalWallVec.push_back(verticalPortalWall.get());
+    }
+
+    for(auto& s : horizontalPortalWallCoordinaten) {
+        horizontalPortalWall = builder
+                .withData(Horizontal_shootable_wallTiles, sizeof(Horizontal_shootable_wallTiles))
+                .withSize(SIZE_32_8)
+                .withLocation(s[0],s[1])
+                .buildPtr();
+        //horizontalPortalWallVec.push_back(horizontalPortalWall.get());
+    }
+
+    for(auto& s : verticalWallCoordinaten) {
+        verticalWall = builder
+                .withData(Vertical_wallTiles, sizeof(Vertical_wallTiles))
+                .withSize(SIZE_8_32)
+                .withLocation(s[0],s[1])
+                .buildPtr();
+        //verticalWallVec.push_back(verticalWall.get());
+    }
+
+    for(auto& s : horizontalWallCoordinaten) {
+        horizontalWall = builder
+                .withData(Horizontal_wallTiles, sizeof(Horizontal_wallTiles))
+                .withSize(SIZE_32_8)
+                .withLocation(s[0],s[1])
+                .buildPtr();
+        //horizontalWallVec.push_back(horizontalWall.get());
+    }
+
+    verticalRedPortal = builder
+            .withData(Vertical_red_portalTiles, sizeof(Vertical_red_portalTiles))
+            .withSize(SIZE_8_32)
+            .withLocation(-16,-16)
+            .buildPtr();
+
+    verticalBluePortal = builder
+            .withData(Vertical_red_portalTiles, sizeof(Vertical_red_portalTiles))
+            .withSize(SIZE_8_32)
+            .withLocation(-16,-16)
             .buildPtr();
 
     visier = affineBuilder
             .withData(VisierTiles, sizeof(VisierTiles))
             .withSize(SIZE_64_64)
-            .withLocation(30,GBA_SCREEN_HEIGHT - chell->getHeight() - 40)
+            .withLocation(50-24,50-24)
             .buildPtr();
     visierRotation = 0;
 
-    red_bullet = spriteBuilder->withData(red_bulletTiles, sizeof(red_bulletTiles))
+    red_bullet_sprite = spriteBuilder1->withData(red_bulletTiles, sizeof(red_bulletTiles))
             .withSize(SIZE_8_8)
             .withLocation(0, 0)
             .buildPtr();
 
+    blue_bullet_sprite = spriteBuilder2->withData(blue_bulletTiles, sizeof(blue_bulletTiles))
+            .withSize(SIZE_8_8)
+            .withLocation(0, 0)
+            .buildPtr();
+
+
     bg = std::unique_ptr<Background>(new Background(1, background_data, sizeof(background_data), map, sizeof(map)));
     bg.get()->useMapScreenBlock(16);
 
+    //engine->enqueueMusic(Still_Alive, 1994908, 44100);
 }
 
 void Level1_scene::tick(u16 keys) {
 
+    // check direction scope
+    if (visier->getMatrix()->pa < 0) {
+        flip_visier = true;
+    } else { flip_visier = false; }
 
-    if(keys & KEY_R) {
-        visierRotation -= 100;
-    } else if(keys & KEY_L) {
-        visierRotation += 100;
-    }
+    moveChell(keys);
 
-    if(keys & KEY_LEFT) {
-        chell->setVelocity(-1, 0);
-        visier->setVelocity(-1, 0);
-    }
-
-    else if(keys & KEY_RIGHT) {
-        chell->setVelocity(1, 0);
-        visier->setVelocity(1, 0);
-    }
-    else{
-        chell->setVelocity(0, 0);
-        visier->setVelocity(0, 0);
+    //rotate scope
+    if (keys & KEY_R) {
+        visierRotation -= 200;
+    } else if (keys & KEY_L) {
+        visierRotation += 200;
     }
 
 
-    if((keys & KEY_A)) {
-        bullet = createBullet();
-        bullet->setDestination({0,100});
-        bullet->start();
+    if ((keys & KEY_UP)) {
+        redBullet = std::unique_ptr<Portal_bullet>(new Portal_bullet(
+                spriteBuilder1->withLocation(visier->getX() + 28, visier->getY() + 28).buildWithDataOf(
+                        *red_bullet_sprite.get())));
+        redBullet->setDestination(visier->getMatrix()->pc, visier->getX(), visier->getY(), visier->getWidth());
+        redBullet->start(flip_visier);
+    }
+
+    if ((keys & KEY_DOWN)) {
+        blueBullet = std::unique_ptr<Portal_bullet>(new Portal_bullet(
+                spriteBuilder2->withLocation(visier->getX() + 28, visier->getY() + 28).buildWithDataOf(
+                        *blue_bullet_sprite.get())));
+        blueBullet->setDestination(visier->getMatrix()->pc, visier->getX(), visier->getY(), visier->getWidth());
+        blueBullet->start(flip_visier);
     }
 
     visier->rotate(visierRotation);
-    bullet->tick();
-    red_bullet->moveTo(bullet->getx(), bullet->gety());
+    redBullet->tick();
+    blueBullet->tick();
+    red_bullet_sprite->moveTo(redBullet->getx(), redBullet->gety());
+    blue_bullet_sprite->moveTo(blueBullet->getx(), blueBullet->gety());
 
+    for(auto& s : verticalPortalWallVec) {
+        if (red_bullet_sprite->collidesWith(*s)) {
+            TextStream::instance().setText(std::to_string(1), 1, 1);
+            verticalRedPortal->moveTo(s->getX(), s->getY());
+            s->animateToFrame(1);
+        }
+    }
 
-    double r = -static_cast<double>(visier->getMatrix()->pb)/(visier->getWidth()*4);
-
+    for(auto& s : verticalPortalWallVec) {
+        if (red_bullet_sprite->collidesWith(*s)) {
+            TextStream::instance().setText(std::to_string(1), 1, 1);
+            verticalBluePortal->moveTo(s->getX(), s->getY());
+            s->animateToFrame(1);
+        }
+    }
 }

@@ -3,3 +3,7 @@
 //
 
 #include "Portal_physics.h"
+
+void Portal_physics::move() {
+    sprite->moveTo(0,0);
+}

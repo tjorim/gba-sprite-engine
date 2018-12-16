@@ -8,28 +8,37 @@
 #include <libgba-sprite-engine/scene.h>
 #include <libgba-sprite-engine/sprites/affine_sprite.h>
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
-#include "Red_bullet.h"
+#include "Portal_bullet.h"
+#include "Portal_physics.h"
 
 class Level1_scene : public Scene {
 private:
-    std::unique_ptr<Sprite> chell;
+    std::unique_ptr<Sprite> chell, red_bullet_sprite, blue_bullet_sprite, verticalPortalWall, verticalWall, horizontalPortalWall, horizontalWall, verticalRedPortal, verticalBluePortal;
     std::unique_ptr<AffineSprite> visier;
-    std::unique_ptr<Sprite> red_bullet;
-    std::unique_ptr<Red_bullet> bullet;
+    std::unique_ptr<Portal_bullet> redBullet, blueBullet;
     std::unique_ptr<Background> bg;
-    int visierRotation;
+    std::vector<std::vector<int>> verticalPortalWallCoordinaten = {{20,100}};
+    std::vector<std::vector<int>>horizontalPortalWallCoordinaten = {{40,140}};
+    std::vector<std::vector<int>>verticalWallCoordinaten = {{150,100}};
+    std::vector<std::vector<int>> horizontalWallCoordinaten = {{90,140}};
+    std::vector<Sprite*> verticalPortalWallVec, verticalWallVec, horizontalPortalWallVec, horizontalWallVec;
 
-    std::unique_ptr<SpriteBuilder<Sprite>> spriteBuilder;
-    std::unique_ptr<Red_bullet> createBullet();
-    void removeBullet(std::unique_ptr<Sprite> &sprite);
+    int chellX, chellY;
+    int teller = 0;
+    int visierRotation, jump;
+    bool flip_visier;
+    std::unique_ptr<SpriteBuilder<Sprite>> spriteBuilder1, spriteBuilder2;
+
 public:
     std::vector<Sprite *> sprites() override;
     std::vector<Background *> backgrounds() override;
 
     Level1_scene(std::shared_ptr<GBAEngine> engine) : Scene(engine) {}
 
+
     void load() override;
     void tick(u16 keys) override;
+    void moveChell(u16 keys);
 
 };
 
