@@ -95,7 +95,8 @@ void level1::tick(u16 keys) {
             if(!(keys & KEY_RIGHT)) luigi->animateToFrame(0);
         }
     }
-    if(luigi->getY() == GBA_SCREEN_HEIGHT-110) luigi->setVelocity(0,1);
+    if((luigi->getY() == GBA_SCREEN_HEIGHT-120 && luigi->getVelocity().y < 0)
+        || (luigi->getY() < GBA_SCREEN_HEIGHT-bottomHeightFor32 && luigi->getVelocity().y == 0)) luigi->setVelocity(0,1);
 
     if(goomba->getX() <= 0) goomba->moveTo(GBA_SCREEN_WIDTH, GBA_SCREEN_HEIGHT-bottomHeightFor16);
     if(questionBlock->getX() <=0) questionBlock->moveTo(GBA_SCREEN_WIDTH,GBA_SCREEN_HEIGHT-bottomHeightFor32-30);
@@ -106,10 +107,13 @@ void level1::tick(u16 keys) {
         goomba->setVelocity(0,0);
     }
 
-    if(luigi ->collidesWith(*questionBlock) && (luigi->getDy()) >0) {
+    if(luigi ->collidesWith(*questionBlock) && (luigi->getDy() >0) && luigi->getY() > questionBlock->getY()-32) {
         luigi->setVelocity(0,1);
-        questionBlock->stopAnimating();
         questionBlock->animateToFrame(2);
+    }
+
+    if(luigi->collidesWith(*questionBlock) && luigi->getY() <= questionBlock->getY()-16){
+        luigi->setVelocity(0,0);
     }
 
     if(luigi->collidesWith(*goomba) && luigi->getVelocity().y > 0 && luigi->getY()+32 >= GBA_SCREEN_HEIGHT-bottomHeightFor16){
