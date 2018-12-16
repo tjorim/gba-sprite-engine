@@ -19,9 +19,13 @@
 #include "background_level1.h"
 
 std::vector<Sprite *> SceneLevel1::sprites() {
-    return {
-            sonic.get()
-    };
+    std::vector<Sprite*> sprites;
+    sprites.push_back(sonic.get());
+    sprites.push_back(spikeBall.get());
+    //if(!enemyDEAD)sprites.push_back(enemy.get());
+
+    return sprites;
+
 }
 
 std::vector<Background *> SceneLevel1::backgrounds() {
@@ -31,7 +35,7 @@ std::vector<Background *> SceneLevel1::backgrounds() {
 }
 
 void SceneLevel1::load() {
-    foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager(Sonic_sprites_32_32Pal, sizeof(Sonic_sprites_32_32Pal)));
+    foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager(sharedSonicPal, sizeof(sharedSonicPal)));
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager(BackgroundLevel1Pal, sizeof(BackgroundLevel1Pal)));
 
     bg = std::unique_ptr<Background>(new Background(1, BackgroundLevel1Tiles, sizeof(BackgroundLevel1Tiles), map_level1, sizeof(map_level1)));
@@ -50,11 +54,17 @@ void SceneLevel1::load() {
             .withLocation(GBA_SCREEN_WIDTH - 200, GBA_SCREEN_HEIGHT - 60)
             .buildPtr();
 
-
+    spikeBall = affineBuilder
+            .withData(spikeBallTiles, sizeof(spikeBallTiles))
+            .withSize(SIZE_32_32)
+            .withLocation(GBA_SCREEN_WIDTH - 100, GBA_SCREEN_HEIGHT - 60)
+            .buildPtr();
 
 
     sonic->stopAnimating();
+    TextStream::instance().clear();
     TextStream::instance() << "level 1" << "intro";
+    TextStream::instance().setFontColor(0x080F);
     //TextStream::instance().setText("x:" + std::to_string(sonic->getX()), 3, 8);
     //TextStream::instance().setText("y:" + std::to_string(sonic->getX()), 4, 8);
 
@@ -67,6 +77,8 @@ bool runningState = false;
 bool isBall = false;
 bool canTakeDamage = true;
 int ballspeed = 1;
+int spikeBallSpawn = GBA_SCREEN_WIDTH - 100;
+int hoeveelSpikeBallSpawns = 0;
 
 void SceneLevel1::tick(u16 keys) {
 
@@ -76,9 +88,10 @@ void SceneLevel1::tick(u16 keys) {
     TextStream::instance().setText("x:" + std::to_string(sonic->getX()), 2, 1);
     TextStream::instance().setText("y:" + std::to_string(sonic->getY()), 3, 1);
     TextStream::instance().setText("HP : " + std::to_string(player->getAantalLevens()), 17, 1);
-    //TextStream::instance().setText("scrollY:" + std::to_string(scrollY), 4, 1);
-    TextStream::instance().setText("Timer:" + std::to_string(timer.getSecs()), 4, 1);
-    TextStream::instance().setFontColor(0x080F);
+    TextStream::instance().setText("scrollX:" + std::to_string(scrollX), 4, 1);
+    //TextStream::instance().setText("Timer:" + std::to_string(timer.getSecs()), 4, 1);
+    //if(sonic->collidesWith(*spikeBall)) TextStream::instance().setText("collision", 4, 1);
+    //else  TextStream::instance().setText("no collision", 4, 1);
 
     if(!(keys & KEY_LEFT) && !(keys & KEY_RIGHT)){
         sonic->stopAnimating();
@@ -135,12 +148,14 @@ void SceneLevel1::tick(u16 keys) {
             TextStream::instance().setText("BALL", 5, 2);
         }
     }
-    if(keys & KEY_A && canTakeDamage){ //HIT DETECTION met timer anders gaat HP veel te snel omlaag
+
+
+    if((keys & KEY_A && canTakeDamage) || (sonic->collidesWith(*spikeBall) && canTakeDamage)){ //HIT DETECTION met timer anders gaat HP veel te snel omlaag
         player->setAantalLevens(player->getAantalLevens()-1);
         timer.start();
         canTakeDamage = false;
     }
-    else if(keys & KEY_A && !canTakeDamage){
+    else if(keys & KEY_A && !canTakeDamage || (sonic->collidesWith(*spikeBall) && !canTakeDamage)){
         if(timer.getSecs() >= 1){
             timer.reset();
             canTakeDamage = true;
@@ -173,6 +188,17 @@ void SceneLevel1::tick(u16 keys) {
         engine->transitionIntoScene(new SceneLevel1(engine), new FadeOutScene(2));
         TextStream::instance() << "You Died.";
     }
+
+
+    spikeBall->moveTo(-scrollX + spikeBallSpawn,spikeBall->getY()); //laat spike ball op een vaste positie staan
+
+    if(spikeBall->getY() >= GBA_SCREEN_HEIGHT - 60)spikeBall->setVelocity(0,-1);
+    if(spikeBall->getY() <= GBA_SCREEN_HEIGHT - 120)spikeBall->setVelocity(0,1);
+    if(scrollX > spikeBallSpawn && hoeveelSpikeBallSpawns < 3){
+        spikeBallSpawn += 300;
+        hoeveelSpikeBallSpawns++;
+    }
+
 }
 
 
