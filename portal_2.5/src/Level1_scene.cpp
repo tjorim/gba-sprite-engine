@@ -6,7 +6,8 @@
 #include "Level1_scene.h"
 #include "Level1_background.h"
 #include "Scene_sprites.h"
-//#include "Portal_music.h"
+#include "Portal_music.h"
+#include "Portal_gun_sound.h"
 
 
 
@@ -18,27 +19,23 @@ std::vector<Sprite *> Level1_scene::sprites() {
     if (blueBullet != NULL){
         sprites.push_back(blue_bullet_sprite.get());
     }
-    for(auto& s : verticalPortalWallVec) {
-        sprites.push_back(s);
-    }
 
+    for(auto& s : verticalPortalWallVec) {
+        sprites.push_back(s.get());
+    }
     for(auto& s : horizontalPortalWallVec) {
-        sprites.push_back(s);
+        sprites.push_back(s.get());
     }
 
     for(auto& s : verticalWallVec) {
-        sprites.push_back(s);
+        sprites.push_back(s.get());
     }
 
     for(auto& s : horizontalWallVec) {
-        sprites.push_back(s);
+        sprites.push_back(s.get());
     }
 
-    sprites.push_back(verticalPortalWall.get());
-    sprites.push_back(horizontalPortalWall.get());
-    sprites.push_back(verticalWall.get());
-    sprites.push_back(horizontalWall.get());
-
+    //sprites.push_back(verticalPortalWallVec[1]);
 
     sprites.push_back(verticalRedPortal.get());
     sprites.push_back(chell.get());
@@ -88,7 +85,7 @@ void Level1_scene::moveChell(u16 keys) {
     if( chell->getY()<= chellY-50){
         jump == false;
         ySnelheid = 1;
-    }
+    }*/
 
     //Collision detection
     for(auto& s : verticalPortalWallVec) {
@@ -132,43 +129,11 @@ void Level1_scene::moveChell(u16 keys) {
             }
         }
     }
-*/
-    if (chell->collidesWith(*verticalPortalWall)) {
-        if (chell->getY() < verticalPortalWall->getY()) {
-            if (ySnelheid > 0) { ySnelheid = 0; }
-        }
-        if (chell->getY() > verticalPortalWall->getY()) {
-            if (ySnelheid < 0) { ySnelheid = 0; }
-        }
-    }
-    if (chell->collidesWith(*horizontalPortalWall)) {
-        if (chell->getY() < horizontalPortalWall->getY()) {
-            if (ySnelheid > 0) { ySnelheid = 0; }
-        }
-        if (chell->getY() > horizontalPortalWall->getY()) {
-            if (ySnelheid < 0) { ySnelheid = 0; }
-        }
-    }
-    if (chell->collidesWith(*verticalWall)) {
-        if (chell->getY() < verticalWall->getY()) {
-            if (ySnelheid > 0) { ySnelheid = 0; }
-        }
-        if (chell->getY() > verticalWall->getY()) {
-            if (ySnelheid < 0) { ySnelheid = 0; }
-        }
-    }
-    if (chell->collidesWith(*horizontalWall)) {
-        if (chell->getY() < horizontalWall->getY()) {
-            if (ySnelheid > 0) { ySnelheid = 0; }
-        }
-        if (chell->getY() > horizontalWall->getY()) {
-            if (ySnelheid < 0) { ySnelheid = 0; }
-        }
-    }
-
 
     chell->setVelocity(xSnelheid,ySnelheid);
     visier->setVelocity(xSnelheid,ySnelheid);
+
+
 }
 
 
@@ -178,8 +143,6 @@ void Level1_scene::load() {
 
     SpriteBuilder<Sprite> builder;
     SpriteBuilder<AffineSprite> affineBuilder;
-    spriteBuilder1 = std::unique_ptr<SpriteBuilder<Sprite>>(new SpriteBuilder<Sprite>);
-    spriteBuilder2 = std::unique_ptr<SpriteBuilder<Sprite>>(new SpriteBuilder<Sprite>);
 
     chell = builder
             .withData(chellTiles, sizeof(chellTiles))
@@ -194,7 +157,7 @@ void Level1_scene::load() {
                 .withSize(SIZE_8_32)
                 .withLocation(s[0],s[1])
                 .buildPtr();
-        //verticalPortalWallVec.push_back(verticalPortalWall.get());
+        verticalPortalWallVec.push_back(std::move(verticalPortalWall));
     }
 
     for(auto& s : horizontalPortalWallCoordinaten) {
@@ -203,7 +166,7 @@ void Level1_scene::load() {
                 .withSize(SIZE_32_8)
                 .withLocation(s[0],s[1])
                 .buildPtr();
-        //horizontalPortalWallVec.push_back(horizontalPortalWall.get());
+        horizontalPortalWallVec.push_back(std::move(horizontalPortalWall));
     }
 
     for(auto& s : verticalWallCoordinaten) {
@@ -212,7 +175,7 @@ void Level1_scene::load() {
                 .withSize(SIZE_8_32)
                 .withLocation(s[0],s[1])
                 .buildPtr();
-        //verticalWallVec.push_back(verticalWall.get());
+        verticalWallVec.push_back(std::move(verticalWall));
     }
 
     for(auto& s : horizontalWallCoordinaten) {
@@ -221,7 +184,7 @@ void Level1_scene::load() {
                 .withSize(SIZE_32_8)
                 .withLocation(s[0],s[1])
                 .buildPtr();
-        //horizontalWallVec.push_back(horizontalWall.get());
+        horizontalWallVec.push_back(std::move(horizontalWall));
     }
 
     verticalRedPortal = builder
@@ -243,21 +206,24 @@ void Level1_scene::load() {
             .buildPtr();
     visierRotation = 0;
 
-    red_bullet_sprite = spriteBuilder1->withData(red_bulletTiles, sizeof(red_bulletTiles))
+    red_bullet_sprite = builder.withData(red_bulletTiles, sizeof(red_bulletTiles))
             .withSize(SIZE_8_8)
-            .withLocation(0, 0)
+            .withLocation(GBA_SCREEN_WIDTH,GBA_SCREEN_HEIGHT)
             .buildPtr();
 
-    blue_bullet_sprite = spriteBuilder2->withData(blue_bulletTiles, sizeof(blue_bulletTiles))
+    blue_bullet_sprite = builder.withData(blue_bulletTiles, sizeof(blue_bulletTiles))
             .withSize(SIZE_8_8)
-            .withLocation(0, 0)
+            .withLocation(GBA_SCREEN_WIDTH,GBA_SCREEN_HEIGHT)
             .buildPtr();
-
 
     bg = std::unique_ptr<Background>(new Background(1, background_data, sizeof(background_data), map, sizeof(map)));
     bg.get()->useMapScreenBlock(16);
 
-    //engine->enqueueMusic(Still_Alive, 1994908, 44100);
+    redBullet = std::unique_ptr<Portal_bullet>(new Portal_bullet());
+    blueBullet = std::unique_ptr<Portal_bullet>(new Portal_bullet());
+
+
+    //engine->enqueueMusic(Still_Alive, 1412466, 88200);
 }
 
 void Level1_scene::tick(u16 keys) {
@@ -275,30 +241,45 @@ void Level1_scene::tick(u16 keys) {
     } else if (keys & KEY_L) {
         visierRotation += 200;
     }
-
-
-    if ((keys & KEY_UP)) {
-        redBullet = std::unique_ptr<Portal_bullet>(new Portal_bullet(
-                spriteBuilder1->withLocation(visier->getX() + 28, visier->getY() + 28).buildWithDataOf(
-                        *red_bullet_sprite.get())));
-        redBullet->setDestination(visier->getMatrix()->pc, visier->getX(), visier->getY(), visier->getWidth());
-        redBullet->start(flip_visier);
-    }
-
-    if ((keys & KEY_DOWN)) {
-        blueBullet = std::unique_ptr<Portal_bullet>(new Portal_bullet(
-                spriteBuilder2->withLocation(visier->getX() + 28, visier->getY() + 28).buildWithDataOf(
-                        *blue_bullet_sprite.get())));
-        blueBullet->setDestination(visier->getMatrix()->pc, visier->getX(), visier->getY(), visier->getWidth());
-        blueBullet->start(flip_visier);
-    }
-
     visier->rotate(visierRotation);
-    redBullet->tick();
-    blueBullet->tick();
-    red_bullet_sprite->moveTo(redBullet->getx(), redBullet->gety());
-    blue_bullet_sprite->moveTo(blueBullet->getx(), blueBullet->gety());
 
+    //Shoot gun AND bullet update
+    if ((keys & KEY_UP) && (blueBullet->getIsMoving() == false)) {
+        red_bullet_sprite->moveTo(visier->getX() + 28, visier->getY() + 28);
+        redBullet->setDestination(visier->getMatrix()->pc, visier->getX(), visier->getY(), visier->getWidth());
+        redBullet->start(flip_visier, red_bullet_sprite->getX(), red_bullet_sprite->getY());
+        redBullet->setIsMoving(true);
+    }
+
+    if ((keys & KEY_DOWN) && (redBullet->getIsMoving() == false)) {
+        blue_bullet_sprite->moveTo(visier->getX() + 28, visier->getY() + 28);
+        blueBullet->setDestination(visier->getMatrix()->pc, visier->getX(), visier->getY(), visier->getWidth());
+        blueBullet->start(flip_visier, blue_bullet_sprite->getX(), blue_bullet_sprite->getY());
+        blueBullet->setIsMoving(true);
+    }
+
+    if(redBullet->getIsMoving() == true && (teller%5 == 0)) {
+        redBullet->tick();
+        red_bullet_sprite->moveTo(redBullet->getx(), redBullet->gety());
+    }
+    if(blueBullet->getIsMoving() == true && (teller%5 == 0)) {
+        blueBullet->tick();
+        blue_bullet_sprite->moveTo(blueBullet->getx(), blueBullet->gety());
+    }
+teller = teller+1;
+    if(red_bullet_sprite->isOffScreen()){
+        redBullet->setIsMoving(false);
+        red_bullet_sprite->moveTo(GBA_SCREEN_WIDTH,GBA_SCREEN_HEIGHT);
+    }
+
+    if(blue_bullet_sprite->isOffScreen()){
+        blueBullet->setIsMoving(false);
+        blue_bullet_sprite->moveTo(GBA_SCREEN_WIDTH,GBA_SCREEN_HEIGHT);
+    }
+
+
+
+    //Create portals
     for(auto& s : verticalPortalWallVec) {
         if (red_bullet_sprite->collidesWith(*s)) {
             TextStream::instance().setText(std::to_string(1), 1, 1);
@@ -315,3 +296,4 @@ void Level1_scene::tick(u16 keys) {
         }
     }
 }
+

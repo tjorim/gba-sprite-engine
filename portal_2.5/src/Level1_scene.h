@@ -17,17 +17,15 @@ private:
     std::unique_ptr<AffineSprite> visier;
     std::unique_ptr<Portal_bullet> redBullet, blueBullet;
     std::unique_ptr<Background> bg;
-    std::vector<std::vector<int>> verticalPortalWallCoordinaten = {{20,100}};
-    std::vector<std::vector<int>>horizontalPortalWallCoordinaten = {{40,140}};
-    std::vector<std::vector<int>>verticalWallCoordinaten = {{150,100}};
-    std::vector<std::vector<int>> horizontalWallCoordinaten = {{90,140}};
-    std::vector<Sprite*> verticalPortalWallVec, verticalWallVec, horizontalPortalWallVec, horizontalWallVec;
-
+    std::vector<std::vector<int>> verticalPortalWallCoordinaten;
+    std::vector<std::vector<int>>horizontalPortalWallCoordinaten = {{40,140},{72,140},{104,140},{136,140},{168,140},{200,140}};
+    std::vector<std::vector<int>>verticalWallCoordinaten;
+    std::vector<std::vector<int>> horizontalWallCoordinaten;
+    std::vector<std::unique_ptr<Sprite>> verticalPortalWallVec,verticalWallVec, horizontalPortalWallVec, horizontalWallVec;
     int chellX, chellY;
     int teller = 0;
     int visierRotation, jump;
     bool flip_visier;
-    std::unique_ptr<SpriteBuilder<Sprite>> spriteBuilder1, spriteBuilder2;
 
 public:
     std::vector<Sprite *> sprites() override;

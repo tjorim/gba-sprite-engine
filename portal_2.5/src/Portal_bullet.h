@@ -5,7 +5,6 @@
 
 class Portal_bullet {
 private:
-    std::unique_ptr<Sprite> sprite;
     VECTOR dest;
     double speed = 0;
     double time;
@@ -16,15 +15,16 @@ private:
     double newX;
     double newY;
     bool flip_visier;
+    bool isMoving = false;
 
 
 public:
-    Portal_bullet(std::unique_ptr<Sprite> sprite) : sprite(std::move(sprite)) {
-    }
-    void start(bool flip);
+
+    void start(bool flip, int xLoc, int yLoc);
     int getx();
     int gety();
+    bool getIsMoving();
+    void setIsMoving(bool move);
     void tick();
     void setDestination(int pc, int X, int Y, int With);
-    bool isOffScreen() { return sprite->isOffScreen(); }
 };

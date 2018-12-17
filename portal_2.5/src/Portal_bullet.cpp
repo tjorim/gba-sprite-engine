@@ -15,6 +15,15 @@ int Portal_bullet::gety() {
     return static_cast<int>(newY);
 }
 
+bool Portal_bullet::getIsMoving() {
+    return isMoving;
+}
+
+void Portal_bullet::setIsMoving(bool move) {
+    isMoving = move;
+}
+
+
 void Portal_bullet::setDestination(int pc, int X, int Y, int With) {
 
     double sinus = static_cast<double>(pc)/(With*4);
@@ -25,19 +34,17 @@ void Portal_bullet::setDestination(int pc, int X, int Y, int With) {
     dest.y = (Y + 28) - static_cast<int>(y);
 
     //TextStream::instance().setText(std::to_string(X), 1, 1);
-
-
 }
 
 
-void Portal_bullet::start(bool flip){
-    speed = 100;
+void Portal_bullet::start(bool flip, int xLoc, int yLoc){
+    speed = 900;
     time = 0.0166;
-    distance = sqrt(pow(fabs(dest.x-static_cast<double>(sprite->getX())),2)+pow(fabs(dest.y-static_cast<double>(sprite->getY())),2));
-    directionX = (dest.x-static_cast<double>(sprite->getX())) / distance;
-    directionY = (dest.y-static_cast<double>(sprite->getY())) / distance;
-    newX = sprite->getX();
-    newY = sprite->getY();
+    distance = sqrt(pow(fabs(dest.x-static_cast<double>(xLoc)),2)+pow(fabs(dest.y-static_cast<double>(yLoc)),2));
+    directionX = (dest.x-static_cast<double>(xLoc)) / distance;
+    directionY = (dest.y-static_cast<double>(yLoc)) / distance;
+    newX = xLoc;
+    newY = yLoc;
     flip_visier = flip;
 
 }

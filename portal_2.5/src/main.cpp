@@ -20,7 +20,7 @@ int main() {
 
     while (true) {
         engine->update();
-        engine->delay(1000);
+        engine->delay(1);
     }
 
     return 0;
