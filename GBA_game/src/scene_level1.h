@@ -9,6 +9,7 @@
 #include <libgba-sprite-engine/sprites/affine_sprite.h>
 #include <libgba-sprite-engine/scene.h>
 #include <libgba-sprite-engine/background/background.h>
+#include <libgba-sprite-engine/gba_engine.h>
 #include "player.h"
 
 class SceneLevel1 : public Scene{
@@ -18,10 +19,11 @@ private:
     std::unique_ptr<Background> bg;
     std::shared_ptr<Player> player = std::make_shared<Player>(3);
 
+    int hoeveelSpikeBallSpawns, spikeBallSpawn;
     int scrollX, scrollY;
 public:
 
-    SceneLevel1(std::shared_ptr<GBAEngine> engine) : Scene(engine), scrollX(0), scrollY(60) {}
+    SceneLevel1(std::shared_ptr<GBAEngine> engine) : Scene(engine), scrollX(0), scrollY(60), hoeveelSpikeBallSpawns(0), spikeBallSpawn(GBA_SCREEN_WIDTH - 100) {}
     std::vector<Sprite *> sprites() override;
     std::vector<Background *> backgrounds() override;
 

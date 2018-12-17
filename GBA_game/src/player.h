@@ -19,6 +19,7 @@ private:
 public:
 
     void setDirection(Direction direction);
+    Direction getDirection() const { return direction;};
     void setAantalLevens(int aantalLevens);
     int getAantalLevens() const { return  aantalLevens; }
     Player(int aantalLevens);

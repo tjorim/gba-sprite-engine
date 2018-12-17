@@ -69,33 +69,40 @@ void SceneLevel1::load() {
     //TextStream::instance().setText("y:" + std::to_string(sonic->getX()), 4, 8);
 
 
+
+
 }
 
-Timer timer;
+Timer hitTimer;
 //statussen over de speler kan in Player.h gedefinieerd worden. Dit was om snel te testen.
 bool runningState = false;
 bool isBall = false;
 bool canTakeDamage = true;
 int ballspeed = 1;
-int spikeBallSpawn = GBA_SCREEN_WIDTH - 100;
-int hoeveelSpikeBallSpawns = 0;
 
 void SceneLevel1::tick(u16 keys) {
 
-    timer.onvblank();// geeft ticks aan timer maar timer gaat pas vooruit wanneer timer.start();
-
-
-    TextStream::instance().setText("x:" + std::to_string(sonic->getX()), 2, 1);
-    TextStream::instance().setText("y:" + std::to_string(sonic->getY()), 3, 1);
+    hitTimer.onvblank();// geeft ticks aan timer maar timer gaat pas vooruit wanneer timer.start();
     TextStream::instance().setText("HP : " + std::to_string(player->getAantalLevens()), 17, 1);
+
+
+    //TextStream for DEBUGGING!!
+    //TextStream::instance().setText("x:" + std::to_string(sonic->getX()), 2, 1);
+    //TextStream::instance().setText("y:" + std::to_string(sonic->getY()), 2, 1);
+    TextStream::instance().setText("spikeball spawn : " + std::to_string(spikeBallSpawn), 2, 1);
+
     TextStream::instance().setText("scrollX:" + std::to_string(scrollX), 4, 1);
     //TextStream::instance().setText("Timer:" + std::to_string(timer.getSecs()), 4, 1);
-    //if(sonic->collidesWith(*spikeBall)) TextStream::instance().setText("collision", 4, 1);
-    //else  TextStream::instance().setText("no collision", 4, 1);
+    if(sonic->collidesWith(*spikeBall)) TextStream::instance().setText("collision", 3, 1);
+    else  TextStream::instance().setText("no collision", 3, 1);
 
+    //if(canTakeDamage) TextStream::instance().setText("can Take Damage!!!!!!!!", 4, 1);
+    //if(!canTakeDamage) TextStream::instance().setText("can not TakeDamage", 4, 1);
+// actual code !!!!!
     if(!(keys & KEY_LEFT) && !(keys & KEY_RIGHT)){
         sonic->stopAnimating();
-        sonic->animateToFrame(4);
+        if(player->getDirection() == DirectionRight)sonic->animateToFrame(4);
+        if(player->getDirection() == DirectionLeft)sonic->animateToFrame(12);
         runningState = false;
         TextStream::instance().setText("IDLE", 6, 2);
     }
@@ -106,6 +113,7 @@ void SceneLevel1::tick(u16 keys) {
                 if(!runningState && !isBall) {
                     sonic->makeAnimated(6,5,6); //makeAnimated(frames,delay,Startframe)
                     runningState = true;
+                    player->setDirection(DirectionRight);
                     TextStream::instance().setText("RIGHT", 5, 1);
                 }
             if(isBall) scrollX += ballspeed;
@@ -117,6 +125,7 @@ void SceneLevel1::tick(u16 keys) {
                 if(!runningState && !isBall) {
                     sonic->makeAnimated(6,5,14);
                     runningState = true;
+                    player->setDirection(DirectionLeft);
                     TextStream::instance().setText("LEFT", 5, 1);
 
                 }
@@ -152,15 +161,14 @@ void SceneLevel1::tick(u16 keys) {
 
     if((keys & KEY_A && canTakeDamage) || (sonic->collidesWith(*spikeBall) && canTakeDamage)){ //HIT DETECTION met timer anders gaat HP veel te snel omlaag
         player->setAantalLevens(player->getAantalLevens()-1);
-        timer.start();
+        hitTimer.start();
         canTakeDamage = false;
     }
-    else if(keys & KEY_A && !canTakeDamage || (sonic->collidesWith(*spikeBall) && !canTakeDamage)){
-        if(timer.getSecs() >= 1){
-            timer.reset();
-            canTakeDamage = true;
-        }
+    if(hitTimer.getSecs() >= 2){
+        hitTimer.reset();
+        canTakeDamage = true;
     }
+
 
     if(!runningState) isBall = false;
 
@@ -189,16 +197,13 @@ void SceneLevel1::tick(u16 keys) {
         TextStream::instance() << "You Died.";
     }
 
-
-    spikeBall->moveTo(-scrollX + spikeBallSpawn,spikeBall->getY()); //laat spike ball op een vaste positie staan
-
     if(spikeBall->getY() >= GBA_SCREEN_HEIGHT - 60)spikeBall->setVelocity(0,-1);
     if(spikeBall->getY() <= GBA_SCREEN_HEIGHT - 120)spikeBall->setVelocity(0,1);
-    if(scrollX > spikeBallSpawn && hoeveelSpikeBallSpawns < 3){
-        spikeBallSpawn += 300;
+    if(spikeBall->isOffScreen() && hoeveelSpikeBallSpawns < 3){
+        spikeBallSpawn += 240;
         hoeveelSpikeBallSpawns++;
     }
-
+    spikeBall->moveTo(-scrollX + spikeBallSpawn,spikeBall->getY()); //laat spike ball op een vaste positie staan
 }
 
 
