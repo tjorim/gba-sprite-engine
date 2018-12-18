@@ -10,6 +10,7 @@
 class StartScene : public Scene {
 private:
     std::unique_ptr<Sprite> animation;
+    std::unique_ptr<Background> bg;
 
 public:
     std::vector<Sprite *> sprites() override;

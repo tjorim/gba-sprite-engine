@@ -8,11 +8,10 @@
 #include <libgba-sprite-engine/effects/fade_out_scene.h>
 #include "start_scene.h"
 #include "fighting_scene.h"
-#include "roshi.h"
 
 
 std::vector<Background *> StartScene::backgrounds() {
-    return {};
+    return {bg.get()};
 }
 
 std::vector<Sprite *> StartScene::sprites() {
@@ -21,7 +20,8 @@ std::vector<Sprite *> StartScene::sprites() {
 
 void StartScene::load() {
     foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager(roshi_palette, sizeof(roshi_palette)));
-    backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager());
+    backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(
+            new BackgroundPaletteManager(startscreenPal, sizeof(startscreenPal)));
 
     SpriteBuilder<Sprite> builder;
 
@@ -29,10 +29,13 @@ void StartScene::load() {
             .withData(roshi_data, sizeof(roshi_data))
             .withSize(SIZE_32_64)
             .withAnimated(1, 0)
-            .withLocation(GBA_SCREEN_WIDTH / 2 - 16, GBA_SCREEN_HEIGHT / 2 - 32)
+            .withLocation(12, GBA_SCREEN_HEIGHT / 2)
             .buildPtr();
 
-    TextStream::instance().setText("PRESS START", 3, 10);
+    TextStream::instance().setText("PRESS START", 14, 9);
+    bg = std::unique_ptr<Background>(
+            new Background(1, startscreenTiles, sizeof(startscreenTiles), startscreenMap, sizeof(startscreenMap)));
+    bg.get()->useMapScreenBlock(16);
 }
 
 void StartScene::tick(u16 keys) {
