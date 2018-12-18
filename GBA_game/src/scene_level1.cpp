@@ -68,7 +68,7 @@ void SceneLevel1::load() {
     //TextStream::instance().setText("x:" + std::to_string(player->getX()), 3, 8);
     //TextStream::instance().setText("y:" + std::to_string(player->getX()), 4, 8);
     player->setRunningsState(false);
-    //player->setAantalLevens(3); //wordt bij aanmaak van player al 3 gemaakt eigenlijk dus dit kan weg.
+    //player->setAantalLevens(3); //wordt bij aanmaak van player al 3 gemaakt eigenlijk dus dit kan weg. Gebeurt in Player.cpp
 
 
 }
