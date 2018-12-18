@@ -9,7 +9,6 @@
 #include <libgba-sprite-engine/sprites/affine_sprite.h>
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
 #include "Portal_bullet.h"
-#include "Portal_physics.h"
 
 class Start_scene : public Scene {
 private:

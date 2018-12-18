@@ -18,7 +18,7 @@ add_library(${PROJECT_NAME}
         src/background/text_stream.cpp
         src/background/background.cpp
         src/effects/fade_out_scene.cpp
-        src/sound_control.cpp src/scene.cpp src/timer.cpp ../portal_2.5/src/main.cpp ../portal_2.5/src/Level1_scene.cpp ../portal_2.5/src/Level1_scene.h ../portal_2.5/src/Level1_background.h)
+        src/sound_control.cpp src/scene.cpp src/timer.cpp ../portal_2.5/src/main.cpp ../portal_2.5/src/Level_scene.cpp ../portal_2.5/src/Level_scene.h ../portal_2.5/src/Level1_background.h)
 
 target_include_directories(${PROJECT_NAME} PUBLIC
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>

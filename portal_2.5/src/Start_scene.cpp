@@ -8,7 +8,7 @@
 #include <libgba-sprite-engine/gba/tonc_memmap.h>
 #include <libgba-sprite-engine/background/text_stream.h>
 #include <libgba-sprite-engine/gba_engine.h>
-#include "Level1_scene.h"
+#include "Level_scene.h"
 #include "Level1_background.h"
 #include "Scene_sprites.h"
 #include "Portal_music.h"

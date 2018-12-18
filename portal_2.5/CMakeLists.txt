@@ -3,8 +3,8 @@ project(portal_2.5)
 add_executable(${PROJECT_NAME}.elf
         src/main.cpp
         src/Level1_background.h
-        src/Level1_scene.cpp
-        src/Level1_scene.h "src/Scene_sprites.h" src/Portal_physics.cpp src/Portal_physics.h src/Portal_bullet.cpp src/Portal_bullet.h src/Portal_music.h src/Portal_gun_sound.h src/Start_scene.cpp src/Start_scene.h)
+        src/Level_scene.cpp
+        src/Level_scene.h "src/Scene_sprites.h" src/Portal_bullet.cpp src/Portal_bullet.h src/Portal_music.h src/Portal_gun_sound.h src/Start_scene.cpp src/Start_scene.h)
 
 target_link_libraries(${PROJECT_NAME}.elf gba-sprite-engine)
 

@@ -38,7 +38,7 @@ void Portal_bullet::setDestination(int pc, int X, int Y, int With) {
 
 
 void Portal_bullet::start(bool flip, int xLoc, int yLoc){
-    speed = 900;
+    speed = 500;
     time = 0.0166;
     distance = sqrt(pow(fabs(dest.x-static_cast<double>(xLoc)),2)+pow(fabs(dest.y-static_cast<double>(yLoc)),2));
     directionX = (dest.x-static_cast<double>(xLoc)) / distance;
