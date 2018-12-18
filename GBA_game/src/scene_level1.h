@@ -14,10 +14,10 @@
 
 class SceneLevel1 : public Scene{
 private:
-    std::unique_ptr<AffineSprite> sonic;
+    std::unique_ptr<Player> player;
     std::unique_ptr<AffineSprite> spikeBall;
     std::unique_ptr<Background> bg;
-    std::shared_ptr<Player> player = std::make_shared<Player>(3);
+    //std::shared_ptr<Player> player = std::make_shared<Player>(3);
 
     int hoeveelSpikeBallSpawns, spikeBallSpawn;
     int scrollX, scrollY;

@@ -20,7 +20,7 @@
 
 std::vector<Sprite *> SceneLevel1::sprites() {
     std::vector<Sprite*> sprites;
-    sprites.push_back(sonic.get());
+    sprites.push_back(player.get());
     sprites.push_back(spikeBall.get());
     //if(!enemyDEAD)sprites.push_back(enemy.get());
 
@@ -45,9 +45,9 @@ void SceneLevel1::load() {
 
     engine->setNullptrAsCurrentEffectForTransistion(); //currentEffectForTransition terug nullptr maken om te zorgen dat het mogelijk is om de scene opnieuw te laden als je dood bent. want anders geeft !engine->isTransitioning() na 1 keer altijd true.
 
-    SpriteBuilder<AffineSprite> affineBuilder;
+    SpriteBuilder<Player> affineBuilder;
 
-    sonic = affineBuilder
+    player = affineBuilder
             .withData(Sonic_sprites_32_32Tiles, sizeof(Sonic_sprites_32_32Tiles))
             .withSize(SIZE_32_32)
             .withAnimated(4,10)
@@ -61,21 +61,20 @@ void SceneLevel1::load() {
             .buildPtr();
 
 
-    sonic->stopAnimating();
+    player->stopAnimating();
     TextStream::instance().clear();
     TextStream::instance() << "level 1" << "intro";
     TextStream::instance().setFontColor(0x080F);
-    //TextStream::instance().setText("x:" + std::to_string(sonic->getX()), 3, 8);
-    //TextStream::instance().setText("y:" + std::to_string(sonic->getX()), 4, 8);
-
-
+    //TextStream::instance().setText("x:" + std::to_string(player->getX()), 3, 8);
+    //TextStream::instance().setText("y:" + std::to_string(player->getX()), 4, 8);
+    player->setRunningsState(false);
+    //player->setAantalLevens(3); //wordt bij aanmaak van player al 3 gemaakt eigenlijk dus dit kan weg.
 
 
 }
 
 Timer hitTimer;
 //statussen over de speler kan in Player.h gedefinieerd worden. Dit was om snel te testen.
-bool runningState = false;
 bool isBall = false;
 bool canTakeDamage = true;
 int ballspeed = 1;
@@ -87,32 +86,32 @@ void SceneLevel1::tick(u16 keys) {
 
 
     //TextStream for DEBUGGING!!
-    //TextStream::instance().setText("x:" + std::to_string(sonic->getX()), 2, 1);
-    //TextStream::instance().setText("y:" + std::to_string(sonic->getY()), 2, 1);
+    //TextStream::instance().setText("x:" + std::to_string(player->getX()), 2, 1);
+    //TextStream::instance().setText("y:" + std::to_string(player->getY()), 2, 1);
     TextStream::instance().setText("spikeball spawn : " + std::to_string(spikeBallSpawn), 2, 1);
 
     TextStream::instance().setText("scrollX:" + std::to_string(scrollX), 4, 1);
     //TextStream::instance().setText("Timer:" + std::to_string(timer.getSecs()), 4, 1);
-    if(sonic->collidesWith(*spikeBall)) TextStream::instance().setText("collision", 3, 1);
+    if(player->collidesWith(*spikeBall)) TextStream::instance().setText("collision", 3, 1);
     else  TextStream::instance().setText("no collision", 3, 1);
 
     //if(canTakeDamage) TextStream::instance().setText("can Take Damage!!!!!!!!", 4, 1);
     //if(!canTakeDamage) TextStream::instance().setText("can not TakeDamage", 4, 1);
 // actual code !!!!!
     if(!(keys & KEY_LEFT) && !(keys & KEY_RIGHT)){
-        sonic->stopAnimating();
-        if(player->getDirection() == DirectionRight)sonic->animateToFrame(4);
-        if(player->getDirection() == DirectionLeft)sonic->animateToFrame(12);
-        runningState = false;
+        player->stopAnimating();
+        if(player->getDirection() == DirectionRight)player->animateToFrame(4);
+        if(player->getDirection() == DirectionLeft)player->animateToFrame(12);
+        player->setRunningsState(false);
         TextStream::instance().setText("IDLE", 6, 2);
     }
     else{
         TextStream::instance().setText("ACTIVE", 6, 1);
         if(keys & KEY_RIGHT){
-            if(sonic->getVelocity().y == 0)  //setvelocity  ;
-                if(!runningState && !isBall) {
-                    sonic->makeAnimated(6,5,6); //makeAnimated(frames,delay,Startframe)
-                    runningState = true;
+            if(player->getVelocity().y == 0)  //setvelocity  ;
+                if(!player->getRunnigsState() && !isBall) {
+                    player->makeAnimated(6,5,6); //makeAnimated(frames,delay,Startframe)
+                    player->setRunningsState(true);
                     player->setDirection(DirectionRight);
                     TextStream::instance().setText("RIGHT", 5, 1);
                 }
@@ -121,10 +120,10 @@ void SceneLevel1::tick(u16 keys) {
         }
 
         if(keys & KEY_LEFT){
-            if(sonic->getVelocity().y == 0)  //setvelocity  ;
-                if(!runningState && !isBall) {
-                    sonic->makeAnimated(6,5,14);
-                    runningState = true;
+            if(player->getVelocity().y == 0)  //setvelocity  ;
+                if(!player->getRunnigsState() && !isBall) {
+                    player->makeAnimated(6,5,14);
+                    player->setRunningsState(true);
                     player->setDirection(DirectionLeft);
                     TextStream::instance().setText("LEFT", 5, 1);
 
@@ -142,8 +141,8 @@ void SceneLevel1::tick(u16 keys) {
 
 
     if(keys & KEY_UP){ // springen --> later in variabelen steken van Player
-        if(sonic->getY() == GBA_SCREEN_HEIGHT - 60){
-            sonic->setVelocity(0,-3);
+        if(player->getY() == GBA_SCREEN_HEIGHT - 60){
+            player->setVelocity(0,-3);
             TextStream::instance().setText("JUMP", 5, 2);
 
         }
@@ -153,13 +152,13 @@ void SceneLevel1::tick(u16 keys) {
     if(keys & KEY_DOWN){
         if(!isBall) {
             isBall = true;
-            sonic->makeAnimated(4,5,0); //makeAnimated(frames,delay,Startframe)
+            player->makeAnimated(4,5,0); //makeAnimated(frames,delay,Startframe)
             TextStream::instance().setText("BALL", 5, 2);
         }
     }
 
 
-    if((keys & KEY_A && canTakeDamage) || (sonic->collidesWith(*spikeBall) && canTakeDamage)){ //HIT DETECTION met timer anders gaat HP veel te snel omlaag
+    if((keys & KEY_A && canTakeDamage) || (player->collidesWith(*spikeBall) && canTakeDamage)){ //HIT DETECTION met timer anders gaat HP veel te snel omlaag
         player->setAantalLevens(player->getAantalLevens()-1);
         hitTimer.start();
         canTakeDamage = false;
@@ -170,7 +169,7 @@ void SceneLevel1::tick(u16 keys) {
     }
 
 
-    if(!runningState) isBall = false;
+    if(!player->getRunnigsState()) isBall = false;
 
 /*
     if(keys & KEY_UP){
@@ -186,9 +185,9 @@ void SceneLevel1::tick(u16 keys) {
         }
     }
     */
-    if(sonic->getY() <= GBA_SCREEN_HEIGHT - 110) sonic->setVelocity(0,3);
-    if(sonic->getY() == GBA_SCREEN_HEIGHT - 60 && sonic->getVelocity().y == 3){
-        sonic->setVelocity(0,0);
+    if(player->getY() <= GBA_SCREEN_HEIGHT - 110) player->setVelocity(0,3);
+    if(player->getY() == GBA_SCREEN_HEIGHT - 60 && player->getVelocity().y == 3){
+        player->setVelocity(0,0);
         TextStream::instance().setText("RESET JUMP", 5, 2);
     }
 
