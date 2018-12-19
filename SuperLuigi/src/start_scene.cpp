@@ -9,9 +9,9 @@
 #include <libgba-sprite-engine/gba_engine.h>
 #include <libgba-sprite-engine/effects/fade_out_scene.h>
 #include "start_scene.h"
-#include "Luigi.h"
+#include "LuigiTiles.h"
 #include "level1.h"
-#include "goomba.h"
+#include "goombaTiles.h"
 #include "sharedPal.h"
 
 std::vector<Background *> start_scene::backgrounds() {

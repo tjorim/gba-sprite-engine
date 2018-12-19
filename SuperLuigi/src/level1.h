@@ -10,23 +10,27 @@
 #include <libgba-sprite-engine/background/background.h>
 #include <vector>
 #include <libgba-sprite-engine/sprites/affine_sprite.h>
-
+#include "Luigi.h"
+#include "goomba.h"
+#include "QuestionBlock.h"
 
 class level1 : public Scene{
 private:
     //the background
     std::unique_ptr<Background> bg;
-    std::unique_ptr<AffineSprite> luigi;
-    std::unique_ptr<AffineSprite> goomba;
-    std::unique_ptr<AffineSprite> questionBlock;
+    Luigi luigi;
+    std::unique_ptr<AffineSprite> luigiSprite;
+    Goomba goomba;
+    std::unique_ptr<AffineSprite> goombaSprite;
+    QuestionBlock questionBlock;
+    std::unique_ptr<AffineSprite> questionBlockSprite;
     int scrollX, scrollY;
-    bool goombaDEAD;
 
 public:
     std::vector<Sprite *> sprites() override;
     std::vector<Background *> backgrounds() override;
 
-    level1(std::shared_ptr<GBAEngine> engine) : Scene(engine), scrollX(0), scrollY(0), goombaDEAD(false) {}
+    level1(std::shared_ptr<GBAEngine> engine) : Scene(engine), scrollX(0), scrollY(0) {}
 
     void load() override;
     void tick(u16 keys) override;

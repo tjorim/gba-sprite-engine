@@ -1,46 +1,26 @@
-
-//{{BLOCK(question_block)
-
-//======================================================================
 //
-//	question_block, 16x48@8,
-//	+ 12 tiles not compressed
-//	Total size: 768 = 768
+// Created by Vandebosch Remy on 19/12/2018.
 //
-//	Time-stamp: 2018-12-16, 15:12:19
-//	Exported by Cearn's GBA Image Transmogrifier, v0.8.6
-//	( http://www.coranac.com/projects/#grit )
-//
-//======================================================================
 
-const unsigned int question_blockTiles[192] __attribute__((aligned(4)))=
-        {
-                0x3E3E3E00,0x3E3E3E3E,0x4343433E,0x43434343,0x4300433E,0x43434343,0x4343433E,0x3E3E3E43,
-                0x4343433E,0x00003E3E,0x4343433E,0x43003E3E,0x4343433E,0x4300353E,0x4343433E,0x363C3C43,
-                0x3E3E3E3E,0x003E3E3E,0x43434343,0x00434343,0x43434343,0x00430043,0x43433E3E,0x00434343,
-                0x433E3E00,0x00434343,0x003E3E43,0x00434343,0x003E3E36,0x00434343,0x0035353E,0x00434343,
-                0x4343433E,0x3E434343,0x4343433E,0x3E434343,0x4343433E,0x36434343,0x4343433E,0x3E434343,
-                0x4345433E,0x44434343,0x433D433E,0x43434343,0x3A3A3A3E,0x3A3A3A3A,0x3B3B3B00,0x3B3B3B3B,
-                0x3C3C003E,0x00434343,0x43430035,0x00434343,0x43433C00,0x00434343,0x4343453E,0x00434343,
-                0x43430035,0x00434543,0x43433D3D,0x00433D43,0x3A3A3A3A,0x003A3A3A,0x3B3B3B3B,0x003B3B3B,
+#ifndef GBA_SPRITE_ENGINE_PROJECT_QUESTIONBLOCK_H
+#define GBA_SPRITE_ENGINE_PROJECT_QUESTIONBLOCK_H
 
-                0x39393938,0x39393939,0x43424338,0x43434343,0x43394338,0x43434343,0x43434338,0x43434343,
-                0x43434338,0x43434343,0x43434338,0x43434343,0x43434338,0x43434343,0x43434338,0x43434343,
-                0x39393939,0x38393939,0x43434343,0x38434243,0x43434343,0x38433943,0x43434343,0x38434343,
-                0x43434343,0x38434343,0x43434343,0x38434343,0x43434343,0x38434343,0x43434343,0x38434343,
-                0x43434338,0x43434343,0x43434338,0x43434343,0x43434338,0x43434343,0x43434338,0x43434343,
-                0x43464338,0x43434343,0x433F4338,0x43434343,0x33333338,0x33333333,0x34343400,0x34343434,
-                0x43434343,0x38434343,0x43434343,0x38434343,0x43434343,0x38434343,0x43434343,0x38434343,
-                0x43434343,0x38434643,0x43434343,0x38433F43,0x33333333,0x38333333,0x34343434,0x00343434,
+#include <libgba-sprite-engine/gba_engine.h>
+#include <libgba-sprite-engine/scene.h>
+#include <libgba-sprite-engine/background/background.h>
+#include <vector>
+#include <libgba-sprite-engine/sprites/affine_sprite.h>
+#include "Luigi.h"
 
-                0x37373700,0x37373737,0x3E403E00,0x3E3E3E3E,0x3E373E00,0x3E3E3E3E,0x3E3E3E00,0x3E3E3E3E,
-                0x3E3E3E00,0x3E3E3E3E,0x3E3E3E00,0x3E3E3E3E,0x3E3E3E00,0x3E3E3E3E,0x3E3E3E00,0x3E3E3E3E,
-                0x37373737,0x00373737,0x3E3E3E3E,0x003E403E,0x3E3E3E3E,0x003E373E,0x3E3E3E3E,0x003E3E3E,
-                0x3E3E3E3E,0x003E3E3E,0x3E3E3E3E,0x003E3E3E,0x3E3E3E3E,0x003E3E3E,0x3E3E3E3E,0x003E3E3E,
-                0x3E3E3E00,0x3E3E3E3E,0x3E3E3E00,0x3E3E3E3E,0x3E3E3E00,0x3E3E3E3E,0x3E3E3E00,0x3E3E3E3E,
-                0x3E323E00,0x3E3E3E3E,0x3E413E00,0x3E3E3E3E,0x32323200,0x32323232,0x00000000,0x00000000,
-                0x3E3E3E3E,0x003E3E3E,0x3E3E3E3E,0x003E3E3E,0x3E3E3E3E,0x003E3E3E,0x3E3E3E3E,0x003E3E3E,
-                0x3E3E3E3E,0x003E323E,0x3E3E3E3E,0x003E413E,0x32323232,0x00323232,0x00000000,0x00000000,
-        };
+class QuestionBlock {
+private:
+    std::unique_ptr<AffineSprite> questionBlockSprite;
+public:
+    QuestionBlock(std::unique_ptr<AffineSprite> s ) : questionBlockSprite(std::move(s)) {}
+    QuestionBlock() {}
+    std::unique_ptr<AffineSprite>& getQuestionBlockSprite();
+    void tick(u16 keys);
+};
 
-//}}BLOCK(question_block)
+
+#endif //GBA_SPRITE_ENGINE_PROJECT_QUESTIONBLOCK_H

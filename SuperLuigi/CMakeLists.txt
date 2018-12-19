@@ -5,11 +5,11 @@ add_executable(${PROJECT_NAME}.elf
         src/level1.cpp
         src/level1.h
         src/background.h
-        src/Luigi.h
+        src/LuigiTiles.h
         src/start_scene.cpp
         src/start_scene.h
-        src/goomba.h
-        src/sharedPal.h src/music.h src/music.h src/QuestionBlock.h)
+        src/goombaTiles.h
+        src/sharedPal.h src/music.h src/music.h src/QuestionBlockTiles.h src/Luigi.cpp src/Luigi.h src/goomba.cpp src/goomba.h src/QuestionBlock.cpp src/QuestionBlock.h)
 
 target_link_libraries(${PROJECT_NAME}.elf gba-sprite-engine)
 
