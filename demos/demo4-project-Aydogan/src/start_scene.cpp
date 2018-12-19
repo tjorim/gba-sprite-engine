@@ -8,6 +8,8 @@
 #include <libgba-sprite-engine/effects/fade_out_scene.h>
 #include "start_scene.h"
 #include "fighting_scene.h"
+#include "startscreen.h"
+#include "roshi.h"
 
 
 std::vector<Background *> StartScene::backgrounds() {

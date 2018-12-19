@@ -6,6 +6,10 @@
 #include <libgba-sprite-engine/sprites/affine_sprite.h>
 #include <libgba-sprite-engine/gba_engine.h>
 #include "fighting_scene.h"
+#include "goku.h"
+#include "oozaru.h"
+#include "shared.h"
+#include "wasteland.h"
 
 
 std::vector<Sprite *> FightingScene::sprites() {
