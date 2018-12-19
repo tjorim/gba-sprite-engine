@@ -46,8 +46,18 @@ VECTOR FoodScene::rotateAround(VECTOR center, VECTOR point) {
 }
 
 void FoodScene::tick(u16 keys) {
+    if(engine->getTimer()->getTotalMsecs() < 5000) {
+        counter++;
+    } else {
+        engine->getTimer()->stop();
+    }
+
+    TextStream::instance().setText(std::to_string(counter) + std::string(" frames/5sec"), 5, 1);
+    TextStream::instance().setText(std::string(engine->getTimer()->to_string()), 6, 1);
+
     avatar->animateToFrame(0);
     bool allowedToShoot = false;
+    int oldBulletSize = bullets.size();
 
     if(bulletCooldown > 0) {
         bulletCooldown--;
@@ -82,6 +92,9 @@ void FoodScene::tick(u16 keys) {
     }
 
     avatar->rotate(avatarRotation);
+    if(oldBulletSize != bullets.size()) {
+        engine.get()->updateSpritesInScene();
+    }
 
     for(auto &b : bullets) {
         b->tick();
@@ -118,4 +131,19 @@ void FoodScene::load() {
 
     // rotation of a point on a circle within the resolution means our radius should be big enough
     defaultBulletTarget = { GBA_SCREEN_WIDTH / 2, GBA_SCREEN_HEIGHT + (GBA_SCREEN_WIDTH / 2) - avatar->getCenter().y + 40};
+
+/*
+    for(int i = 0; i < 10; i++) {
+        for(int j = 0; j < 4; j++) {
+            bullets.push_back(createBullet());
+
+            auto &b = bullets.at(bullets.size() - 1);
+            b->getSprite()->moveTo(10 + (i * 20), 10 + (j * 20));
+            if(j >= 1) {
+                b->getSprite()->moveTo(10 + (i * 20), 100 + (j * 20));
+            }
+        }
+    }*/
+
+    engine->getTimer()->start();
 }
