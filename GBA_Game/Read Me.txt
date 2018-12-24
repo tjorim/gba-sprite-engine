@@ -1,0 +1,15 @@
+
+Done:
+	- Jump with head through ground.
+	- Teleport from layer 1 to layer 2.
+
+To Do:
+	- Animate to frame when falling.
+	- Flip player when teleport to layer 2.
+	- Disable jump when in hole
+	
+Notes:
+	- Still small bug when you move in x direction, get in a hole and jump when not yet on coor 255 --> You
+		go up (jump) but 1 px below ground level ==> disables juming..
+	- Small bug when walking from far right and falling in hole when walking left on full power.
+	- Small bug when fall in first hole and jump fast enough --> jump out hole and land 1 px below ground level that disables juming.
