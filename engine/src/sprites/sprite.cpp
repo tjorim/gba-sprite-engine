@@ -79,15 +79,19 @@ void Sprite::updateVelocity() {
 void Sprite::updateAnimation() {
     if(!animating) return;
 
+    if (currentFrame < startFrame) {
+        currentFrame = startFrame;
+    }
     animationCounter++;
-    if(animationCounter > animationDelay) {
+    if (animationCounter > animationDelay) {
         currentFrame++;
-        if(currentFrame > (amountOfFrames - 1)) {
-            currentFrame = 0;
+        if (currentFrame > (amountOfFrames - 1)) {
+            currentFrame = startFrame;
         }
 
         animationCounter = 0;
     }
+
 }
 
 void Sprite::update() {
@@ -120,6 +124,18 @@ bool Sprite::collidesWith(Sprite &s2) {
             s1.x + s1.w > s2.x &&
             s1.y < s2.y + s2.h &&
             s1.h + s1.y > s2.y) {
+        return true;
+    }
+    return false;
+}
+
+bool Sprite::collideFromAbove(Sprite &s2) {
+    const Sprite &s1 = *this;
+
+    if(s1.x + s1.w/3 < s2.x + s2.w &&
+       s1.x + (2*s1.w)/3 > s2.x &&
+            (s1.y+32>=s2.y) && (s1.y+32<s2.y+8)){
+
         return true;
     }
     return false;

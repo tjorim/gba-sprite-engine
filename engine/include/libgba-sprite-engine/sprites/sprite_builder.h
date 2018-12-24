@@ -13,7 +13,7 @@ private:
     bool stayWithinBounds;
     const void *imageData;
     u32 x, y, dx, dy;
-    u32 numberOfFrames, animationDelay;
+    u32 numberOfFrames, animationDelay, startFrame;
     SpriteSize size;
 
     void setProperties(T* sprite);
@@ -50,7 +50,8 @@ public:
         this->size = size;
         return *this;
     }
-    SpriteBuilder& withAnimated(int numberOfFrames, int delay) {
+    SpriteBuilder& withAnimated(int startFrame, int numberOfFrames, int delay) {
+        this->startFrame = startFrame;
         this->numberOfFrames = numberOfFrames;
         this->animationDelay = delay;
         return *this;
@@ -72,7 +73,7 @@ template<typename T> std::unique_ptr<T> SpriteBuilder<T>::buildWithDataOf(const 
 template<typename T> void SpriteBuilder<T>::setProperties(T* s) {
     s->setVelocity(this->dx, this->dy);
     if(this->numberOfFrames > 0) {
-        s->makeAnimated(this->numberOfFrames, this->animationDelay);
+        s->makeAnimated(this->startFrame, this->numberOfFrames, this->animationDelay);
     }
     s->setStayWithinBounds(stayWithinBounds);
 

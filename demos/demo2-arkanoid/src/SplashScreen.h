@@ -1,5 +1,5 @@
 //
-// Created by Wouter Groeneveld on 29/11/18.
+// Created by Tom Fierens on 10/12/18.
 //
 
 #ifndef GBA_SPRITE_ENGINE_PROJECT_SPLASHSCREEN_H

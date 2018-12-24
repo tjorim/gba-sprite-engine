@@ -25,6 +25,7 @@ public:
     const int getCharBlock() { return charBlockIndex; }
     void useMapScreenBlock(int block) { screenBlockIndex = block; }
     void scroll(int x, int y);
+    void scrollSpeed (int dx, int dy);
 
     Background(int bgIndex, const void *data, int size, const void* map, int mapSize) : data(data), bgIndex(bgIndex), size(size), map(map),
                                                                        screenBlockIndex(0), charBlockIndex(0), mapSize(mapSize) {}

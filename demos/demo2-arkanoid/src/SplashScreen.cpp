@@ -29,6 +29,7 @@ void SplashScreen::tick(u16 keys) {
     }
 }
 
+
 void SplashScreen::load() {
     // we need to disable the text background because the splash screen is too big and fills up al char blocks (including map)
     // remember, we have background char blocks 0, 1, 2, 3, each consisting of 8 screen blocks, from 0x6000000 to 0x6000f800 (last screen block, 31)
