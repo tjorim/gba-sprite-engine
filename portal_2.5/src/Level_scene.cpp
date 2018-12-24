@@ -8,27 +8,37 @@
 #include "Scene_sprites.h"
 #include "Portal_music.h"
 #include "Portal_gun_sound.h"
+#include "Level.h"
+#include "WallTile.h"
+#include "Portal.h"
+#include "Visier.h"
 
 
 
 std::vector<Sprite *> Level_scene::sprites() {
     std::vector<Sprite*> sprites;
 
-    sprites.push_back(red_bullet_sprite.get());
-    sprites.push_back(blue_bullet_sprite.get());
+    sprites.push_back(gameLevel.getChell()->getSprite());
+    sprites.push_back(gameLevel.getBlueBullet()->getSprite());
+    sprites.push_back(gameLevel.getRedBullet()->getSprite());
+    sprites.push_back(gameLevel.getBluePortal()->getVerticalSprite());
+    sprites.push_back(gameLevel.getBluePortal()->getHorizontalSprite());
+    sprites.push_back(gameLevel.getRedPortal()->getVerticalSprite());
+    sprites.push_back(gameLevel.getRedPortal()->getHorizontalSprite());
+    sprites.push_back(gameLevel.getVisier()->getSprite());
 
-    for(auto& s : verticalPortalWallVec) { sprites.push_back(s.get()); }
-    for(auto& s : horizontalPortalWallVec) { sprites.push_back(s.get());}
-    for(auto& s : verticalWallVec) { sprites.push_back(s.get()); }
-    for(auto& s : horizontalWallVec) { sprites.push_back(s.get()); }
-
-    sprites.push_back(verticalRedPortal.get());
-    sprites.push_back(horizontalRedPortal.get());
-    sprites.push_back(verticalBluePortal.get());
-    sprites.push_back(horizontalBluePortal.get());
-    sprites.push_back(chell.get());
-    sprites.push_back(visier.get());
-
+    for(auto& b : gameLevel.getHorizontalPortalWallVec()) {
+        sprites.push_back(b->getSprite());
+    }
+    for(auto& b : gameLevel.getVerticalPortalWallVec()) {
+        sprites.push_back(b->getSprite());
+    }
+    for(auto& b : gameLevel.getHorizontalWallVec()) {
+        sprites.push_back(b->getSprite());
+    }
+    for(auto& b : gameLevel.getVerticalWallVec()) {
+        sprites.push_back(b->getSprite());
+    }
 
     return {sprites};
 }
@@ -39,89 +49,23 @@ std::vector<Background *> Level_scene::backgrounds() {
     };
 }
 
-void Level_scene::moveChell(u16 keys) {
-    int xSnelheid  = 0;
-    int ySnelheid  = 0;
 
-    if (keys & KEY_LEFT) {
-        xSnelheid = -1;
-    }
-
-    if (keys & KEY_RIGHT) {
-        xSnelheid = 1;
-    }
-
-    // jump AND gravity
-    ySnelheid = 2;
-    if (keys & KEY_UP && chell->getVelocity().y == 0) {
-        if(jump == false) {
-            ySnelheid = -2;
-            jump = true;
-            chellY = chell->getY();
-        }
-    }
-    if(jump == true){
-        ySnelheid = -2;
-    }
-
-    if( chell->getY()<= chellY-25){
-        jump = false;
-    }
-
-    //Collision detection
-    for(auto& s : verticalPortalWallVec) {
-        if (chell->collidesWith(*s)){
-            if (chell->getX() < s->getX()){
-                if (xSnelheid > 0) { xSnelheid = 0; }
-            }
-            if (chell->getX() > s->getX()){
-                if (xSnelheid < 0) { xSnelheid = 0; }
-            }
-        }
-    }
-    for(auto& k : horizontalPortalWallVec) {
-        if (chell->collidesWith(*k)){
-            if (chell->getY() < k->getY()){
-                if (ySnelheid > 0) { ySnelheid = 0; }
-            }
-            if (chell->getY() > k->getY()){
-                if (ySnelheid < 0) { ySnelheid = 0; }
-            }
-        }
-    }
-
-    for(auto& s : verticalWallVec) {
-        if (chell->collidesWith(*s)){
-            if (chell->getX() < s->getX()){
-                if (xSnelheid > 0) { xSnelheid = 0; }
-            }
-            if (chell->getX() > s->getX()){
-                if (xSnelheid < 0) { xSnelheid = 0; }
-            }
-        }
-    }
-    for(auto& k : horizontalWallVec) {
-        if (chell->collidesWith(*k)){
-            if (chell->getY() < k->getY()){
-                if (ySnelheid > 0) { ySnelheid = 0; }
-            }
-            if (chell->getY() > k->getY()){
-                if (ySnelheid < 0) { ySnelheid = 0; }
-            }
-        }
-    }
-
-    checkPortals();
-    chell->setVelocity(xSnelheid,ySnelheid);
-    visier->setVelocity(xSnelheid,ySnelheid);
-}
 
 void Level_scene::load() {
+    std::unique_ptr<Sprite> chell, red_bullet_sprite, blue_bullet_sprite, verticalPortalWall, verticalWall, horizontalPortalWall,
+            horizontalWall, verticalRedPortal, verticalBluePortal, horizontalRedPortal, horizontalBluePortal,
+            button, companionCube;
+    std::unique_ptr<AffineSprite> visier;
+
+    std::vector<std::unique_ptr<WallTile>> verticalPortalWallVec, verticalWallVec, horizontalPortalWallVec, horizontalWallVec;
+
     foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager(sharedPal, sizeof(sharedPal)));
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager(bg_palette, sizeof(bg_palette)));
 
     SpriteBuilder<Sprite> builder;
     SpriteBuilder<AffineSprite> affineBuilder;
+
+
 
     chell = builder
             .withData(chellTiles, sizeof(chellTiles))
@@ -129,6 +73,7 @@ void Level_scene::load() {
             .withAnimated(4, 6)
             .withLocation(72,100)
             .buildPtr();
+    std::unique_ptr<Chell> chellObject(new Chell(std::move(chell)));
 
     for(auto& s : verticalPortalWallCoordinaten) {
         verticalPortalWall = builder
@@ -136,7 +81,9 @@ void Level_scene::load() {
                 .withSize(SIZE_8_32)
                 .withLocation(s[0],s[1])
                 .buildPtr();
-        verticalPortalWallVec.push_back(std::move(verticalPortalWall));
+
+        std::unique_ptr<WallTile> wallObject(new WallTile(std::move(verticalPortalWall)));
+        verticalPortalWallVec.push_back(std::move(wallObject));
     }
 
     for(auto& s : horizontalPortalWallCoordinaten) {
@@ -145,7 +92,9 @@ void Level_scene::load() {
                 .withSize(SIZE_32_8)
                 .withLocation(s[0],s[1])
                 .buildPtr();
-        horizontalPortalWallVec.push_back(std::move(horizontalPortalWall));
+
+        std::unique_ptr<WallTile> wallObject(new WallTile(std::move(horizontalPortalWall)));
+        horizontalPortalWallVec.push_back(std::move(wallObject));
     }
 
     for(auto& s : verticalWallCoordinaten) {
@@ -154,7 +103,9 @@ void Level_scene::load() {
                 .withSize(SIZE_8_32)
                 .withLocation(s[0],s[1])
                 .buildPtr();
-        verticalWallVec.push_back(std::move(verticalWall));
+
+        std::unique_ptr<WallTile> wallObject(new WallTile(std::move(verticalWall)));
+        verticalWallVec.push_back(std::move(wallObject));
     }
 
     for(auto& s : horizontalWallCoordinaten) {
@@ -163,17 +114,13 @@ void Level_scene::load() {
                 .withSize(SIZE_32_8)
                 .withLocation(s[0],s[1])
                 .buildPtr();
-        horizontalWallVec.push_back(std::move(horizontalWall));
+
+        std::unique_ptr<WallTile> wallObject(new WallTile(std::move(horizontalWall)));
+        horizontalWallVec.push_back(std::move(wallObject));
     }
 
     verticalRedPortal = builder
             .withData(Vertical_red_portalTiles, sizeof(Vertical_red_portalTiles))
-            .withSize(SIZE_8_32)
-            .withLocation(GBA_SCREEN_WIDTH,GBA_SCREEN_HEIGHT)
-            .buildPtr();
-
-    verticalBluePortal = builder
-            .withData(Vertical_blue_portalTiles, sizeof(Vertical_blue_portalTiles))
             .withSize(SIZE_8_32)
             .withLocation(GBA_SCREEN_WIDTH,GBA_SCREEN_HEIGHT)
             .buildPtr();
@@ -183,12 +130,20 @@ void Level_scene::load() {
             .withSize(SIZE_32_8)
             .withLocation(GBA_SCREEN_WIDTH,GBA_SCREEN_HEIGHT)
             .buildPtr();
+    std::unique_ptr<Portal> redPortal(new Portal(std::move(verticalRedPortal), std::move(horizontalRedPortal)));
+
+    verticalBluePortal = builder
+            .withData(Vertical_blue_portalTiles, sizeof(Vertical_blue_portalTiles))
+            .withSize(SIZE_8_32)
+            .withLocation(GBA_SCREEN_WIDTH,GBA_SCREEN_HEIGHT)
+            .buildPtr();
 
     horizontalBluePortal = builder
             .withData(Horizontal_blue_portalTiles, sizeof(Horizontal_blue_portalTiles))
             .withSize(SIZE_32_8)
             .withLocation(GBA_SCREEN_WIDTH,GBA_SCREEN_HEIGHT)
             .buildPtr();
+    std::unique_ptr<Portal> bluePortal(new Portal(std::move(verticalBluePortal), std::move(horizontalBluePortal)));
 
     visier = affineBuilder
             .withData(VisierTiles, sizeof(VisierTiles))
@@ -196,266 +151,70 @@ void Level_scene::load() {
             .withLocation(72-24,100-24)
             .buildPtr();
     visierRotation = 0;
+    std::unique_ptr<Visier> visierObject(new Visier(std::move(visier)));
 
     red_bullet_sprite = builder.withData(red_bulletTiles, sizeof(red_bulletTiles))
             .withSize(SIZE_8_8)
             .withLocation(GBA_SCREEN_WIDTH,GBA_SCREEN_HEIGHT)
             .buildPtr();
+    std::unique_ptr<Portal_bullet> bulletObject1(new Portal_bullet(std::move(red_bullet_sprite)));
 
     blue_bullet_sprite = builder.withData(blue_bulletTiles, sizeof(blue_bulletTiles))
             .withSize(SIZE_8_8)
             .withLocation(GBA_SCREEN_WIDTH,GBA_SCREEN_HEIGHT)
             .buildPtr();
+    std::unique_ptr<Portal_bullet> bulletObject2(new Portal_bullet(std::move(blue_bullet_sprite)));
 
 
-
+    gameLevel = Level(std::move(chellObject), std::move(verticalPortalWallVec), std::move(verticalWallVec), std::move(horizontalPortalWallVec), std::move(horizontalWallVec),
+                                               std::move(redPortal),std::move(bluePortal),std::move(visierObject),std::move(bulletObject1),std::move(bulletObject2));
 
     visierRotation = 0;
 
     bg = std::unique_ptr<Background>(new Background(1, background_data, sizeof(background_data), map, sizeof(map)));
     bg.get()->useMapScreenBlock(16);
 
-    redBullet = std::unique_ptr<Portal_bullet>(new Portal_bullet());
-    blueBullet = std::unique_ptr<Portal_bullet>(new Portal_bullet());
 
 
     //engine->enqueueMusic(Still_Alive, 1412466, 88200/4);
 }
 
 void Level_scene::tick(u16 keys) {
+    bool lKey = false;
+    bool rKey = false;
+    bool jump = false;
 
-    // check direction scope
-    if (visier->getMatrix()->pa < 0) {
-        flip_visier = true;
-    } else { flip_visier = false; }
-
-    moveChell(keys);
-
-    //rotate scope
-    if (keys & KEY_R) {
-        visierRotation -= 300;
-    } else if (keys & KEY_L) {
-        visierRotation += 300;
+    if(keys & KEY_RIGHT){
+        rKey = true;
     }
-    visier->rotate(visierRotation);
+    if(keys & KEY_LEFT){
+        lKey = true;
+    }
+    if(keys & KEY_UP){
+        jump = true;
+    }
+    gameLevel.moveChell(lKey, rKey, jump);
 
-    //Shoot gun AND bullet update
-    if ((keys & KEY_A) && (blueBullet->getIsMoving() == false)) {
-        red_bullet_sprite->moveTo(visier->getX() + 28, visier->getY() + 28);
-        redBullet->setDestination(visier->getMatrix()->pc, visier->getX(), visier->getY(), visier->getWidth());
-        redBullet->start(flip_visier, red_bullet_sprite->getX(), red_bullet_sprite->getY());
-        redBullet->setIsMoving(true);
+    if(keys & KEY_R){
+        gameLevel.getVisier()->rotate(true);
+    }
+    if(keys & KEY_L){
+        gameLevel.getVisier()->rotate(false);
     }
 
-    if ((keys & KEY_B) && (redBullet->getIsMoving() == false)) {
-        blue_bullet_sprite->moveTo(visier->getX() + 28, visier->getY() + 28);
-        blueBullet->setDestination(visier->getMatrix()->pc, visier->getX(), visier->getY(), visier->getWidth());
-        blueBullet->start(flip_visier, blue_bullet_sprite->getX(), blue_bullet_sprite->getY());
-        blueBullet->setIsMoving(true);
+    if(keys & KEY_A){
+        gameLevel.shoot(gameLevel.getRedBullet().get());
+    }
+    if(keys & KEY_B){
+        gameLevel.shoot(gameLevel.getBlueBullet().get());
     }
 
-
-    if(redBullet->getIsMoving() == true) {
-        redBullet->tick();
-        red_bullet_sprite->moveTo(redBullet->getx(), redBullet->gety());
-    }
-    if(blueBullet->getIsMoving() == true) {
-        blueBullet->tick();
-        blue_bullet_sprite->moveTo(blueBullet->getx(), blueBullet->gety());
-    }
-
-
-    if(red_bullet_sprite->isOffScreen()){
-        redBullet->setIsMoving(false);
-        red_bullet_sprite->moveTo(GBA_SCREEN_WIDTH,GBA_SCREEN_HEIGHT);
-    }
-
-    if(blue_bullet_sprite->isOffScreen()){
-        blueBullet->setIsMoving(false);
-        blue_bullet_sprite->moveTo(GBA_SCREEN_WIDTH,GBA_SCREEN_HEIGHT);
-    }
-
-    for(auto& s : horizontalWallVec) {
-        if (red_bullet_sprite->collidesWith(*s)) {
-            redBullet->setIsMoving(false);
-            red_bullet_sprite->moveTo(GBA_SCREEN_WIDTH, GBA_SCREEN_HEIGHT);
-        }
-        if (blue_bullet_sprite->collidesWith(*s)) {
-            blueBullet->setIsMoving(false);
-            blue_bullet_sprite->moveTo(GBA_SCREEN_WIDTH, GBA_SCREEN_HEIGHT);
-        }
-    }
-
-    for(auto& s : verticalWallVec) {
-        if (red_bullet_sprite->collidesWith(*s)) {
-            redBullet->setIsMoving(false);
-            red_bullet_sprite->moveTo(GBA_SCREEN_WIDTH, GBA_SCREEN_HEIGHT);
-        }
-        if (blue_bullet_sprite->collidesWith(*s)) {
-            blueBullet->setIsMoving(false);
-            blue_bullet_sprite->moveTo(GBA_SCREEN_WIDTH, GBA_SCREEN_HEIGHT);
-        }
-    }
-
-    for(auto& s : verticalPortalWallVec) {
-        s->animateToFrame(0);
-        if ((s->getX() == verticalRedPortal->getX()) && s->getY() == verticalRedPortal->getY()){
-            s->animateToFrame(1);
-        }
-        if((s->getX() == verticalBluePortal->getX()) && s->getY() == verticalBluePortal->getY()){
-            s->animateToFrame(1);
-        }
-        if (red_bullet_sprite->collidesWith(*s)) {
-            verticalRedPortal->moveTo(s->getX(), s->getY());
-            s->animateToFrame(1);
-            redBullet->setIsMoving(false);
-            red_bullet_sprite->moveTo(GBA_SCREEN_WIDTH,GBA_SCREEN_HEIGHT);
-            horizontalRedPortal->moveTo(GBA_SCREEN_WIDTH,GBA_SCREEN_HEIGHT);
-        }
-        if (blue_bullet_sprite->collidesWith(*s)) {
-            verticalBluePortal->moveTo(s->getX(), s->getY());
-            s->animateToFrame(1);
-            blueBullet->setIsMoving(false);
-            blue_bullet_sprite->moveTo(GBA_SCREEN_WIDTH,GBA_SCREEN_HEIGHT);
-            horizontalBluePortal->moveTo(GBA_SCREEN_WIDTH,GBA_SCREEN_HEIGHT);
-        }
-    }
-
-    for(auto& s : horizontalPortalWallVec) {
-        s->animateToFrame(0);
-        if ((s->getX() == horizontalRedPortal->getX()) && s->getY() == horizontalRedPortal->getY()){
-            s->animateToFrame(1);
-        }
-        if((s->getX() == horizontalBluePortal->getX()) && s->getY() == horizontalBluePortal->getY()){
-            s->animateToFrame(1);
-        }
-        if (red_bullet_sprite->collidesWith(*s)) {
-            horizontalRedPortal->moveTo(s->getX(), s->getY());
-            s->animateToFrame(1);
-            redBullet->setIsMoving(false);
-            red_bullet_sprite->moveTo(GBA_SCREEN_WIDTH,GBA_SCREEN_HEIGHT);
-            verticalRedPortal->moveTo(GBA_SCREEN_WIDTH,GBA_SCREEN_HEIGHT);
-        }
-        if (blue_bullet_sprite->collidesWith(*s)) {
-            horizontalBluePortal->moveTo(s->getX(), s->getY());
-            s->animateToFrame(1);
-            blueBullet->setIsMoving(false);
-            blue_bullet_sprite->moveTo(GBA_SCREEN_WIDTH,GBA_SCREEN_HEIGHT);
-            verticalBluePortal->moveTo(GBA_SCREEN_WIDTH,GBA_SCREEN_HEIGHT);
-        }
-    }
-
-
+    gameLevel.update();
+    gameLevel.checkPortals();
 }
 
-void Level_scene::checkPortals() {
 
-    if(chell->collidesWith(*verticalRedPortal)){
-        if(horizontalBluePortal->getX() == GBA_SCREEN_WIDTH){
-            for(auto& k : verticalWallVec) {
-                if (verticalBluePortal->getX()-8 ==  k->getX()) {
-                    chell->moveTo(verticalBluePortal->getX()+8, verticalBluePortal->getY());
-                    visier->moveTo(verticalBluePortal->getX()+8-24, verticalBluePortal->getY()-24);
-                }
-                else{
-                    chell->moveTo(verticalBluePortal->getX()-16, verticalBluePortal->getY());
-                    visier->moveTo(verticalBluePortal->getX()-16-24, verticalBluePortal->getY()-24);
-                }
-            }
-        }
-        else{
-            for(auto& k : horizontalWallVec) {
-                if (horizontalBluePortal->getY()-8 == k->getY()) {
-                    chell->moveTo(horizontalBluePortal->getX()+8, horizontalBluePortal->getY()+8);
-                    visier->moveTo(horizontalBluePortal->getX()+8-24, horizontalBluePortal->getY()+8-24);
-                }
-                else{
-                    chell->moveTo(horizontalBluePortal->getX()+8, horizontalBluePortal->getY()-32);
-                    visier->moveTo(horizontalBluePortal->getX()+8-24, horizontalBluePortal->getY()-32-24);
-                }
-            }
-        }
-    }
 
-    if(chell->collidesWith(*verticalBluePortal)){
-        if(horizontalRedPortal->getX() == GBA_SCREEN_WIDTH){
-            for(auto& k : verticalWallVec) {
-                if (verticalRedPortal->getX()-8 ==  k->getX()) {
-                    chell->moveTo(verticalRedPortal->getX()+8, verticalRedPortal->getY());
-                    visier->moveTo(verticalRedPortal->getX()+8-24, verticalRedPortal->getY()-24);
-                }
-                else{
-                    chell->moveTo(verticalRedPortal->getX()-16, verticalRedPortal->getY());
-                    visier->moveTo(verticalRedPortal->getX()-16-24, verticalRedPortal->getY()-24);
-                }
-            }
-        }
-        else{
-            for(auto& k : horizontalWallVec) {
-                if (horizontalRedPortal->getY()-8 == k->getY()) {
-                    chell->moveTo(horizontalRedPortal->getX()+8, horizontalRedPortal->getY()+8);
-                    visier->moveTo(horizontalRedPortal->getX()+8-24, horizontalRedPortal->getY()+8-24);
-                }
-                else{
-                    chell->moveTo(horizontalRedPortal->getX()+8, horizontalRedPortal->getY()-32);
-                    visier->moveTo(horizontalRedPortal->getX()+8-24, horizontalRedPortal->getY()-32-24);
-                }
-            }
-        }
-    }
 
-    if(chell->collidesWith(*horizontalBluePortal)){
-        if(verticalRedPortal->getX() == GBA_SCREEN_WIDTH){
-            for(auto& k : horizontalWallVec) {
-                if (horizontalRedPortal->getY()-8 == k->getY()) {
-                    chell->moveTo(horizontalRedPortal->getX()+8, horizontalRedPortal->getY()+8);
-                    visier->moveTo(horizontalRedPortal->getX()+8-24, horizontalRedPortal->getY()+8-24);
-                }
-                else{
-                    chell->moveTo(horizontalRedPortal->getX()+8, horizontalRedPortal->getY()-32);
-                    visier->moveTo(horizontalRedPortal->getX()+8-24, horizontalRedPortal->getY()-32-24);
-                }
-            }
-        }
-        else{
-            for(auto& k : verticalWallVec) {
-                if (verticalRedPortal->getX()-8 ==  k->getX()) {
-                    chell->moveTo(verticalRedPortal->getX()+8, verticalRedPortal->getY());
-                    visier->moveTo(verticalRedPortal->getX()+8-24, verticalRedPortal->getY()-24);
-                }
-                else{
-                    chell->moveTo(verticalRedPortal->getX()-16, verticalRedPortal->getY());
-                    visier->moveTo(verticalRedPortal->getX()-16-24, verticalRedPortal->getY()-24);
-                }
-            }
-        }
-    }
 
-    if(chell->collidesWith(*horizontalRedPortal)){
-        if(verticalBluePortal->getX() == GBA_SCREEN_WIDTH){
-            for(auto& k : horizontalWallVec) {
-                if (horizontalBluePortal->getY()-8 == k->getY()) {
-                    chell->moveTo(horizontalBluePortal->getX()+8, horizontalBluePortal->getY()+8);
-                    visier->moveTo(horizontalBluePortal->getX()+8-24, horizontalBluePortal->getY()+8-24);
-                }
-                else{
-                    chell->moveTo(horizontalBluePortal->getX()+8, horizontalBluePortal->getY()-32);
-                    visier->moveTo(horizontalBluePortal->getX()+8-24, horizontalBluePortal->getY()-32-24);
-                }
-            }
-        }
-        else{
-            for(auto& k : verticalWallVec) {
-                if (verticalBluePortal->getX()-8 ==  k->getX()) {
-                    chell->moveTo(verticalBluePortal->getX()+8, verticalBluePortal->getY());
-                    visier->moveTo(verticalBluePortal->getX()+8-24, verticalBluePortal->getY()-24);
-                }
-                else{
-                    chell->moveTo(verticalBluePortal->getX()-16, verticalBluePortal->getY());
-                    visier->moveTo(verticalBluePortal->getX()-16-24, verticalBluePortal->getY()-24);
-                }
-            }
-        }
-    }
-}
 

@@ -5,14 +5,23 @@
 #include "Portal_bullet.h"
 #include <libgba-sprite-engine/background/text_stream.h>
 #include <libgba-sprite-engine/gba/tonc_bios.h>
+#include <libgba-sprite-engine/gba_engine.h>
 
 
 int Portal_bullet::getx() {
-    return static_cast<int>(newX);
+    return bullet->getX();
 }
 
 int Portal_bullet::gety() {
-    return static_cast<int>(newY);
+    return bullet->getY();
+}
+
+void Portal_bullet::setx(int x) {
+     bullet->moveTo(x, bullet->getY());
+}
+
+void Portal_bullet::sety(int y) {
+     bullet->moveTo(bullet->getX(), y);
 }
 
 bool Portal_bullet::getIsMoving() {
@@ -51,13 +60,21 @@ void Portal_bullet::start(bool flip, int xLoc, int yLoc){
 
 // TODO https://gamedev.stackexchange.com/questions/23447/moving-from-ax-y-to-bx1-y1-with-constant-speed
 void Portal_bullet::tick() {
-    if (flip_visier == true){
-        newX -= (directionX * speed * time);
-    }
-    else {      newX += (directionX * speed * time);
+    if(isMoving) {
+        if (flip_visier == true) {
+            newX -= (directionX * speed * time);
+        } else {
+            newX += (directionX * speed * time);
+        }
+        newY += (directionY * speed * time);
+        bullet->moveTo(newX, newY);
 
+        if (bullet->isOffScreen()) {
+            isMoving = false;
+            bullet->moveTo(GBA_SCREEN_WIDTH, GBA_SCREEN_HEIGHT);
+        }
     }
-    newY += (directionY * speed * time);
-    teller +=1;
-    //TextStream::instance().setText(std::to_string(distance), 1, 1);
+    else{
+        bullet->moveTo(GBA_SCREEN_WIDTH, GBA_SCREEN_HEIGHT);
+    }
 }

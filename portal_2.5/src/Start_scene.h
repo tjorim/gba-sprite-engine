@@ -12,8 +12,8 @@
 
 class Start_scene : public Scene {
 private:
-    std::unique_ptr<Sprite> chell;
-    std::unique_ptr<SpriteBuilder<Sprite>> spriteBuilder1, spriteBuilder2;
+    std::unique_ptr<Sprite> chell, portalIn, portalOut, portal;
+    std::unique_ptr<Background> bg;
 
 public:
     std::vector<Sprite *> sprites() override;
