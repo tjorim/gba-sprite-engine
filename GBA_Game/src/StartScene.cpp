@@ -193,12 +193,12 @@ void StartScene::tick(u16 keys) {
     }
 
 
-/*
+
     // For debugging purposes!!
     if (keys & KEY_A) {     // Key X
         TextStream::instance() << playerOnMapX << playerOnMapY << groundLevelY;
     } else if (keys & KEY_R) {      // Key S
         TextStream::instance().clear();
     }
-*/
+
 }
