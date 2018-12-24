@@ -9,7 +9,7 @@
 #include <libgba-sprite-engine/scene.h>
 #include <libgba-sprite-engine/sprites/affine_sprite.h>
 
-class StartScene : public Scene {
+class Level1Scene : public Scene {
 private:
     //std::unique_ptr<Sprite> smiley;
     //std::unique_ptr<AffineSprite> player;
@@ -21,7 +21,7 @@ private:
     int playerOnMapX, playerOnMapY;
     bool jumpingDisabled;
 public:
-    StartScene(std::shared_ptr<GBAEngine> engine) : Scene(engine), bgX(0), bgY(96) {}
+    Level1Scene(std::shared_ptr<GBAEngine> engine) : Scene(engine), bgX(0), bgY(96) {}
 
     std::vector<Sprite *> sprites() override;
     std::vector<Background *> backgrounds() override;

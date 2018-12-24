@@ -6,10 +6,10 @@
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
 #include <libgba-sprite-engine/gba/tonc_memdef.h>
 #include <libgba-sprite-engine/gba_engine.h>
-#include "StartScene.h"
+#include "Level1Scene.h"
 //#include "Bg.h"
 //#include "background.h"
-#include "Bg_edited_tileset.h"
+#include "BGdata_Level1Scene.h"
 #include "MapData.h"
 
 #include "Player.h"
@@ -17,19 +17,19 @@
 MapData mapData;
 
 
-std::vector<Background *> StartScene::backgrounds() {
+std::vector<Background *> Level1Scene::backgrounds() {
     return {
         bg.get()
     };
 }
 
-std::vector<Sprite *> StartScene::sprites() {
+std::vector<Sprite *> Level1Scene::sprites() {
     return{
         player.get()
     };
 }
 
-void StartScene::load() {
+void Level1Scene::load() {
     foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager(player_pal, sizeof(player_pal)));
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager(bg_palette, sizeof(bg_palette)));
 
@@ -54,7 +54,7 @@ void StartScene::load() {
     //bg.get()->scroll(0, 95);
 }
 
-void StartScene::tick(u16 keys) {
+void Level1Scene::tick(u16 keys) {
 
     // Coordinates of player on screen.
     playerX = player.get()->getX();
@@ -68,6 +68,15 @@ void StartScene::tick(u16 keys) {
     bg.get()->scroll(bgX, bgY);
 
     player->stopAnimating();
+
+    // Stops background from infinite scrolling. !!!(not necessary anymore)!!!
+    /*
+    if (bgX > 16) {
+        bgX = 16;
+    } else if (bgX <0) {
+        bgX = 0;
+    }
+    */
 
 
     // Set player to ground level.
@@ -186,17 +195,13 @@ void StartScene::tick(u16 keys) {
         playerOnMapY = 60;  //64
         bgY -= 64;
         player.get()->moveTo(playerX, playerOnMapY-bgY);
-    } else if (playerOnMapX == 16 && playerOnMapY == 16) {
-        playerOnMapY = 100;
-        bgY += 96;
-        player.get()->moveTo(playerX, playerOnMapY-bgY);
     }
 
 
 
     // For debugging purposes!!
     if (keys & KEY_A) {     // Key X
-        TextStream::instance() << playerOnMapX << playerOnMapY << groundLevelY;
+        TextStream::instance() << groundLevelY << playerOnMapY;
     } else if (keys & KEY_R) {      // Key S
         TextStream::instance().clear();
     }
