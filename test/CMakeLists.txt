@@ -35,6 +35,6 @@ add_executable(unittest
         ../engine/src/allocator.cpp
         ../engine/src/palette/combined_palette.cpp
         ../engine/src/timer.cpp
-        timertest.cpp)
+        timertest.cpp SuperLuigi/luigitest.cpp)
 
 target_link_libraries(unittest ${GTEST_LIBRARY}/build/libgtest.a ${GTEST_LIBRARY}/build/libgtest_main.a)

@@ -39,8 +39,8 @@ void level1::load() {
             .withAnimated(5,2)
             .buildPtr();
 
-    luigi = Luigi(std::move(luigiSprite));
-    luigi.getLuigiSprite()->stopAnimating();
+    luigi = std::unique_ptr<Luigi>{new Luigi(std::move(luigiSprite))};
+    luigi->getLuigiSprite()->stopAnimating();
 
     goombaSprite = affineBuilder
             .withData(goombaTiles, sizeof(goombaTiles))
@@ -49,7 +49,7 @@ void level1::load() {
             .withAnimated(3,5)
             .buildPtr();
 
-    goomba = Goomba(std::move(goombaSprite));
+    goomba = std::unique_ptr<Goomba>{new Goomba(std::move(goombaSprite))};
 
 
     questionBlockSprite = affineBuilder
@@ -59,7 +59,7 @@ void level1::load() {
                     .withAnimated(0,1)
                     .buildPtr();
 
-    questionBlock = QuestionBlock(std::move(questionBlockSprite));
+    questionBlock = std::unique_ptr<QuestionBlock>{new QuestionBlock(std::move(questionBlockSprite))};
 
     engine->enqueueMusic(Tarantella_Napolitana, sizeof(Tarantella_Napolitana));
 }
@@ -67,40 +67,40 @@ void level1::load() {
 std::vector<Sprite *> level1::sprites() {
 
     std::vector<Sprite*> sprites;
-    sprites.push_back(luigi.getLuigiSprite().get());
-    sprites.push_back(questionBlock.getQuestionBlockSprite().get());
-    if(!goomba.isDead())sprites.push_back(goomba.getGoombaSprite().get());
+    sprites.push_back(luigi->getLuigiSprite().get());
+    sprites.push_back(questionBlock->getQuestionBlockSprite().get());
+    if(!goomba->isDead())sprites.push_back(goomba->getGoombaSprite().get());
 
     return sprites;
 }
 
 void level1::tick(u16 keys) {
-    goomba.tick(keys);
-    questionBlock.tick(keys);
-    luigi.tick(keys);
+    goomba->tick(keys);
+    questionBlock->tick(keys);
+    luigi->tick(keys);
 
     if(keys & KEY_RIGHT){
         scrollX +=1;
         bg->scroll(scrollX,scrollY);
     }
 
-    if(luigi.getLuigiSprite()->collidesWith(*goomba.getGoombaSprite()) && (luigi.getLuigiSprite()->getY() == GBA_SCREEN_HEIGHT-bottomHeightFor32) && !goomba.isDead()){
+    if(luigi->getLuigiSprite()->collidesWith(*goomba->getGoombaSprite()) && (luigi->getLuigiSprite()->getY() == GBA_SCREEN_HEIGHT-bottomHeightFor32) && !goomba->isDead()){
         TextStream::instance().setText("DEAD", 0,0);
-        goomba.getGoombaSprite()->stopAnimating();
-        goomba.getGoombaSprite()->setVelocity(0,0);
+        goomba->getGoombaSprite()->stopAnimating();
+        goomba->getGoombaSprite()->setVelocity(0,0);
     }
 
-    if(luigi.getLuigiSprite()->collidesWith(*questionBlock.getQuestionBlockSprite()) && (luigi.getLuigiSprite()->getDy() >0) && luigi.getLuigiSprite()->getY() > questionBlock.getQuestionBlockSprite()->getY()-32) {
-        luigi.getLuigiSprite()->setVelocity(0,1);
-        questionBlock.getQuestionBlockSprite()->animateToFrame(2);
+    if(luigi->getLuigiSprite()->collidesWith(*questionBlock->getQuestionBlockSprite()) && (luigi->getLuigiSprite()->getDy() >0) && luigi->getLuigiSprite()->getY() > questionBlock->getQuestionBlockSprite()->getY()-32) {
+        luigi->getLuigiSprite()->setVelocity(0,1);
+        questionBlock->getQuestionBlockSprite()->animateToFrame(2);
     }
 
-    if(luigi.getLuigiSprite()->collidesWith(*questionBlock.getQuestionBlockSprite()) && luigi.getLuigiSprite()->getY() <= questionBlock.getQuestionBlockSprite()->getY()-16){
-        luigi.getLuigiSprite()->setVelocity(0,0);
+    if(luigi->getLuigiSprite()->collidesWith(*questionBlock->getQuestionBlockSprite()) && luigi->getLuigiSprite()->getY() <= questionBlock->getQuestionBlockSprite()->getY()-16){
+        luigi->getLuigiSprite()->setVelocity(0,0);
     }
 
-    if(luigi.getLuigiSprite()->collidesWith(*goomba.getGoombaSprite()) && luigi.getLuigiSprite()->getVelocity().y > 0 && luigi.getLuigiSprite()->getY()+32 >= GBA_SCREEN_HEIGHT-bottomHeightFor16){
-        goomba.getGoombaSprite()->stopAnimating();
-        goomba.kill();
+    if(luigi->getLuigiSprite()->collidesWith(*goomba->getGoombaSprite()) && luigi->getLuigiSprite()->getVelocity().y > 0 && luigi->getLuigiSprite()->getY()+32 >= GBA_SCREEN_HEIGHT-bottomHeightFor16){
+        goomba->getGoombaSprite()->stopAnimating();
+        goomba->kill();
     }
 }

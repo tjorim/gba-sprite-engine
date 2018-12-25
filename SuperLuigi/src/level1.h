@@ -18,11 +18,11 @@ class level1 : public Scene{
 private:
     //the background
     std::unique_ptr<Background> bg;
-    Luigi luigi;
+    std::unique_ptr<Luigi> luigi;
     std::unique_ptr<AffineSprite> luigiSprite;
-    Goomba goomba;
+    std::unique_ptr<Goomba> goomba;
     std::unique_ptr<AffineSprite> goombaSprite;
-    QuestionBlock questionBlock;
+    std::unique_ptr<QuestionBlock> questionBlock;
     std::unique_ptr<AffineSprite> questionBlockSprite;
     int scrollX, scrollY;
 
