@@ -4,14 +4,6 @@
 
 #include "Visier.h"
 
-int Visier::getXSnelheid() const {
-    return visier->getDx();
-}
-
-int Visier::getYSnelheid() const {
-    return visier->getDy();
-}
-
 u32 Visier::getXCoordinaat() const {
     return visier->getX();
 }
@@ -26,14 +18,6 @@ int Visier::getPc(){
 
 bool Visier::getFlipVisier(){
     return flipVisier;
-}
-
-void Visier::setXCoodinaat(u32 xCoodinaat) {
-    visier->moveTo(xCoodinaat, visier->getY());
-}
-
-void Visier::setYCoordinaat(u32 yCoordinaat) {
-    visier->moveTo(visier->getX(), yCoordinaat);
 }
 
 void Visier::setXSnelheid(int xSnelheid) {

@@ -20,14 +20,7 @@ public:
 
     u32 getXCoordinaat() const;
     u32 getYCoordinaat() const;
-    u32 getXSnelheid() const;
-    u32 getYSnelheid() const;
     bool getHasPortal();
-
-    void setXCoodinaat(u32 xCoodinaat);
-    void setYCoordinaat(u32 yCoordinaat);
-    void setXSnelheid(u32 xSnelheid);
-    void setYSnelheid(u32 ySnelheid);
     void setHasPortal(bool portal);
     void updateView();
 };

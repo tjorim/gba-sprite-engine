@@ -4,30 +4,12 @@
 
 #include "Chell.h"
 
-int Chell::getXSnelheid() const {
-    return chell->getDx();
-}
-
-int Chell::getYSnelheid() const {
-    return chell->getDy();
-}
-
 u32 Chell::getXCoordinaat() const {
     return chell->getX();
 }
 
 u32 Chell::getYCoordinaat() const {
     return chell->getY();
-}
-
-
-
-void Chell::setXCoordinaat(u32 xCoodinaat) {
-    chell->moveTo(xCoodinaat, chell->getY());
-}
-
-void Chell::setYCoordinaat(u32 yCoordinaat) {
-    chell->moveTo(chell->getX(), yCoordinaat);
 }
 
 void Chell::setXSnelheid(int xSnelheid) {
@@ -59,3 +41,4 @@ int Chell::controleJump(){
     }
     return 1;
 }
+

@@ -5,6 +5,7 @@
 #include <libgba-sprite-engine/background/text_stream.h>
 #include <libgba-sprite-engine/gba_engine.h>
 #include "Level.h"
+#include "GameOverScene.h"
 
 
 const std::unique_ptr<Chell> &Level::getChell() const { return chell; }
@@ -27,6 +28,8 @@ const std::vector<std::unique_ptr<WallTile>> &Level::getHorizontalPortalWallVec(
 
 const std::vector<std::unique_ptr<WallTile>> &Level::getHorizontalWallVec() const { return horizontalWallVec; }
 
+const std::unique_ptr<Button> &Level::getButton() const { return button; }
+
 void Level::moveChell(bool leftKey, bool rightKey, bool jump) {
     VECTOR vec = {0,0,0};
     if (leftKey == true){ vec.x = -1; }
@@ -34,6 +37,7 @@ void Level::moveChell(bool leftKey, bool rightKey, bool jump) {
     if (jump == true){
         chell->doJump();
     }
+
     vec.y = chell->controleJump();
     vec = verticalCollisionDetect(chell.get(), verticalPortalWallVec, vec);
     vec = verticalCollisionDetect(chell.get(), verticalWallVec, vec);
@@ -182,9 +186,10 @@ void Level::portalCollision(Chell* player, Portal* portalOut, Sprite* sprite, Vi
                 visier->setLocation(portalOut->getXCoordinaat()+8-24, portalOut->getYCoordinaat()-24);
             }else{
                 player->setLocation(portalOut->getXCoordinaat()-16, portalOut->getYCoordinaat());
-                visier->setLocation(portalOut->getXCoordinaat()+8-24, portalOut->getYCoordinaat()-24);
+                visier->setLocation(portalOut->getXCoordinaat()-16-24, portalOut->getYCoordinaat()-24);
             }
         }
     }
 }
+
 

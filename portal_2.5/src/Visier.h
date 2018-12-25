@@ -24,13 +24,8 @@ public:
 
     u32 getXCoordinaat() const;
     u32 getYCoordinaat() const;
-    int getXSnelheid() const;
-    int getYSnelheid() const;
     int getPc();
     bool getFlipVisier();
-
-    void setXCoodinaat(u32 xCoodinaat);
-    void setYCoordinaat(u32 yCoordinaat);
     void setXSnelheid(int xSnelheid);
     void setYSnelheid(int ySnelheid);
     void setLocation(int x, int y);

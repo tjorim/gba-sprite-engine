@@ -35,14 +35,6 @@ bool Portal::getDirection(){
     return direction;
 }
 
-void Portal::setXCoordinaat(int xCoordinaat) {
-    Portal::xCoordinaat = xCoordinaat;
-}
-
-void Portal::setYCoordinaat(int yCoordinaat) {
-    Portal::yCoordinaat = yCoordinaat;
-}
-
 void Portal::setDirection(bool dir){
     direction = dir;
 }

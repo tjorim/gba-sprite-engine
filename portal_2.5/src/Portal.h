@@ -18,24 +18,16 @@ private:
     bool direction;
 
 public:
-    int getXCoordinaat() const;
-    int getYCoordinaat() const;
-    bool getDirection();
-
     Portal(std::unique_ptr<Sprite> sprite1, std::unique_ptr<Sprite> sprite2): verticalPortal(std::move(sprite1)), horizontalPortal(std::move(sprite2)){};
 
     Sprite* getVerticalSprite() { return verticalPortal.get(); }
     Sprite* getHorizontalSprite() { return horizontalPortal.get(); }
-
     bool getOrientation();
     void setPortal(bool orient, int Xcoor, int YCoor);
-
-    void setXCoordinaat(int xCoordinaat);
-    void setYCoordinaat(int yCoordinaat);
     void setDirection(bool dir);
+    int getXCoordinaat() const;
+    int getYCoordinaat() const;
+    bool getDirection();
 };
-
-
-
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_PORTAL_H

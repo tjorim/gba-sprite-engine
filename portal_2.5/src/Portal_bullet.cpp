@@ -41,8 +41,6 @@ void Portal_bullet::setDestination(int pc, int X, int Y, int With) {
     double y = tanges*20;
     dest.x = (X + 28) + 20;
     dest.y = (Y + 28) - static_cast<int>(y);
-
-    //TextStream::instance().setText(std::to_string(X), 1, 1);
 }
 
 

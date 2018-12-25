@@ -13,6 +13,7 @@
 #include "Portal.h"
 #include "Visier.h"
 #include "Portal_bullet.h"
+#include "Button.h"
 
 
 class Level {
@@ -21,16 +22,17 @@ private:
     std::unique_ptr<Chell> chell;
     std::unique_ptr<Portal> redPortal, bluePortal;
     std::unique_ptr<Visier> visier;
+    std::unique_ptr<Button> button;
     std::unique_ptr<Portal_bullet> redBullet, blueBullet;
     std::vector<std::unique_ptr<WallTile>> verticalPortalWallVec, verticalWallVec, horizontalPortalWallVec, horizontalWallVec;
 
 public:
     Level(std::unique_ptr<Chell> chellObject, std::vector<std::unique_ptr<WallTile>> verticalPortalWallVecObject,  std::vector<std::unique_ptr<WallTile>> verticalWallVecObject,
           std::vector<std::unique_ptr<WallTile>> horizontalPortalWallVecObject,  std::vector<std::unique_ptr<WallTile>> horizontalWallVecObject, std::unique_ptr<Portal> redPortalObject,
-          std::unique_ptr<Portal> bluePortalObject, std::unique_ptr<Visier> visierObject, std::unique_ptr<Portal_bullet> redBulletObject, std::unique_ptr<Portal_bullet> blueBulletObject) : chell(std::move(chellObject)),
+          std::unique_ptr<Portal> bluePortalObject, std::unique_ptr<Visier> visierObject, std::unique_ptr<Portal_bullet> redBulletObject, std::unique_ptr<Portal_bullet> blueBulletObject, std::unique_ptr<Button> buttonObject) : chell(std::move(chellObject)),
           verticalPortalWallVec(std::move(verticalPortalWallVecObject)), verticalWallVec(std::move(verticalWallVecObject)),horizontalPortalWallVec(std::move(horizontalPortalWallVecObject)),
           horizontalWallVec(std::move(horizontalWallVecObject)), redPortal(std::move(redPortalObject)), bluePortal(std::move(bluePortalObject)), visier(std::move(visierObject)),
-          redBullet(std::move(redBulletObject)), blueBullet(std::move(blueBulletObject)){};
+          redBullet(std::move(redBulletObject)), blueBullet(std::move(blueBulletObject)), button(std::move(buttonObject)){};
 
     Level(){}
 
@@ -59,6 +61,8 @@ public:
     void checkPortals();
     void portalCollision(Chell* player, Portal* portalOut, Sprite* portalInSprite, Visier* visier);
     bool getDirection(Portal* portal, std::vector<std::unique_ptr<WallTile>> &walls);
+
+    const std::unique_ptr<Button> &getButton() const;
 };
 
 
