@@ -6,9 +6,9 @@
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
 #include <libgba-sprite-engine/gba/tonc_memdef.h>
 #include <libgba-sprite-engine/gba_engine.h>
+#include <libgba-sprite-engine/effects/fade_out_scene.h>
 #include "Level1Scene.h"
-//#include "Bg.h"
-//#include "background.h"
+#include "Level2Scene.h"
 #include "BGdata_Level1Scene.h"
 #include "MapData.h"
 
@@ -35,10 +35,7 @@ void Level1Scene::load() {
 
 
     SpriteBuilder<Sprite> builder;
-    //SpriteBuilder<AffineSprite> affineBuilder;
 
-    //smiley = builder.withData(piskelTiles, sizeof(piskelTiles)).withSize(SIZE_16_16).withLocation(10,10).buildPtr();
-    //player = affineBuilder.withData(piskel2Tiles, sizeof(piskel2Tiles)).withSize(SIZE_16_16).withLocation(10, 133).buildPtr();
     player = builder
             .withData(player_data, sizeof(player_data))
             .withSize(SIZE_16_32)
@@ -47,11 +44,8 @@ void Level1Scene::load() {
             .buildPtr();
 
 
-    //TextStream::instance() << "Ooh boy!! That was ez shit";
-
     bg = std::unique_ptr<Background>(new Background(1, background_data, sizeof(background_data), map, sizeof(map)));
     bg.get()->useMapScreenBlock(16);
-    //bg.get()->scroll(0, 95);
 }
 
 void Level1Scene::tick(u16 keys) {
@@ -68,15 +62,6 @@ void Level1Scene::tick(u16 keys) {
     bg.get()->scroll(bgX, bgY);
 
     player->stopAnimating();
-
-    // Stops background from infinite scrolling. !!!(not necessary anymore)!!!
-    /*
-    if (bgX > 16) {
-        bgX = 16;
-    } else if (bgX <0) {
-        bgX = 0;
-    }
-    */
 
 
     // Set player to ground level.
@@ -195,13 +180,15 @@ void Level1Scene::tick(u16 keys) {
         playerOnMapY = 60;  //64
         bgY -= 64;
         player.get()->moveTo(playerX, playerOnMapY-bgY);
+    } else if (playerOnMapX == 16 && playerOnMapY == 16) {
+        engine->transitionIntoScene(new Level2Scene(engine), new FadeOutScene(2));
     }
 
 
 
     // For debugging purposes!!
     if (keys & KEY_A) {     // Key X
-        TextStream::instance() << groundLevelY << playerOnMapY;
+        TextStream::instance() << playerOnMapX << playerOnMapY;
     } else if (keys & KEY_R) {      // Key S
         TextStream::instance().clear();
     }
