@@ -14,9 +14,11 @@ private:
     std::unique_ptr<Background> bg;
     std::unique_ptr<Sprite> Kirby;
     std::unique_ptr<Sprite> platforms[4];
+    std::unique_ptr<Sprite> enemy;
+    //std::unique_ptr<Sprite> bubble;
 
 
-    bool jumping;
+    bool jumping, dead;
     float dy;
 
     int middenHoogte, score;

@@ -141,6 +141,18 @@ bool Sprite::collideFromAbove(Sprite &s2) {
     return false;
 }
 
+bool Sprite::KirbyCollide(Sprite &s2) {
+    const Sprite &s1 = *this;
+
+    if(s1.x < s2.x + s2.w -10  &&
+       s1.x + s1.w > s2.x + 10 &&
+       s1.y + 10 < s2.y + s2.h &&
+       s1.h + s1.y > s2.y) {
+        return true;
+    }
+    return false;
+}
+
 
 void Sprite::buildOam(int tileIndex) {
     this->tileIndex = tileIndex;

@@ -86,6 +86,7 @@ public:
     void moveTo(int x, int y);
     bool collidesWith(Sprite &s2);
     bool collideFromAbove(Sprite &s2);
+    bool KirbyCollide(Sprite &s2);
 
     void flipVertically(bool flip);
     void flipHorizontally(bool flip);
