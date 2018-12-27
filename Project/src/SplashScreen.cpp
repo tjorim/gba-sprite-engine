@@ -32,8 +32,9 @@ void SplashScreen::tick(u16 keys) {
     if(keys & KEY_START) {
         engine->stopTransitioning();
         if (!engine->isTransitioning()) {
-            engine->transitionIntoScene(new Space_Kirby_scene(engine), new FadeOutScene(2));
             bg->clearMap();
+            engine->transitionIntoScene(new Space_Kirby_scene(engine), new FadeOutScene(2));
+
 
         }
 

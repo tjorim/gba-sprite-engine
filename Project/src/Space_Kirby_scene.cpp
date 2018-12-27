@@ -8,6 +8,7 @@
 #include "Space_kirby_sprites.h"
 #include "SplashScreen.h"
 #include "Death_scene.h"
+#include "deadSound.h"
 #include <libgba-sprite-engine/background/text_stream.h>
 #include <libgba-sprite-engine/effects/fade_out_scene.h>
 
@@ -36,6 +37,7 @@ void Space_Kirby_scene::tick(u16 keys) {
     if(!dead) {
         if (keys & KEY_A) {
             if (!jumping) {
+
                 jumping = true;
                 dy = -5;
 
@@ -66,7 +68,7 @@ void Space_Kirby_scene::tick(u16 keys) {
             Kirby->moveTo(Kirby->getX(), Kirby->getY() + dy);
             Kirby->makeAnimated(16, 18, 6);
             for (int i = 0; i < 4; ++i) {
-                if ((Kirby->collideFromAbove(*platforms[i]) && dy > 0) || Kirby->getY() >= 128) {
+                if ((Kirby->collideFromAbove(*platforms[i]) && dy > 0)) {
                     Kirby->moveTo(Kirby->getX(), platforms[i]->getY() - Kirby->getHeight());
                     jumping = false;
                     dy = 0;
@@ -117,13 +119,15 @@ void Space_Kirby_scene::tick(u16 keys) {
             enemy->moveTo(rand() % 208, 0);
 
         }
-        if (Kirby->KirbyCollide(*enemy)) {
+        if (Kirby->KirbyCollide(*enemy) || Kirby->getY()>=128) {
+            engine.get()->enqueueSound(deadSound, deadSound_bytes);
             engine->stopTransitioning();
             if (!engine->isTransitioning()) {
                 dead = true;
                 Kirby->makeAnimated(9, 16, 3);
-                engine->transitionIntoScene(new Death_scene(engine, score), new FadeOutScene(2));
                 bg->clearData();
+                engine->transitionIntoScene(new Death_scene(engine, score), new FadeOutScene(2));
+
 
 
             }
