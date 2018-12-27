@@ -75,7 +75,7 @@ void Sprite::updateVelocity() {
         if(this->y > (GBA_SCREEN_HEIGHT - this->h)) this->y = GBA_SCREEN_HEIGHT - this->h;
     }
 }
-
+//Edited this function to make it possible to choose a start frame.
 void Sprite::updateAnimation() {
     if(!animating) return;
 
@@ -128,7 +128,7 @@ bool Sprite::collidesWith(Sprite &s2) {
     }
     return false;
 }
-
+//Detect a collision from above. Added an extra margin to detect fast moving objects like Kirby.
 bool Sprite::collideFromAbove(Sprite &s2) {
     const Sprite &s1 = *this;
 
@@ -140,7 +140,7 @@ bool Sprite::collideFromAbove(Sprite &s2) {
     }
     return false;
 }
-
+//Similar to collide function, but with smaller margins to make the collision look more realistic when using Kirby.
 bool Sprite::KirbyCollide(Sprite &s2) {
     const Sprite &s1 = *this;
 

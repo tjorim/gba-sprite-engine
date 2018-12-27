@@ -9,7 +9,7 @@
 
 #include <libgba-sprite-engine/scene.h>
 
-class SplashScreen : public Scene {
+class start_screen : public Scene {
 private:
     std::unique_ptr<Background> bg;
     std::unique_ptr<Sprite> kirby;
@@ -18,7 +18,7 @@ private:
     std::unique_ptr<Sprite> space_title;
 
 public:
-    SplashScreen(const std::shared_ptr<GBAEngine> &engine);
+    start_screen(const std::shared_ptr<GBAEngine> &engine);
 
     std::vector<Sprite *> sprites() override;
 

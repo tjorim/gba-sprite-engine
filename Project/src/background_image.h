@@ -2,11 +2,11 @@
 // Created by Tom Fierens on 10/12/2018.
 //
 
-//{{BLOCK(splashimage)
+//{{BLOCK(background)
 
 //======================================================================
 //
-//	splashimage, 256x256@8,
+//	background, 256x256@8,
 //	+ palette 256 entries, not compressed
 //	+ 190 tiles (t|f|p reduced) not compressed
 //	+ regular map (in SBBs), not compressed, 32x32
@@ -18,7 +18,7 @@
 //
 //======================================================================
 
-const unsigned short splashimageTiles[6080] __attribute__((aligned(4)))=
+const unsigned short backgroundTiles[6080] __attribute__((aligned(4)))=
         {
                 0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,
                 0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,
@@ -876,7 +876,7 @@ const unsigned short splashimageTiles[6080] __attribute__((aligned(4)))=
                 0x0000,0x0000,0x0000,0x0000,0x0013,0x0000,0x0000,0x0000,
         };
 
-const unsigned short splashimageMap[1024] __attribute__((aligned(4)))=
+const unsigned short backgroundMap[1024] __attribute__((aligned(4)))=
         {
                 0x0000,0x1001,0x1002,0x0000,0x0000,0x0000,0x0000,0x0000,
                 0x1003,0x1004,0x0000,0x1005,0x0000,0x1006,0x0000,0x0000,
@@ -1023,7 +1023,7 @@ const unsigned short splashimageMap[1024] __attribute__((aligned(4)))=
                 0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,
         };
 
-const unsigned short splashimagePal[256] __attribute__((aligned(4)))=
+const unsigned short backgroundPal[256] __attribute__((aligned(4)))=
         {
                 0x0000,0x0400,0x0001,0x0C21,0x0842,0x0C63,0x0005,0x0007,
                 0x1084,0x1CE7,0x2800,0x2801,0x3C05,0x2484,0x2CC5,0x30C5,
@@ -1062,4 +1062,4 @@ const unsigned short splashimagePal[256] __attribute__((aligned(4)))=
                 0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,0x0000,
         };
 
-//}}BLOCK(splashimage)
+//}}BLOCK(background)

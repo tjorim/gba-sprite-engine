@@ -6,30 +6,31 @@
 #include <libgba-sprite-engine/gba_engine.h>
 #include <libgba-sprite-engine/effects/fade_out_scene.h>
 #include <libgba-sprite-engine/background/text_stream.h>
-#include "Death_scene.h"
-#include "SplashBackground.h"
+#include "death_scene.h"
+#include "background_image.h"
 #include "theme_song.h"
-#include "Space_Kirby_scene.h"
-#include "SplashScreen.h"
+#include "space_Kirby_game_scene.h"
+#include "start_screen.h"
 
-//Death_scene::Death_scene(const std::shared_ptr<GBAEngine> &engine) : Scene(engine) {}
+//death_scene::death_scene(const std::shared_ptr<GBAEngine> &engine) : Scene(engine) {}
 
-std::vector<Sprite *> Death_scene::sprites() {
+std::vector<Sprite *> death_scene::sprites() {
     return {
 
     };
 }
 
-std::vector<Background *> Death_scene::backgrounds() {
+std::vector<Background *> death_scene::backgrounds() {
     return {
 
     };
 }
-void Death_scene::tick(u16 keys) {
+//Stay stand-by for key input
+void death_scene::tick(u16 keys) {
     if(keys & KEY_SELECT) {
         engine->stopTransitioning();
         if (!engine->isTransitioning()) {
-            engine->transitionIntoScene(new SplashScreen(engine), new FadeOutScene(2));
+            engine->transitionIntoScene(new start_screen(engine), new FadeOutScene(2));
             TextStream::instance().clear();
 
         }
@@ -37,15 +38,15 @@ void Death_scene::tick(u16 keys) {
     if(keys & KEY_START) {
         engine->stopTransitioning();
         if (!engine->isTransitioning()) {
-            engine->transitionIntoScene(new Space_Kirby_scene(engine), new FadeOutScene(2));
+            engine->transitionIntoScene(new space_Kirby_game_scene(engine), new FadeOutScene(2));
             TextStream::instance().clear();
 
         }
     }
 
 }
-
-void Death_scene::load() {
+//Load text, score and music
+void death_scene::load() {
 
     engine.get()->enableText();
     TextStream::instance().setText(std::string("GAME OVER"), 5, 10);

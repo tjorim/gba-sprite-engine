@@ -6,15 +6,14 @@
 #define GBA_SPRITE_ENGINE_PROJECT_DEATH_SCENE_H
 #include <libgba-sprite-engine/scene.h>
 
-class Death_scene : public Scene {
+class death_scene : public Scene {
 private:
-
 
     int death_score;
 
-
 public:
-    Death_scene(const std::shared_ptr<GBAEngine> &engine, int death_score) : Scene(engine), death_score(death_score){}
+
+    death_scene(const std::shared_ptr<GBAEngine> &engine, int death_score) : Scene(engine), death_score(death_score){}
 
     std::vector<Sprite *> sprites() override;
 

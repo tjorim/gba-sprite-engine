@@ -11,7 +11,7 @@ const unsigned short sharedPal[38] __attribute__((aligned(4)))=
                 0x4218,0x4E7A,0x56BB,0x5EFC,0x7FFF,
         };
 
-const unsigned int SpritesetKirbyTiles[2048] __attribute__((aligned(4)))=
+const unsigned int flying_KirbyTiles[2048] __attribute__((aligned(4)))=
         {
                 0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,
                 0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,

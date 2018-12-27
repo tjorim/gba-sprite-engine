@@ -9,23 +9,20 @@
 #include <vector>
 #include <libgba-sprite-engine/sprites/affine_sprite.h>
 
-class Space_Kirby_scene : public Scene {
+class space_Kirby_game_scene : public Scene {
 private:
     std::unique_ptr<Background> bg;
     std::unique_ptr<Sprite> Kirby;
     std::unique_ptr<Sprite> platforms[4];
     std::unique_ptr<Sprite> enemy;
-    //std::unique_ptr<Sprite> bubble;
-
 
     bool jumping, dead;
     float dy;
-
-    int middenHoogte, score;
+    int scroll_hight, score;
 
 
 public:
-    Space_Kirby_scene(const std::shared_ptr<GBAEngine> &engine);
+    space_Kirby_game_scene(const std::shared_ptr<GBAEngine> &engine);
 
     std::vector<Sprite *> sprites() override;
 
