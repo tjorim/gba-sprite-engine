@@ -22,7 +22,8 @@ std::vector<Sprite *> SceneLevel1::sprites() {
     std::vector<Sprite*> sprites;
     sprites.push_back(player.get());
     sprites.push_back(spikeBall.get());
-    //if(!enemyDEAD)sprites.push_back(enemy.get());
+    sprites.push_back(portal.get());
+    //if(!enemyDEAD)sprites.push_back(enemy.get());//voorbeeld om enemy sprite te verwijderen
 
     return sprites;
 
@@ -35,7 +36,7 @@ std::vector<Background *> SceneLevel1::backgrounds() {
 }
 
 void SceneLevel1::load() {
-    foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager(sharedSonicPal, sizeof(sharedSonicPal)));
+    foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager(sharedSonicPalTest, sizeof(sharedSonicPalTest)));
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager(BackgroundLevel1Pal, sizeof(BackgroundLevel1Pal)));
 
     bg = std::unique_ptr<Background>(new Background(1, BackgroundLevel1Tiles, sizeof(BackgroundLevel1Tiles), map_level1, sizeof(map_level1)));
@@ -48,15 +49,24 @@ void SceneLevel1::load() {
     SpriteBuilder<Player> affineBuilder;
 
     player = affineBuilder
-            .withData(Sonic_sprites_32_32Tiles, sizeof(Sonic_sprites_32_32Tiles))
+            .withData(Sonic_sprites_32_32TilesTest, sizeof(Sonic_sprites_32_32TilesTest))
             .withSize(SIZE_32_32)
             .withAnimated(4,10)
             .withLocation(GBA_SCREEN_WIDTH - 200, GBA_SCREEN_HEIGHT - 60)
             .buildPtr();
 
     spikeBall = affineBuilder
-            .withData(spikeBallTiles, sizeof(spikeBallTiles))
+            .withData(spikeBallTilesTest, sizeof(spikeBallTilesTest))
             .withSize(SIZE_32_32)
+            .withLocation(GBA_SCREEN_WIDTH - 100, GBA_SCREEN_HEIGHT - 60)
+            .buildPtr();
+
+    //Zodra portal wordt toegevoegd wordt alles vertraagd.
+
+    portal = affineBuilder
+            .withData(portal_32_32TilesTest, sizeof(portal_32_32TilesTest))
+            .withSize(SIZE_32_32)
+            .withAnimated(3,5)
             .withLocation(GBA_SCREEN_WIDTH - 100, GBA_SCREEN_HEIGHT - 60)
             .buildPtr();
 
@@ -157,7 +167,7 @@ void SceneLevel1::tick(u16 keys) {
         }
     }
 
-
+    //KEY_A is om manueel de damage te testen
     if((keys & KEY_A && canTakeDamage) || (player->collidesWith(*spikeBall) && canTakeDamage)){ //HIT DETECTION met timer anders gaat HP veel te snel omlaag
         player->setAantalLevens(player->getAantalLevens()-1);
         hitTimer.start();
