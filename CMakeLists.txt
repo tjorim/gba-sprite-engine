@@ -1,33 +1,10 @@
-cmake_minimum_required(VERSION 3.12)
+project(GBA_game)
 
-# use the GBA cross-compiler.
-# WARNING: CMAKE_AR and RANLIB didn't use find_program() to scan the PATH yet.
-# If using CMake < 3.12, consider using an absolute path. https://gitlab.kitware.com/cmake/cmake/merge_requests/1720
-SET(CMAKE_SYSTEM_NAME Generic)
-SET(CMAKE_GENERATOR "Unix Makefiles")
-SET(CMAKE_C_COMPILER    arm-none-eabi-gcc)
-SET(CMAKE_CXX_COMPILER arm-none-eabi-g++)
-SET(CMAKE_OBJCOPY arm-none-eabi-objcopy)
-SET(CMAKE_AR arm-none-eabi-ar CACHE FILEPATH "Archiver")
-SET(CMAKE_RANLIB arm-none-eabi-ranlib)
+add_executable(${PROJECT_NAME}.elf
+        src/main.cpp src/StartScene.cpp src/StartScene.h src/background.h src/background.cpp src/linkUpWalk.h src/linkWalkSide.h src/levelSound.h src/linkDownWalk.h src/sign.h src/linkAnimation.h src/Direction.h)
 
-SET(BASE_CMAKE_LINK_FLAGS "${CMAKE_EXE_LINKER_FLAGS}")
-SET(CMAKE_EXE_LINKER_FLAGS "${BASE_CMAKE_LINK_FLAGS} -mthumb-interwork -mthumb -specs=gba.specs")
+target_link_libraries(${PROJECT_NAME}.elf gba-sprite-engine)
 
-SET(CMAKE_CXX_STANDARD 11)
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-narrowing")
-set(CMAKE_VERBOSE_MAKEFILE on)
-
-project(gba-sprite-engine-project VERSION 0.1 LANGUAGES CXX)
-
-# Must use GNUInstallDirs to install libraries into correct locations on all platforms.
-include(GNUInstallDirs)
-
-add_subdirectory(engine)
-
-# this should be a part of the engine CMakeLists.txt file but cross-compiling and gtest doesn't work
-add_subdirectory(test)
-
-add_subdirectory(demos/demo1-basicfeatures)
-add_subdirectory(demos/demo2-arkanoid)
-add_subdirectory(demos/demo3-foodthrowing)
+add_custom_command(TARGET ${PROJECT_NAME}.elf POST_BUILD
+        COMMAND ${CMAKE_OBJCOPY} -v -O binary ${PROJECT_NAME}.elf ${PROJECT_NAME}.gba
+        )
