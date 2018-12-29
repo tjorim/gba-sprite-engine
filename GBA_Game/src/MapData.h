@@ -21,7 +21,7 @@ public:
                 case 0 ... 47 :         // Tile coor 0 - 40
                     groundY = 176;
                     break;
-                case 48 ... 64 :        // Tile coor 48 - 56      // (64)
+                case 48 ... 63 :        // Tile coor 48 - 56      // (64)
                     groundY = 240;
 
                     // HOLE                         // Tile coor 64 - 80
@@ -41,7 +41,7 @@ public:
                 case 161 ... 256 :
                     if (playerY < 208) {            // Could also be a switch case statement!!
                         switch (playerX) {
-                            case 161 ... 200 :       // Tile coor 176 - 192
+                            case 161 ... 199 :       // Tile coor 176 - 192
                                 groundY = 176;
                                 break;
 
@@ -51,7 +51,7 @@ public:
                                 groundY = 176;
                                 break;
                             default :
-                                groundY = 256;
+                                groundY = 300;
                                 break;
                         }
                     } else if (playerY >= 208) {
@@ -66,13 +66,13 @@ public:
                                 groundY = 240;
                                 break;
                             default :
-                                groundY = 256;
+                                groundY = 300;
                                 break;
                         }
                     }
                     break;
                 default:
-                    groundY = 256;
+                    groundY = 300;
                     break;
             }
         }
@@ -88,7 +88,7 @@ public:
                 case 176 ... 199:
                     groundY = 80;
                     break;
-                case 136 ... 175:
+                case 137 ... 175:
                     groundY = 72;
                     break;
                 case 96 ... 127:
@@ -146,42 +146,47 @@ public:
     }
 
     void createBarrierL(int playerX, int playerY) {
-        // Layer 1
-        if (playerY > 136) {
-            if (playerX == 48 && playerY >= 176) {
-                movePermissionL = false;
-            } else if (playerX == 64 && playerY >= 240) {
-                movePermissionL = false;
-            } else if (playerX == 176 && playerY >= 208) {
-                movePermissionL = false;
-            } else if (playerX == 184 && playerY >= 240) {
-                movePermissionL = false;
-            } else if (playerX == 200 && playerY >= 176 && playerY < 239) {
-                movePermissionL = false;
-            } else {
-                movePermissionL = true;
+        if (playerX == 0) {
+            movePermissionL = false;
+        } else {
+
+            // Layer 1
+            if (playerX != 0 && playerY > 136) {
+                if (playerX == 48 && playerY >= 176) {
+                    movePermissionL = false;
+                } else if (playerX == 64 && playerY >= 240) {
+                    movePermissionL = false;
+                } else if (playerX == 176 && playerY >= 208) {
+                    movePermissionL = false;
+                } else if (playerX == 184 && playerY >= 240) {
+                    movePermissionL = false;
+                } else if (playerX == 200 && playerY >= 176 && playerY < 239) {
+                    movePermissionL = false;
+                } else {
+                    movePermissionL = true;
+                }
             }
-        }
-        // Layer 2
-        else {  // playerY <= 96
-            if (playerX == 224 && playerY >= 88) {
-                movePermissionL = false;
-            } else if (playerX == 200 && playerY >= 80) {
-                movePermissionL = false;
-            } else if (playerX == 176 && playerY >= 72) {
-                movePermissionL = false;
-            } else if (playerX == 128 && playerY >= 80 && playerY < 127) {
-                movePermissionL = false;
-            } else if (playerX == 96 && playerY >= 72 && playerY < 127) {
-                movePermissionL = false;
-            } else if (playerX == 80 && playerY >= 64 && playerY < 127) {
-                movePermissionL = false;
-            } else if (playerX == 56 && playerY < 63) {
-                movePermissionL = false;
-            } else if (playerX == 16 && playerY < 95) {
-                movePermissionL = false;
-            } else {
-                movePermissionL = true;
+                // Layer 2
+            else {  // playerY <= 96
+                if (playerX == 224 && playerY >= 88) {
+                    movePermissionL = false;
+                } else if (playerX == 200 && playerY >= 80) {
+                    movePermissionL = false;
+                } else if (playerX == 176 && playerY >= 72) {
+                    movePermissionL = false;
+                } else if (playerX == 128 && playerY >= 80 && playerY < 127) {
+                    movePermissionL = false;
+                } else if (playerX == 96 && playerY >= 72 && playerY < 127) {
+                    movePermissionL = false;
+                } else if (playerX == 80 && playerY >= 64 && playerY < 127) {
+                    movePermissionL = false;
+                } else if (playerX == 56 && playerY < 63) {
+                    movePermissionL = false;
+                } else if (playerX == 16 && playerY < 95) {
+                    movePermissionL = false;
+                } else {
+                    movePermissionL = true;
+                }
             }
         }
 
@@ -192,36 +197,40 @@ public:
     }
 
     void createBarrierR(int playerX, int playerY) {
-        // Layer 1
-        if (playerY > 136) {
-            if (playerX == 72 && playerY >= 240) {
-                movePermissionR = false;
-            } else if (playerX == 112 && playerY >= 224) {
-                movePermissionR = false;
-            } else if (playerX == 128 && playerY >= 208) {
-                movePermissionR = false;
-            } else if (playerX == 144 && playerY >= 192) {
-                movePermissionR = false;
-            } else if (playerX == 160 && playerY >= 176) {
-                movePermissionR = false;
-            } else if (playerX == 192 && playerY >= 240) {
-                movePermissionR = false;
-            } else if (playerX == 208 && playerY >= 176 && playerY < 239) {
-                movePermissionR = false;
-            } else if (playerX == 224 && playerY >= 208) {
-                movePermissionR = false;
-            } else {
-                movePermissionR = true;
+        if (playerX == 240) {
+            movePermissionR = false;
+        } else {
+            // Layer 1
+            if (playerX != 240 && playerY > 136) {
+                if (playerX == 72 && playerY >= 240) {
+                    movePermissionR = false;
+                } else if (playerX == 112 && playerY >= 224) {
+                    movePermissionR = false;
+                } else if (playerX == 128 && playerY >= 208) {
+                    movePermissionR = false;
+                } else if (playerX == 144 && playerY >= 192) {
+                    movePermissionR = false;
+                } else if (playerX == 160 && playerY >= 176) {
+                    movePermissionR = false;
+                } else if (playerX == 192 && playerY >= 240) {
+                    movePermissionR = false;
+                } else if (playerX == 208 && playerY >= 176 && playerY < 239) {
+                    movePermissionR = false;
+                } else if (playerX == 224 && playerY >= 208) {
+                    movePermissionR = false;
+                } else {
+                    movePermissionR = true;
+                }
             }
-        }
-        // Layer 2
-        else {
-            if (playerX == 136 && playerY >= 72 && playerY < 119) {
-                movePermissionR = false;
-            } else if (playerX == 16 && playerY < 64) {
-                movePermissionR = false;
-            } else {
-                movePermissionR = true;
+                // Layer 2
+            else {
+                if (playerX == 136 && playerY >= 72 && playerY < 119) {
+                    movePermissionR = false;
+                } else if (playerX == 16 && playerY < 64) {
+                    movePermissionR = false;
+                } else {
+                    movePermissionR = true;
+                }
             }
         }
     }

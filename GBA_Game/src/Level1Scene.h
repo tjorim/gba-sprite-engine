@@ -11,9 +11,8 @@
 
 class Level1Scene : public Scene {
 private:
-    //std::unique_ptr<Sprite> smiley;
-    //std::unique_ptr<AffineSprite> player;
     std::unique_ptr<Sprite> player;
+    std::unique_ptr<Sprite> coin;
     std::unique_ptr<Background> bg;
 
     int bgX, bgY;

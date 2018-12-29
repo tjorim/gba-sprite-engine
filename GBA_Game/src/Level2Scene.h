@@ -10,10 +10,13 @@
 
 class Level2Scene : public Scene {
 private:
+    std::unique_ptr<Background> bg;
+    std::unique_ptr<Sprite> player;
 
+    int bgX, bgY;
 
 public:
-    Level2Scene(std::shared_ptr<GBAEngine> engine) : Scene(engine) {}
+    Level2Scene(std::shared_ptr<GBAEngine> engine) : Scene(engine), bgX(0), bgY(96) {}
 
     std::vector<Sprite *> sprites() override;
     std::vector<Background *> backgrounds() override;

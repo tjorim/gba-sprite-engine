@@ -12,7 +12,7 @@
 #include "BGdata_Level1Scene.h"
 #include "MapData.h"
 
-#include "Player.h"
+#include "Sprite.h"
 
 MapData mapData;
 
@@ -25,12 +25,13 @@ std::vector<Background *> Level1Scene::backgrounds() {
 
 std::vector<Sprite *> Level1Scene::sprites() {
     return{
-        player.get()
+        player.get(),
+        coin.get()
     };
 }
 
 void Level1Scene::load() {
-    foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager(player_pal, sizeof(player_pal)));
+    foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager(sharedPal, sizeof(sharedPal)));
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager(bg_palette, sizeof(bg_palette)));
 
 
@@ -44,11 +45,20 @@ void Level1Scene::load() {
             .buildPtr();
 
 
+    coin = builder
+            .withData(coin_data, sizeof(coin_data))
+            .withSize(SIZE_8_8)
+            .withAnimated(6, 8)
+            .buildPtr();
+
+
     bg = std::unique_ptr<Background>(new Background(1, background_data, sizeof(background_data), map, sizeof(map)));
     bg.get()->useMapScreenBlock(16);
 }
 
 void Level1Scene::tick(u16 keys) {
+
+    coin.get()->moveTo(100, 50);
 
     // Coordinates of player on screen.
     playerX = player.get()->getX();
@@ -82,8 +92,6 @@ void Level1Scene::tick(u16 keys) {
     // Enables/disables jumping when player is above (in air) or below (in hole) ground level.
     if (playerOnMapY == groundLevelY-player.get()->getHeight()) {
         jumpingDisabled = false;
-    } else if (playerOnMapY > groundLevelY-player.get()->getHeight()) {  // When in hole.
-        jumpingDisabled = true;
     } else if (playerOnMapY <= groundLevelY-player.get()->getHeight()-28) {  // 28: value of jump height
         jumpingDisabled = true;
     }
@@ -175,22 +183,26 @@ void Level1Scene::tick(u16 keys) {
             player->animateToFrame(0);
     }
 
-    // For teleporting player from layer 1 to layer 2.
+    // Teleport player.
     if (playerOnMapX == 224 && playerOnMapY == 208) {
         playerOnMapY = 60;  //64
         bgY -= 64;
         player.get()->moveTo(playerX, playerOnMapY-bgY);
+        player.get()->flipHorizontally(true);
     } else if (playerOnMapX == 16 && playerOnMapY == 16) {
         engine->transitionIntoScene(new Level2Scene(engine), new FadeOutScene(2));
+    }
+
+    if (groundLevelY == 300 && playerOnMapY == groundLevelY-player.get()->getHeight()) {
+        engine->transitionIntoScene(new Level1Scene(engine), new FadeOutScene(2));
     }
 
 
 
     // For debugging purposes!!
     if (keys & KEY_A) {     // Key X
-        TextStream::instance() << playerOnMapX << playerOnMapY;
+        TextStream::instance() << playerOnMapX << playerOnMapY << groundLevelY;
     } else if (keys & KEY_R) {      // Key S
         TextStream::instance().clear();
     }
-
 }
