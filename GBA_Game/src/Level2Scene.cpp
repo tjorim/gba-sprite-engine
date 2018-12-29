@@ -33,7 +33,7 @@ void Level2Scene::load() {
             .withData(player_data, sizeof(player_data))
             .withSize(SIZE_16_32)
             .withAnimated(4, 5)
-            .withLocation(10, GBA_SCREEN_HEIGHT - 32 - 5*16)
+            .withLocation(10, GBA_SCREEN_HEIGHT - 32 - 4*16)
             .buildPtr();
 
     bg = std::unique_ptr<Background>(new Background(1, background_data, sizeof(background_data), map, sizeof(map)));

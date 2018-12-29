@@ -16,7 +16,7 @@ private:
     int bgX, bgY;
 
 public:
-    Level2Scene(std::shared_ptr<GBAEngine> engine) : Scene(engine), bgX(0), bgY(96) {}
+    Level2Scene(std::shared_ptr<GBAEngine> engine) : Scene(engine), bgX(0), bgY(0) {}
 
     std::vector<Sprite *> sprites() override;
     std::vector<Background *> backgrounds() override;
