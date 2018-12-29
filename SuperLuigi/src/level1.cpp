@@ -84,23 +84,32 @@ void level1::tick(u16 keys) {
         bg->scroll(scrollX,scrollY);
     }
 
+    //collision detection between Luigi and goomba
     if(luigi->getLuigiSprite()->collidesWith(*goomba->getGoombaSprite()) && (luigi->getLuigiSprite()->getY() == GBA_SCREEN_HEIGHT-bottomHeightFor32) && !goomba->isDead()){
         TextStream::instance().setText("DEAD", 0,0);
         goomba->getGoombaSprite()->stopAnimating();
         goomba->getGoombaSprite()->setVelocity(0,0);
     }
 
-    if(luigi->getLuigiSprite()->collidesWith(*questionBlock->getQuestionBlockSprite()) && (luigi->getLuigiSprite()->getDy() >0) && luigi->getLuigiSprite()->getY() > questionBlock->getQuestionBlockSprite()->getY()-32) {
-        luigi->getLuigiSprite()->setVelocity(0,1);
-        questionBlock->getQuestionBlockSprite()->animateToFrame(2);
-    }
-
-    if(luigi->getLuigiSprite()->collidesWith(*questionBlock->getQuestionBlockSprite()) && luigi->getLuigiSprite()->getY() <= questionBlock->getQuestionBlockSprite()->getY()-16){
-        luigi->getLuigiSprite()->setVelocity(0,0);
-    }
 
     if(luigi->getLuigiSprite()->collidesWith(*goomba->getGoombaSprite()) && luigi->getLuigiSprite()->getVelocity().y > 0 && luigi->getLuigiSprite()->getY()+32 >= GBA_SCREEN_HEIGHT-bottomHeightFor16){
         goomba->getGoombaSprite()->stopAnimating();
         goomba->kill();
+        //luigi->getLuigiSprite()->setVelocity(0,-1); --> creating a bug of always jumping not stopping at ground
     }
+
+    //collision detection between Luigi and question block
+    //vanoder er tegen
+    if(luigi->getLuigiSprite()->collidesWith(*questionBlock->getQuestionBlockSprite()) && (luigi->getLuigiSprite()->getDy() >0) && luigi->getLuigiSprite()->getY() > questionBlock->getQuestionBlockSprite()->getY()-32 &&  luigi->getLuigiSprite()->getY() > questionBlock->getQuestionBlockSprite()->getY()-16) {
+        luigi->getLuigiSprite()->setVelocity(0,1);
+        questionBlock->getQuestionBlockSprite()->animateToFrame(2);
+    }
+
+    //erop
+    if(luigi->getLuigiSprite()->collidesWith(*questionBlock->getQuestionBlockSprite()) && luigi->getLuigiSprite()->getY() < (questionBlock->getQuestionBlockSprite()->getY()-16)){
+        luigi->getLuigiSprite()->setVelocity(0,0);
+    }
+
+
+
 }
