@@ -38,5 +38,5 @@ protected:
 TEST_F(LuigiTestObject, luigiJumpTest){
     luigi->tick(KEY_UP);
 
-    ASSERT_NE(luigi->getLuigiSprite()->getY(), GBA_SCREEN_HEIGHT-bottomHeightFor32);
+    ASSERT_FALSE(luigi->getLuigiSprite()->getY() == GBA_SCREEN_HEIGHT-bottomHeightFor32);
 }

@@ -14,12 +14,15 @@
 class Luigi {
 private:
     std::unique_ptr<AffineSprite> luigiSprite;
+    bool dead;
 
 public:
-    Luigi(std::unique_ptr<AffineSprite> s) : luigiSprite(std::move(s)) {}
+    Luigi(std::unique_ptr<AffineSprite> s) : luigiSprite(std::move(s)), dead(false) {}
     Luigi() {}
     std::unique_ptr<AffineSprite>& getLuigiSprite();
     void tick(u16 keys);
+    void kill();
+    bool isDead();
 };
 
 

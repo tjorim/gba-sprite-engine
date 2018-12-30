@@ -75,41 +75,54 @@ std::vector<Sprite *> level1::sprites() {
 }
 
 void level1::tick(u16 keys) {
-    goomba->tick(keys);
-    questionBlock->tick(keys);
-    luigi->tick(keys);
+    if(!luigi->isDead()){
+        goomba->tick(keys);
+        questionBlock->tick(keys);
+        luigi->tick(keys);
 
-    if(keys & KEY_RIGHT){
-        scrollX +=1;
-        bg->scroll(scrollX,scrollY);
+        if((keys & KEY_RIGHT) && !stopScrollBg){
+            scrollX +=1;
+            bg->scroll(scrollX,scrollY);
+        }
+
+        //collision detection between Luigi and goomba
+        if(luigi->getLuigiSprite()->collidesWith(*goomba->getGoombaSprite()) && (luigi->getLuigiSprite()->getY() == GBA_SCREEN_HEIGHT-bottomHeightFor32) && !goomba->isDead()){
+            TextStream::instance().setText("OH GOD YOU KILLED HIM           YOU MORRON. PRESS CTRL-R TO     TIME TRAVEL", 5,0);
+            goomba->getGoombaSprite()->stopAnimating();
+            goomba->getGoombaSprite()->setVelocity(0,0);
+            luigi->kill();
+            luigi->getLuigiSprite()->stopAnimating();
+            luigi->getLuigiSprite()->animateToFrame(0);
+        }
+
+
+        if(luigi->getLuigiSprite()->collidesWith(*goomba->getGoombaSprite()) && luigi->getLuigiSprite()->getVelocity().y > 0 && luigi->getLuigiSprite()->getY()+32 >= GBA_SCREEN_HEIGHT-bottomHeightFor16){
+            goomba->getGoombaSprite()->stopAnimating();
+            goomba->getGoombaSprite()->moveTo(0,0);
+            goomba->kill();
+            luigi->getLuigiSprite()->setVelocity(0,-1);
+            questionBlock->getQuestionBlockSprite()->setVelocity(0,0);
+        }
+
+        //collision detection between Luigi and question block
+        //vanoder er tegen
+        if(luigi->getLuigiSprite()->collidesWith(*questionBlock->getQuestionBlockSprite()) && (luigi->getLuigiSprite()->getVelocity().y < 0) && luigi->getLuigiSprite()->getY() > questionBlock->getQuestionBlockSprite()->getY()+10){
+            luigi->getLuigiSprite()->setVelocity(0,1);
+            questionBlock->getQuestionBlockSprite()->animateToFrame(2);
+        }
+
+        //er tegen langs zijkanten
+        if(luigi->getLuigiSprite()->getX()+10 <= questionBlock->getQuestionBlockSprite()->getX() && luigi->getLuigiSprite()->collidesWith(*questionBlock->getQuestionBlockSprite())){
+            questionBlock->getQuestionBlockSprite()->setVelocity(0,0);
+            luigi->getLuigiSprite()->setVelocity(0,1);
+            stopScrollBg = true;
+        } else stopScrollBg = false;
+
+        //erop
+        if(luigi->getLuigiSprite()->collidesWith(*questionBlock->getQuestionBlockSprite()) && luigi->getLuigiSprite()->getY() < (questionBlock->getQuestionBlockSprite()->getY()-30)
+           && luigi->getLuigiSprite()->getX()+8 > questionBlock->getQuestionBlockSprite()->getX()){
+            luigi->getLuigiSprite()->setVelocity(0,0);
+        }
+
     }
-
-    //collision detection between Luigi and goomba
-    if(luigi->getLuigiSprite()->collidesWith(*goomba->getGoombaSprite()) && (luigi->getLuigiSprite()->getY() == GBA_SCREEN_HEIGHT-bottomHeightFor32) && !goomba->isDead()){
-        TextStream::instance().setText("DEAD", 0,0);
-        goomba->getGoombaSprite()->stopAnimating();
-        goomba->getGoombaSprite()->setVelocity(0,0);
-    }
-
-
-    if(luigi->getLuigiSprite()->collidesWith(*goomba->getGoombaSprite()) && luigi->getLuigiSprite()->getVelocity().y > 0 && luigi->getLuigiSprite()->getY()+32 >= GBA_SCREEN_HEIGHT-bottomHeightFor16){
-        goomba->getGoombaSprite()->stopAnimating();
-        goomba->kill();
-        //luigi->getLuigiSprite()->setVelocity(0,-1); --> creating a bug of always jumping not stopping at ground
-    }
-
-    //collision detection between Luigi and question block
-    //vanoder er tegen
-    if(luigi->getLuigiSprite()->collidesWith(*questionBlock->getQuestionBlockSprite()) && (luigi->getLuigiSprite()->getDy() >0) && luigi->getLuigiSprite()->getY() > questionBlock->getQuestionBlockSprite()->getY()-32 &&  luigi->getLuigiSprite()->getY() > questionBlock->getQuestionBlockSprite()->getY()-16) {
-        luigi->getLuigiSprite()->setVelocity(0,1);
-        questionBlock->getQuestionBlockSprite()->animateToFrame(2);
-    }
-
-    //erop
-    if(luigi->getLuigiSprite()->collidesWith(*questionBlock->getQuestionBlockSprite()) && luigi->getLuigiSprite()->getY() < (questionBlock->getQuestionBlockSprite()->getY()-16)){
-        luigi->getLuigiSprite()->setVelocity(0,0);
-    }
-
-
-
 }
