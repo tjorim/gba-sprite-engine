@@ -75,7 +75,7 @@ std::vector<Sprite *> level1::sprites() {
 }
 
 void level1::tick(u16 keys) {
-    if(!luigi->isDead()){
+    if(!luigi->isDead() ){
         goomba->tick(keys);
         questionBlock->tick(keys);
         luigi->tick(keys);
@@ -87,7 +87,7 @@ void level1::tick(u16 keys) {
 
         //collision detection between Luigi and goomba
         if(luigi->getLuigiSprite()->collidesWith(*goomba->getGoombaSprite()) && (luigi->getLuigiSprite()->getY() == GBA_SCREEN_HEIGHT-bottomHeightFor32) && !goomba->isDead()){
-            TextStream::instance().setText("OH GOD YOU KILLED HIM           YOU MORRON. PRESS CTRL-R TO     TIME TRAVEL", 5,0);
+
             goomba->getGoombaSprite()->stopAnimating();
             goomba->getGoombaSprite()->setVelocity(0,0);
             luigi->kill();
@@ -101,7 +101,7 @@ void level1::tick(u16 keys) {
             goomba->getGoombaSprite()->moveTo(0,0);
             goomba->kill();
             luigi->getLuigiSprite()->setVelocity(0,-1);
-            questionBlock->getQuestionBlockSprite()->setVelocity(0,0);
+
         }
 
         //collision detection between Luigi and question block
@@ -124,5 +124,9 @@ void level1::tick(u16 keys) {
             luigi->getLuigiSprite()->setVelocity(0,0);
         }
 
+    }
+    else{
+        TextStream::instance().setText("OH GOD YOU KILLED HIM           YOU MORRON. PRESS CTRL-R TO     TIME TRAVEL", 5,0);
+        questionBlock->getQuestionBlockSprite()->setVelocity(0,0);
     }
 }

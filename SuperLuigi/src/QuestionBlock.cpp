@@ -15,6 +15,7 @@ void QuestionBlock::tick(u16 keys) {
     questionBlockSprite->setVelocity(0,0);
 
     if(keys & KEY_RIGHT) {
+
         questionBlockSprite->setVelocity(-1, 0);
     }
 
