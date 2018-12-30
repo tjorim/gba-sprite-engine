@@ -14,7 +14,9 @@ private:
     std::unique_ptr<Sprite> player;
 
     int bgX, bgY;
-
+    int playerX, playerY;
+    int playerOnMapX, playerOnMapY;
+    bool jumpingDisabled;
 public:
     Level2Scene(std::shared_ptr<GBAEngine> engine) : Scene(engine), bgX(0), bgY(0) {}
 

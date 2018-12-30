@@ -6,7 +6,7 @@
 #define GBA_SPRITE_ENGINE_PROJECT_GROUNDLEVEL_H
 
 
-class MapData {
+class MapData_L1 {
 private:
     int groundY;
     int topY;
@@ -54,7 +54,7 @@ public:
                                 groundY = 300;
                                 break;
                         }
-                    } else if (playerY >= 208) {
+                    } else {
                         switch (playerX) {
                             case 176 ... 183 :       // Tile coor 176 - 184
                                 groundY = 240;
@@ -122,6 +122,7 @@ public:
                     break;
                 default:
                     topY = 0;
+                    break;
             }
         }
         // Layer 2
@@ -135,6 +136,7 @@ public:
                     break;
                 default:
                     topY = 0;
+                    break;
             }
         } else {
             topY = 0;
@@ -166,7 +168,7 @@ public:
                     movePermissionL = true;
                 }
             }
-                // Layer 2
+            // Layer 2
             else {  // playerY <= 96
                 if (playerX == 224 && playerY >= 88) {
                     movePermissionL = false;
@@ -222,7 +224,7 @@ public:
                     movePermissionR = true;
                 }
             }
-                // Layer 2
+            // Layer 2
             else {
                 if (playerX == 136 && playerY >= 72 && playerY < 119) {
                     movePermissionR = false;

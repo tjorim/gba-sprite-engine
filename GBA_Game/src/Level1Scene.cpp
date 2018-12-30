@@ -10,11 +10,11 @@
 #include "Level1Scene.h"
 #include "Level2Scene.h"
 #include "BGdata_Level1Scene.h"
-#include "MapData.h"
+#include "MapData_L1.h"
 
 #include "Sprite.h"
 
-MapData mapData;
+MapData_L1 mapDataL1;
 
 
 std::vector<Background *> Level1Scene::backgrounds() {
@@ -64,7 +64,7 @@ void Level1Scene::tick(u16 keys) {
     playerX = player.get()->getX();
     playerY = player.get()->getY();
 
-    // Coordinates of player on full map (needed for mapData).
+    // Coordinates of player on full map (needed for mapDataL1).
     playerOnMapX = playerX + bgX;
     playerOnMapY = playerY + bgY;
 
@@ -75,18 +75,18 @@ void Level1Scene::tick(u16 keys) {
 
 
     // Set player to ground level.
-    mapData.createGroundLevel(playerOnMapX, playerOnMapY+player.get()->getHeight());     // Set y-coor for ground level at each x-coor
-    int groundLevelY = mapData.getGroundLevel();        // Get y-coor of ground level
+    mapDataL1.createGroundLevel(playerOnMapX, playerOnMapY+player.get()->getHeight());     // Set y-coor for ground level at each x-coor
+    int groundLevelY = mapDataL1.getGroundLevel();        // Get y-coor of ground level
 
     // Get top level (height player can jump).
-    mapData.createTopLevel(playerOnMapX, playerOnMapY);
-    int topLevelY = mapData.getTopLevel();
+    mapDataL1.createTopLevel(playerOnMapX, playerOnMapY);
+    int topLevelY = mapDataL1.getTopLevel();
 
     // Get permission to move in x direction.
-    mapData.createBarrierL(playerOnMapX, playerOnMapY+player.get()->getHeight());
-    bool movePermissionL = mapData.getMovePermissionL();
-    mapData.createBarrierR(playerOnMapX, playerOnMapY+player.get()->getHeight());
-    bool movePermissionR = mapData.getMovePermissionR();
+    mapDataL1.createBarrierL(playerOnMapX, playerOnMapY+player.get()->getHeight());
+    bool movePermissionL = mapDataL1.getMovePermissionL();
+    mapDataL1.createBarrierR(playerOnMapX, playerOnMapY+player.get()->getHeight());
+    bool movePermissionR = mapDataL1.getMovePermissionR();
 
 
     // Enables/disables jumping when player is above (in air) or below (in hole) ground level.

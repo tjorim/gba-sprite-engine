@@ -1,7 +1,7 @@
 project(GBA_Game)
 
 add_executable(${PROJECT_NAME}.elf
-        src/main.cpp src/BGdata_Level1Scene.h src/Player.h src/MapData.h src/Level2Scene.cpp src/Level2Scene.h src/BGdata_Level2Scene.h src/Coin.h src/Sprite.h)
+        src/main.cpp src/BGdata_Level1Scene.h src/Player.h src/MapData_L1.h src/Level2Scene.cpp src/Level2Scene.h src/BGdata_Level2Scene.h src/Coin.h src/Sprite.h src/MapData_L2.h)
 
 target_link_libraries(${PROJECT_NAME}.elf gba-sprite-engine)
 
