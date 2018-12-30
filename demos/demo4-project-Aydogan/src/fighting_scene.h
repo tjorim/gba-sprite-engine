@@ -8,15 +8,19 @@
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
 #include <libgba-sprite-engine/sprites/affine_sprite.h>
 #include <libgba-sprite-engine/background/background.h>
+#include "Goku.h"
+#include "Yamcha.h"
 
 class FightingScene : public Scene {
 private:
     std::unique_ptr<Sprite> goku;
-    std::unique_ptr<Sprite> oozaru;
+    std::unique_ptr<Goku> goku_object;
+    std::unique_ptr<Sprite> yamcha;
+    std::unique_ptr<Yamcha> yamcha_object;
     std::unique_ptr<Background> bg;
 
 public:
-    explicit FightingScene(const std::shared_ptr<GBAEngine>) : Scene(engine) {}
+    FightingScene(std::shared_ptr<GBAEngine> engine) : Scene(engine) {}
 
     std::vector<Sprite *> sprites() override;
     std::vector<Background *> backgrounds() override;
