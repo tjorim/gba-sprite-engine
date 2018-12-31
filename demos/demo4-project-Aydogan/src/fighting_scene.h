@@ -16,6 +16,8 @@ private:
     std::unique_ptr<Sprite> goku;
     std::unique_ptr<Goku> goku_object;
     std::unique_ptr<Sprite> yamcha;
+    std::unique_ptr<Sprite> lifebar_goku;
+    std::unique_ptr<Sprite> lifebar_yamcha;
     std::unique_ptr<Yamcha> yamcha_object;
     std::unique_ptr<Background> bg;
 

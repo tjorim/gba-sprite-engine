@@ -13,14 +13,17 @@ class Goku {
 
 private:
     std::unique_ptr<Sprite> goku;
+    std::unique_ptr<Sprite> lifebar;
     bool moveLeft = false;
     bool moveRight = false;
     bool kick = false;
     bool hit = false;
     bool omkeren = false;
+    int levenspunten = 300;
 
 public:
-    Goku(std::unique_ptr<Sprite> sprite) : goku(std::move(sprite)) {};
+    Goku(std::unique_ptr<Sprite> sprite1, std::unique_ptr<Sprite> sprite2) : goku(std::move(sprite1)),
+                                                                             lifebar(std::move(sprite2)) {};
 
     void doMoveLeft();
 
@@ -40,7 +43,9 @@ public:
 
     void tick();
 
-    Sprite *getSprite() { return goku.get(); }
+    Sprite *getSpriteGoku() { return goku.get(); }
+
+    Sprite *getSpriteLifebarGoku() { return lifebar.get(); }
 };
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_GOKU_H

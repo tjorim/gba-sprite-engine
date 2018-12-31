@@ -13,10 +13,13 @@ class Yamcha {
 
 private:
     std::unique_ptr<Sprite> yamcha;
+    std::unique_ptr<Sprite> lifebar;
     bool hurt = false;
+    int levenspunten = 300;
 
 public:
-    Yamcha(std::unique_ptr<Sprite> sprite) : yamcha(std::move(sprite)) {};
+    Yamcha(std::unique_ptr<Sprite> sprite1, std::unique_ptr<Sprite> sprite2) : yamcha(std::move(sprite1)),
+                                                                               lifebar(std::move(sprite2)) {};
 
     void gotHurt();
 
@@ -24,7 +27,9 @@ public:
 
     void tick();
 
-    Sprite *getSprite() { return yamcha.get(); }
+    Sprite *getSpriteYamcha() { return yamcha.get(); }
+
+    Sprite *getSpriteLifebarYamcha() { return lifebar.get(); }
 };
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_YAMCHA_H

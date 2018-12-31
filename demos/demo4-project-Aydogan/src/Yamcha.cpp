@@ -5,6 +5,7 @@
 
 void Yamcha::gotHurt() {
     hurt = true;
+    levenspunten = levenspunten - 1;
 }
 
 void Yamcha::notGotHurt() {
@@ -12,9 +13,17 @@ void Yamcha::notGotHurt() {
 }
 
 void Yamcha::tick() {
+    if (levenspunten == 300) {
+        getSpriteLifebarYamcha()->animateToFrame(0);
+    } else if ((levenspunten < 300) & (levenspunten > 150)) {
+        getSpriteLifebarYamcha()->animateToFrame(1);
+    } else if ((levenspunten < 151) & (levenspunten > 75)) {
+        getSpriteLifebarYamcha()->animateToFrame(2);
+    }
+
     if (hurt) {
-        getSprite()->animateToFrame(0);
+        getSpriteYamcha()->animateToFrame(0);
     } else {
-        getSprite()->animateToFrame(1);
+        getSpriteYamcha()->animateToFrame(1);
     }
 }

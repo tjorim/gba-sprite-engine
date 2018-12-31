@@ -37,21 +37,30 @@ void Goku::doNotHit() {
 }
 
 void Goku::tick() {
-    getSprite()->flipHorizontally(omkeren);
+    getSpriteGoku()->flipHorizontally(omkeren);
+
+    if (levenspunten == 300) {
+        getSpriteLifebarGoku()->animateToFrame(0);
+    } else if ((levenspunten < 300) & (levenspunten > 150)) {
+        getSpriteLifebarGoku()->animateToFrame(1);
+    } else if ((levenspunten < 151) & (levenspunten > 75)) {
+        getSpriteLifebarGoku()->animateToFrame(2);
+    }
+
     if (moveRight) {
-        getSprite()->setVelocity(+1, 0);
-        getSprite()->animateToFrame(4);
+        getSpriteGoku()->setVelocity(+2, 0);
+        getSpriteGoku()->animateToFrame(4);
         omkeren = false;
     } else if (moveLeft) {
-        getSprite()->setVelocity(-1, 0);
-        getSprite()->animateToFrame(4);
+        getSpriteGoku()->setVelocity(-2, 0);
+        getSpriteGoku()->animateToFrame(4);
         omkeren = true;
     } else if (kick) {
-        getSprite()->animateToFrame(3);
+        getSpriteGoku()->animateToFrame(3);
     } else if (hit) {
-        getSprite()->animateToFrame(2);
+        getSpriteGoku()->animateToFrame(2);
     } else {
-        getSprite()->setVelocity(0, 0);
-        getSprite()->animateToFrame(0);
+        getSpriteGoku()->setVelocity(0, 0);
+        getSpriteGoku()->animateToFrame(0);
     }
 }

@@ -2,21 +2,23 @@
 // Created by aydoganmusa on 22.11.18.
 //
 
-
 #include <libgba-sprite-engine/sprites/sprite.h>
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
 #include <libgba-sprite-engine/gba_engine.h>
 #include "fighting_scene.h"
 #include "goku_spritedata.h"
 #include "yamcha_spritedata.h"
+#include "lifebar_spritedata.h"
 #include "shared.h"
 #include "tournament.h"
 
 
 std::vector<Sprite *> FightingScene::sprites() {
     std::vector<Sprite *> sprites;
-    sprites.push_back(goku_object->getSprite());
-    sprites.push_back(yamcha_object->getSprite());
+    sprites.push_back(goku_object->getSpriteGoku());
+    sprites.push_back(yamcha_object->getSpriteYamcha());
+    sprites.push_back(goku_object->getSpriteLifebarGoku());
+    sprites.push_back(yamcha_object->getSpriteLifebarYamcha());
     return {sprites};
 }
 
@@ -40,7 +42,6 @@ void FightingScene::load() {
             .buildPtr();
     goku->animateToFrame(0);
     goku->stopAnimating();
-    goku_object = std::unique_ptr<Goku>(new Goku(std::move(goku)));
 
     yamcha = Builder
             .withData(yamchaTiles, sizeof(yamchaTiles))
@@ -51,10 +52,33 @@ void FightingScene::load() {
             .buildPtr();
     yamcha->animateToFrame(1);
     yamcha->stopAnimating();
-    yamcha_object = std::unique_ptr<Yamcha>(new Yamcha(std::move(yamcha)));
+
+    lifebar_yamcha = Builder
+            .withData(lifebarTiles, sizeof(lifebarTiles))
+            .withSize(SIZE_32_8)
+            .withAnimated(3, 3)
+            .withLocation(GBA_SCREEN_WIDTH - 36, 12)
+            .withinBounds()
+            .buildPtr();
+    lifebar_yamcha->animateToFrame(0);
+    lifebar_yamcha->stopAnimating();
+
+    lifebar_goku = Builder
+            .withData(lifebarTiles, sizeof(lifebarTiles))
+            .withSize(SIZE_32_8)
+            .withAnimated(3, 3)
+            .withLocation(4, 12)
+            .withinBounds()
+            .buildPtr();
+    lifebar_goku->animateToFrame(0);
+    lifebar_goku->stopAnimating();
+
     bg = std::unique_ptr<Background>(
             new Background(0, tournamentTiles, sizeof(tournamentTiles), tournamentMap, sizeof(tournamentMap)));
-    bg.get()->useMapScreenBlock(26);
+    bg.get()->useMapScreenBlock(18);
+
+    yamcha_object = std::unique_ptr<Yamcha>(new Yamcha(std::move(yamcha), std::move(lifebar_yamcha)));
+    goku_object = std::unique_ptr<Goku>(new Goku(std::move(goku), std::move(lifebar_goku)));
 }
 
 void FightingScene::tick(u16 keys) {
@@ -66,12 +90,12 @@ void FightingScene::tick(u16 keys) {
         goku_object->doMoveRight();
     } else if (keys & KEY_A) {
         goku_object->doHit();
-        if (goku_object->getSprite()->collidesWith(*(yamcha_object->getSprite()))) {
+        if (goku_object->getSpriteGoku()->collidesWith(*(yamcha_object->getSpriteYamcha()))) {
             yamcha_object->gotHurt();
         }
     } else if (keys & KEY_B) {
         goku_object->doKick();
-        if (goku_object->getSprite()->collidesWith(*(yamcha_object->getSprite()))) {
+        if (goku_object->getSpriteGoku()->collidesWith(*(yamcha_object->getSpriteYamcha()))) {
             yamcha_object->gotHurt();
         }
     }else {
