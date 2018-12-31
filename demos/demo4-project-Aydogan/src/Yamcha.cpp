@@ -13,12 +13,15 @@ void Yamcha::notGotHurt() {
 }
 
 void Yamcha::tick() {
-    if (levenspunten == 300) {
+    if ((levenspunten < 300) & (levenspunten > 200)) {
         getSpriteLifebarYamcha()->animateToFrame(0);
-    } else if ((levenspunten < 300) & (levenspunten > 150)) {
+    } else if ((levenspunten < 200) & (levenspunten > 100)) {
         getSpriteLifebarYamcha()->animateToFrame(1);
-    } else if ((levenspunten < 151) & (levenspunten > 75)) {
+    } else if ((levenspunten < 100) & (levenspunten > 0)) {
         getSpriteLifebarYamcha()->animateToFrame(2);
+    } else if ((levenspunten == 0)) {
+        getSpriteLifebarYamcha()->animateToFrame(3);
+        setDood(true);
     }
 
     if (hurt) {
@@ -26,4 +29,12 @@ void Yamcha::tick() {
     } else {
         getSpriteYamcha()->animateToFrame(1);
     }
+}
+
+void Yamcha::setDood(bool input) {
+    dood = input;
+}
+
+bool Yamcha::isdood() {
+    return dood;
 }

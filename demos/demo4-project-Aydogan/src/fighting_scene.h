@@ -14,12 +14,17 @@
 class FightingScene : public Scene {
 private:
     std::unique_ptr<Sprite> goku;
+    std::unique_ptr<Sprite> lifebar_goku;
+    std::unique_ptr<Sprite> energybar_goku;
+    std::unique_ptr<Sprite> wave;
     std::unique_ptr<Goku> goku_object;
     std::unique_ptr<Sprite> yamcha;
-    std::unique_ptr<Sprite> lifebar_goku;
     std::unique_ptr<Sprite> lifebar_yamcha;
+    std::unique_ptr<Sprite> energybar_yamcha;
     std::unique_ptr<Yamcha> yamcha_object;
     std::unique_ptr<Background> bg;
+
+    bool gameEnd = false;
 
 public:
     FightingScene(std::shared_ptr<GBAEngine> engine) : Scene(engine) {}
@@ -29,6 +34,8 @@ public:
 
     void load() override;
     void tick(u16 i) override;
+
+    void resetGame();
 };
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_FIGHTING_SCENE_H
