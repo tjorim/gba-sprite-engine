@@ -12,13 +12,18 @@
 class Level1Scene : public Scene {
 private:
     std::unique_ptr<Sprite> player;
-    std::unique_ptr<Sprite> coin;
+    std::unique_ptr<Sprite> coin1;
+    std::unique_ptr<Sprite> coin2;
+    std::unique_ptr<Sprite> coin3;
+    std::unique_ptr<Sprite> coin4;
+    std::unique_ptr<Sprite> coin5;
     std::unique_ptr<Background> bg;
 
     int bgX, bgY;
     int playerX, playerY;
     int playerOnMapX, playerOnMapY;
     bool jumpingDisabled;
+    bool coin1Available;
 public:
     Level1Scene(std::shared_ptr<GBAEngine> engine) : Scene(engine), bgX(0), bgY(96) {}
 

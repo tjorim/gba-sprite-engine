@@ -26,7 +26,7 @@ std::vector<Background *> Level1Scene::backgrounds() {
 std::vector<Sprite *> Level1Scene::sprites() {
     return{
         player.get(),
-        coin.get()
+        coin1.get(), coin2.get(),/* coin3.get(), coin4.get(), coin5.get()*/
     };
 }
 
@@ -45,20 +45,74 @@ void Level1Scene::load() {
             .buildPtr();
 
 
-    coin = builder
+    coin1= builder
             .withData(coin_data, sizeof(coin_data))
             .withSize(SIZE_8_8)
             .withAnimated(6, 8)
             .buildPtr();
 
+    coin2= builder
+            .withData(coin_data, sizeof(coin_data))
+            .withSize(SIZE_8_8)
+            .withAnimated(6, 8)
+            .buildPtr();
+/*
+    coin3= builder
+            .withData(coin_data, sizeof(coin_data))
+            .withSize(SIZE_8_8)
+            .withAnimated(6, 8)
+            .buildPtr();
 
+    coin4= builder
+            .withData(coin_data, sizeof(coin_data))
+            .withSize(SIZE_8_8)
+            .withAnimated(6, 8)
+            .buildPtr();
+
+    coin5= builder
+            .withData(coin_data, sizeof(coin_data))
+            .withSize(SIZE_8_8)
+            .withAnimated(6, 8)
+            .buildPtr();
+*/
+    coin1Available = true;
     bg = std::unique_ptr<Background>(new Background(1, background_data, sizeof(background_data), map, sizeof(map)));
     bg.get()->useMapScreenBlock(16);
 }
 
 void Level1Scene::tick(u16 keys) {
+    // Verplaatsen naar header file!!
+    int coin1OnMapX = 56;
+    int coin1OnMapY = 232;
+    int coin2OnMapX = 240;
+    int coin2OnMapY = 168;
+    int coin3OnMapX = 224;
+    int coin3OnMapY = 232;
+    int coin4OnMapX = 184;
+    int coin4OnMapY = 72;
+    int coin5OnMapX = 64;
+    int coin5OnMapY = 56;
 
-    coin.get()->moveTo(100, 50);
+    // ****
+
+    if (coin1Available) {
+        coin1.get()->moveTo(coin1OnMapX-bgX, coin1OnMapY-bgY);
+    }
+
+    coin2.get()->moveTo(coin2OnMapX-bgX, coin2OnMapY-bgY);
+    /*coin3.get()->moveTo(coin3OnMapX-bgX, coin3OnMapY-bgY);
+    coin4.get()->moveTo(coin4OnMapX-bgX, coin4OnMapY-bgY);
+    coin5.get()->moveTo(coin5OnMapX-bgX, coin5OnMapY-bgY);*/
+
+    if (player.get()->collidesWith(*coin1)) {
+        coin1.get()->moveTo(coin1.get()->getX(), 300);
+        coin1Available = false;
+    }
+/*
+    if (coin1.get()->isOffScreen()) {
+        coin1.get()->moveTo(0,300);
+    }
+*/
 
     // Coordinates of player on screen.
     playerX = player.get()->getX();
@@ -201,7 +255,7 @@ void Level1Scene::tick(u16 keys) {
 
     // For debugging purposes!!
     if (keys & KEY_A) {     // Key X
-        TextStream::instance() << playerOnMapX << playerOnMapY << groundLevelY;
+        TextStream::instance() << coin1.get()->getX() << coin1.get()->getY();
     } else if (keys & KEY_R) {      // Key S
         TextStream::instance().clear();
     }
