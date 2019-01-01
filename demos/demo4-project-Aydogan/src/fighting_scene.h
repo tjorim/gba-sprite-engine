@@ -6,7 +6,6 @@
 #define GBA_SPRITE_ENGINE_PROJECT_FIGHTING_SCENE_H
 #include <libgba-sprite-engine/scene.h>
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
-#include <libgba-sprite-engine/sprites/affine_sprite.h>
 #include <libgba-sprite-engine/background/background.h>
 #include "Goku.h"
 #include "Yamcha.h"
@@ -23,7 +22,6 @@ private:
     std::unique_ptr<Sprite> energybar_yamcha;
     std::unique_ptr<Yamcha> yamcha_object;
     std::unique_ptr<Background> bg;
-
     bool gameEnd = false;
 
 public:
@@ -35,7 +33,6 @@ public:
     void load() override;
     void tick(u16 i) override;
 
-    void resetGame();
 };
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_FIGHTING_SCENE_H

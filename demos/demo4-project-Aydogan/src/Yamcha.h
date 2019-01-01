@@ -18,6 +18,7 @@ private:
     bool hurt = false;
     bool dood = false;
     int levenspunten = 300;
+    int energypunten = 300;
 
 public:
     Yamcha(std::unique_ptr<Sprite> sprite1, std::unique_ptr<Sprite> sprite2, std::unique_ptr<Sprite> sprite3) : yamcha(
@@ -37,6 +38,8 @@ public:
     void setDood(bool input);
 
     bool isdood();
+
+    void resetYamcha();
 
     Sprite *getSpriteYamcha() { return yamcha.get(); }
 

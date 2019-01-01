@@ -5,7 +5,6 @@
 #include <libgba-sprite-engine/sprites/sprite.h>
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
 #include <libgba-sprite-engine/gba_engine.h>
-#include <libgba-sprite-engine/background/text_stream.h>
 #include "fighting_scene.h"
 #include "goku_spritedata.h"
 #include "yamcha_spritedata.h"
@@ -14,6 +13,10 @@
 #include "wave_spritedata.h"
 #include "shared.h"
 #include "tournament.h"
+#include "attack0.h"
+#include "attack1.h"
+#include "victory.h"
+#include "blast_fullpower.h"
 
 
 std::vector<Sprite *> FightingScene::sprites() {
@@ -33,7 +36,6 @@ std::vector<Background *> FightingScene::backgrounds() {
 }
 
 void FightingScene::load() {
-    engine.get()->enableText();
     foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(
             new ForegroundPaletteManager(sharedPal, sizeof(sharedPal)));
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(
@@ -103,6 +105,7 @@ void FightingScene::load() {
     wave = Builder
             .withData(waveTiles, sizeof(waveTiles))
             .withSize(SIZE_64_32)
+            .withLocation(-64, -32)
             .withinBounds()
             .buildPtr();
 
@@ -119,40 +122,61 @@ void FightingScene::load() {
 void FightingScene::tick(u16 keys) {
 
     if (gameEnd) {
-        return;
-        //ko scene to be added
+        if (keys & KEY_START) {
+            goku_object->resetGoku();
+            yamcha_object->resetYamcha();
+            engine->enqueueSound(victory_sound, sizeof(victory_sound), 15700);
+            gameEnd = false;
+        }
     } else {
         goku_object->tick();
         yamcha_object->tick();
         if (keys & KEY_LEFT) {
-            goku_object->doMoveLeft();
+            if (!(goku_object->getMoveLeft())) {
+                goku_object->setMoveLeft(true);
+            }
         } else if (keys & KEY_RIGHT) {
-            goku_object->doMoveRight();
+            if (!(goku_object->getMoveRight())) {
+                goku_object->setMoveRight(true);
+            }
         } else if (keys & KEY_A) {
-            goku_object->doHit();
-            if (goku_object->getSpriteGoku()->collidesWith(*(yamcha_object->getSpriteYamcha()))) {
-                yamcha_object->gotHurt();
+            if (!(goku_object->getHit())) {
+                goku_object->setHit(true);
+                engine->enqueueSound(attack0_sound, sizeof(attack0_sound), 15768);
+            } else {
+                if (goku_object->getSpriteGoku()->collidesWith(*(yamcha_object->getSpriteYamcha()))) {
+                    yamcha_object->gotHurt();
+                }
             }
         } else if (keys & KEY_B) {
-            goku_object->doKick();
-            if (goku_object->getSpriteGoku()->collidesWith(*(yamcha_object->getSpriteYamcha()))) {
-                yamcha_object->gotHurt();
+            if (!(goku_object->getKick())) {
+                goku_object->setKick(true);
+                engine->enqueueSound(attack1_sound, sizeof(attack1_sound), 15768);
+            } else {
+                if (goku_object->getSpriteGoku()->collidesWith(*(yamcha_object->getSpriteYamcha()))) {
+                    yamcha_object->gotHurt();
+                }
             }
         } else if (keys & KEY_UP) {
-            goku_object->doChargeSpecialAttack();
             if (goku_object->getSpriteWaveGoku()->collidesWith(*(yamcha_object->getSpriteYamcha()))) {
                 yamcha_object->gotHurt();
             }
-        } else if (yamcha_object->isdood() || goku_object->isdood()) {
+            if (goku_object->getSpecialAttack()) {
+                engine->enqueueSound(blast_fullpower, sizeof(blast_fullpower), 15768);
+                goku_object->setChargeSpecialAttack(false);
+            } else {
+                goku_object->setChargeSpecialAttack(true);
+            }
+        } else if (yamcha_object->isdood() || goku_object->getDood()) {
             gameEnd = true;
             return;
         } else {
-            goku_object->doNotMoveLeft();
-            goku_object->doNotMoveRight();
-            goku_object->doNotHit();
-            goku_object->doNotKick();
-            goku_object->doNotSpecialAttack();
-            goku_object->doNotChargeSpecialAttack();
+            goku_object->setMoveLeft(false);
+            goku_object->setMoveRight(false);
+            goku_object->setHit(false);
+            goku_object->setKick(false);
+            goku_object->setChargeSpecialAttack(false);
+            goku_object->setSpecialAttack(false);
             yamcha_object->notGotHurt();
         }
     }

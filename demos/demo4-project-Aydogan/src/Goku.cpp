@@ -1,75 +1,82 @@
 //
 // Created by aydoganmusa on 29.12.18.
 //
-#include <libgba-sprite-engine/gbavector.h>
+#include <libgba-sprite-engine/gba_engine.h>
 #include "Goku.h"
 
-void Goku::doChargeSpecialAttack() {
-    charge = true;
-    if (charging < 40 and energypunten > 0) {
-        charging++;
-    } else {
-        doSpecialAttack();
-    }
+void Goku::setChargeSpecialAttack(bool input) {
+    charge = input;
 }
 
-void Goku::doNotChargeSpecialAttack() {
-    charge = false;
-    charging = 0;
+bool Goku::getChargeSpecialAttack() {
+    return charge;
 }
 
-void Goku::doSpecialAttack() {
-    charge = false;
-    if (energypunten > 0) {
-        specialAttack = true;
-        energypunten = energypunten - 3;
-    } else {
-        doNotSpecialAttack();
-    }
+
+void Goku::setSpecialAttack(bool input) {
+    specialAttack = input;
 }
 
-void Goku::doNotSpecialAttack() {
-    specialAttack = false;
+bool Goku::getSpecialAttack() {
+    return specialAttack;
 }
 
-void Goku::doMoveLeft() {
-    moveLeft = true;
+void Goku::setMoveLeft(bool input) {
+    moveLeft = input;
 }
 
-void Goku::doNotMoveLeft() {
-    moveLeft = false;
+bool Goku::getMoveLeft() {
+    return moveLeft;
 }
 
-void Goku::doMoveRight() {
-    moveRight = true;
+void Goku::setMoveRight(bool input) {
+    moveRight = input;
 }
 
-void Goku::doNotMoveRight() {
-    moveRight = false;
+bool Goku::getMoveRight() {
+    return moveRight;
 }
 
-void Goku::doKick() {
-    kick = true;
+void Goku::setKick(bool input) {
+    kick = input;
 }
 
-void Goku::doNotKick() {
-    kick = false;
+bool Goku::getKick() {
+    return kick;
 }
 
-void Goku::doHit() {
-    hit = true;
+void Goku::setHit(bool input) {
+    hit = input;
 }
 
-void Goku::doNotHit() {
-    hit = false;
+bool Goku::getHit() {
+    return hit;
 }
 
 void Goku::setDood(bool input) {
     dood = input;
 }
 
-bool Goku::isdood() {
+bool Goku::getDood() {
     return dood;
+}
+
+void Goku::resetGoku() {
+    getSpriteGoku()->moveTo(16, GBA_SCREEN_HEIGHT / 2 + 32);
+    getSpriteEnergybarGoku()->moveTo(4, 20);
+    getSpriteLifebarGoku()->moveTo(4, 12);
+    getSpriteWaveGoku()->moveTo(-64, -32);
+    levenspunten = 300;
+    energypunten = 300;
+    setSpecialAttack(false);
+    setKick(false);
+    setHit(false);
+    setMoveLeft(false);
+    setMoveRight(false);
+    setChargeSpecialAttack(false);
+    getSpriteLifebarGoku()->animateToFrame(0);
+    getSpriteEnergybarGoku()->animateToFrame(0);
+    getSpriteGoku()->animateToFrame(0);
 }
 
 void Goku::tick() {
@@ -96,23 +103,36 @@ void Goku::tick() {
         getSpriteEnergybarGoku()->animateToFrame(3);
     }
 
-    if (moveRight) {
+    if (getMoveRight()) {
         getSpriteGoku()->setVelocity(+2, 0);
         getSpriteGoku()->animateToFrame(3);
         omkeren = false;
-    } else if (moveLeft) {
+    } else if (getMoveLeft()) {
         getSpriteGoku()->setVelocity(-2, 0);
         getSpriteGoku()->animateToFrame(3);
         omkeren = true;
-    } else if (kick) {
+    } else if (getKick()) {
         getSpriteGoku()->animateToFrame(2);
-    } else if (hit) {
+    } else if (getHit()) {
         getSpriteGoku()->animateToFrame(1);
-    } else if (charge) {
-        getSpriteGoku()->animateToFrame(4);
-    } else if (specialAttack) {
-        getSpriteGoku()->animateToFrame(5);
-        getSpriteWaveGoku()->moveTo(getSpriteGoku()->getX() + 30, getSpriteGoku()->getY());
+    } else if (getChargeSpecialAttack()) {
+        if (energypunten > 0 && charging < 40 && !getSpecialAttack()) {
+            getSpriteGoku()->animateToFrame(4);
+            charging++;
+        } else {
+            setChargeSpecialAttack(false);
+            setSpecialAttack(energypunten > 0 && charging > 39);
+        }
+    } else if (getSpecialAttack()) {
+        if (energypunten > 0 && charging > 0 && !getChargeSpecialAttack()) {
+            getSpriteGoku()->animateToFrame(5);
+            getSpriteWaveGoku()->moveTo(getSpriteGoku()->getX() + 30, getSpriteGoku()->getY());
+            energypunten = energypunten - 3;
+            charging--;
+        } else {
+            setSpecialAttack(false);
+            getSpriteWaveGoku()->moveTo(-64, -32);
+        }
     } else {
         getSpriteGoku()->setVelocity(0, 0);
         getSpriteGoku()->animateToFrame(0);

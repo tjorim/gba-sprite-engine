@@ -2,8 +2,8 @@
 // Created by aydoganmusa on 21.11.18.
 //
 
-#ifndef GBA_SPRITE_ENGINE_SAMPLE_START_SCENE_H
-#define GBA_SPRITE_ENGINE_SAMPLE_START_SCENE_H
+#ifndef GBA_SPRITE_ENGINE_PROJECT_START_SCENE_H
+#define GBA_SPRITE_ENGINE_PROJECT_START_SCENE_H
 
 #include <libgba-sprite-engine/scene.h>
 
@@ -24,4 +24,4 @@ public:
 };
 
 
-#endif //GBA_SPRITE_ENGINE_SAMPLE_START_SCENE_H
+#endif //GBA_SPRITE_ENGINE_PROJECT_START_SCENE_H

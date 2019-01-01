@@ -33,33 +33,35 @@ public:
          std::unique_ptr<Sprite> sprite4) : goku(std::move(sprite1)), lifebar(std::move(sprite2)),
                                             wave(std::move(sprite3)), energybar(std::move(sprite4)) {};
 
-    void doChargeSpecialAttack();
+    void setChargeSpecialAttack(bool);
 
-    void doNotChargeSpecialAttack();
+    bool getChargeSpecialAttack();
 
-    void doSpecialAttack();
+    void setSpecialAttack(bool);
 
-    void doNotSpecialAttack();
+    bool getSpecialAttack();
 
-    void doMoveLeft();
+    void setMoveLeft(bool);
 
-    void doNotMoveLeft();
+    bool getMoveLeft();
 
-    void doMoveRight();
+    void setMoveRight(bool);
 
-    void doNotMoveRight();
+    bool getMoveRight();
 
-    void doKick();
+    void setKick(bool);
 
-    void doNotKick();
+    bool getKick();
 
-    void doHit();
+    void setHit(bool);
 
-    void doNotHit();
+    bool getHit();
 
     void setDood(bool input);
 
-    bool isdood();
+    bool getDood();
+
+    void resetGoku();
 
     void tick();
 

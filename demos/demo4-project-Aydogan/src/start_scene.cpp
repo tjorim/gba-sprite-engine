@@ -43,7 +43,7 @@ void StartScene::load() {
 void StartScene::tick(u16 keys) {
     if(keys & KEY_START) {
         if(!engine->isTransitioning()) {
-            engine->transitionIntoScene(new FightingScene(engine), new FadeOutScene(2));
+            engine->transitionIntoScene(new FightingScene(engine), new FadeOutScene(1));
         }
     }
 }
