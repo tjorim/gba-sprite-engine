@@ -58,16 +58,16 @@ void SceneLevel1::load() {
     spikeBall = affineBuilder
             .withData(spikeBallTilesTest, sizeof(spikeBallTilesTest))
             .withSize(SIZE_32_32)
-            .withLocation(GBA_SCREEN_WIDTH - 100, GBA_SCREEN_HEIGHT - 60)
+            .withLocation(spikeBallSpawn, GBA_SCREEN_HEIGHT - 60)
             .buildPtr();
 
     //Zodra portal wordt toegevoegd wordt alles vertraagd.
 
-    portal = affineBuilder
+    portal = affineBuilder// nog toevoegen dat het op de zelfde plaatse staat
             .withData(portal_32_32TilesTest, sizeof(portal_32_32TilesTest))
             .withSize(SIZE_32_32)
             .withAnimated(3,5)
-            .withLocation(GBA_SCREEN_WIDTH - 100, GBA_SCREEN_HEIGHT - 60)
+            .withLocation(portalLocation, GBA_SCREEN_HEIGHT - 60)
             .buildPtr();
 
 
@@ -95,10 +95,11 @@ void SceneLevel1::tick(u16 keys) {
     TextStream::instance().setText("HP : " + std::to_string(player->getAantalLevens()), 17, 1);
 
 
-    //TextStream for DEBUGGING!!
+//TextStream for DEBUGGING!!
     //TextStream::instance().setText("x:" + std::to_string(player->getX()), 2, 1);
     //TextStream::instance().setText("y:" + std::to_string(player->getY()), 2, 1);
-    TextStream::instance().setText("spikeball spawn : " + std::to_string(spikeBallSpawn), 2, 1);
+    //TextStream::instance().setText("spikeball spawn : " + std::to_string(spikeBallSpawn), 2, 1);
+    TextStream::instance().setText("afstand tot portaal: " + std::to_string(-scrollX + portalLocation), 2, 1);
 
     TextStream::instance().setText("scrollX:" + std::to_string(scrollX), 4, 1);
     //TextStream::instance().setText("Timer:" + std::to_string(timer.getSecs()), 4, 1);
@@ -203,16 +204,26 @@ void SceneLevel1::tick(u16 keys) {
 
     if(player->getAantalLevens() == 0 && !engine->isTransitioning()){
         engine->transitionIntoScene(new SceneLevel1(engine), new FadeOutScene(2));
+        TextStream::instance().clear();
         TextStream::instance() << "You Died.";
     }
 
     if(spikeBall->getY() >= GBA_SCREEN_HEIGHT - 60)spikeBall->setVelocity(0,-1);
     if(spikeBall->getY() <= GBA_SCREEN_HEIGHT - 120)spikeBall->setVelocity(0,1);
-    if(spikeBall->isOffScreen() && hoeveelSpikeBallSpawns < 3){
+    if(spikeBall->isOffScreen() && scrollX > 0 && hoeveelSpikeBallSpawns < 3){
         spikeBallSpawn += 240;
         hoeveelSpikeBallSpawns++;
     }
+
+
     spikeBall->moveTo(-scrollX + spikeBallSpawn,spikeBall->getY()); //laat spike ball op een vaste positie staan
+    portal->moveTo(-scrollX + portalLocation,portal->getY()); //laat spike ball op een vaste positie staan
+
+    if(player->collidesWith(*portal) && !engine->isTransitioning()){
+        engine->transitionIntoScene(new SceneLevel1(engine), new FadeOutScene(2));
+        TextStream::instance().clear();
+        TextStream::instance() << "Next Level.";
+    }
 }
 
 
