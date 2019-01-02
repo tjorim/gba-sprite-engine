@@ -13,6 +13,7 @@
 
 class FoodScene : public Scene {
 private:
+    int counter = 0;
     std::unique_ptr<AffineSprite> avatar;
     std::unique_ptr<Sprite> someBulletSprite;
     std::vector<std::unique_ptr<Bullet>> bullets;
@@ -22,6 +23,9 @@ private:
     std::unique_ptr<SpriteBuilder<Sprite>> spriteBuilder;
     std::unique_ptr<Bullet> createBullet();
     void removeBulletsOffScreen();
+
+    VECTOR rotateAround(VECTOR center, VECTOR point);
+    VECTOR defaultBulletTarget;
 
 public:
     explicit FoodScene(const std::shared_ptr<GBAEngine> &engine);

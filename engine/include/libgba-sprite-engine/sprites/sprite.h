@@ -7,7 +7,12 @@
 
 #include <libgba-sprite-engine/gba/tonc_types.h>
 #include <memory>
+#ifdef CODE_COMPILED_AS_PART_OF_TEST
+#include <libgba-sprite-engine/gba/tonc_math_stub.h>
+#else
 #include <libgba-sprite-engine/gba/tonc_math.h>
+#endif
+#include <libgba-sprite-engine/gbavector.h>
 
 #define COLOR_MODE_16 0
 #define COLOR_MODE_256 1
@@ -92,14 +97,17 @@ public:
     void update();
 
     void moveTo(int x, int y);
+    void moveTo(VECTOR location);
     bool collidesWith(Sprite &s2);
 
     void flipVertically(bool flip);
     void flipHorizontally(bool flip);
 
     u32 getTileIndex() { return tileIndex; }
-    VECTOR getPos() { return VECTOR {x, y}; }
-    VECTOR getVelocity() { return VECTOR { dx, dy}; }
+    VECTOR getPos() { return {x, y}; }
+    GBAVector getPosAsVector() { return GBAVector(getPos()); }
+    VECTOR getCenter() { return { x + w / 2, y + h / 2 }; }
+    VECTOR getVelocity() { return { dx, dy}; }
     u32 getDx() { return dx; }
     u32 getDy() { return dy; }
     u32 getX() { return x; }

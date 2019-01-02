@@ -18,6 +18,10 @@ Sprite::Sprite(const void *imageData, int imageSize, int x, int y, SpriteSize si
     setAttributesBasedOnSize(size);
 }
 
+void Sprite::moveTo(VECTOR location) {
+    moveTo(location.x, location.y);
+}
+
 void Sprite::moveTo(int x, int y) {
     this->x = x;
     this->y = y;
@@ -63,6 +67,8 @@ void Sprite::syncOam() {
 }
 
 void Sprite::updateVelocity() {
+    if(dx == 0 && dy == 0) return;
+
     this->x += this->dx;
     this->y += this->dy;
 
