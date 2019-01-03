@@ -7,11 +7,15 @@
 
 
 class MapData_L1 {
+    /**
+     * All coordinates in this class are the coordinates of the
+     * parameters in a 256x256 map (not GBA_screen map).
+     */
 private:
     int groundY;
     int topY;
-    bool movePermissionL;
-    bool movePermissionR;
+    int coinX, coinY;
+    bool movePermissionL, movePermissionR;
 
 public:
     void createGroundLevel(int playerX, int playerY) {
@@ -239,6 +243,46 @@ public:
 
     bool getMovePermissionR() {
         return movePermissionR;
+    }
+
+    void setCoinPositionX (int coinNr) {
+        if (coinNr == 1) {
+            coinX = 56;
+        } else if (coinNr == 2) {
+            coinX = 240;
+        } else if (coinNr == 3) {
+            coinX = 224;
+        } else if (coinNr == 4) {
+            coinX = 184;
+        } else if (coinNr == 5) {
+            coinX = 64;
+        } else if (coinNr == 6) {   // When no more coins.
+            coinX = 300; // Move coin out of map.
+        }
+    }
+
+    int getCoinPositionX() {
+        return coinX;
+    }
+
+    void setCoinPositionY (int coinNr) {
+        if (coinNr == 1) {
+            coinY = 232;
+        } else if (coinNr == 2) {
+            coinY = 168;
+        } else if (coinNr == 3) {
+            coinY = 232;
+        } else if (coinNr == 4) {
+            coinY = 72;
+        } else if (coinNr == 5) {
+            coinY = 56;
+        } else if (coinNr == 6) {   // When no more coins.
+            coinY = 300; // Move coin out of map.
+        }
+    }
+
+    int getCoinPositionY() {
+        return coinY;
     }
 };
 

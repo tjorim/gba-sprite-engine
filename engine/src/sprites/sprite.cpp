@@ -68,6 +68,7 @@ void Sprite::updateVelocity() {
     this->x += this->dx;
     this->y += this->dy;
 
+    stayWithinBounds = false;   // When falling in hole sprite needs to go out of bounds.
     if(stayWithinBounds) {
         if(this->x < 0) this->x = 0;
         if(this->y < 0) this->y = 0;

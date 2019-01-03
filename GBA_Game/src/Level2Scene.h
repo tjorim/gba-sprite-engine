@@ -12,11 +12,14 @@ class Level2Scene : public Scene {
 private:
     std::unique_ptr<Background> bg;
     std::unique_ptr<Sprite> player;
+    std::unique_ptr<Sprite> coin;
 
     int bgX, bgY;
     int playerX, playerY;
     int playerOnMapX, playerOnMapY;
     bool jumpingDisabled;
+    int coinNr;
+    int health;
 public:
     Level2Scene(std::shared_ptr<GBAEngine> engine) : Scene(engine), bgX(0), bgY(0) {}
 

@@ -3,13 +3,13 @@
 //
 
 #include <libgba-sprite-engine/gba_engine.h>
-#include "Level1Scene.h"
+#include "StartScene.h"
 
 int main() {
     std::shared_ptr<GBAEngine> engine(new GBAEngine());
 
-    Level1Scene* level1Scene = new Level1Scene(engine);
-    engine->setScene(level1Scene);
+    StartScene* startScene = new StartScene(engine);
+    engine->setScene(startScene);
 
     while (true) {
         engine->update();

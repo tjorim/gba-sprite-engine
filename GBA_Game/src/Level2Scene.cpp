@@ -6,13 +6,18 @@
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
 #include <libgba-sprite-engine/gba/tonc_memdef.h>
 #include <libgba-sprite-engine/gba_engine.h>
+#include <libgba-sprite-engine/effects/fade_out_scene.h>
+#include "Level1Scene.h"
 #include "Level2Scene.h"
+#include "DeadScene.h"
 #include "BGdata_Level2Scene.h"
 #include "MapData_L2.h"
 
 #include "Sprite.h"
+#include "Player.h"
 
 MapData_L2 mapDataL2;
+Player playerDataL2;
 
 std::vector<Background *> Level2Scene::backgrounds() {
     return {
@@ -22,7 +27,8 @@ std::vector<Background *> Level2Scene::backgrounds() {
 
 std::vector<Sprite *> Level2Scene::sprites() {
     return{
-        player.get()
+        player.get(),
+        coin.get()
     };
 }
 
@@ -39,11 +45,37 @@ void Level2Scene::load() {
             .withLocation(10, GBA_SCREEN_HEIGHT - 32 - 4*16)
             .buildPtr();
 
+    coin= builder
+            .withData(coin_data, sizeof(coin_data))
+            .withSize(SIZE_8_8)
+            .withAnimated(6, 8)
+            .withLocation(56, 232)
+            .buildPtr();
+
+    coinNr = 1;
+    TextStream::instance().setText("Level2", 0, 0);
+
     bg = std::unique_ptr<Background>(new Background(1, background_data, sizeof(background_data), map, sizeof(map)));
     bg.get()->useMapScreenBlock(16);
 }
 
 void Level2Scene::tick(u16 keys) {
+    mapDataL2.setCoinPositionX(coinNr);
+    mapDataL2.setCoinPositionY(coinNr);
+    coin.get()->moveTo(mapDataL2.getCoinPositionX()-bgX, mapDataL2.getCoinPositionY()-bgY);
+
+    TextStream::instance().setText("Coins:", 1, 0);
+    std::string coinPoints = std::to_string(coinNr-1);
+    TextStream::instance().setText(coinPoints+"/5", 1, 6);
+    health = playerDataL2.getHealth();
+    std::string healthStr = std::to_string(health);
+    TextStream::instance().setText("Health:"+healthStr+"/3", 1, 12);
+
+    if (player.get()->collidesWith(*coin)) {
+        coinNr++;
+    }
+
+
     // Coordinates of player on screen.
     playerX = player.get()->getX();
     playerY = player.get()->getY();
@@ -109,35 +141,6 @@ void Level2Scene::tick(u16 keys) {
         }
     }
 
-
-/*
-    // REMOVE !!!
-    if (keys & KEY_UP) {
-        if (player.get()->getY() > 32 || playerY <= 32 && bgY == 0) {
-            //player.get()->moveTo(playerX, playerY-1);
-            player.get()->setVelocity(0, -1);
-        } else if (bgY > 0) {
-            player.get()->setVelocity(0, 0);
-            bgY -= 1;
-        }
-    } else if (keys & KEY_DOWN) {
-        if (playerOnMapY < groundLevelY-player.get()->getHeight()) {
-            if (player.get()->getY() < GBA_SCREEN_HEIGHT - player.get()->getHeight() - 32 ||
-                playerY >= GBA_SCREEN_HEIGHT - player.get()->getHeight() - 32 && bgY == 96) {
-                player.get()->setVelocity(0, 1);
-            } else if (bgY < 96) {
-                player.get()->setVelocity(0, 0);
-                bgY += 1;
-            }
-        } else {
-            player.get()->setVelocity(0, 0);
-        }
-    } else {
-        player.get()->setVelocity(0, 0);
-    }
-    // REMOVE !!!
-*/
-
     // Move in x direction when key LEFT and key RIGHT.
     if (keys & KEY_LEFT) {
         player->animate();
@@ -175,13 +178,18 @@ void Level2Scene::tick(u16 keys) {
         bgY = 0;
         player.get()->moveTo(playerOnMapX, playerOnMapY-bgY);
         player.get()->flipHorizontally(true);
+    } else if (playerOnMapX == 240 && playerOnMapY == 56) {
+        engine->transitionIntoScene(new Level1Scene(engine), new FadeOutScene(2));
     }
 
+    if (groundLevelY == 300 && playerOnMapY == groundLevelY-player.get()->getHeight()) {
+        engine->transitionIntoScene(new DeadScene(engine), new FadeOutScene(2));
+    }
 
 
     // For debugging purposes!!
     if (keys & KEY_A) {     // Key X
-        TextStream::instance() << playerOnMapX << playerOnMapY << topLevelY;
+        TextStream::instance() << playerOnMapX << playerOnMapY;
     } else if (keys & KEY_R) {      // Key S
         TextStream::instance().clear();
     }

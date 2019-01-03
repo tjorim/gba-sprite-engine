@@ -109,7 +109,8 @@ void GBAEngine::update() {
     if(sceneToTransitionTo) {
         currentEffectForTransition->update();
 
-        if(currentEffectForTransition->isDone()) {
+        if(isTransitioning()) {
+        //if(currentEffectForTransition->isDone()) {
             setScene(sceneToTransitionTo);
         }
     }

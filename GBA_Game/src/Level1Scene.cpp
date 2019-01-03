@@ -9,12 +9,15 @@
 #include <libgba-sprite-engine/effects/fade_out_scene.h>
 #include "Level1Scene.h"
 #include "Level2Scene.h"
+#include "DeadScene.h"
 #include "BGdata_Level1Scene.h"
 #include "MapData_L1.h"
 
 #include "Sprite.h"
+#include "Player.h"
 
 MapData_L1 mapDataL1;
+Player playerDataL1;
 
 
 std::vector<Background *> Level1Scene::backgrounds() {
@@ -26,7 +29,7 @@ std::vector<Background *> Level1Scene::backgrounds() {
 std::vector<Sprite *> Level1Scene::sprites() {
     return{
         player.get(),
-        coin1.get(), coin2.get(),/* coin3.get(), coin4.get(), coin5.get()*/
+        coin.get()
     };
 }
 
@@ -45,74 +48,34 @@ void Level1Scene::load() {
             .buildPtr();
 
 
-    coin1= builder
+    coin= builder
             .withData(coin_data, sizeof(coin_data))
             .withSize(SIZE_8_8)
             .withAnimated(6, 8)
             .buildPtr();
 
-    coin2= builder
-            .withData(coin_data, sizeof(coin_data))
-            .withSize(SIZE_8_8)
-            .withAnimated(6, 8)
-            .buildPtr();
-/*
-    coin3= builder
-            .withData(coin_data, sizeof(coin_data))
-            .withSize(SIZE_8_8)
-            .withAnimated(6, 8)
-            .buildPtr();
+    coinNr = 1;
+    TextStream::instance().setText("Level1", 0, 0);
 
-    coin4= builder
-            .withData(coin_data, sizeof(coin_data))
-            .withSize(SIZE_8_8)
-            .withAnimated(6, 8)
-            .buildPtr();
-
-    coin5= builder
-            .withData(coin_data, sizeof(coin_data))
-            .withSize(SIZE_8_8)
-            .withAnimated(6, 8)
-            .buildPtr();
-*/
-    coin1Available = true;
     bg = std::unique_ptr<Background>(new Background(1, background_data, sizeof(background_data), map, sizeof(map)));
     bg.get()->useMapScreenBlock(16);
 }
 
 void Level1Scene::tick(u16 keys) {
-    // Verplaatsen naar header file!!
-    int coin1OnMapX = 56;
-    int coin1OnMapY = 232;
-    int coin2OnMapX = 240;
-    int coin2OnMapY = 168;
-    int coin3OnMapX = 224;
-    int coin3OnMapY = 232;
-    int coin4OnMapX = 184;
-    int coin4OnMapY = 72;
-    int coin5OnMapX = 64;
-    int coin5OnMapY = 56;
+    mapDataL1.setCoinPositionX(coinNr);
+    mapDataL1.setCoinPositionY(coinNr);
+    coin.get()->moveTo(mapDataL1.getCoinPositionX()-bgX, mapDataL1.getCoinPositionY()-bgY);
 
-    // ****
-
-    if (coin1Available) {
-        coin1.get()->moveTo(coin1OnMapX-bgX, coin1OnMapY-bgY);
+    if (player.get()->collidesWith(*coin)) {
+        coinNr++;
     }
 
-    coin2.get()->moveTo(coin2OnMapX-bgX, coin2OnMapY-bgY);
-    /*coin3.get()->moveTo(coin3OnMapX-bgX, coin3OnMapY-bgY);
-    coin4.get()->moveTo(coin4OnMapX-bgX, coin4OnMapY-bgY);
-    coin5.get()->moveTo(coin5OnMapX-bgX, coin5OnMapY-bgY);*/
-
-    if (player.get()->collidesWith(*coin1)) {
-        coin1.get()->moveTo(coin1.get()->getX(), 300);
-        coin1Available = false;
-    }
-/*
-    if (coin1.get()->isOffScreen()) {
-        coin1.get()->moveTo(0,300);
-    }
-*/
+    TextStream::instance().setText("Coins:", 1, 0);
+    std::string coinPoints = std::to_string(coinNr-1);
+    TextStream::instance().setText(coinPoints+"/5", 1, 6);
+    health = playerDataL1.getHealth();
+    std::string healthStr = std::to_string(health);
+    TextStream::instance().setText("Health:"+healthStr+"/3", 1, 12);
 
     // Coordinates of player on screen.
     playerX = player.get()->getX();
@@ -179,35 +142,6 @@ void Level1Scene::tick(u16 keys) {
         }
     }
 
-
-/*
-    // REMOVE !!!
-    if (keys & KEY_UP) {
-        if (player.get()->getY() > 32 || playerY <= 32 && bgY == 0) {
-            //player.get()->moveTo(playerX, playerY-1);
-            player.get()->setVelocity(0, -1);
-        } else if (bgY > 0) {
-            player.get()->setVelocity(0, 0);
-            bgY -= 1;
-        }
-    } else if (keys & KEY_DOWN) {
-        if (playerOnMapY < groundLevelY-player.get()->getHeight()) {
-            if (player.get()->getY() < GBA_SCREEN_HEIGHT - player.get()->getHeight() - 32 ||
-                playerY >= GBA_SCREEN_HEIGHT - player.get()->getHeight() - 32 && bgY == 96) {
-                player.get()->setVelocity(0, 1);
-            } else if (bgY < 96) {
-                player.get()->setVelocity(0, 0);
-                bgY += 1;
-            }
-        } else {
-            player.get()->setVelocity(0, 0);
-        }
-    } else {
-        player.get()->setVelocity(0, 0);
-    }
-    // REMOVE !!!
-*/
-
     // Move in x direction when key LEFT and key RIGHT.
     if (keys & KEY_LEFT) {
         player->animate();
@@ -243,19 +177,18 @@ void Level1Scene::tick(u16 keys) {
         bgY -= 64;
         player.get()->moveTo(playerX, playerOnMapY-bgY);
         player.get()->flipHorizontally(true);
-    } else if (playerOnMapX == 16 && playerOnMapY == 16) {
+    } else if (coinNr == 6 && playerOnMapX == 16 && playerOnMapY == 16) {
         engine->transitionIntoScene(new Level2Scene(engine), new FadeOutScene(2));
     }
 
     if (groundLevelY == 300 && playerOnMapY == groundLevelY-player.get()->getHeight()) {
-        engine->transitionIntoScene(new Level1Scene(engine), new FadeOutScene(2));
+        engine->transitionIntoScene(new DeadScene(engine), new FadeOutScene(2));
     }
-
 
 
     // For debugging purposes!!
     if (keys & KEY_A) {     // Key X
-        TextStream::instance() << coin1.get()->getX() << coin1.get()->getY();
+        TextStream::instance() << health;
     } else if (keys & KEY_R) {      // Key S
         TextStream::instance().clear();
     }
