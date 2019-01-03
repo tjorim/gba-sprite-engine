@@ -7,8 +7,12 @@
 #include "start_screen.h"
 #include "space_Kirby_game_scene.h"
 #include "background_image.h"
-#include "start_sprites.h"
+#include "start_screen_palette.h"
 #include "theme_song.h"
+#include "startscene_Kirby.h"
+#include "press_start.h"
+#include "Kirby_title.h"
+#include "space_title.h"
 
 
 start_screen::start_screen(const std::shared_ptr<GBAEngine> &engine) : Scene(engine) {}

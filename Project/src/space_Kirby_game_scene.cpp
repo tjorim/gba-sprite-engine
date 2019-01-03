@@ -5,10 +5,13 @@
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
 #include "space_Kirby_game_scene.h"
 #include "background_image.h"
-#include "space_kirby_game_sprites.h"
+#include "space_kirby_game_palette.h"
 #include "start_screen.h"
 #include "death_scene.h"
 #include "dead_sound.h"
+#include "Kirby.h"
+#include "platform.h"
+#include "enemy.h"
 #include <libgba-sprite-engine/background/text_stream.h>
 #include <libgba-sprite-engine/effects/fade_out_scene.h>
 
@@ -18,8 +21,8 @@ space_Kirby_game_scene::space_Kirby_game_scene(const std::shared_ptr<GBAEngine> 
 std::vector<Sprite *> space_Kirby_game_scene::sprites() {
     std::vector<Sprite*> sprites;
     sprites.push_back(Kirby.get());
-    for(int i =0; i < 4; ++i) {
-        sprites.push_back(platforms[i].get());
+    for (auto &platform : platforms) {
+        sprites.push_back(platform.get());
     }
     sprites.push_back(enemy.get());
     return sprites;
