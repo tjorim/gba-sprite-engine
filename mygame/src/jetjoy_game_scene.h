@@ -7,12 +7,15 @@
 
 #include <libgba-sprite-engine/scene.h>
 #include "ship.h"
+#include "ghost.h"
 
 class JetjoyGameScene : public Scene{
 private:
+    std::unique_ptr<Background> background;
     std::unique_ptr<Ship> ship;
     std::unique_ptr<AffineSprite> shipSprite;
-    std::unique_ptr<Background> background;
+    std::unique_ptr<Ghost> ghost;
+    std::unique_ptr<AffineSprite> ghostSprite;
 
 public:
     JetjoyGameScene(std::shared_ptr<GBAEngine> engine) : Scene(engine) {}

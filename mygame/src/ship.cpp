@@ -18,12 +18,12 @@ void Ship::tick(u16 keys) {
     }
     if(keys & KEY_DOWN){
         dy=1;
-        shipSprite->animateToFrame(4);
+        shipSprite->animateToFrame(2);
         shipSprite->setVelocity(dx,dy);
     }
     else if(keys & KEY_UP){
         dy=-1;
-        shipSprite->animateToFrame(2);
+        shipSprite->animateToFrame(1);
         shipSprite->setVelocity(dx,dy);
     }
     if(keys & KEY_RIGHT){

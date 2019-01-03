@@ -3,13 +3,13 @@
 
 //======================================================================
 //
-//	background, 256x160@8, 
+//	background, 256x160@8,
 //	+ palette 256 entries, not compressed
 //	+ 209 tiles (t|f|p reduced) not compressed
-//	+ regular map (flat), not compressed, 32x20 
+//	+ regular map (flat), not compressed, 32x20
 //	Total size: 512 + 13376 + 1280 = 15168
 //
-//	Time-stamp: 2019-01-02, 17:39:30
+//	Time-stamp: 2019-01-03, 09:27:40
 //	Exported by Cearn's GBA Image Transmogrifier, v0.8.6
 //	( http://www.coranac.com/projects/#grit )
 //
