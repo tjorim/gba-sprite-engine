@@ -9,10 +9,25 @@ std::unique_ptr<AffineSprite>& Ghost::getGhostSprite() {
 }
 
 void Ghost::tick(u16 keys) {
-    ghostSprite->setVelocity(-3,0);
 
-    if(ghostSprite->isOffScreen()){
-        ghostSprite->moveTo(GBA_SCREEN_WIDTH,rand() % 140);
+    if(!dead){
+        ghostSprite->setVelocity(-x,0);
+
+        if(ghostSprite->isOffScreen()){
+            ghostSprite->moveTo(GBA_SCREEN_WIDTH,rand() % 140);
+        }
     }
+}
 
+void Ghost::explode() {
+    ghostSprite->animateToFrame(1);
+    ghostSprite->setVelocity(0,0);
+    dead=true;
+}
+
+void Ghost::revive() {
+    ghostSprite->animateToFrame(0);
+    ghostSprite->moveTo(GBA_SCREEN_WIDTH,rand() % 140);
+    dead=false;
+    x++;
 }

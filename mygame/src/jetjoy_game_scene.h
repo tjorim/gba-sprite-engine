@@ -16,10 +16,11 @@ private:
     std::unique_ptr<AffineSprite> shipSprite;
     std::unique_ptr<Ghost> ghost;
     std::unique_ptr<AffineSprite> ghostSprite;
+    std::unique_ptr<AffineSprite> laser;
 
 
 public:
-    JetjoyGameScene(std::shared_ptr<GBAEngine> engine) : Scene(engine) {}
+    JetjoyGameScene(const std::shared_ptr<GBAEngine> &engine);
 
     std::vector<Sprite *> sprites() override;
     std::vector<Background *> backgrounds() override;

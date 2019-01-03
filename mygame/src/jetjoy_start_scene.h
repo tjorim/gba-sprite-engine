@@ -11,7 +11,7 @@ class JetjoyStartScene : public Scene{
 private:
     // nothing yet
 public:
-    JetjoyStartScene(std::shared_ptr<GBAEngine> engine) : Scene(engine){}
+    JetjoyStartScene(const std::shared_ptr<GBAEngine> &engine);
 
     std::vector<Sprite *> sprites() override;
     std::vector<Background *> backgrounds() override;

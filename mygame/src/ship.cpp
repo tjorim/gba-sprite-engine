@@ -38,6 +38,7 @@ void Ship::tick(u16 keys) {
 
 void Ship::explode() {
     dead = true;
+    shipSprite->setVelocity(0,0);
     shipSprite->animateToFrame(3);
 }
 

@@ -99,6 +99,7 @@ public:
     void moveTo(int x, int y);
     void moveTo(VECTOR location);
     bool collidesWith(Sprite &s2);
+    bool shipCollide(Sprite &s2);
 
     void flipVertically(bool flip);
     void flipHorizontally(bool flip);
