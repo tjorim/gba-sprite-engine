@@ -12,7 +12,7 @@
 #include "jetjoy_game_scene.h"
 #include "z_background.h"
 #include "z_sharedpal.h"
-#include "z_ghost_idle.h"
+#include "z_ghost.h"
 #include "z_ship.h"
 #include "ship.h"
 #include "ghost.h"
@@ -51,7 +51,7 @@ void JetjoyGameScene::load() {
     ship = std::unique_ptr<Ship>(new Ship(std::move(shipSprite)));
 
     ghostSprite = affineBuilder
-            .withData(ghost_idleTiles, sizeof(ghost_idleTiles))
+            .withData(ghostTiles, sizeof(ghostTiles))
             .withSize(SIZE_32_32)
             .withLocation(GBA_SCREEN_WIDTH,GBA_SCREEN_HEIGHT - 40)
             .buildPtr();
@@ -62,4 +62,8 @@ void JetjoyGameScene::load() {
 void JetjoyGameScene::tick(u16 keys) {
     ship->tick(keys);
     ghost->tick(keys);
+
+    if(ship->getShipSprite()->collidesWith(*ghost->getGhostSprite())){
+        ship->explode();
+    }
 }

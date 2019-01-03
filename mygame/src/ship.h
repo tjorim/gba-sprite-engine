@@ -16,9 +16,9 @@ private:
 
 public:
     Ship(std::unique_ptr<AffineSprite> s): shipSprite(std::move(s)), dead(false) {}
-    Ship(){}
     std::unique_ptr<AffineSprite>& getShipSprite();
     bool isDead() const {return dead;};
+    void explode();
     void tick(u16 keys);
 
 };

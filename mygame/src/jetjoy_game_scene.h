@@ -17,6 +17,7 @@ private:
     std::unique_ptr<Ghost> ghost;
     std::unique_ptr<AffineSprite> ghostSprite;
 
+
 public:
     JetjoyGameScene(std::shared_ptr<GBAEngine> engine) : Scene(engine) {}
 

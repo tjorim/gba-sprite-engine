@@ -15,7 +15,6 @@ private:
 
 public:
     Ghost(std::unique_ptr<AffineSprite> s): ghostSprite(std::move(s)){}
-    Ghost(){}
     std::unique_ptr<AffineSprite>& getGhostSprite();
     void tick(u16 keys);
 
