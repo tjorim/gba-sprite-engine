@@ -1,9 +1,9 @@
 
-//{{BLOCK(ghost)
+//{{BLOCK(ghost1)
 
 //======================================================================
 //
-//	ghost, 32x64@8,
+//	ghost1, 32x64@8,
 //	+ 32 tiles not compressed
 //	Total size: 2048 = 2048
 //
@@ -88,4 +88,4 @@ const unsigned int ghostTiles[512] __attribute__((aligned(4)))=
                 0x00010801,0x00000000,0x00010801,0x00000000,0x00000101,0x00000000,0x00000000,0x00000000,
         };
 
-//}}BLOCK(ghost)
+//}}BLOCK(ghost1)

@@ -10,7 +10,7 @@
 #include "jetjoy_dead_scene.h"
 #include "jetjoy_start_scene.h"
 
-JetjoyDeadScene::JetjoyDeadScene(const std::shared_ptr<GBAEngine> &engine) : Scene(engine){}
+JetjoyDeadScene::JetjoyDeadScene(const std::shared_ptr<GBAEngine> &engine, int score) : Scene(engine), score(score) {}
 
 std::vector<Background *> JetjoyDeadScene::backgrounds() {
     return {};
@@ -21,8 +21,9 @@ std::vector<Sprite *> JetjoyDeadScene::sprites() {
 }
 
 void JetjoyDeadScene::load() {
-    TextStream::instance().setText("THE END", 8, 12);
-    TextStream::instance().setText("OOOOOO", 10, 5);
+    TextStream::instance().setText("YOU DIED!", 8, 12);
+    TextStream::instance().setText("YOU KILLED: " + std::to_string(score) + " SPOOKSKES" , 10, 4);
+
 }
 
 void JetjoyDeadScene::tick(u16 keys) {

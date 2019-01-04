@@ -8,6 +8,7 @@
 #include <libgba-sprite-engine/scene.h>
 #include "ship.h"
 #include "ghost.h"
+#include "laser.h"
 
 class JetjoyGameScene : public Scene{
 private:
@@ -16,7 +17,10 @@ private:
     std::unique_ptr<AffineSprite> shipSprite;
     std::unique_ptr<Ghost> ghost;
     std::unique_ptr<AffineSprite> ghostSprite;
-    std::unique_ptr<AffineSprite> laser;
+    std::unique_ptr<Laser> laser;
+    std::unique_ptr<AffineSprite> laserSprite;
+    int score;
+    bool nextlevel;
 
 
 public:
@@ -27,6 +31,8 @@ public:
 
     void load() override;
     void tick(u16 keys) override;
+    void endgame();
+    void scoreHandler();
 };
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_JETJOY_GAME_SCENE_H

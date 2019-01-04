@@ -13,13 +13,15 @@ class Ghost{
 private:
     std::unique_ptr<AffineSprite> ghostSprite;
     bool dead;
-    int x;
+    int speed;
 
 public:
-    Ghost(std::unique_ptr<AffineSprite> s): ghostSprite(std::move(s)), dead(false), x(1){}
+    Ghost(std::unique_ptr<AffineSprite> s): ghostSprite(std::move(s)), dead(false), speed(1){}
     std::unique_ptr<AffineSprite>& getGhostSprite();
     void explode();
     void revive();
+    void incrementSpeed();
+    bool isDead(){ return  dead;}
     void tick(u16 keys);
 
 };

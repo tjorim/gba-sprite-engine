@@ -12,7 +12,7 @@ private:
     int score;
 
 public:
-    JetjoyDeadScene(const std::shared_ptr<GBAEngine> &engine);
+    JetjoyDeadScene(const std::shared_ptr<GBAEngine> &engine, int score);
 
     std::vector<Sprite *> sprites() override;
     std::vector<Background *> backgrounds() override;

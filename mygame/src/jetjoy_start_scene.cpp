@@ -10,6 +10,7 @@
 
 #include "jetjoy_start_scene.h"
 #include "jetjoy_game_scene.h"
+#include "y_soundstart.h"
 
 JetjoyStartScene::JetjoyStartScene(const std::shared_ptr<GBAEngine> &engine) : Scene(engine){}
 
@@ -24,6 +25,8 @@ std::vector<Sprite *> JetjoyStartScene::sprites() {
 void JetjoyStartScene::load() {
     foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager());
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager());
+
+    engine->enqueueMusic(raw_soundstart, sizeof(raw_soundstart));
 
     TextStream::instance().setText("JETJOY", 8, 12);
     TextStream::instance().setText("PRESS START TO BEGIN", 10, 5);

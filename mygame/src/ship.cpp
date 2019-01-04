@@ -18,19 +18,19 @@ void Ship::tick(u16 keys) {
             shipSprite->setVelocity(0, 0);
         }
         if (keys & KEY_DOWN) {
-            dy = 1;
+            dy = speed*1;
             shipSprite->animateToFrame(2);
             shipSprite->setVelocity(dx, dy);
         } else if (keys & KEY_UP) {
-            dy = -1;
+            dy = speed*(-1);
             shipSprite->animateToFrame(1);
             shipSprite->setVelocity(dx, dy);
         }
         if (keys & KEY_RIGHT) {
-            dx = 1;
+            dx = speed*(1);
             shipSprite->setVelocity(dx, dy);
         } else if (keys & KEY_LEFT) {
-            dx = -1;
+            dx = speed*(-1);
             shipSprite->setVelocity(dx, dy);
         }
     }
@@ -40,6 +40,10 @@ void Ship::explode() {
     dead = true;
     shipSprite->setVelocity(0,0);
     shipSprite->animateToFrame(3);
+}
+
+void Ship::setSpeed(int i) {
+     this->speed = i;
 }
 
 
