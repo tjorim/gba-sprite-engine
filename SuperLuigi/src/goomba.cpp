@@ -17,6 +17,7 @@ bool Goomba::isDead() {
 
 void Goomba::kill() {
     dead = true;
+    randomTimer = rand() %100 + 150;
 }
 
 void Goomba::tick(u16 keys) {
@@ -28,4 +29,12 @@ void Goomba::tick(u16 keys) {
 
     if(goombaSprite->getX() <= 0) goombaSprite->moveTo(GBA_SCREEN_WIDTH, GBA_SCREEN_HEIGHT-bottomHeightFor16);
 
+    if(randomTimer > 0){
+        if(randomTimer == 1){
+            dead = false;
+            goombaSprite->moveTo(GBA_SCREEN_WIDTH, GBA_SCREEN_HEIGHT-bottomHeightFor16);
+            goombaSprite->animate();
+        }
+        randomTimer--;
+    }
 }

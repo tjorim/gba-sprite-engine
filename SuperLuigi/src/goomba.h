@@ -16,8 +16,9 @@ class Goomba {
 private:
     std::unique_ptr<AffineSprite> goombaSprite;
     bool dead;
+    int randomTimer;
 public:
-    Goomba(std::unique_ptr<AffineSprite> s): goombaSprite(std::move(s)), dead(false) {}
+    Goomba(std::unique_ptr<AffineSprite> s): goombaSprite(std::move(s)), dead(false), randomTimer(0) {}
     Goomba() {}
     std::unique_ptr<AffineSprite>& getGoombaSprite();
     bool isDead();
