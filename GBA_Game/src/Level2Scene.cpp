@@ -14,10 +14,10 @@
 #include "MapData_L2.h"
 
 #include "Sprite.h"
-#include "Player.h"
+#include "MetaData.h"
 
 MapData_L2 mapDataL2;
-Player playerDataL2;
+
 
 std::vector<Background *> Level2Scene::backgrounds() {
     return {
@@ -55,6 +55,12 @@ void Level2Scene::load() {
     coinNr = 1;
     TextStream::instance().setText("Level2", 0, 0);
 
+    level = 2;
+
+    std::string healthStr = std::to_string(health);
+    TextStream::instance().setText("Health:", 0, 12);
+    TextStream::instance().setText(healthStr+"/3", 0, 19);
+
     bg = std::unique_ptr<Background>(new Background(1, background_data, sizeof(background_data), map, sizeof(map)));
     bg.get()->useMapScreenBlock(16);
 }
@@ -67,9 +73,6 @@ void Level2Scene::tick(u16 keys) {
     TextStream::instance().setText("Coins:", 1, 0);
     std::string coinPoints = std::to_string(coinNr-1);
     TextStream::instance().setText(coinPoints+"/5", 1, 6);
-    health = playerDataL2.getHealth();
-    std::string healthStr = std::to_string(health);
-    TextStream::instance().setText("Health:"+healthStr+"/3", 1, 12);
 
     if (player.get()->collidesWith(*coin)) {
         coinNr++;
@@ -189,7 +192,7 @@ void Level2Scene::tick(u16 keys) {
 
     // For debugging purposes!!
     if (keys & KEY_A) {     // Key X
-        TextStream::instance() << playerOnMapX << playerOnMapY;
+        TextStream::instance() << level;
     } else if (keys & KEY_R) {      // Key S
         TextStream::instance().clear();
     }

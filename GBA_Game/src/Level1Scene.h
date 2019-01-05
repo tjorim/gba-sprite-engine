@@ -20,7 +20,6 @@ private:
     int playerOnMapX, playerOnMapY;
     bool jumpingDisabled;
     int coinNr;
-    int health;
 public:
     Level1Scene(std::shared_ptr<GBAEngine> engine) : Scene(engine), bgX(0), bgY(96) {}
 

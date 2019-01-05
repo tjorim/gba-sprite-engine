@@ -19,8 +19,9 @@ private:
     int playerOnMapX, playerOnMapY;
     bool jumpingDisabled;
     int coinNr;
-    int health;
 public:
+    void receiveData (int health);
+
     Level2Scene(std::shared_ptr<GBAEngine> engine) : Scene(engine), bgX(0), bgY(0) {}
 
     std::vector<Sprite *> sprites() override;

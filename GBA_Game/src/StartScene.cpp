@@ -9,9 +9,11 @@
 
 #include "StartScene.h"
 #include "Level2Scene.h"
-#include "Player.h"
+#include "MetaData.h"
 
-Player pl;
+
+int health;
+int level;
 
 std::vector<Background *> StartScene::backgrounds() {
     return {};
@@ -28,11 +30,19 @@ void StartScene::load() {
     TextStream::instance().setText("Welcome!", 9, 10);
     TextStream::instance().setText("Press Start.", 11, 9);
 
-    pl.setHealth(3);
+    health = 3;
+    level = 2;
 }
 
 void StartScene::tick(u16 keys) {
     if (keys & KEY_START) {
         engine->transitionIntoScene(new Level2Scene(engine), new FadeOutScene(2));
+    }
+
+    // For debugging purposes!!
+    if (keys & KEY_A) {     // Key X
+        TextStream::instance() << "";
+    } else if (keys & KEY_R) {      // Key S
+        TextStream::instance().clear();
     }
 }

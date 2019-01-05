@@ -14,10 +14,9 @@
 #include "MapData_L1.h"
 
 #include "Sprite.h"
-#include "Player.h"
+#include "MetaData.h"
 
 MapData_L1 mapDataL1;
-Player playerDataL1;
 
 
 std::vector<Background *> Level1Scene::backgrounds() {
@@ -57,6 +56,12 @@ void Level1Scene::load() {
     coinNr = 1;
     TextStream::instance().setText("Level1", 0, 0);
 
+    level = 1;
+
+    std::string healthStr = std::to_string(health);
+    TextStream::instance().setText("Health:", 0, 12);
+    TextStream::instance().setText(healthStr+"/3", 0, 19);
+
     bg = std::unique_ptr<Background>(new Background(1, background_data, sizeof(background_data), map, sizeof(map)));
     bg.get()->useMapScreenBlock(16);
 }
@@ -73,9 +78,7 @@ void Level1Scene::tick(u16 keys) {
     TextStream::instance().setText("Coins:", 1, 0);
     std::string coinPoints = std::to_string(coinNr-1);
     TextStream::instance().setText(coinPoints+"/5", 1, 6);
-    health = playerDataL1.getHealth();
-    std::string healthStr = std::to_string(health);
-    TextStream::instance().setText("Health:"+healthStr+"/3", 1, 12);
+
 
     // Coordinates of player on screen.
     playerX = player.get()->getX();
@@ -188,7 +191,7 @@ void Level1Scene::tick(u16 keys) {
 
     // For debugging purposes!!
     if (keys & KEY_A) {     // Key X
-        TextStream::instance() << health;
+        TextStream::instance() << level;
     } else if (keys & KEY_R) {      // Key S
         TextStream::instance().clear();
     }

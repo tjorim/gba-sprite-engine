@@ -10,7 +10,6 @@
 
 class DeadScene : public Scene {
 private:
-    int health;
 
 public:
     DeadScene(std::shared_ptr<GBAEngine> engine) : Scene(engine) {}
