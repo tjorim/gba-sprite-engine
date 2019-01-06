@@ -24,16 +24,25 @@ void DeadScene::load() {
     foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager());
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager());
 
-    TextStream::instance().setText("You died!", 9, 10);
-    TextStream::instance().setText("Press Start to restart.", 11, 5);
-
     health--;
+    if (health > 0) {
+        TextStream::instance().setText("You died!", 9, 10);
+        TextStream::instance().setText("Press Start to restart level.", 11, 1);
+    } else {
+        TextStream::instance().setText("No health left!", 8, 8);
+        TextStream::instance().setText("Game over!!", 10, 10);
+        TextStream::instance().setText("Press Start to restart game.", 12, 1);
+    }
+
 }
 
 void DeadScene::tick(u16 keys) {
-    if (level == 1 && keys & KEY_START) {
+    if (health > 0 && level == 1 && keys & KEY_START) {
         engine->transitionIntoScene(new Level1Scene(engine), new FadeOutScene(2));
-    } else if (level == 2 && keys & KEY_START) {
+    } else if (health > 0 && level == 2 && keys & KEY_START) {
+        engine->transitionIntoScene(new Level2Scene(engine), new FadeOutScene(2));
+    } else if (keys && KEY_START) {
+        health = 3;
         engine->transitionIntoScene(new Level2Scene(engine), new FadeOutScene(2));
     }
 

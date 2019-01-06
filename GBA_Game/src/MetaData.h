@@ -8,19 +8,4 @@
 extern int health;
 extern int level;
 
-/*
-class Health {
-private:
-    int health;
-
-public:
-    void setHealth (int health) {
-        this->health = health;
-    }
-
-    int getHealth() {
-        return health;
-    }
-};
-*/
 #endif //GBA_SPRITE_ENGINE_PROJECT_HEALTH_H

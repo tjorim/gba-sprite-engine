@@ -10,7 +10,8 @@
 #include "Level1Scene.h"
 #include "Level2Scene.h"
 #include "DeadScene.h"
-#include "BGdata_Level1Scene.h"
+#include "EndScene.h"
+#include "BG_data.h"
 #include "MapData_L1.h"
 
 #include "Sprite.h"
@@ -36,17 +37,13 @@ void Level1Scene::load() {
     foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager(sharedPal, sizeof(sharedPal)));
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager(bg_palette, sizeof(bg_palette)));
 
-
     SpriteBuilder<Sprite> builder;
-
     player = builder
             .withData(player_data, sizeof(player_data))
             .withSize(SIZE_16_32)
             .withAnimated(4, 5)
             .withLocation(10, GBA_SCREEN_HEIGHT - 32 - 5*16)
             .buildPtr();
-
-
     coin= builder
             .withData(coin_data, sizeof(coin_data))
             .withSize(SIZE_8_8)
@@ -54,15 +51,14 @@ void Level1Scene::load() {
             .buildPtr();
 
     coinNr = 1;
-    TextStream::instance().setText("Level1", 0, 0);
-
     level = 1;
+    TextStream::instance().setText("Level2", 0, 0);
 
     std::string healthStr = std::to_string(health);
     TextStream::instance().setText("Health:", 0, 12);
     TextStream::instance().setText(healthStr+"/3", 0, 19);
 
-    bg = std::unique_ptr<Background>(new Background(1, background_data, sizeof(background_data), map, sizeof(map)));
+    bg = std::unique_ptr<Background>(new Background(1, background_data, sizeof(background_data), map1, sizeof(map1)));
     bg.get()->useMapScreenBlock(16);
 }
 
@@ -181,7 +177,7 @@ void Level1Scene::tick(u16 keys) {
         player.get()->moveTo(playerX, playerOnMapY-bgY);
         player.get()->flipHorizontally(true);
     } else if (coinNr == 6 && playerOnMapX == 16 && playerOnMapY == 16) {
-        engine->transitionIntoScene(new Level2Scene(engine), new FadeOutScene(2));
+        engine->transitionIntoScene(new EndScene(engine), new FadeOutScene(2));
     }
 
     if (groundLevelY == 300 && playerOnMapY == groundLevelY-player.get()->getHeight()) {

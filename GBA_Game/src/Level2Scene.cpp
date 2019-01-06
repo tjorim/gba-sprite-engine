@@ -10,7 +10,7 @@
 #include "Level1Scene.h"
 #include "Level2Scene.h"
 #include "DeadScene.h"
-#include "BGdata_Level2Scene.h"
+#include "BG_data.h"
 #include "MapData_L2.h"
 
 #include "Sprite.h"
@@ -37,14 +37,12 @@ void Level2Scene::load() {
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager(bg_palette, sizeof(bg_palette)));
 
     SpriteBuilder<Sprite> builder;
-
     player = builder
             .withData(player_data, sizeof(player_data))
             .withSize(SIZE_16_32)
             .withAnimated(4, 5)
             .withLocation(10, GBA_SCREEN_HEIGHT - 32 - 4*16)
             .buildPtr();
-
     coin= builder
             .withData(coin_data, sizeof(coin_data))
             .withSize(SIZE_8_8)
@@ -53,15 +51,14 @@ void Level2Scene::load() {
             .buildPtr();
 
     coinNr = 1;
-    TextStream::instance().setText("Level2", 0, 0);
-
     level = 2;
+    TextStream::instance().setText("Level1", 0, 0);
 
     std::string healthStr = std::to_string(health);
     TextStream::instance().setText("Health:", 0, 12);
     TextStream::instance().setText(healthStr+"/3", 0, 19);
 
-    bg = std::unique_ptr<Background>(new Background(1, background_data, sizeof(background_data), map, sizeof(map)));
+    bg = std::unique_ptr<Background>(new Background(1, background_data, sizeof(background_data), map2, sizeof(map2)));
     bg.get()->useMapScreenBlock(16);
 }
 
@@ -181,7 +178,7 @@ void Level2Scene::tick(u16 keys) {
         bgY = 0;
         player.get()->moveTo(playerOnMapX, playerOnMapY-bgY);
         player.get()->flipHorizontally(true);
-    } else if (playerOnMapX == 240 && playerOnMapY == 56) {
+    } else if (coinNr == 6 && playerOnMapX == 240 && playerOnMapY == 56) {
         engine->transitionIntoScene(new Level1Scene(engine), new FadeOutScene(2));
     }
 

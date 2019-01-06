@@ -10,6 +10,9 @@
 
 class StartScene : public Scene {
 private:
+    std::unique_ptr<Background> bg;
+
+    float bgY;
 
 public:
     StartScene(std::shared_ptr<GBAEngine> engine) : Scene(engine) {}
