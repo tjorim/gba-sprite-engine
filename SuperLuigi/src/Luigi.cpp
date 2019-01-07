@@ -36,7 +36,6 @@ void Luigi::tick(u16 keys) {
         }
 
         if(keys & KEY_UP){
-
             if(luigiSprite->getY() == GBA_SCREEN_HEIGHT-bottomHeightFor32) luigiSprite->setVelocity(0,-1);
         }
         else{

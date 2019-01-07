@@ -7,13 +7,13 @@
 //	+ 12 tiles not compressed
 //	Total size: 768 = 768
 //
-//	Time-stamp: 2018-12-16, 15:12:19
+//	Time-stamp: 2019-01-07, 20:48:45
 //	Exported by Cearn's GBA Image Transmogrifier, v0.8.6
 //	( http://www.coranac.com/projects/#grit )
 //
 //======================================================================
 
-const unsigned int goombaTiles[192] __attribute__((aligned(4)))=
+const unsigned int GoombaTiles[192] __attribute__((aligned(4)))=
         {
                 0x00000000,0x02020000,0x00000000,0x01090202,0x02020200,0x08070109,0x02020000,0x02080708,
                 0x01090200,0x01020202,0x06070200,0x06060206,0x06030902,0x06020702,0x06030102,0x06020702,

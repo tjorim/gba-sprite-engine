@@ -15,6 +15,8 @@
 #include "Luigi.h"
 #include "goomba.h"
 #include "QuestionBlock.h"
+#include "KoopaTiles.h"
+#include "Koopa.h"
 
 #define bottomHeightFor32 45
 #define bottomHeightFor16 29
@@ -33,17 +35,17 @@ void level1::load() {
     SpriteBuilder<AffineSprite> affineBuilder;
 
     luigiSprite = affineBuilder
-            .withData(luigi_animationTiles, sizeof(luigi_animationTiles))
+            .withData(LuigiTiles, sizeof(LuigiTiles))
             .withSize(SIZE_16_32)
             .withLocation(GBA_SCREEN_WIDTH/2-8, GBA_SCREEN_HEIGHT-bottomHeightFor32)
-            .withAnimated(5,2)
+            .withAnimated(5,10)
             .buildPtr();
 
     luigi = std::unique_ptr<Luigi>{new Luigi(std::move(luigiSprite))};
     luigi->getLuigiSprite()->stopAnimating();
 
     goombaSprite = affineBuilder
-            .withData(goombaTiles, sizeof(goombaTiles))
+            .withData(GoombaTiles, sizeof(GoombaTiles))
             .withSize(SIZE_16_16)
             .withLocation(GBA_SCREEN_WIDTH, GBA_SCREEN_HEIGHT-bottomHeightFor16)
             .withAnimated(3,5)
@@ -51,6 +53,14 @@ void level1::load() {
 
     goomba = std::unique_ptr<Goomba>{new Goomba(std::move(goombaSprite))};
 
+    koopaSprite = affineBuilder
+            .withData(KoopaTiles, sizeof(KoopaTiles))
+            .withSize(SIZE_16_32)
+            .withLocation(GBA_SCREEN_WIDTH-10, GBA_SCREEN_HEIGHT-bottomHeightFor16)
+            .withAnimated(0,3)
+            .buildPtr();
+
+    koopa =std::unique_ptr<Koopa>{new Koopa(std::move(koopaSprite))};
 
     questionBlockSprite = affineBuilder
                     .withData(question_blockTiles, sizeof(question_blockTiles))
@@ -70,12 +80,14 @@ std::vector<Sprite *> level1::sprites() {
     sprites.push_back(luigi->getLuigiSprite().get());
     sprites.push_back(questionBlock->getQuestionBlockSprite().get());
     if(!goomba->isDead())sprites.push_back(goomba->getGoombaSprite().get());
+    if(!koopa->isDead()) sprites.push_back(koopa->getKoopaSprite().get());
 
     return sprites;
 }
 
 void level1::tick(u16 keys) {
     if(!luigi->isDead() ){
+        koopa->tick(keys);
         goomba->tick(keys);
         questionBlock->tick(keys);
         luigi->tick(keys);

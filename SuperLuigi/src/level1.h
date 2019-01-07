@@ -13,6 +13,7 @@
 #include "Luigi.h"
 #include "goomba.h"
 #include "QuestionBlock.h"
+#include "Koopa.h"
 
 class level1 : public Scene{
 private:
@@ -22,8 +23,11 @@ private:
     std::unique_ptr<AffineSprite> luigiSprite;
     std::unique_ptr<Goomba> goomba;
     std::unique_ptr<AffineSprite> goombaSprite;
+    std::unique_ptr<Koopa> koopa;
+    std::unique_ptr<AffineSprite> koopaSprite;
     std::unique_ptr<QuestionBlock> questionBlock;
     std::unique_ptr<AffineSprite> questionBlockSprite;
+
     int scrollX, scrollY;
     bool stopScrollBg;
 
