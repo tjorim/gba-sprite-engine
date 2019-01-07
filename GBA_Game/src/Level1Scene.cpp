@@ -54,6 +54,7 @@ void Level1Scene::load() {
     level = 1;
     TextStream::instance().setText("Level2", 0, 0);
 
+    // Display: health status.
     std::string healthStr = std::to_string(health);
     TextStream::instance().setText("Health:", 0, 12);
     TextStream::instance().setText(healthStr+"/3", 0, 19);
@@ -63,18 +64,20 @@ void Level1Scene::load() {
 }
 
 void Level1Scene::tick(u16 keys) {
+    // Position of coin.
     mapDataL1.setCoinPositionX(coinNr);
     mapDataL1.setCoinPositionY(coinNr);
     coin.get()->moveTo(mapDataL1.getCoinPositionX()-bgX, mapDataL1.getCoinPositionY()-bgY);
 
-    if (player.get()->collidesWith(*coin)) {
-        coinNr++;
-    }
-
+    // Display: coin status.
     TextStream::instance().setText("Coins:", 1, 0);
     std::string coinPoints = std::to_string(coinNr-1);
     TextStream::instance().setText(coinPoints+"/5", 1, 6);
 
+    // Collision detection between player en coin.
+    if (player.get()->collidesWith(*coin)) {
+        coinNr++;
+    }
 
     // Coordinates of player on screen.
     playerX = player.get()->getX();
@@ -84,15 +87,15 @@ void Level1Scene::tick(u16 keys) {
     playerOnMapX = playerX + bgX;
     playerOnMapY = playerY + bgY;
 
-    // Scroll bg in x direction when player is 50 from barrier.
+
     bg.get()->scroll(bgX, bgY);
 
     player->stopAnimating();
 
 
-    // Set player to ground level.
-    mapDataL1.createGroundLevel(playerOnMapX, playerOnMapY+player.get()->getHeight());     // Set y-coor for ground level at each x-coor
-    int groundLevelY = mapDataL1.getGroundLevel();        // Get y-coor of ground level
+    // Get ground level of map.
+    mapDataL1.createGroundLevel(playerOnMapX, playerOnMapY+player.get()->getHeight());
+    int groundLevelY = mapDataL1.getGroundLevel();
 
     // Get top level (height player can jump).
     mapDataL1.createTopLevel(playerOnMapX, playerOnMapY);
@@ -121,7 +124,6 @@ void Level1Scene::tick(u16 keys) {
             player.get()->setVelocity(0, 0);
             bgY += 2;
         }
-
     } else {
         player.get()->setVelocity(0, 0);
     }
@@ -148,7 +150,6 @@ void Level1Scene::tick(u16 keys) {
 
         if (movePermissionL) {      // Check if there is no barrier when walking to the left.
             if (player->getX() > 50 || playerX <= 50 && bgX == 0) {
-                //player->setVelocity(-1, 0);
                 player.get()->moveTo(playerX - 1, playerY);
             } else if (bgX > 0){
                 bgX -= 1;
@@ -160,7 +161,6 @@ void Level1Scene::tick(u16 keys) {
 
         if (movePermissionR) {      // Check if there is no barrier when walking to the left.
             if (player->getX() < GBA_SCREEN_WIDTH-50-player.get()->getWidth() || playerX >= GBA_SCREEN_WIDTH-50-player.get()->getWidth() && bgX == 16) {
-                //player->setVelocity(+1, 0);
                 player.get()->moveTo(playerX + 1, playerY);
             } else if (bgX < 16){
                 bgX += 1;
@@ -182,13 +182,5 @@ void Level1Scene::tick(u16 keys) {
 
     if (groundLevelY == 300 && playerOnMapY == groundLevelY-player.get()->getHeight()) {
         engine->transitionIntoScene(new DeadScene(engine), new FadeOutScene(2));
-    }
-
-
-    // For debugging purposes!!
-    if (keys & KEY_A) {     // Key X
-        TextStream::instance() << level;
-    } else if (keys & KEY_R) {      // Key S
-        TextStream::instance().clear();
     }
 }

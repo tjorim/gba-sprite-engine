@@ -33,7 +33,6 @@ void DeadScene::load() {
         TextStream::instance().setText("Game over!!", 10, 10);
         TextStream::instance().setText("Press Start to restart game.", 12, 1);
     }
-
 }
 
 void DeadScene::tick(u16 keys) {
@@ -44,12 +43,5 @@ void DeadScene::tick(u16 keys) {
     } else if (keys && KEY_START) {
         health = 3;
         engine->transitionIntoScene(new Level2Scene(engine), new FadeOutScene(2));
-    }
-
-    // For debugging purposes!!
-    if (keys & KEY_A) {     // Key X
-        TextStream::instance() << level;
-    } else if (keys & KEY_R) {      // Key S
-        TextStream::instance().clear();
     }
 }

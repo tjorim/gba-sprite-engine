@@ -43,14 +43,8 @@ void StartScene::load() {
 void StartScene::tick(u16 keys) {
     bgY += 0.5;
     bg->scroll(0, bgY);
+
     if (keys & KEY_START) {
         engine->transitionIntoScene(new Level2Scene(engine), new FadeOutScene(2));
-    }
-
-    // For debugging purposes!!
-    if (keys & KEY_A) {     // Key X
-        TextStream::instance() << "";
-    } else if (keys & KEY_R) {      // Key S
-        TextStream::instance().clear();
     }
 }

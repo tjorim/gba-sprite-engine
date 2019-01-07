@@ -31,7 +31,6 @@ void EndScene::load() {
 
 void EndScene::tick(u16 keys) {
     if (keys & KEY_START) {
-
         engine->transitionIntoScene(new Level2Scene(engine), new FadeOutScene(2));
     }
 }
