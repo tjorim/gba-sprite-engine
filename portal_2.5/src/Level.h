@@ -50,12 +50,10 @@ public:
     void moveChell(bool leftKey, bool rightKey, bool jump);
     VECTOR verticalCollisionDetect(Chell* player, std::vector<std::unique_ptr<WallTile>> &walls, VECTOR vec);
     VECTOR horizontalCollisionDetect(Chell* player, std::vector<std::unique_ptr<WallTile>> &walls, VECTOR vec);
-    void turnVisier(bool richting);
     void shoot(Portal_bullet *bullet);
     void update();
     void bulletCollisionWall(Portal_bullet* bullet, std::vector<std::unique_ptr<WallTile>> &walls);
     void bulletCollisionPortalWall(Portal_bullet* bullet, Portal* portal, std::vector<std::unique_ptr<WallTile>> &walls);
-    void updatePortals();
     void updateTiles(std::vector<std::unique_ptr<WallTile>> &walls);
     void removePortal(std::vector<std::unique_ptr<WallTile>> &walls, Portal* portal);
     void checkPortals();

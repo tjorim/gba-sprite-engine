@@ -22,21 +22,5 @@ int main() {
         engine->update();
         engine->delay(1);
     }
-
     return 0;
 }
-
-/*
-int main() {
-    std::shared_ptr<GBAEngine> engine(new GBAEngine());
-
-    LevelScene* startScene = new LevelScene(engine);
-    engine->setScene(startScene);
-
-    while (true) {
-        engine->update();
-        engine->delay(1);
-    }
-
-    return 0;
-}*/

@@ -26,7 +26,6 @@ public:
 
     LevelScene(std::shared_ptr<GBAEngine> engine) : Scene(engine) {}
 
-    void test(Sprite* k);
     void load() override;
     void tick(u16 keys) override;
 };
