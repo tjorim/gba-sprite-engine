@@ -23,6 +23,7 @@ public:
     std::unique_ptr<AffineSprite>& getGoombaSprite();
     bool isDead();
     void kill();
+    void resurrect();
     void tick(u16 keys);
 };
 

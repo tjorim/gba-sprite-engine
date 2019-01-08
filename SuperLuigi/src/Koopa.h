@@ -18,11 +18,12 @@ private:
     int randomTimer;
 
 public:
-    Koopa(std::unique_ptr<AffineSprite> s): koopaSprite(std::move(s)), dead(false), randomTimer(0) {}
+    Koopa(std::unique_ptr<AffineSprite> s): koopaSprite(std::move(s)), dead(true), randomTimer(0) {}
     Koopa() {}
     std::unique_ptr<AffineSprite>& getKoopaSprite();
     bool isDead();
     void kill();
+    void resurrect();
     void tick(u16 keys);
 };
 

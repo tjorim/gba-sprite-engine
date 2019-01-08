@@ -29,7 +29,6 @@ void Luigi::tick(u16 keys) {
         if(keys & KEY_RIGHT) {
             if (luigiSprite->getVelocity().y == 0) luigiSprite->animate();
         }
-
         else if(luigiSprite->getVelocity().y == 0){
             luigiSprite->stopAnimating();
             luigiSprite->animateToFrame(0);

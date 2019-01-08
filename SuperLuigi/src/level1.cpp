@@ -35,17 +35,17 @@ void level1::load() {
     SpriteBuilder<AffineSprite> affineBuilder;
 
     luigiSprite = affineBuilder
-            .withData(LuigiTiles, sizeof(LuigiTiles))
+            .withData(luigi_animationTiles, sizeof(luigi_animationTiles))
             .withSize(SIZE_16_32)
             .withLocation(GBA_SCREEN_WIDTH/2-8, GBA_SCREEN_HEIGHT-bottomHeightFor32)
-            .withAnimated(5,10)
+            .withAnimated(5,5)
             .buildPtr();
 
     luigi = std::unique_ptr<Luigi>{new Luigi(std::move(luigiSprite))};
     luigi->getLuigiSprite()->stopAnimating();
 
     goombaSprite = affineBuilder
-            .withData(GoombaTiles, sizeof(GoombaTiles))
+            .withData(goombaTiles, sizeof(goombaTiles))
             .withSize(SIZE_16_16)
             .withLocation(GBA_SCREEN_WIDTH, GBA_SCREEN_HEIGHT-bottomHeightFor16)
             .withAnimated(3,5)
@@ -56,11 +56,12 @@ void level1::load() {
     koopaSprite = affineBuilder
             .withData(KoopaTiles, sizeof(KoopaTiles))
             .withSize(SIZE_16_32)
-            .withLocation(GBA_SCREEN_WIDTH-10, GBA_SCREEN_HEIGHT-bottomHeightFor16)
-            .withAnimated(0,3)
+            .withLocation(GBA_SCREEN_WIDTH-10, GBA_SCREEN_HEIGHT-bottomHeightFor32)
+            .withAnimated(4,5)
             .buildPtr();
 
     koopa =std::unique_ptr<Koopa>{new Koopa(std::move(koopaSprite))};
+    koopa->getKoopaSprite()->animate();
 
     questionBlockSprite = affineBuilder
                     .withData(question_blockTiles, sizeof(question_blockTiles))
@@ -79,8 +80,8 @@ std::vector<Sprite *> level1::sprites() {
     std::vector<Sprite*> sprites;
     sprites.push_back(luigi->getLuigiSprite().get());
     sprites.push_back(questionBlock->getQuestionBlockSprite().get());
-    if(!goomba->isDead())sprites.push_back(goomba->getGoombaSprite().get());
-    if(!koopa->isDead()) sprites.push_back(koopa->getKoopaSprite().get());
+    if(!goomba->isDead() && koopa->isDead())sprites.push_back(goomba->getGoombaSprite().get());
+    if(!koopa->isDead() && goomba->isDead()) sprites.push_back(koopa->getKoopaSprite().get());
 
     return sprites;
 }
@@ -97,11 +98,14 @@ void level1::tick(u16 keys) {
             bg->scroll(scrollX,scrollY);
         }
 
-        //collision detection between Luigi and goomba
-        if(luigi->getLuigiSprite()->collidesWith(*goomba->getGoombaSprite()) && (luigi->getLuigiSprite()->getY() == GBA_SCREEN_HEIGHT-bottomHeightFor32) && !goomba->isDead()){
+        //collision detection between Luigi and goomba or koopa
+        if((luigi->getLuigiSprite()->collidesWith(*goomba->getGoombaSprite()) && (luigi->getLuigiSprite()->getY() == GBA_SCREEN_HEIGHT-bottomHeightFor32) && !goomba->isDead()) ||
+            luigi->getLuigiSprite()->collidesWith(*koopa->getKoopaSprite()) && (luigi->getLuigiSprite()->getY() == GBA_SCREEN_HEIGHT-bottomHeightFor32) && !koopa->isDead()){
 
             goomba->getGoombaSprite()->stopAnimating();
             goomba->getGoombaSprite()->setVelocity(0,0);
+            koopa->getKoopaSprite()->stopAnimating();
+            koopa->getKoopaSprite()->setVelocity(0,0);
             luigi->kill();
             luigi->getLuigiSprite()->stopAnimating();
             luigi->getLuigiSprite()->animateToFrame(0);
@@ -112,6 +116,16 @@ void level1::tick(u16 keys) {
             goomba->getGoombaSprite()->stopAnimating();
             goomba->getGoombaSprite()->moveTo(0,0);
             goomba->kill();
+            koopa->resurrect();
+            luigi->getLuigiSprite()->setVelocity(0,-1);
+
+        }
+
+        if(luigi->getLuigiSprite()->collidesWith(*koopa->getKoopaSprite()) && luigi->getLuigiSprite()->getVelocity().y > 0 && luigi->getLuigiSprite()->getY()+32 >= GBA_SCREEN_HEIGHT-bottomHeightFor32){
+            koopa->getKoopaSprite()->stopAnimating();
+            koopa->getKoopaSprite()->moveTo(0,0);
+            koopa->kill();
+            goomba->resurrect();
             luigi->getLuigiSprite()->setVelocity(0,-1);
 
         }

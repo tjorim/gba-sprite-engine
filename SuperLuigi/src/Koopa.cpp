@@ -18,18 +18,25 @@ bool Koopa::isDead() {
 
 void Koopa::kill() {
     dead = true;
+}
+
+void Koopa::resurrect() {
     randomTimer = rand() %100 + 150;
 }
 
 void Koopa::tick(u16 keys) {
     koopaSprite->setVelocity(-1,0);
 
+    if(keys & KEY_RIGHT){
+        koopaSprite->setVelocity(koopaSprite->getVelocity().x-1,0);
+    }
 
+    if(koopaSprite->getX() <= 1) koopaSprite->moveTo(GBA_SCREEN_WIDTH, GBA_SCREEN_HEIGHT-bottomHeightFor32);
 
     if(randomTimer > 0){
         if(randomTimer == 1){
             dead = false;
-            koopaSprite->moveTo(GBA_SCREEN_WIDTH, GBA_SCREEN_HEIGHT-bottomHeightFor16);
+            koopaSprite->moveTo(GBA_SCREEN_WIDTH, GBA_SCREEN_HEIGHT-bottomHeightFor32);
             koopaSprite->animate();
         }
         randomTimer--;

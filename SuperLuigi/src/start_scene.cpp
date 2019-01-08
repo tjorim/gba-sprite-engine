@@ -39,14 +39,14 @@ void start_scene::load() {
     SpriteBuilder<AffineSprite> affineBuilder;
 
     luigi = affineBuilder
-            .withData(LuigiTiles, sizeof(LuigiTiles))
+            .withData(luigi_animationTiles, sizeof(luigi_animationTiles))
             .withSize(SIZE_16_32)
             .withLocation(GBA_SCREEN_WIDTH/2, GBA_SCREEN_HEIGHT/2)
             .withAnimated(5,10)
             .buildPtr();
 
     goomba = affineBuilder
-            .withData(GoombaTiles, sizeof(GoombaTiles))
+            .withData(goombaTiles, sizeof(goombaTiles))
             .withSize(SIZE_16_16)
             .withLocation(GBA_SCREEN_WIDTH/2 -20 , GBA_SCREEN_HEIGHT/2 +16)
             .withAnimated(3,5)
