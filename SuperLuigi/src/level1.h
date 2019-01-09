@@ -30,15 +30,17 @@ private:
 
     int scrollX, scrollY;
     bool stopScrollBg;
+    int points, lives;
 
 public:
     std::vector<Sprite *> sprites() override;
     std::vector<Background *> backgrounds() override;
 
-    level1(std::shared_ptr<GBAEngine> engine) : Scene(engine), scrollX(0), scrollY(0), stopScrollBg(false) {}
+    level1(std::shared_ptr<GBAEngine> engine) : Scene(engine), scrollX(0), scrollY(0), stopScrollBg(false), points(0), lives(1) {}
 
     void load() override;
     void tick(u16 keys) override;
+    void addPoint();
 };
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_LEVEL1_H

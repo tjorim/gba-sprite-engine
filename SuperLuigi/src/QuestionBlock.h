@@ -15,11 +15,15 @@
 class QuestionBlock {
 private:
     std::unique_ptr<AffineSprite> questionBlockSprite;
+    int randomTimer;
+    bool triggerd;
 public:
-    QuestionBlock(std::unique_ptr<AffineSprite> s ) : questionBlockSprite(std::move(s)) {}
+    QuestionBlock(std::unique_ptr<AffineSprite> s ) : questionBlockSprite(std::move(s)), randomTimer(0), triggerd(false) {}
     QuestionBlock() {}
     std::unique_ptr<AffineSprite>& getQuestionBlockSprite();
     void tick(u16 keys);
+    void trigger();
+    bool isTriggerd();
 };
 
 
