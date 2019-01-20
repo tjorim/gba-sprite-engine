@@ -44,8 +44,8 @@ void StartScene::load() {
     TextStream::instance().setText("PRESS START", 3, 8);
     engine->enqueueMusic(zelda_music_16K_mono, zelda_music_16K_mono_bytes);
 */
-    bg = std::unique_ptr<Background>(new Background(1, backgroundTiles, sizeof(backgroundTiles
-    ), backgroundMap, sizeof(backgroundMap)));
+    bg = std::unique_ptr<Background>(new Background(1, backgroundTiles, sizeof(backgroundTiles),
+            backgroundMap, sizeof(backgroundMap)));
     engine.get()->disableText();
     /*bg = std::unique_ptr<Background>(new Background(0, FFIV_WM_Background_GBATiles, sizeof(FFIV_WM_Background_GBATiles
     ), FFIV_WM_Background_GBAMap, sizeof(FFIV_WM_Background_GBAMap)));

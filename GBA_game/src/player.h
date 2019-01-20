@@ -11,14 +11,16 @@ enum Direction {
     DirectionLeft,DirectionRight
 };
 
-
-
 class Player : public AffineSprite{
 private:
 
     Direction direction = Direction::DirectionRight;
     int aantalLevens;
     bool runningState;
+
+    bool isBall = false;
+    bool canTakeDamage = true;
+    int ballSpeed = 1;
 public:
 
     bool getRunnigsState() const {return runningState;}
@@ -27,12 +29,17 @@ public:
     Direction getDirection() const { return direction;}
     void setAantalLevens(int aantalLevens);
     int getAantalLevens() const { return  aantalLevens; }
+
+    bool getIsBall() {return isBall;}
+    void setIsBall(bool isBall);
+    bool getCanTakeDamage() {return canTakeDamage;}
+    void setCanTakeDamage(bool canTakeDamage);
+    int getBallSpeed() {return ballSpeed;}
+    void setBallSpeed(int ballSpeed);
+
     //Player(int aantalLevens);
     Player(const void* imgData, int imgSize, int xC, int yC, SpriteSize spriteSize);
-
-
 };
-
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_PLAYER_H
 
