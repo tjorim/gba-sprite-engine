@@ -1,15 +1,2 @@
 
-Done:
-	- Jump with head through ground.
-	- Teleport from layer 1 to layer 2.
-
-To Do:
-	- Animate to frame when falling.
-	- Flip player when teleport to layer 2.
-	- Disable jump when in hole
-	
-Notes:
-	- Still small bug when you move in x direction, get in a hole and jump when not yet on coor 255 --> You
-		go up (jump) but 1 px below ground level ==> disables juming..
-	- Small bug when walking from far right and falling in hole when walking left on full power.
-	- Small bug when fall in first hole and jump fast enough --> jump out hole and land 1 px below ground level that disables juming.
+De bedoeling van dit spel is om een free-run parkoer af te leggen. Het spel bestaat uit 2 levels (dit is verder zeer gemakkelijk uit te breiden) waarbij je coins zal moeten verzamelen om naar een volgend level te kunnen gaan. Een extra moeilijkheid in dit spel is dat je niet op voorhand weet waar alle coins liggen, maar je maar enkel één coin kan zien. De volgende coin zal pas zichtbaar worden wanneer je een vorige coin opgeraapt hebt. Hierdoor zal je de coins moeten zoeken, en indien bij het falen van een level je zal moeten onthouden waar de coins liggen als geheugentraining. Het spel gaat echter niet enkel om rondlopen in een level en coins verzamelen, maar je zal tijdens het rapen van de coins ook nog eens de gaten in de ground moeten vermijden, anders val je dood. De paarse vlakken zijn teleport plaatsen waardoor je op een andere plaats in het level terechtkomt of je naar het volgende level kan. Dit laatste zal echter enkel mogelijk zijn wanneer alle coins verzameld zijn, anders zal de teleport gedeactiveerd zijn. Wanneer je levens op zijn zal je helemaal van het begin moeten herstarten, maar wanneer je doodgaat in een level en je hebt nog levens zal je slechts moeten herstarten van het begin van dit betreffende level dankzij de checkpoint die berijkt is bij het overgaan naar het volgende level.

@@ -2,12 +2,11 @@
 // Created by Wout Briels on 29/11/2018.
 //
 
-#ifndef GBA_SPRITE_ENGINE_PROJECT_STARTSCENE_H
-#define GBA_SPRITE_ENGINE_PROJECT_STARTSCENE_H
+#ifndef GBA_SPRITE_ENGINE_PROJECT_LEVEL1SCENE_H
+#define GBA_SPRITE_ENGINE_PROJECT_LEVEL1SCENE_H
 
 
 #include <libgba-sprite-engine/scene.h>
-#include <libgba-sprite-engine/sprites/affine_sprite.h>
 
 class Level1Scene : public Scene {
 private:
@@ -31,4 +30,4 @@ public:
 };
 
 
-#endif //GBA_SPRITE_ENGINE_PROJECT_STARTSCENE_H
+#endif //GBA_SPRITE_ENGINE_PROJECT_LEVEL1SCENE_H

@@ -8,7 +8,7 @@
 #include <libgba-sprite-engine/effects/fade_out_scene.h>
 #include "Level2Scene.h"
 #include "EndScene.h"
-#include "MetaData.h"
+#include "SharedData.h"
 
 
 std::vector<Background *> EndScene::backgrounds() {

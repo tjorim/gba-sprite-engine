@@ -7,15 +7,19 @@
 #include <libgba-sprite-engine/gba/tonc_memdef.h>
 #include <libgba-sprite-engine/gba_engine.h>
 #include <libgba-sprite-engine/effects/fade_out_scene.h>
+// Header files for scene transition.
 #include "Level1Scene.h"
 #include "Level2Scene.h"
 #include "DeadScene.h"
 #include "EndScene.h"
+// Data for background drawing.
 #include "BG_data.h"
-#include "MapData_L1.h"
-
+// Sprite data.
 #include "Sprite.h"
-#include "MetaData.h"
+// Data shared over all scenes.
+#include "SharedData.h"
+// Level1Scene data (move permissions).
+#include "MapData_L1.h"
 
 MapData_L1 mapDataL1;
 
@@ -64,15 +68,21 @@ void Level1Scene::load() {
 }
 
 void Level1Scene::tick(u16 keys) {
-    // Position of coin.
-    mapDataL1.setCoinPositionX(coinNr);
-    mapDataL1.setCoinPositionY(coinNr);
-    coin.get()->moveTo(mapDataL1.getCoinPositionX()-bgX, mapDataL1.getCoinPositionY()-bgY);
-
     // Display: coin status.
     TextStream::instance().setText("Coins:", 1, 0);
     std::string coinPoints = std::to_string(coinNr-1);
     TextStream::instance().setText(coinPoints+"/5", 1, 6);
+
+    // Disable animation while player not moving.
+    player->stopAnimating();
+
+    // Background scrolling.
+    bg.get()->scroll(bgX, bgY);
+
+    // Position of coin.
+    mapDataL1.setCoinPositionX(coinNr);
+    mapDataL1.setCoinPositionY(coinNr);
+    coin.get()->moveTo(mapDataL1.getCoinPositionX()-bgX, mapDataL1.getCoinPositionY()-bgY);
 
     // Collision detection between player en coin.
     if (player.get()->collidesWith(*coin)) {
@@ -86,12 +96,6 @@ void Level1Scene::tick(u16 keys) {
     // Coordinates of player on full map (needed for mapDataL1).
     playerOnMapX = playerX + bgX;
     playerOnMapY = playerY + bgY;
-
-
-    bg.get()->scroll(bgX, bgY);
-
-    player->stopAnimating();
-
 
     // Get ground level of map.
     mapDataL1.createGroundLevel(playerOnMapX, playerOnMapY+player.get()->getHeight());
@@ -180,6 +184,7 @@ void Level1Scene::tick(u16 keys) {
         engine->transitionIntoScene(new EndScene(engine), new FadeOutScene(2));
     }
 
+    // When in hole -> player died.
     if (groundLevelY == 300 && playerOnMapY == groundLevelY-player.get()->getHeight()) {
         engine->transitionIntoScene(new DeadScene(engine), new FadeOutScene(2));
     }

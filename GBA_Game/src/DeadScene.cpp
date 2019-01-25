@@ -9,7 +9,7 @@
 #include "DeadScene.h"
 #include "Level1Scene.h"
 #include "Level2Scene.h"
-#include "MetaData.h"
+#include "SharedData.h"
 
 
 std::vector<Background *> DeadScene::backgrounds() {

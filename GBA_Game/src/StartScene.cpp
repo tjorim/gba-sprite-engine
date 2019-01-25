@@ -10,7 +10,7 @@
 #include "BG_data.h"
 #include "StartScene.h"
 #include "Level2Scene.h"
-#include "MetaData.h"
+#include "SharedData.h"
 
 
 int health;
