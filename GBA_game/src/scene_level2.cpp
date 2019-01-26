@@ -59,7 +59,7 @@ void SceneLevel2::load() {
 }
 
 void SceneLevel2::tick(u16 keys) {
-    TextStream::instance().setText("HP : " + std::to_string(player->getAantalLevens()), 17, 1);
+    TextStream::instance().setText("HP : " + std::to_string(player->getAmtLives()), 17, 1);
 
     if(!(keys & KEY_LEFT) && !(keys & KEY_RIGHT)){
         player->stopAnimating();
@@ -120,7 +120,7 @@ void SceneLevel2::tick(u16 keys) {
         TextStream::instance().setText("RESET JUMP", 5, 2);
     }
 
-    if(player->getAantalLevens() == 0 && !engine->isTransitioning()){
+    if(player->getAmtLives() == 0 && !engine->isTransitioning()){
         engine->transitionIntoScene(new SceneLevel2(engine), new FadeOutScene(2));
         TextStream::instance().clear();
         TextStream::instance() << "You Died.";

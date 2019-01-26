@@ -2,7 +2,6 @@
 // Created by joost on 6/12/2018.
 //
 
-#include "scene_level1.h"
 #include <string>
 #include <libgba-sprite-engine/sprites/affine_sprite.h>
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
@@ -13,6 +12,7 @@
 #include "Sonic_sprites.h"
 #include "scene_level1.h"
 #include "background_level1.h"
+#include "scene_level1.h"
 #include "scene_level2.h"
 
 std::vector<Sprite *> SceneLevel1::sprites() {
@@ -36,14 +36,13 @@ void SceneLevel1::load() {
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager(BackgroundLevel1Pal, sizeof(BackgroundLevel1Pal)));
 
     bg = std::unique_ptr<Background>(new Background(1, BackgroundLevel1Tiles, sizeof(BackgroundLevel1Tiles), map_level1, sizeof(map_level1)));
-    bg.get()->useMapScreenBlock(16);
+    bg->useMapScreenBlock(16);
 
     bg->scroll(scrollX,scrollY);
 
     engine->setNullptrAsCurrentEffectForTransistion(); //currentEffectForTransition terug nullptr maken om te zorgen dat het mogelijk is om de scene opnieuw te laden als je dood bent. want anders geeft !engine->isTransitioning() na 1 keer altijd true.
 
     SpriteBuilder<Player> affineBuilder;
-
     player = affineBuilder
             .withData(Sonic_sprites_32_32TilesTest, sizeof(Sonic_sprites_32_32TilesTest))
             .withSize(SIZE_32_32)
@@ -78,13 +77,13 @@ Timer hitTimer;
 
 void SceneLevel1::tick(u16 keys) {
     hitTimer.onvblank();// geeft ticks aan timer maar timer gaat pas vooruit wanneer timer.start();
-    TextStream::instance().setText("HP : " + std::to_string(player->getAantalLevens()), 17, 1);
+    TextStream::instance().setText("HP : " + std::to_string(player->getAmtLives()), 17, 1);
 
 //TextStream for DEBUGGING!!
     //TextStream::instance().setText("x:" + std::to_string(player->getX()), 2, 1);
     //TextStream::instance().setText("y:" + std::to_string(player->getY()), 2, 1);
     //TextStream::instance().setText("spikeball spawn : " + std::to_string(spikeBallSpawn), 2, 1);
-    TextStream::instance().setText("afstand tot portaal: " + std::to_string(-scrollX + portalLocation), 2, 1);
+    TextStream::instance().setText("Distance to portal: " + std::to_string(-scrollX + portalLocation), 2, 1);
 
     TextStream::instance().setText("scrollX:" + std::to_string(scrollX), 4, 1);
     //TextStream::instance().setText("Timer:" + std::to_string(timer.getSecs()), 4, 1);
@@ -93,7 +92,7 @@ void SceneLevel1::tick(u16 keys) {
 
     //if(canTakeDamage) TextStream::instance().setText("can Take Damage!!!!!!!!", 4, 1);
     //if(!canTakeDamage) TextStream::instance().setText("can not TakeDamage", 4, 1);
-// actual code !!!!!
+
     if(!(keys & KEY_LEFT) && !(keys & KEY_RIGHT)){
         player->stopAnimating();
         if(player->getDirection() == DirectionRight)player->animateToFrame(4);
@@ -130,12 +129,6 @@ void SceneLevel1::tick(u16 keys) {
 
     }
 
-
-
-
-
-
-
     if(keys & KEY_UP){ // springen --> later in variabelen steken van Player
         if(player->getY() == GBA_SCREEN_HEIGHT - 60){
             player->setVelocity(0,-3);
@@ -143,7 +136,6 @@ void SceneLevel1::tick(u16 keys) {
 
         }
     }
-
 
     if(keys & KEY_DOWN){
         if(!(player->getIsBall())) {
@@ -155,7 +147,7 @@ void SceneLevel1::tick(u16 keys) {
 
     //KEY_A is om manueel de damage te testen
     if((keys & KEY_A && player->getCanTakeDamage()) || (player->collidesWith(*spikeBall) && player->getCanTakeDamage())){ //HIT DETECTION met timer anders gaat HP veel te snel omlaag
-        player->setAantalLevens(player->getAantalLevens()-1);
+        player->setAmtLives(player->getAmtLives()-1);
         hitTimer.start();
         player->setCanTakeDamage(false);
     }
@@ -164,30 +156,15 @@ void SceneLevel1::tick(u16 keys) {
         player->setCanTakeDamage(true);
     }
 
-
     if(!player->getRunnigsState()) player->setIsBall(false);
 
-/*
-    if(keys & KEY_UP){
-        if(sonic->getY() == GBA_SCREEN_HEIGHT/2) sonic->setVelocity(0,-1);
-        sonic->animateToFrame(0);
-    }
-
-
-    else{
-        if(sonic->getY() == GBA_SCREEN_HEIGHT/2) {
-            sonic->setVelocity(0, 0);
-            if(!(keys & KEY_RIGHT)) sonic->animateToFrame(0);
-        }
-    }
-    */
     if(player->getY() <= GBA_SCREEN_HEIGHT - 110) player->setVelocity(0,3);
     if(player->getY() == GBA_SCREEN_HEIGHT - 60 && player->getVelocity().y == 3){
         player->setVelocity(0,0);
         TextStream::instance().setText("RESET JUMP", 5, 2);
     }
 
-    if(player->getAantalLevens() == 0 && !engine->isTransitioning()){
+    if(player->getAmtLives() == 0 && !engine->isTransitioning()){
         engine->transitionIntoScene(new SceneLevel1(engine), new FadeOutScene(2));
         TextStream::instance().clear();
         TextStream::instance() << "You Died.";
@@ -195,11 +172,10 @@ void SceneLevel1::tick(u16 keys) {
 
     if(spikeBall->getY() >= GBA_SCREEN_HEIGHT - 60)spikeBall->setVelocity(0,-1);
     if(spikeBall->getY() <= GBA_SCREEN_HEIGHT - 120)spikeBall->setVelocity(0,1);
-    if(spikeBall->isOffScreen() && scrollX > 0 && hoeveelSpikeBallSpawns < 3){
+    if(spikeBall->isOffScreen() && scrollX > 0 && amtSpikeBallSpawns < 3){
         spikeBallSpawn += 240;
-        hoeveelSpikeBallSpawns++;
+        amtSpikeBallSpawns++;
     }
-
 
     spikeBall->moveTo(-scrollX + spikeBallSpawn,spikeBall->getY()); //laat spike ball op een vaste positie staan
     portal->moveTo(-scrollX + portalLocation,portal->getY()); //laat spike ball op een vaste positie staan
@@ -210,26 +186,3 @@ void SceneLevel1::tick(u16 keys) {
         TextStream::instance() << "Next Level.";
     }
 }
-
-
-
-
-
-   /* if(keys & KEY_START) {
-        if(!engine->isTransitioning()) {
-            //engine->enqueueSound(zelda_secret_16K_mono, zelda_secret_16K_mono_bytes);
-
-            TextStream::instance() << "entered: starting next scene";
-
-            engine->transitionIntoScene(new GamePlayScene(engine), new FadeOutScene(2));
-        }
-    } else if(keys & KEY_LEFT) {
-        animation->flipHorizontally(true);
-    } else if(keys & KEY_RIGHT) {
-        animation->flipHorizontally(false);
-    } else if(keys & KEY_UP) {
-        animation->flipVertically(true);
-    } else if(keys & KEY_DOWN) {
-        animation->flipVertically(false);
-    }*/
-

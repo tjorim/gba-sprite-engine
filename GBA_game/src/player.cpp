@@ -1,6 +1,7 @@
 //
 // Created by joost on 12/12/2018.
 //
+#define defaultAmtLives 3
 
 #include "player.h"
 
@@ -12,8 +13,8 @@ void Player::setDirection(Direction direction) {
     this->direction = direction;
 }
 
-void Player::setAantalLevens(int aantalLevens) {
-    this->aantalLevens = aantalLevens;
+void Player::setAmtLives(int amtLives) {
+    this->amtLives = amtLives;
 }
 
 void Player::setIsBall(bool isBall){
@@ -29,9 +30,9 @@ void Player::setBallSpeed(int ballSpeed){
 }
 
 /*
-Player::Player(int aantalLevens) {
-    this->aantalLevens = aantalLevens;
+Player::Player(int amtLives) {
+    this->amtLives = amtLives;
 }
 */
 
-Player::Player(const void *imgData, int imgSize, int xC, int yC, SpriteSize spriteSize)  : AffineSprite(imgData, imgSize, xC, yC, spriteSize), aantalLevens(3) {}
+Player::Player(const void *imgData, int imgSize, int xC, int yC, SpriteSize spriteSize)  : AffineSprite(imgData, imgSize, xC, yC, spriteSize), amtLives(defaultAmtLives) {}
