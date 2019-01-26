@@ -126,7 +126,7 @@ void SceneLevel2::tick(u16 keys) {
         TextStream::instance() << "You Died.";
     }
 
-    portal->moveTo(-scrollX + portalLocation,portal->getY()); //laat spike ball op een vaste positie staan
+    portal->moveTo(-scrollX + portalLocation,portal->getY());
 
     if(player->collidesWith(*portal) && !engine->isTransitioning()){
         engine->transitionIntoScene(new SceneLevel2(engine), new FadeOutScene(2));
