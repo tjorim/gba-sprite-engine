@@ -5,7 +5,6 @@
 #ifndef GBA_SPRITE_ENGINE_PROJECT_START_SCENE_H
 #define GBA_SPRITE_ENGINE_PROJECT_START_SCENE_H
 
-
 #include "../../engine/include/libgba-sprite-engine/background/background.h"
 #include "../../engine/include/libgba-sprite-engine/sprites/sprite.h"
 #include "../../engine/include/libgba-sprite-engine/gba_engine.h"
@@ -14,8 +13,6 @@
 class StartScene : public Scene {
 private:
     std::unique_ptr<Background> bg;
-
-
     int scrollX, scrollY;
     int rotation;
     int rotationDiff = 128;
@@ -27,8 +24,6 @@ public:
 
     void load() override;
     void tick(u16 keys) override;
-
 };
-
 
 #endif //GBA_SPRITE_ENGINE_SAMPLE_START_SCENE_H
