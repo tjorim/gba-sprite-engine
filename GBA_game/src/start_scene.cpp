@@ -13,6 +13,7 @@
 #include "backgroundtest.h"
 #include "scene_level1.h"
 #include "Sound.h"
+#include "scene_level2.h"
 
 std::vector<Background *> StartScene::backgrounds() {
     return {

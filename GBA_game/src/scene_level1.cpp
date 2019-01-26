@@ -177,8 +177,8 @@ void SceneLevel1::tick(u16 keys) {
         amtSpikeBallSpawns++;
     }
 
-    spikeBall->moveTo(-scrollX + spikeBallSpawn,spikeBall->getY()); //laat spike ball op een vaste positie staan
-    portal->moveTo(-scrollX + portalLocation,portal->getY()); //laat spike ball op een vaste positie staan
+    spikeBall->moveTo(-scrollX + spikeBallSpawn, spikeBall->getY()); //laat spike ball op een vaste positie staan
+    portal->moveTo(-scrollX + portalLocation, portal->getY()); //laat spike ball op een vaste positie staan
 
     if(player->collidesWith(*portal) && !engine->isTransitioning()){
         engine->transitionIntoScene(new SceneLevel2(engine), new FadeOutScene(2));

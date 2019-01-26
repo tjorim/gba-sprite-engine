@@ -11,12 +11,15 @@
 #include <libgba-sprite-engine/background/background.h>
 #include <libgba-sprite-engine/gba_engine.h>
 #include "player.h"
+#include "boss.h"
 
 class SceneLevel2 : public Scene{
 private:
     std::unique_ptr<Player> player;
     std::unique_ptr<AffineSprite> portal;
     std::unique_ptr<Background> bg;
+    std::unique_ptr<Boss> boss;
+    std::unique_ptr<AffineSprite> bossSprite;
 
     u32 portalLocation;
     int scrollX, scrollY;

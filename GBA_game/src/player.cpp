@@ -35,4 +35,5 @@ Player::Player(int amtLives) {
 }
 */
 
-Player::Player(const void *imgData, int imgSize, int xC, int yC, SpriteSize spriteSize)  : AffineSprite(imgData, imgSize, xC, yC, spriteSize), amtLives(defaultAmtLives) {}
+Player::Player(const void *imgData, int imgSize, int xC, int yC, SpriteSize spriteSize) :
+    AffineSprite(imgData, imgSize, xC, yC, spriteSize), amtLives(defaultAmtLives) {}

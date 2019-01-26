@@ -12,11 +12,14 @@
 #include "scene_level2.h"
 #include "background_level1.h"
 
+#define bossSpawnX (GBA_SCREEN_WIDTH - 50)
+
 std::vector<Sprite *> SceneLevel2::sprites() {
     std::vector<Sprite*> sprites;
     sprites.push_back(player.get());
     sprites.push_back(portal.get());
-
+    sprites.push_back(boss->getBossSprite());
+    //sprites.push_back(bossSprite.get());
     return sprites;
 }
 
@@ -35,8 +38,8 @@ void SceneLevel2::load() {
 
     engine->setNullptrAsCurrentEffectForTransistion(); //currentEffectForTransition terug nullptr maken om te zorgen dat het mogelijk is om de scene opnieuw te laden als je dood bent. want anders geeft !engine->isTransitioning() na 1 keer altijd true.
 
-    SpriteBuilder<Player> affineBuilder;
-    player = affineBuilder
+    SpriteBuilder<Player> affineBuilderPlayer;
+    player = affineBuilderPlayer
             .withData(Sonic_sprites_32_32TilesTest, sizeof(Sonic_sprites_32_32TilesTest))
             .withSize(SIZE_32_32)
             .withAnimated(4,10)
@@ -46,12 +49,21 @@ void SceneLevel2::load() {
     player->stopAnimating();
     player->setRunningsState(false);
 
+    SpriteBuilder<AffineSprite> affineBuilder;
     portal = affineBuilder
             .withData(portal_32_32TilesTest, sizeof(portal_32_32TilesTest))
             .withSize(SIZE_32_32)
             .withAnimated(3,5)
             .withLocation(portalLocation, GBA_SCREEN_HEIGHT - 60)
             .buildPtr();
+
+    bossSprite = affineBuilder
+            .withData(spikeBallTilesTest, sizeof(spikeBallTilesTest))
+            .withSize(SIZE_32_32)
+            .withLocation(bossSpawnX, GBA_SCREEN_HEIGHT - 60)
+            .buildPtr();
+    boss = std::unique_ptr<Boss>{new Boss(std::move(bossSprite))};
+    //boss->getBossSprite()->stopAnimating();
 
     TextStream::instance().clear();
     TextStream::instance() << "level 2" << "boss battle";
@@ -61,6 +73,8 @@ void SceneLevel2::load() {
 void SceneLevel2::tick(u16 keys) {
     TextStream::instance().setText("HP : " + std::to_string(player->getAmtLives()), 17, 1);
 
+    boss->getBossSprite()->moveTo(-scrollX + bossSpawnX, boss->getBossSprite()->getY());
+
     if(!(keys & KEY_LEFT) && !(keys & KEY_RIGHT)){
         player->stopAnimating();
         if(player->getDirection() == DirectionRight)player->animateToFrame(4);
@@ -69,14 +83,14 @@ void SceneLevel2::tick(u16 keys) {
         TextStream::instance().setText("IDLE", 6, 2);
     }
     else{
-        TextStream::instance().setText("ACTIVE", 6, 1);
+        TextStream::instance().setText("ACTIVE", 6, 2);
         if(keys & KEY_RIGHT){
             if(player->getVelocity().y == 0)  //setvelocity  ;
                 if(!player->getRunnigsState() && !(player->getIsBall())) {
                     player->makeAnimated(6,5,6); //makeAnimated(frames,delay,Startframe)
                     player->setRunningsState(true);
                     player->setDirection(DirectionRight);
-                    TextStream::instance().setText("RIGHT", 5, 1);
+                    TextStream::instance().setText("RIGHT", 5, 2);
                 }
             if(player->getIsBall()) scrollX += player->getBallSpeed();
             bg->scroll(scrollX++ ,scrollY); // als isball = false --> gewoon 1 stap
@@ -88,7 +102,7 @@ void SceneLevel2::tick(u16 keys) {
                     player->makeAnimated(6,5,14);
                     player->setRunningsState(true);
                     player->setDirection(DirectionLeft);
-                    TextStream::instance().setText("LEFT", 5, 1);
+                    TextStream::instance().setText("LEFT", 5, 2);
 
                 }
             if(player->getIsBall()) scrollX -= player->getBallSpeed();
