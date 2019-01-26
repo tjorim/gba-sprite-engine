@@ -7,26 +7,29 @@
 #include <libgba-sprite-engine/gba/tonc_memdef.h>
 #include <libgba-sprite-engine/gba_engine.h>
 
-#include "test_scene.h"
+#include "start_scene.h"
+#include "game_scene.h"
 #include "sound.h"
 
-std::vector<Background *> TestScene::backgrounds() {
+std::vector<Background *> StartScene::backgrounds() {
     return {};
 }
 
-std::vector<Sprite *> TestScene::sprites() {
+std::vector<Sprite *> StartScene::sprites() {
     return {};
 }
 
-void TestScene::load() {
+void StartScene::load() {
     foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager());
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager());
 
     engine->getTimer()->start();
     engine->enqueueMusic(cataclysmic_molten_core, sizeof(cataclysmic_molten_core));
+
+    GameScene* gameScene = new GameScene(engine);
 }
 
-void TestScene::tick(u16 keys) {
+void StartScene::tick(u16 keys) {
     if(engine->getTimer()->getTotalMsecs() < 5000) {
         counter++;
     } else {

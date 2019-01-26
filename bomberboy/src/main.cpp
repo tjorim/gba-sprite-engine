@@ -8,14 +8,14 @@
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
 
 #include "sound.h"
-#include "test_scene.h"
+#include "start_scene.h"
 
 int main() {
     std::shared_ptr<GBAEngine> engine(new GBAEngine());
 
-    TestScene* scene = new TestScene(engine);
+    StartScene* startScene = new StartScene(engine);
 
-    engine->setScene(scene);
+    engine->setScene(startScene);
 
     while (true) {
         engine->update();
