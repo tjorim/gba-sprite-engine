@@ -7,11 +7,15 @@
 #include <libgba-sprite-engine/gba/tonc_core.h>
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
 
+#include "sound.h"
+#include "test_scene.h"
+
 int main() {
     std::shared_ptr<GBAEngine> engine(new GBAEngine());
 
-    //auto scene = new SplashScreen(engine);
-    //engine->setScene(scene);
+    TestScene* scene = new TestScene(engine);
+
+    engine->setScene(scene);
 
     while (true) {
         engine->update();

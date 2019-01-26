@@ -1,7 +1,8 @@
 project(bomberboy)
 
 add_executable(${PROJECT_NAME}.elf
-        src/main.cpp)
+        src/main.cpp src/sound.h
+        src/test_scene.cpp src/test_scene.h)
 
 target_link_libraries(${PROJECT_NAME}.elf gba-sprite-engine)
 
