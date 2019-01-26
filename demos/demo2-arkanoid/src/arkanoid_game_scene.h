@@ -15,10 +15,12 @@ private:
     int ticks, highscore;
 
     std::unique_ptr<Sprite> paddle;
-    std::unique_ptr<Sprite> ball;
+    std::unique_ptr<Sprite>* ball;
+    int numberOfBalls;
 
     void youDied();
     void resetGame();
+    void ballTick(Sprite* paddle, Sprite* ball);
 
 public:
     std::vector<Sprite *> sprites() override;
