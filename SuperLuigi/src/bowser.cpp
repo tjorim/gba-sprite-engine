@@ -38,7 +38,7 @@ void bowser::tick(u16 keys) {
      if (randomTimer > 0) {
            if (randomTimer == 1) {
                dead = false;
-             bowserSprite->setVelocity(0,-1);
+             if(bowserSprite->getY() ==GBA_SCREEN_HEIGHT-bottomHeightFor32) bowserSprite->setVelocity(0,-1);
              timer();
            }
            randomTimer--;
