@@ -1,7 +1,7 @@
 
 ## Sonic GBA_game
 
-gebaseerd op:[Engine](https://github.com/wgroeneveld/gba-sprite-engine)
+gebaseerd op: [Engine](https://github.com/wgroeneveld/gba-sprite-engine)
 
 Sonic kan in elke richting lopen. Daarbij kan je sonic een bal laten worden tijdens het lopen door KEY_DOWN eenmaling in te duwen.
 Sonic heeft een hogere snelheid wanneer hij zich in balvorm bevindt.
