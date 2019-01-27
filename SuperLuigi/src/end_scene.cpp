@@ -9,8 +9,10 @@
 
 #include "background.h"
 #include "LuigiTiles.h"
+#include "bowserTiles.h"
 #include "sharedPal.h"
 #include "Luigi.h"
+#include "bowser.h"
 
 #define bottomHeightFor32 45
 #define bottomHeightFor16 29
@@ -38,12 +40,22 @@ void end_scene::load() {
     luigi = std::unique_ptr<Luigi>{new Luigi(std::move(luigiSprite))};
     luigi->getLuigiSprite()->stopAnimating();
     luigi->setCurrentLvl(2);
+
+    bowserSprite = affineBuilder
+            .withData(bowserTiles,sizeof(bowserTiles))
+            .withSize(SIZE_32_32)
+            .withLocation(GBA_SCREEN_WIDTH-20,GBA_SCREEN_HEIGHT-bottomHeightFor32)
+            .withAnimated(0,0)
+            .buildPtr();
+    Bowser = std::unique_ptr<bowser>{new bowser(std::move(bowserSprite))};
+    Bowser->getBowserSprite()->stopAnimating();
+
 }
 std::vector<Sprite *> end_scene::sprites() {
 
     std::vector<Sprite *> sprites;
     sprites.push_back(luigi->getLuigiSprite().get());
-
+    sprites.push_back(Bowser->getBowserSprite().get());
     return sprites;
 }
 
@@ -52,6 +64,12 @@ void end_scene::tick(u16 keys) {
         TextStream::instance().setText("Points: " + std::to_string(points) ,0,0);
         luigi->tickEndScene(keys);
 
+        if(keys & KEY_RIGHT){
+            luigi->getLuigiSprite() -> flipHorizontally(false);
+        }
+        if(keys & KEY_LEFT){
+            luigi->getLuigiSprite() ->flipHorizontally(true);
+        }
 
     }
 }

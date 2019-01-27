@@ -10,6 +10,7 @@
 #include <vector>
 #include <libgba-sprite-engine/sprites/affine_sprite.h>
 #include "Luigi.h"
+#include "bowser.h"
 #include "goomba.h"
 #include "QuestionBlock.h"
 #include "Koopa.h"
@@ -19,7 +20,9 @@ class end_scene : public Scene {
 private:
     std::unique_ptr<Background> bg;
     std::unique_ptr<Luigi> luigi;
+    std::unique_ptr<bowser> Bowser;
     std::unique_ptr<AffineSprite> luigiSprite;
+    std::unique_ptr<AffineSprite> bowserSprite;
     int points;
 public:
     std::vector<Sprite *> sprites() override;

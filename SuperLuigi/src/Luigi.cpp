@@ -68,7 +68,7 @@ void Luigi::tickEndScene(u16 keys) {
             luigiSprite->animateToFrame(5);
         }
         if(keys & KEY_RIGHT) {
-            luigiSprite->flipHorizontally(false);
+           // luigiSprite->flipHorizontally(false);
             luigiSprite->setVelocity(1, 0);
             if (luigiSprite->getVelocity().y == 0) {
                 luigiSprite->animate();
@@ -79,7 +79,7 @@ void Luigi::tickEndScene(u16 keys) {
                 luigiSprite->animateToFrame(0);
             }
         if(keys & KEY_LEFT){
-            luigiSprite->flipHorizontally(true);
+            //luigiSprite->flipHorizontally(true);
             luigiSprite->setVelocity(-1,0);
         }
 

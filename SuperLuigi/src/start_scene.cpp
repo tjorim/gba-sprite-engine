@@ -47,7 +47,7 @@ void start_scene::load() {
             .buildPtr();
 
     goomba = affineBuilder
-            .withData(goombaTiles, sizeof(goombaTiles))
+            .withData(GoombaTiles, sizeof(GoombaTiles))
             .withSize(SIZE_16_16)
             .withLocation(GBA_SCREEN_WIDTH/2 -20 , GBA_SCREEN_HEIGHT/2 +16)
             .withAnimated(3,5)

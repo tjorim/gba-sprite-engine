@@ -47,7 +47,7 @@ void level1::load() {
     luigi->getLuigiSprite()->stopAnimating();
     luigi->setCurrentLvl(1);
     goombaSprite = affineBuilder
-            .withData(goombaTiles, sizeof(goombaTiles))
+            .withData(GoombaTiles, sizeof(GoombaTiles))
             .withSize(SIZE_16_16)
             .withLocation(GBA_SCREEN_WIDTH, GBA_SCREEN_HEIGHT-bottomHeightFor16)
             .withAnimated(3,5)
