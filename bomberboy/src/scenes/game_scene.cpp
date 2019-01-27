@@ -22,7 +22,7 @@ std::vector<Background *> GameScene::backgrounds() {
 std::vector<Sprite *> GameScene::sprites() {
     std::vector<Sprite *> sprites;
 
-    sprites.push_back(bompje.get());
+    //sprites.push_back(bompje.get());
 
     for(int i = 0; i < bombs.size(); ++i)
     {
@@ -37,7 +37,9 @@ std::vector<Sprite *> GameScene::sprites() {
         }
     }
     */
-    //TextStream::instance().setText(std::string("Bomsprites ") + std::to_string(sprites.size()), 11, 1);
+    sprites.push_back(bomSprite.get());
+    TextStream::instance().setText(std::string("Counter ") + std::to_string(testCounter), 11, 1);
+    TextStream::instance().setText(std::string("Sprites ") + std::to_string(sprites.size()), 12, 1);
     return sprites;
     //return {bompje.get()};
 }
@@ -52,7 +54,7 @@ void GameScene::load() {
     bomSprite = spriteBuilder
             ->withData(kruitTiles, sizeof(kruitTiles))
             .withSize(SIZE_16_16)
-            .withLocation(10, 10)
+            .withLocation(GBA_SCREEN_WIDTH + 20, GBA_SCREEN_HEIGHT + 20)
             .buildPtr();
     
     bompje = spriteBuilder
