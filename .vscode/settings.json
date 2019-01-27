@@ -1,6 +1,4 @@
 {
-    "cmake.configureOnOpen": true,
-    "C_Cpp.default.configurationProvider": "vector-of-bool.cmake-tools",
     "files.associations": {
         "array": "cpp",
         "*.tcc": "cpp",
@@ -34,7 +32,6 @@
         "type_traits": "cpp",
         "tuple": "cpp",
         "typeinfo": "cpp",
-        "utility": "cpp",
-        "cstdarg": "cpp"
+        "utility": "cpp"
     }
 }
