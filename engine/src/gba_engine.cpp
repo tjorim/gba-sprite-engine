@@ -9,10 +9,15 @@
 
 std::unique_ptr<SoundControl> GBAEngine::activeChannelA;
 std::unique_ptr<SoundControl> GBAEngine::activeChannelB;
+std::unique_ptr<Timer> GBAEngine::timer;
 
 void GBAEngine::vsync() {
     while (REG_VCOUNT >= 160);
     while (REG_VCOUNT < 160);
+}
+
+Timer* GBAEngine::getTimer() {
+    return GBAEngine::timer.get();
 }
 
 void GBAEngine::onVBlank() {
@@ -23,6 +28,8 @@ void GBAEngine::onVBlank() {
     unsigned short tempInterruptState = REG_IF;
 
     if((REG_IF & INTERRUPT_VBLANK) == INTERRUPT_VBLANK) {
+        GBAEngine::timer->onvblank();
+
         if(GBAEngine::activeChannelA) {
             if(GBAEngine::activeChannelA->done()) {
                 GBAEngine::activeChannelA->reset();
@@ -49,9 +56,6 @@ u16 GBAEngine::readKeys() {
 }
 
 void GBAEngine::dequeueAllSounds() {
-    stopOnVBlank();
-    vsync();
-
     if(GBAEngine::activeChannelA) {
         GBAEngine::activeChannelA->disable();
     } if(GBAEngine::activeChannelB) {
@@ -74,8 +78,7 @@ void GBAEngine::enqueueSound(const s8 *data, int totalSamples, int sampleRate, S
         control = GBAEngine::activeChannelB.get();
     }
 
-    stopOnVBlank();
-    REG_TM0CNT = 0;
+    disableTimer0AndVBlank();
     control->disable();
 
     REG_SNDDSCNT |= control->getControlFlags();     // output to both sides, reset fifo
@@ -83,14 +86,25 @@ void GBAEngine::enqueueSound(const s8 *data, int totalSamples, int sampleRate, S
     u16 ticksPerSample = CLOCK / sampleRate;        // divide the clock (ticks/second) by the sample rate (samples/second)
 
     control->accept(data, totalSamples, ticksPerSample);
-    startOnVBlank();
     control->enable();
 
     REG_TM0D = OVERFLOW_16_BIT_VALUE - ticksPerSample;
+
+    enableTimer0AndVBlank();
+}
+
+void GBAEngine::disableTimer0AndVBlank() {
+    stopOnVBlank();
+    REG_TM0CNT = 0;
+}
+
+void GBAEngine::enableTimer0AndVBlank() {
     REG_TM0CNT = TM_ENABLE | TM_FREQ_1;             // enable timer - dma auto-syncs to this thanks to DMA_SYNC_TO_TIMER
+    startOnVBlank();
 }
 
 GBAEngine::GBAEngine() {
+    GBAEngine::timer = std::unique_ptr<Timer>(new Timer());
     // setup screen control flags
     REG_DISPCNT = DCNT_MODE0 | DCNT_OBJ | DCNT_OBJ_1D | DCNT_BG0 | DCNT_BG1 | DCNT_BG2 | DCNT_BG3;
 
@@ -99,13 +113,16 @@ GBAEngine::GBAEngine() {
     REG_IE |= INTERRUPT_VBLANK;
     *IRQ_CALLBACK = (u32) &GBAEngine::onVBlank;
 
+    enableTimer0AndVBlank();
+
     REG_SNDDSCNT = 0;
+    disableTextBg = false;
     Allocator::free();
 }
 
 void GBAEngine::update() {
-    vsync();
-
+    // main update loop, in while(true) {}.
+    // WARNING - keep amount of instructions as minimal as possible in here!
     if(sceneToTransitionTo) {
         currentEffectForTransition->update();
 
@@ -115,12 +132,17 @@ void GBAEngine::update() {
     }
 
     u16 keys = readKeys();
+    // main scene update loop call. This *might* take a while.
     currentScene->tick(keys);
 
-    if(currentScene->sprites().size() != spriteManager.getSpriteSize()) {
-        updateSpritesInScene();
-    }
+    // Intentionally commented out: asking the scene for sprites() rebuilds the vector each time
+    // Causing a big performance hit. Instead, you should call updateSpritesInScene() yourself!
+    // if(currentScene->sprites().size() != spriteManager.getSpriteSize()) {
+    //     updateSpritesInScene();
+    // }
 
+    // TODO use software interrupt Vsyncing instead of 2 wasteful whiles
+    vsync();
     spriteManager.render();
 }
 
@@ -131,17 +153,26 @@ void GBAEngine::transitionIntoScene(Scene* scene, SceneEffect* effect) {
 }
 
 void GBAEngine::cleanupPreviousScene()  {
+    for(auto bg : currentScene->backgrounds()) {
+        bg->clearData();
+    }
+
     delete currentScene;
     sceneToTransitionTo = nullptr;
     delete currentEffectForTransition;
+    currentEffectForTransition = nullptr;
 }
 
 void GBAEngine::setScene(Scene* scene) {
     dequeueAllSounds();
+
     if(this->currentScene) {
         cleanupPreviousScene();
-        TextStream::instance().clear();
+        if(!this->disableTextBg) {
+            TextStream::instance().clear();
+        }
     }
+    spriteManager.hideAll();
     scene->load();
 
     auto fgPalette = scene->getForegroundPalette();
@@ -155,7 +186,9 @@ void GBAEngine::setScene(Scene* scene) {
     }
     bgPalette->persist();
 
-    TextStream::instance().persist();
+    if(!this->disableTextBg) {
+        TextStream::instance().persist();
+    }
 
     for(const auto bg : scene->backgrounds()) {
         bg->persist();

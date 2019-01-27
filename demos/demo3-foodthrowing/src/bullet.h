@@ -7,20 +7,24 @@
 
 
 #include <libgba-sprite-engine/sprites/sprite.h>
+#ifdef CODE_COMPILED_AS_PART_OF_TEST
+#include <libgba-sprite-engine/gba/tonc_math_stub.h>
+#else
 #include <libgba-sprite-engine/gba/tonc_math.h>
+#endif
+#include <deque>
 
 class Bullet {
 private:
     std::unique_ptr<Sprite> sprite;
+    std::deque<VECTOR> coords;
     VECTOR dest;
-    VECTOR vel;
-    VECTOR direction;
 
 public:
     Bullet(std::unique_ptr<Sprite> sprite) : sprite(std::move(sprite)), dest(VECTOR()) {}
 
     void tick();
-    void setDestination(VECTOR vec);
+    void setDestination(VECTOR destination);
     bool isOffScreen() { return sprite->isOffScreen(); }
     Sprite* getSprite() { return sprite.get(); }
 };

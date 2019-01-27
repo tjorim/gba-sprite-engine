@@ -29,15 +29,12 @@ void SpriteManager::add(Sprite* sprite) {
 }
 
 void SpriteManager::render() {
-    if(!initialized) {
-        failure_gba(Cant_Render_Before_Init);
-    }
-
+    // WARNING - This is called every time in the main update loop; keep amount of instructions as minimal as possible in here!
     copyOverSpriteOAMToVRAM();
 }
 
 void SpriteManager::persist() {
-   copyOverImageDataToVRAM();
+    copyOverImageDataToVRAM();
     initialized = true;
 }
 
@@ -46,9 +43,6 @@ void SpriteManager::copyOverSpriteOAMToVRAM() {
     int affineIndex = 0;
 
     for(auto sprite : this->sprites) {
-        if(affineIndex > MAX_AFFINE_SIZE) {
-            failure_gba(MaxSpritesWithAffineReached);
-        }
         sprite->update();
 
         auto oam = sprite->oam.get();
@@ -66,8 +60,11 @@ void SpriteManager::copyOverSpriteOAMToVRAM() {
 
         i++;
     }
-    for(int j = i; j < MAX_SPRITE_SIZE; j++) {
-        oam_mem[j].attr0 = ATTR0_HIDE;
+}
+
+void SpriteManager::hideAll() {
+    for(int i = 0; i < MAX_SPRITE_SIZE; i++) {
+        oam_mem[i].attr0 = ATTR0_HIDE;
     }
 }
 

@@ -12,6 +12,7 @@
 #include <libgba-sprite-engine/effects/scene_effect.h>
 #include "scene.h"
 #include "sound_control.h"
+#include "timer.h"
 
 #define GBA_SCREEN_WIDTH 240
 #define GBA_SCREEN_HEIGHT 160
@@ -23,8 +24,10 @@ private:
     Scene* sceneToTransitionTo;
     SceneEffect* currentEffectForTransition;
 
+    bool disableTextBg;
     SpriteManager spriteManager;
 
+    static std::unique_ptr<Timer> timer;
     static std::unique_ptr<SoundControl> activeChannelA;
     static std::unique_ptr<SoundControl> activeChannelB;
 
@@ -32,6 +35,8 @@ private:
     void cleanupPreviousScene();
     void enqueueSound(const s8 *data, int totalSamples, int sampleRate, SoundChannel channel);
 
+    void enableTimer0AndVBlank();
+    void disableTimer0AndVBlank();
     static void startOnVBlank() { REG_IME = 1; }
     static void stopOnVBlank() { REG_IME = 0; }
     static void onVBlank();
@@ -39,10 +44,13 @@ private:
 public:
     GBAEngine();
 
+    Timer* getTimer();
     void setScene(Scene* scene);
     void dynamicallyAddSprite(Sprite* s) { spriteManager.add(s); }
     void transitionIntoScene(Scene* scene, SceneEffect* effect);
     bool isTransitioning() { return currentEffectForTransition != nullptr; }
+    void disableText() { this->disableTextBg = true; }
+    void enableText() { this->disableTextBg = false; }
 
     void dequeueAllSounds();
     void enqueueMusic(const s8 *data, int totalSamples, int sampleRate = 16000) {
