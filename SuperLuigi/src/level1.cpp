@@ -102,7 +102,7 @@ void level1::loadEndScene() {
 
 void level1::tick(u16 keys) {
     if(!luigi->isDead() ){
-        TextStream::instance().setText("Points: " + std::to_string(points) + " Lives: " + std::to_string(lives), 0,0);
+        TextStream::instance().setText("Points: " + std::to_string(points) + " Lives: " + std::to_string(lives) , 0,0);
 
         koopa->tick(keys);
         goomba->tick(keys);

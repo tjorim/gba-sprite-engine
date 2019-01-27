@@ -36,7 +36,7 @@ public:
     std::vector<Sprite *> sprites() override;
     std::vector<Background *> backgrounds() override;
 
-    level1(std::shared_ptr<GBAEngine> engine) : Scene(engine), scrollX(0), scrollY(0), stopScrollBg(false), points(0), lives(1) {}
+    level1(std::shared_ptr<GBAEngine> engine) : Scene(engine), scrollX(0), scrollY(0), stopScrollBg(false), points(4), lives(1) {}
 
     void load() override;
     void tick(u16 keys) override;

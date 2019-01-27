@@ -22,6 +22,7 @@ public:
     Luigi() {}
     std::unique_ptr<AffineSprite>& getLuigiSprite();
     void tick(u16 keys);
+    void tickEndScene(u16 keys);
     void kill();
     bool isDead();
     void setCurrentLvl(int lvl);

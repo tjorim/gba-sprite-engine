@@ -43,12 +43,15 @@ std::vector<Sprite *> end_scene::sprites() {
 
     std::vector<Sprite *> sprites;
     sprites.push_back(luigi->getLuigiSprite().get());
+
+    return sprites;
 }
 
 void end_scene::tick(u16 keys) {
     if(!luigi->isDead() ) {
-        TextStream::instance().setText("Points: " + std::to_string(points),0,0);
-        luigi->tick(keys);
+        TextStream::instance().setText("Points: " + std::to_string(points) ,0,0);
+        luigi->tickEndScene(keys);
+
 
     }
 }

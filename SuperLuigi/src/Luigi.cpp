@@ -30,21 +30,18 @@ int Luigi::getCurrentLvl() {
 
 void Luigi::tick(u16 keys) {
     if(!isDead()){
-        if(luigiSprite->getVelocity().y != 0){
-            luigiSprite->stopAnimating();
-            luigiSprite->animateToFrame(5);
+      if(luigiSprite->getVelocity().y != 0){
+           luigiSprite->stopAnimating();
+           luigiSprite->animateToFrame(5);
         }
 
         if(keys & KEY_RIGHT) {
             if (luigiSprite->getVelocity().y == 0) luigiSprite->animate();
         }
-        else if(CurrentLvl == 2 & keys & KEY_LEFT){
-            if (luigiSprite->getVelocity().y == 0) luigiSprite->animate();
-        }
-        else if(luigiSprite->getVelocity().y == 0){
-            luigiSprite->stopAnimating();
-            luigiSprite->animateToFrame(0);
-        }
+            else if (luigiSprite->getVelocity().y == 0) {
+                luigiSprite->stopAnimating();
+                luigiSprite->animateToFrame(0);
+            }
 
 
         if(keys & KEY_UP){
@@ -61,4 +58,32 @@ void Luigi::tick(u16 keys) {
         if((luigiSprite->getY() == GBA_SCREEN_HEIGHT-120 && luigiSprite->getVelocity().y < 0)
            || (luigiSprite->getY() < GBA_SCREEN_HEIGHT-bottomHeightFor32 && luigiSprite->getVelocity().y == 0)) luigiSprite->setVelocity(0,1);
     }
+}
+
+void Luigi::tickEndScene(u16 keys) {
+    if(!isDead()){
+        luigiSprite->setVelocity(0,0);
+        if(luigiSprite->getVelocity().y != 0){
+            luigiSprite->stopAnimating();
+            luigiSprite->animateToFrame(5);
+        }
+        if(keys & KEY_RIGHT) {
+            luigiSprite->flipHorizontally(false);
+            luigiSprite->setVelocity(1, 0);
+            if (luigiSprite->getVelocity().y == 0) {
+                luigiSprite->animate();
+            }
+        }
+            else if (luigiSprite->getVelocity().y == 0) {
+                luigiSprite->stopAnimating();
+                luigiSprite->animateToFrame(0);
+            }
+        if(keys & KEY_LEFT){
+            luigiSprite->flipHorizontally(true);
+            luigiSprite->setVelocity(-1,0);
+        }
+
+
+    }
+
 }

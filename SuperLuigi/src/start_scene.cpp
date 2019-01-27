@@ -11,6 +11,7 @@
 #include "start_scene.h"
 #include "LuigiTiles.h"
 #include "level1.h"
+#include "end_scene.h"
 #include "goombaTiles.h"
 #include "sharedPal.h"
 
