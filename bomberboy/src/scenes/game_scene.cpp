@@ -22,7 +22,7 @@ std::vector<Background *> GameScene::backgrounds() {
 std::vector<Sprite *> GameScene::sprites() {
     std::vector < Sprite * > sprites;
 
-    sprites.push_back(bomSprite.get());
+    sprites.push_back(bombSprite.get());
     for (auto &bomb : bombs) {
         sprites.push_back(bomb->getSprite());
     }
@@ -48,12 +48,8 @@ void GameScene::load() {
     spriteBuilder = std::unique_ptr < SpriteBuilder < Sprite >> (new SpriteBuilder <Sprite>);
     // SpriteBuilder<Sprite> spriteBuilder;
 
-    bomSprite = spriteBuilder
-            ->withData(kruitTiles, sizeof(kruitTiles))
-            .withSize(SIZE_16_16)
-            .withLocation(GBA_SCREEN_WIDTH + 20, GBA_SCREEN_HEIGHT + 20)
-            .buildPtr();
-
+    
+// player1
 /*
     for (int i = 0; i < 5; i++) {
         for (int j = 0; j < 5; j++) {
@@ -73,9 +69,7 @@ void GameScene::tick(u16 keys) {
     TextStream::instance().setText(std::string("Game scene"), 5, 1);
 
     if (keys & KEY_ACCEPT) {
-        bombs.push_back(
-                std::unique_ptr<Bomb>(new Bomb(
-                        spriteBuilder->withLocation(2, 2).withVelocity(3, 3).buildWithDataOf(*bomSprite.get()))));
+        bombs.push_back(createBomb());
         TextStream::instance().setText(std::string("Boms ") + std::to_string(bombs.size()), 10, 1);
         engine.get()->updateSpritesInScene();
 
