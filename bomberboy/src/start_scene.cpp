@@ -1,5 +1,5 @@
 //
-// Created by JT
+// Created by Jorim Tielemans
 //
 
 //#include <libgba-sprite-engine/background/text_stream.h>
