@@ -15,24 +15,41 @@ std::vector<Background *> TestScene::backgrounds() {
 }
 
 std::vector<Sprite *> TestScene::sprites() {
-    return {};
+    return {player.get()};
 }
 
 void TestScene::load() {
-    foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager());
-    backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager());
+    foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager(paletteSharedPal, sizeof(paletteSharedPal)));
+    // backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager());
 
-    engine->getTimer()->start();
-    engine->enqueueMusic(cataclysmic_molten_core, sizeof(cataclysmic_molten_core));
+    SpriteBuilder<Sprite> builder;
+
+    Dude* dude = new Dude(50, 50);
+
+    player = builder
+            .withSize(SIZE_8_8)
+            .withLocation((u32) dude->getX(), (u32) dude->getY())
+            .withData(ballTiles, sizeof(ballTiles))
+            .withVelocity(0, 0)
+            .buildPtr();
+
+    dude->setView(player.get());
+
+    controller = new PlayerController();
+    controller->setModel(dude);
+
+    // engine->enqueueMusic(cataclysmic_molten_core, sizeof(cataclysmic_molten_core));
 }
 
 void TestScene::tick(u16 keys) {
-    if(engine->getTimer()->getTotalMsecs() < 5000) {
-        counter++;
-    } else {
-        engine->getTimer()->stop();
+
+    if(keys && KEY_UP) {
+        //player->moveTo(player->getX(), player->getY() + 10);
+        // player->setVelocity(10,10);
     }
 
-    TextStream::instance().setText(std::to_string(counter) + std::string(" frames/5sec"), 5, 1);
-    TextStream::instance().setText(std::string(engine->getTimer()->to_string()), 6, 1);
+    controller->processKeys(keys);
+
+    //TextStream::instance().setText(std::to_string(counter) + std::string(" frames/5sec"), 5, 1);
+    //TextStream::instance().setText(std::string(engine->getTimer()->to_string()), 6, 1);
  }

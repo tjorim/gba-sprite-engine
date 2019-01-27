@@ -10,8 +10,9 @@ private:
     BaseModel* _model;
 
 public:
-    void processKeys(u16 keys);
+    virtual void processKeys(u16 keys) = 0;
     void setModel(BaseModel* model) {_model = model;}
+    BaseModel* getModel() {return _model;}
 
 
 };

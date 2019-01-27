@@ -11,7 +11,10 @@ private:
 
 public:
     void setView(Sprite* sprite) {_sprite = sprite;}
-    void updateSprite();
+    Sprite* getView() {
+        return _sprite;
+    }
+    virtual void updateSprite() = 0;
 
 };
 

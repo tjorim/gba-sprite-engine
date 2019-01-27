@@ -7,10 +7,17 @@
 
 
 #include <libgba-sprite-engine/scene.h>
+#include "Models/Dude.h"
+#include "Controllers/PlayerController.h"
+#include <libgba-sprite-engine/sprites/affine_sprite.h>
+#include "kul.h"
+#include "spritedata.h"
 
 class TestScene : public Scene {
 private:
     int counter = 0;
+    std::unique_ptr<Sprite> player;
+    PlayerController* controller;
 
 public:
     std::vector<Sprite *> sprites() override;
