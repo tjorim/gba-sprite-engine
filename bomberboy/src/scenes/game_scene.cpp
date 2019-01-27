@@ -11,6 +11,7 @@
 #include "../thing/bomb.h"
 #include "../../img/bullet_data.h"
 #include "../../img/avatar.h"
+#include "../../img/kruit.h"
 
 GameScene::GameScene(const std::shared_ptr<GBAEngine> &engine, int level) : Scene(engine), level(level) {}
 
@@ -19,16 +20,16 @@ std::vector<Background *> GameScene::backgrounds() {
 }
 
 std::vector<Sprite *> GameScene::sprites() {
-    // std::vector<Sprite *> sprites;
+    std::vector<Sprite *> sprites;
 
-    // sprites.push_back(bompje.get());
-/*
-    for(auto& bomb : bombs)
+    sprites.push_back(bompje.get());
+
+    for(int i = 0; i < bombs.size(); ++i)
     {
-        sprites.push_back(bomb->getSprite());
+        sprites.push_back(bombs[i]->getSprite());
     }
-    */
     
+    ++testCounter;
     /*
     for (int i = 0; i < board.size(); i++) {
         for (int j = 0; j < board[i].size(); j++) {
@@ -36,25 +37,26 @@ std::vector<Sprite *> GameScene::sprites() {
         }
     }
     */
-    // return sprites;
-    return {bompje.get()};
+    //TextStream::instance().setText(std::string("Bomsprites ") + std::to_string(sprites.size()), 11, 1);
+    return sprites;
+    //return {bompje.get()};
 }
 
 void GameScene::load() {
-    foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager(avatar_palette, sizeof(avatar_palette)));
+    foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager(kruitPal, sizeof(kruitPal)));
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager());
 
     spriteBuilder = std::unique_ptr<SpriteBuilder<Sprite>>(new SpriteBuilder<Sprite>);
     // SpriteBuilder<Sprite> spriteBuilder;
 
     bomSprite = spriteBuilder
-            ->withData(bullet_data, sizeof(bullet_data))
+            ->withData(kruitTiles, sizeof(kruitTiles))
             .withSize(SIZE_16_16)
             .withLocation(10, 10)
             .buildPtr();
     
     bompje = spriteBuilder
-            ->withData(bullet_data, sizeof(bullet_data))
+            ->withData(kruitTiles, sizeof(kruitTiles))
             .withSize(SIZE_16_16)
             .withLocation(10, 10)
             .buildPtr();
@@ -79,8 +81,15 @@ void GameScene::tick(u16 keys) {
 
     if (keys & KEY_ACCEPT) {
         bombs.push_back(
-            std::unique_ptr<Bomb>(new Bomb(spriteBuilder->buildWithDataOf(*bomSprite.get()))));
-            TextStream::instance().setText(std::string("Bom ") + std::to_string(bombs.size()), 10, 1);
+            std::unique_ptr<Bomb>(new Bomb(spriteBuilder->withLocation(2,2).withVelocity(3,3).buildWithDataOf(*bomSprite.get()))));
+             TextStream::instance().setText(std::string("Bom ") + std::to_string(bombs.size()), 10, 1);
+        // bombs.push_back(std::unique_ptr<Bomb>(new Bomb(spriteBuilder
+        //     ->withData(kruitTiles, sizeof(kruitTiles))
+        //     .withSize(SIZE_16_16)
+        //     .withLocation(10, 10)
+        //     .withVelocity(1,1)
+        //     .buildPtr())));
+        engine.get()->updateSpritesInScene();
     }
     /*
     if (keys & KEY_ACCEPT) {

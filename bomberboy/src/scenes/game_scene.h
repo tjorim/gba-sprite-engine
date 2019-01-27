@@ -12,6 +12,7 @@
 
 class GameScene : public Scene {
 private:
+    int testCounter = 0;
     int level = 1;
     std::vector<std::vector<Thing>> board;
     std::vector<std::unique_ptr<Bomb>> bombs;
