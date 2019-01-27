@@ -17,6 +17,8 @@
 #include "QuestionBlock.h"
 #include "KoopaTiles.h"
 #include "Koopa.h"
+#include "end_scene.h"
+#include <libgba-sprite-engine/effects/fade_out_scene.h>
 
 #define bottomHeightFor32 45
 #define bottomHeightFor16 29
@@ -43,7 +45,7 @@ void level1::load() {
 
     luigi = std::unique_ptr<Luigi>{new Luigi(std::move(luigiSprite))};
     luigi->getLuigiSprite()->stopAnimating();
-
+    luigi->setCurrentLvl(1);
     goombaSprite = affineBuilder
             .withData(goombaTiles, sizeof(goombaTiles))
             .withSize(SIZE_16_16)
@@ -89,6 +91,13 @@ std::vector<Sprite *> level1::sprites() {
 void level1::addPoint() {
     points++;
     if(points %5 == 0) lives++;
+    loadEndScene();
+}
+
+void level1::loadEndScene() {
+    if(points == 5){
+        engine ->transitionIntoScene(new end_scene(engine,points), new FadeOutScene(5));
+    }
 }
 
 void level1::tick(u16 keys) {
