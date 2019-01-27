@@ -61,6 +61,7 @@ void FlyingStuffScene::load() {
 
 void FlyingStuffScene::tick(u16 keys) {
     scrollX += 1;
+    //scrollY += 1;
 
     rotation += rotationDiff;
     kulFlying.get()->rotate(rotation);

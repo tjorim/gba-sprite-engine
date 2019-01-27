@@ -8,6 +8,9 @@
 
 #include <libgba-sprite-engine/scene.h>
 #include "Models/Dude.h"
+#include "Models/BaseData.h"
+#include "Models/Bullet.h"
+#include "Models/PlayerData.h"
 #include "Controllers/PlayerController.h"
 #include <libgba-sprite-engine/sprites/affine_sprite.h>
 #include "kul.h"
@@ -15,9 +18,11 @@
 
 class TestScene : public Scene {
 private:
-    int counter = 0;
-    std::unique_ptr<Sprite> player;
-    PlayerController* controller;
+    std::unique_ptr<Sprite> _player;
+    std::vector<Sprite*> _bullets;
+    std::unique_ptr<Sprite> _bulletSprite;
+    PlayerController* _controller;
+    Dude* _model;
 
 public:
     std::vector<Sprite *> sprites() override;
@@ -27,6 +32,8 @@ public:
 
     void load() override;
     void tick(u16 keys) override;
+
+    void updateFromModel();
 
 };
 

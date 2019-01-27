@@ -18,6 +18,7 @@ private:
     void moveDown();
     void moveLeft();
     void moveRight();
+    void shoot();
 public:
     void processKeys(u16 keys);
 

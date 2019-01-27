@@ -2,6 +2,7 @@
 #define BASE_MODEL_H
 
 #include <libgba-sprite-engine/sprites/sprite.h>
+#include "BaseData.h"
 
 class BaseModel {
 
@@ -15,6 +16,7 @@ public:
         return _sprite;
     }
     virtual void updateSprite() = 0;
+    virtual BaseData* getData() = 0;
 
 };
 

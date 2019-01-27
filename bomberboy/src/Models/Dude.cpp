@@ -3,6 +3,7 @@
 //
 
 #include "Dude.h"
+#include "PlayerData.h"
 
 Dude::Dude() {
     _pos = RCoord(0, 0);
@@ -36,4 +37,15 @@ void Dude::move(RCoord pos) {
 
 void Dude::move(int x, int y) {
     _pos += RCoord(x, y);
+}
+
+void Dude::shoot() {
+    _bullets.push_back(Bullet(_pos));
+}
+
+BaseData* Dude::getData() {
+    PlayerData* data = new PlayerData();
+    data->setBullents(_bullets.data());
+    data->setInt(_bullets.size());
+    return data;
 }

@@ -10,6 +10,7 @@ void PlayerController::processKeys(u16 keys) {
     if(keys & KEY_DOWN) moveDown();
     if(keys & KEY_LEFT) moveLeft();
     if(keys & KEY_RIGHT) moveRight();
+    if(keys & KEY_A) shoot();
     getModel()->updateSprite();
 }
 
@@ -42,5 +43,13 @@ void PlayerController::moveUp() {
     Dude* dude = dynamic_cast<Dude*>(getModel());
     if(dude != nullptr) {
         dude->move(0,-1);
+    }
+}
+
+void PlayerController::shoot() {
+    TextStream::instance().setText("SHOOT", 5, 1);
+    Dude* dude = dynamic_cast<Dude*>(getModel());
+    if(dude != nullptr) {
+        dude->shoot();
     }
 }

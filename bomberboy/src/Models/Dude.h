@@ -6,6 +6,7 @@
 #define GBA_SPRITE_ENGINE_PROJECT_DUDE_H
 
 #include "base_model.h"
+#include "Bullet.h"
 #include "../lib/RCoord.h"
 #include <libgba-sprite-engine/gba_engine.h>
 #include <libgba-sprite-engine/background/text_stream.h>
@@ -13,6 +14,7 @@
 class Dude : public BaseModel {
 private:
     RCoord _pos;
+    std::vector<Bullet> _bullets;
 
 public:
     Dude();
@@ -26,6 +28,10 @@ public:
     int getX() {return _pos.GetX();}
     int getY() {return _pos.GetY();}
     RCoord getPos() { return _pos;}
+
+    void shoot();
+
+    BaseData* getData();
 
 
 };
