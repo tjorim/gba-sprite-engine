@@ -49,6 +49,7 @@ void end_scene::load() {
             .buildPtr();
     Bowser = std::unique_ptr<bowser>{new bowser(std::move(bowserSprite))};
     Bowser->getBowserSprite()->stopAnimating();
+    Bowser->timer();
 
 }
 std::vector<Sprite *> end_scene::sprites() {
@@ -61,7 +62,8 @@ std::vector<Sprite *> end_scene::sprites() {
 
 void end_scene::tick(u16 keys) {
     if(!luigi->isDead() ) {
-        TextStream::instance().setText("Points: " + std::to_string(points) ,0,0);
+        TextStream::instance().setText("Points: " + std::to_string(points)+ " timer: " +std::to_string(Bowser->getTimer()) ,0,0);
+        Bowser->tick(keys);
         luigi->tickEndScene(keys);
 
         if(keys & KEY_RIGHT){

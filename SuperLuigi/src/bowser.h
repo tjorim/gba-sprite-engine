@@ -14,16 +14,17 @@ class bowser {
 private:
     std::unique_ptr<AffineSprite> bowserSprite;
     bool dead;
-
+    int randomTimer;
 
 public:
-    bowser(std::unique_ptr<AffineSprite> s) : bowserSprite(std::move(s)), dead(false) {}
+    bowser(std::unique_ptr<AffineSprite> s) : bowserSprite(std::move(s)), dead(false), randomTimer(0) {}
     bowser() {}
     std::unique_ptr<AffineSprite>& getBowserSprite();
-    void tick(u16 keys);
+    void tick(u16 keys) ;
     void kill();
     bool isDead();
-
+    void timer();
+    int getTimer();
 
 
 };
