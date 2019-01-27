@@ -81,6 +81,7 @@ void Goku::resetGoku() {
 
 void Goku::tick() {
     getSpriteGoku()->flipHorizontally(omkeren);
+    getSpriteWaveGoku()->flipHorizontally(omkeren);
 
     if ((levenspunten < 300) & (levenspunten > 200)) {
         getSpriteLifebarGoku()->animateToFrame(0);
@@ -126,7 +127,12 @@ void Goku::tick() {
     } else if (getSpecialAttack()) {
         if (energypunten > 0 && charging > 0 && !getChargeSpecialAttack()) {
             getSpriteGoku()->animateToFrame(5);
-            getSpriteWaveGoku()->moveTo(getSpriteGoku()->getX() + 30, getSpriteGoku()->getY());
+            if (!omkeren) {
+                getSpriteWaveGoku()->moveTo(getSpriteGoku()->getX() + 32, getSpriteGoku()->getY());
+            } else {
+                getSpriteWaveGoku()->moveTo(getSpriteGoku()->getX() - 64, getSpriteGoku()->getY());
+            }
+
             energypunten = energypunten - 3;
             charging--;
         } else {
