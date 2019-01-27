@@ -135,8 +135,8 @@ void CityScene::load() {
     cooldown = shootSpeed;
 
     linkHP = 1;
-    enemy1HP = 3;
-    enemy2HP = 3;
+    enemy1HP = 5;
+    enemy2HP = 5;
     //enemy3HP = 3;
 
     enemyCD = 0;
