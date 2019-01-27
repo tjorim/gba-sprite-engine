@@ -10,3 +10,4 @@ In level1 moet sonic 3 spikeballs ontwijken om het portaal te bereiken dat hem b
 
 In level2 moet sonic de spikeball 10 keer goomba-stompen om hem te verslaan.
 
+Beschrijving van het model staat in domain_model folder.
