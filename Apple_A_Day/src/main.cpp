@@ -4,6 +4,7 @@
 
 #include <libgba-sprite-engine/gba_engine.h>
 #include "StartScene.h"
+#include "CityScene.h"
 
 
 int main() {
