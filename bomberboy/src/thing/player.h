@@ -8,6 +8,8 @@
 #include "../thing.h"
 
 class Player : public Thing {
+public:
+    void move(int xValue, int yValue);
 
 };
 

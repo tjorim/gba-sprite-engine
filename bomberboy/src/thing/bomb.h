@@ -9,7 +9,7 @@
 
 class Bomb : public Thing {
 public:
-    Bomb(std::unique_ptr<Sprite> sprite) : Thing(std::move(sprite)) {}
+    Bomb(int xCo, int yCo);
 };
 
 
