@@ -19,6 +19,7 @@ int main() {
 
     while (true) {
         engine->update();
+        engine->delay(1000);
     }
 
     return 0;

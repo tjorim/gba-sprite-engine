@@ -2,7 +2,7 @@
 // Created by Jorim Tielemans
 //
 
-//#include <libgba-sprite-engine/background/text_stream.h>
+#include <libgba-sprite-engine/background/text_stream.h>
 #include <libgba-sprite-engine/gba_engine.h>
 
 #include "game_scene.h"
@@ -34,6 +34,10 @@ void StartScene::tick(u16 keys) {
     } else if ((keys & KEY_RIGHT) || (keys & KEY_UP)) {
         levelUp();
     }
+
+    TextStream::instance().setText(std::string("Start scene"), 5, 1);
+
+    TextStream::instance().setText(std::string("Level: ") + std::to_string(level), 10, 1);
 }
 
 int StartScene::getLevel() const {
