@@ -10,13 +10,13 @@
 
 class GameScene : public Scene {
 private:
-    int counter = 0;
+    int level = 1;
 
 public:
+    GameScene(const std::shared_ptr<GBAEngine> &engine, int level);
+
     std::vector<Sprite *> sprites() override;
     std::vector<Background *> backgrounds() override;
-
-    GameScene(const std::shared_ptr<GBAEngine> &engine) : Scene(engine) {}
 
     void load() override;
     void tick(u16 keys) override;

@@ -9,7 +9,7 @@
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
  */
 
-#include "start_scene.h"
+#include "scenes/start_scene.h"
 
 int main() {
     std::shared_ptr<GBAEngine> engine(new GBAEngine());
