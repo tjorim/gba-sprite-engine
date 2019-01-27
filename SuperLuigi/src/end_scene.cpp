@@ -44,7 +44,7 @@ void end_scene::load() {
     bowserSprite = affineBuilder
             .withData(bowserTiles,sizeof(bowserTiles))
             .withSize(SIZE_32_32)
-            .withLocation(GBA_SCREEN_WIDTH-20,GBA_SCREEN_HEIGHT-bottomHeightFor32)
+            .withLocation(GBA_SCREEN_WIDTH-32,GBA_SCREEN_HEIGHT-bottomHeightFor32)
             .withAnimated(0,0)
             .buildPtr();
     Bowser = std::unique_ptr<bowser>{new bowser(std::move(bowserSprite))};
