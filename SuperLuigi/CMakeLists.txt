@@ -9,7 +9,7 @@ add_executable(${PROJECT_NAME}.elf
         src/start_scene.cpp
         src/start_scene.h
         src/goombaTiles.h
-        src/sharedPal.h src/music.h src/music.h src/QuestionBlockTiles.h src/Luigi.cpp src/Luigi.h src/goomba.cpp src/goomba.h src/QuestionBlock.cpp src/QuestionBlock.h src/KoopaTiles.h src/Koopa.cpp src/Koopa.h)
+        src/sharedPal.h src/music.h src/music.h src/QuestionBlockTiles.h src/Luigi.cpp src/Luigi.h src/goomba.cpp src/goomba.h src/QuestionBlock.cpp src/QuestionBlock.h src/KoopaTiles.h src/Koopa.cpp src/Koopa.h src/end_scene.cpp src/end_scene.h)
 
 target_link_libraries(${PROJECT_NAME}.elf gba-sprite-engine)
 

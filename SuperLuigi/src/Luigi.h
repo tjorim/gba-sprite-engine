@@ -15,6 +15,7 @@ class Luigi {
 private:
     std::unique_ptr<AffineSprite> luigiSprite;
     bool dead;
+    int CurrentLvl;
 
 public:
     Luigi(std::unique_ptr<AffineSprite> s) : luigiSprite(std::move(s)), dead(false) {}
@@ -23,6 +24,9 @@ public:
     void tick(u16 keys);
     void kill();
     bool isDead();
+    void setCurrentLvl(int lvl);
+    int getCurrentLvl();
+
 };
 
 

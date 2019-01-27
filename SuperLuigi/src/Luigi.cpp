@@ -19,6 +19,15 @@ bool Luigi::isDead() {
     return dead;
 }
 
+void Luigi::setCurrentLvl(int lvl) {
+    CurrentLvl = lvl;
+}
+
+int Luigi::getCurrentLvl() {
+        return CurrentLvl;
+}
+
+
 void Luigi::tick(u16 keys) {
     if(!isDead()){
         if(luigiSprite->getVelocity().y != 0){
@@ -29,10 +38,14 @@ void Luigi::tick(u16 keys) {
         if(keys & KEY_RIGHT) {
             if (luigiSprite->getVelocity().y == 0) luigiSprite->animate();
         }
+        else if(CurrentLvl == 2 & keys & KEY_LEFT){
+            if (luigiSprite->getVelocity().y == 0) luigiSprite->animate();
+        }
         else if(luigiSprite->getVelocity().y == 0){
             luigiSprite->stopAnimating();
             luigiSprite->animateToFrame(0);
         }
+
 
         if(keys & KEY_UP){
             if(luigiSprite->getY() == GBA_SCREEN_HEIGHT-bottomHeightFor32) luigiSprite->setVelocity(0,-1);

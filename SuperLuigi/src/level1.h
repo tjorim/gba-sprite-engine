@@ -41,6 +41,7 @@ public:
     void load() override;
     void tick(u16 keys) override;
     void addPoint();
+    void loadEndScene();
 };
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_LEVEL1_H
