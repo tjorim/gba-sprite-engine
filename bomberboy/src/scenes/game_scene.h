@@ -10,19 +10,20 @@
 
 #include "../thing/bomb.h"
 
+#define BOARD_WIDTH 10
+#define BOARD_HEIGHT 10
+
 class GameScene : public Scene {
 private:
-    int testCounter = 0;
     int level = 1;
-    std::vector<std::vector<Thing>> board;
-    std::vector<std::unique_ptr<Bomb>> bombs;
-    std::unique_ptr<SpriteBuilder<Sprite>> spriteBuilder;
-    std::unique_ptr<Sprite> bomSprite;
-
-    std::unique_ptr<Sprite> bompje;
+    Thing *board[BOARD_HEIGHT][BOARD_WIDTH];
+    //std::array<std::array<Thing, BOARD_WIDTH>, BOARD_HEIGHT> board;
+    std::vector <std::unique_ptr<Bomb>> bombs;
+    std::unique_ptr <SpriteBuilder<Sprite>> spriteBuilder;
+    std::unique_ptr <Sprite> bomSprite;
 
 public:
-    GameScene(const std::shared_ptr<GBAEngine> &engine, int level);
+    GameScene(const std::shared_ptr <GBAEngine> &engine, int level);
 
     std::vector<Sprite *> sprites() override;
 
