@@ -12,6 +12,8 @@
 #include "../../img/bullet_data.h"
 #include "../../img/avatar.h"
 #include "../../img/kruit.h"
+#include "../../sprites/blauw_boven.h"
+#include "../../sprites/shared.h"
 
 GameScene::GameScene(const std::shared_ptr <GBAEngine> &engine, int level) : Scene(engine), level(level) {}
 
@@ -42,15 +44,16 @@ std::vector<Sprite *> GameScene::sprites() {
 
 void GameScene::load() {
     foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(
-            new ForegroundPaletteManager(kruitPal, sizeof(kruitPal)));
+            new ForegroundPaletteManager(sharedPal, sizeof(sharedPal)));
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager());
 
     spriteBuilder = std::unique_ptr < SpriteBuilder < Sprite >> (new SpriteBuilder <Sprite>);
     // SpriteBuilder<Sprite> spriteBuilder;
 
     bomSprite = spriteBuilder
-            ->withData(kruitTiles, sizeof(kruitTiles))
-            .withSize(SIZE_16_16)
+            ->withData(blauw_bovenTiles, sizeof(blauw_bovenTiles))
+            .withSize(SIZE_8_16)
+            .withinBounds()
             .withLocation(GBA_SCREEN_WIDTH + 20, GBA_SCREEN_HEIGHT + 20)
             .buildPtr();
 
@@ -75,7 +78,7 @@ void GameScene::tick(u16 keys) {
     if (keys & KEY_ACCEPT) {
         bombs.push_back(
                 std::unique_ptr<Bomb>(new Bomb(
-                        spriteBuilder->withLocation(2, 2).withVelocity(3, 3).buildWithDataOf(*bomSprite.get()))));
+                        spriteBuilder->withLocation(2, 2).withVelocity(1, 1).buildWithDataOf(*bomSprite.get()))));
         TextStream::instance().setText(std::string("Boms ") + std::to_string(bombs.size()), 10, 1);
         engine.get()->updateSpritesInScene();
 
