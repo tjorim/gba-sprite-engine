@@ -20,8 +20,6 @@
 #include "windowBullet.h"
 #include "enemy.h"
 
-levelControl mControl1;
-
 std::vector<Background *> StartScene::backgrounds() {
     return{
         bg.get()
@@ -37,7 +35,6 @@ std::vector<Sprite *> StartScene::sprites() {
 
 void StartScene::load() {
 
-    linkAnimation->stopAnimating();
     foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager(sharedPal, sizeof(sharedPal)));
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager(IntroBGPal, sizeof(IntroBGPal)));
 
@@ -48,13 +45,14 @@ void StartScene::load() {
             .withSize(SIZE_16_16)
             .withLocation(160, 28)
             .buildPtr();
+    sign->stopAnimating();
 
     linkAnimation = builder
             .withData(linkAnimationTiles, sizeof(linkAnimationTiles))
             .withSize(SIZE_32_32)
             .withLocation(100, 100)
             .buildPtr();
-
+    linkAnimation->stopAnimating();
 
     playerX = 110;
     playerY = GBA_SCREEN_HEIGHT;
@@ -63,8 +61,6 @@ void StartScene::load() {
     currentDir = Direction::UP;
     scrollY = 95;
     bg->scroll(0,scrollY);
-
-    //engine->enqueueMusic(zelda_music_16K_mono, zelda_music_16K_mono_bytes);
 
     bg = std::unique_ptr<Background>(new Background(1, IntroBGTiles, sizeof(IntroBGTiles), Intro_Map, sizeof(Intro_Map)));
     bg.get()->useMapScreenBlock(16);
@@ -87,15 +83,10 @@ void StartScene::tick(u16 keys) {
             }
         }
 
-
         if (keys & KEY_START) {
             if (!engine->isTransitioning()) {
                 engine->enqueueSound(zelda_secret_16K_mono, zelda_secret_16K_mono_bytes);
-                //TextStream::instance() << "entered: starting next scene";
-                //engine->transitionIntoScene(new FlyingStuffScene(engine), new FadeOutScene(2));
-
             }
-
         } else if (keys & KEY_RIGHT) {
             currentDir = Direction::RIGHT;
             linkAnimation->flipHorizontally(true);
@@ -147,7 +138,6 @@ void StartScene::tick(u16 keys) {
             linkAnimation->stopAnimating();
         }
 
-
         if (linkAnimation->collidesWith(*sign)) {
             TextStream::instance().setText("Welcome to", 15, 10);
             TextStream::instance().setText("Jonasgold", 16, 10);
@@ -156,8 +146,6 @@ void StartScene::tick(u16 keys) {
             isText = false;
             TextStream::instance().clear();
         }
-
-        //TextStream::instance()<< bool (isNextTileGo(playerX,playerY,scrollX,scrollY));
 
         linkAnimation->moveTo(playerX, playerY);
         sign->moveTo(160, 128 - scrollY);

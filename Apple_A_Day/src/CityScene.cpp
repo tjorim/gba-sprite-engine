@@ -11,22 +11,14 @@
 #include "background2.h"
 #include "linkAnimation.h"
 #include "levelSound.h"
-#include "Direction.h"
 #include "sign.h"
 #include "mapMatrix.h"
-#include "levelControl.h"
 #include "apple.h"
 #include "linkAnimation.h"
 #include "sharedPalette.h"
 #include "sign.h"
 #include "windowBullet.h"
 #include "enemy.h"
-
-
-levelControl mControl2;
-int cooldown;
-int shootSpeed;
-bool enemy1Dead, enemy2Dead; //, enemy3Dead;
 
 std::vector<Background *> CityScene::backgrounds() {
     return{
@@ -44,12 +36,11 @@ std::vector<Sprite *> CityScene::sprites() {
         //bullet3.get(),
         enemy1.get(),
         enemy2.get()
+        //,enemy3.get()
     };
 }
 
 void CityScene::load() {
-
-    linkAnimation->stopAnimating();
 
     foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager(sharedPal, sizeof(sharedPal)));
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager(CityBGPal, sizeof(CityBGPal)));
@@ -63,19 +54,22 @@ void CityScene::load() {
             .withLocation(100, 2)
             .buildPtr();
     sign->setStayWithinBounds(false);
+    sign->stopAnimating();
 
     apple = builder
             .withData(appelTiles, sizeof(appelTiles))
             .withSize(SIZE_8_8)
-            .withLocation(500, 50)
+            .withLocation(500, 50) //off screen
             .buildPtr();
     apple->setStayWithinBounds(false);
+    apple->stopAnimating();
 
     linkAnimation = builder
             .withData(linkAnimationTiles, sizeof(linkAnimationTiles))
             .withSize(SIZE_32_32)
             .withLocation(128, 48)
             .buildPtr();
+    linkAnimation->stopAnimating();
 
     bullet1 = builder
             .withData(window_Bullet_Tiles, sizeof(window_Bullet_Tiles))
@@ -83,6 +77,7 @@ void CityScene::load() {
             .withLocation(400, 1)
             .buildPtr();
     bullet1->setStayWithinBounds(false);
+    bullet1->stopAnimating();
 
     bullet2 = builder
             .withData(window_Bullet_Tiles, sizeof(window_Bullet_Tiles))
@@ -90,6 +85,7 @@ void CityScene::load() {
             .withLocation(400, 10)
             .buildPtr();
     bullet2->setStayWithinBounds(false);
+    bullet2->stopAnimating();
 
     /*
     bullet3 = builder
@@ -98,21 +94,24 @@ void CityScene::load() {
             .withLocation(400, 20)
             .buildPtr();
     bullet3->setStayWithinBounds(false);
+    bullet3->stopAnimating();
     */
 
     enemy1 = builder
             .withData(enemyTiles, sizeof(enemyTiles))
             .withSize(SIZE_16_16)
-            .withLocation(enemy1X, enemy1Y)
+            .withLocation(ENEMY1X, ENEMY1Y)
             .buildPtr();
     enemy1->setStayWithinBounds(false);
+    enemy1->stopAnimating();
 
     enemy2 = builder
             .withData(enemyTiles, sizeof(enemyTiles))
             .withSize(SIZE_16_16)
-            .withLocation(enemy2X, enemy2Y)
+            .withLocation(ENEMY2X, ENEMY2Y)
             .buildPtr();
     enemy2->setStayWithinBounds(false);
+    enemy2->stopAnimating();
 
     /*
     enemy3 = builder
@@ -121,11 +120,12 @@ void CityScene::load() {
             .withLocation(enemy3X, enemy3Y)
             .buildPtr();
     enemy3->setStayWithinBounds(false);
+    enemy3->stopAnimating();
     */
 
     playerX = 48;
     playerY = 128;
-    isText = false;
+    textOnScreen = false;
     currentDir = Direction::UP;
     scrollY = 95;
     bg->scroll(0,scrollY);
@@ -144,8 +144,6 @@ void CityScene::load() {
     enemy1Dead = false;
     enemy2Dead = false;
     //enemy3Dead = false;
-
-    //engine->enqueueMusic(zelda_music_16K_mono, zelda_music_16K_mono_bytes);
 
     bg = std::unique_ptr<Background>(new Background(1, CityBGTiles, sizeof(CityBGTiles), City_Map, sizeof(City_Map)));
     bg.get()->useMapScreenBlock(16);
@@ -171,9 +169,6 @@ void CityScene::tick(u16 keys) {
         if (keys & KEY_START) {
             if (!engine->isTransitioning()) {
                 engine->enqueueSound(zelda_secret_16K_mono, zelda_secret_16K_mono_bytes);
-                //TextStream::instance() << "entered: starting next scene";
-                //engine->transitionIntoScene(new FlyingStuffScene(engine), new FadeOutScene(2));
-
             }
 
         } else if (keys & KEY_RIGHT) {
@@ -243,14 +238,15 @@ void CityScene::tick(u16 keys) {
         if (linkAnimation->collidesWith(*sign)){
             TextStream::instance().setText("Pink Lloydie Square", 12, 10);
             TextStream::instance().setText("----->", 14, 10);
-            isText = true;
-        } else if (isText) {
-            isText = false;
+            textOnScreen = true;
+        } else if (textOnScreen) {
+            textOnScreen = false;
             TextStream::instance().clear();
         }
 
+
         if (apple->collidesWith(*enemy1)){
-            apple->moveTo(1,500);
+            apple->moveTo(1,500); //off screen
             enemy1HP--;
             if(enemy1HP == 0){
                 enemy1Dead = true;
@@ -263,40 +259,37 @@ void CityScene::tick(u16 keys) {
                 enemy2Dead = true;
                 enemy2->moveTo(-100, 50);
             }
-        } /* else if (apple->collidesWith(*enemy3)){
+        /*} else if (apple->collidesWith(*enemy3)){
             apple->moveTo(1,500);
             enemy3HP--;
             if(enemy3HP <= 0){
                 enemy3Dead = true;
                 enemy3->moveTo(-100, 75);
-            }
+            }*/
         }
-        */
+
 
         if (bullet1->collidesWith(*linkAnimation)) {
-            bullet1->moveTo(1, 550);
+            bullet1->moveTo(1, 550); //off screen
             linkHP--;
         } else if (bullet2->collidesWith(*linkAnimation)) {
             bullet2->moveTo(1, 600);
             linkHP--;
-        }/* else if (bullet3->collidesWith(*linkAnimation)) {
+        /*} else if (bullet3->collidesWith(*linkAnimation)) {
             bullet3->moveTo(1, 650);
-            linkHP--;
+            linkHP--;*/
         }
-        */
 
-        //animation van de enemies maakt het level heel traag
-        /*
         enemy1->makeAnimated(3,11,0);
-        enemy2->makeAnimated(3,9,0);
-        enemy3->makeAnimated(3,13,-1); //fixt bug waarbij laatste enemy zijn laatste frame fout is
-        */
+        enemy2->makeAnimated(3,9,-1); // -1 ipv 0 fixt bug waarbij laatste enemy zijn laatste frame fout is
+        //enemy3->makeAnimated(3,13,-1);
+
 
 
         if(!apple->isOffScreen()){
             appleX += appledx;
             appleY += appledy;
-        } else {
+        } else { //off screen
             appleX = 300;
             appleY = 300;
         }
@@ -327,14 +320,15 @@ void CityScene::tick(u16 keys) {
         }
         */
 
+
         enemyCD++;
-        if(enemyCD == 40 && !enemy1Dead){
+        if(enemyCD == ENEMY_SHOOTING_COOLDOWN && !enemy1Dead){
             enemyshoot(1);
-        } else if(enemyCD == 80 && !enemy2Dead){
+        } else if(enemyCD == ENEMY_SHOOTING_COOLDOWN*2 && !enemy2Dead){
             enemyshoot(2);
-        } /*else if(enemyCD == 120 && !enemy3Dead){
-            enemyshoot(3);
-        } */else if(enemyCD>80){
+        /*} else if(enemyCD == ENEMY_SHOOTING_COOLDOWN*3 && !enemy3Dead){
+            enemyshoot(3);*/
+        } else if(enemyCD>ENEMY_SHOOTING_COOLDOWN*2){ //*2 want 2 enemies
             enemyCD = 0;
         }
 
@@ -345,10 +339,10 @@ void CityScene::tick(u16 keys) {
         bullet2->moveTo(bullet2X, bullet2Y-scrollY);
         //bullet3->moveTo(bullet3X, bullet3Y-scrollY);
         if(!enemy1Dead){
-            enemy1->moveTo(enemy1X,enemy1Y-scrollY);
+            enemy1->moveTo(ENEMY1X,ENEMY1Y-scrollY);
         }
         if(!enemy2Dead){
-            enemy2->moveTo(enemy2X,enemy2Y-scrollY);
+            enemy2->moveTo(ENEMY2X,ENEMY2Y-scrollY);
         }
         /*
         if(!enemy3Dead){
@@ -362,7 +356,7 @@ void CityScene::tick(u16 keys) {
     }
 
     if(linkHP == 0){
-        //linkAnimation->animateToFrame(linkAnimation->getCurrentFrame());
+        linkAnimation->stopAnimating();
         TextStream::instance().setText("YOU DIED,", 6, 2);
         TextStream::instance().setText("FRUIT EATING SCUM.", 7, 2);
         TextStream::instance().setText("WINDOWS WILL RULE THE WORLD", 9, 2);
@@ -370,6 +364,11 @@ void CityScene::tick(u16 keys) {
         TextStream::instance().setText(".", 11, 2);
         TextStream::instance().setText(".", 12, 2);
         TextStream::instance().setText("FOREVER!!!", 13, 2);
+
+        //restart
+        if(keys & KEY_START){
+            engine.get()->setScene(new StartScene(engine));
+        }
     }
 }
 
@@ -427,8 +426,8 @@ void CityScene::enemyshoot(int enemy) {
                     break;
                 }
             }
-            bullet1X = enemy1X+4;
-            bullet1Y = enemy1Y+4;
+            bullet1X = ENEMY1X+4;
+            bullet1Y = ENEMY1Y+4;
             bullet1->moveTo(bullet1X, bullet1Y);
             break;
         }
@@ -455,8 +454,8 @@ void CityScene::enemyshoot(int enemy) {
                     break;
                 }
             }
-            bullet2X = enemy2X+4;
-            bullet2Y = enemy2Y+4;
+            bullet2X = ENEMY2X+4;
+            bullet2Y = ENEMY2Y+4;
             bullet2->moveTo(bullet2X, bullet2Y);
             break;
         }
@@ -488,7 +487,6 @@ void CityScene::enemyshoot(int enemy) {
             bullet3Y = enemy3Y+4;
             bullet3->moveTo(bullet3X, bullet3Y);
             break;
-
         }
         */
     }

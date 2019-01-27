@@ -9,13 +9,16 @@
 #include <libgba-sprite-engine/scene.h>
 #include <libgba-sprite-engine/background/background.h>
 #include "Direction.h"
+#include "levelControl.h"
 
-#define enemy1X 16
-#define enemy1Y 128
-#define enemy2X 166
-#define enemy2Y 136
+#define ENEMY1X 16
+#define ENEMY1Y 128
+#define ENEMY2X 166
+#define ENEMY2Y 136
 //#define enemy3X 144
 //#define enemy3Y 174
+
+#define ENEMY_SHOOTING_COOLDOWN 40 //tijd die tussen schoten van verschillende enemies zit
 
 class CityScene : public Scene {
 
@@ -39,10 +42,15 @@ private:
     //int bullet3dx, bullet3dy;
     int enemyCD, bulletSpeed;
     int linkHP;
+    int cooldown;
+    int shootSpeed;
 
-    bool isText;
+    bool textOnScreen;
     bool isNextTileGo;
+    bool enemy1Dead, enemy2Dead; //, enemy3Dead;
+
     Direction currentDir;
+    levelControl mControl2;
 
 public:
     std::vector<Sprite *> sprites() override;
