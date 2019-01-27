@@ -61,8 +61,7 @@ std::vector<Sprite *> end_scene::sprites() {
 }
 
 void end_scene::tick(u16 keys) {
-    if(!luigi->isDead() || !Bowser->isDead() ) {
-        TextStream::instance().setText("Points: " + std::to_string(points)+ " BowserLives: " +std::to_string(Bowser->getLives()) +"            LuigiLives: "+std::to_string(lives) ,0,0);
+    if(!luigi->isDead() && !Bowser->isDead() ) {
         Bowser->tick(keys);
         luigi->tickEndScene(keys);
 
@@ -74,39 +73,32 @@ void end_scene::tick(u16 keys) {
             if(Bowser->getLives() == 0) Bowser->kill();
         }
 
-        //Bowser springt op Luigi
-        else if(luigi->getLuigiSprite()->collidesWith(*Bowser->getBowserSprite()) && luigi->getLuigiSprite()->getY()-30 == Bowser->getBowserSprite()->getY()
-             && Bowser->getBowserSprite()->getVelocity().y>0){
-            lives--;
-            if(lives <=0) luigi->kill();
-        }
-
         //Bowse loopt tegen Luigi
-        else if(luigi->getLuigiSprite()->collidesWith(*Bowser->getBowserSprite())
+        else if((luigi->getLuigiSprite()->collidesWith(*Bowser->getBowserSprite()) && !(luigi->getLuigiSprite()->getVelocity().y >0))
         && !Bowser->isDead() ) {
-            Bowser->getBowserSprite()->moveTo(Bowser->getBowserSprite()->getX()-20, Bowser->getBowserSprite()->getY());
+            Bowser->getBowserSprite()->moveTo(Bowser->getBowserSprite()->getX()-48, Bowser->getBowserSprite()->getY());
             lives--;
             if(lives<=0) luigi->kill();
-
-
         }
 
+        TextStream::instance().setText("Points: " + std::to_string(points)+ " BowserLives: " +std::to_string(Bowser->getLives()) +"            LuigiLives: "+std::to_string(lives) ,0,0);
+
     }
-    else if(luigi->isDead() || Bowser->isDead()){
+    else{
 
         if(luigi->isDead()){
             luigi->getLuigiSprite()->setVelocity(0,0);
-            luigi->getLuigiSprite()->moveTo(0,0);
+            luigi->getLuigiSprite()->moveTo(GBA_SCREEN_WIDTH,GBA_SCREEN_HEIGHT);
             Bowser->getBowserSprite()->setVelocity(0,0);
             Bowser->getBowserSprite()->moveTo(GBA_SCREEN_WIDTH/2,GBA_SCREEN_HEIGHT-bottomHeightFor32);
-            TextStream::instance().setText("Bowser was victories",0,0);
+            TextStream::instance().setText("Bowser was victories",5,0);
         }
         else{
             luigi->getLuigiSprite()->setVelocity(0,0);
-            Bowser->getBowserSprite()->moveTo(0,0);
+            Bowser->getBowserSprite()->moveTo(GBA_SCREEN_WIDTH,GBA_SCREEN_HEIGHT);
             Bowser->getBowserSprite()->setVelocity(0,0);
             luigi->getLuigiSprite()->moveTo(GBA_SCREEN_WIDTH/2,GBA_SCREEN_HEIGHT-bottomHeightFor32);
-            TextStream::instance().setText("Well played, you have defeated the game",0,0);
+            TextStream::instance().setText("Well played, you have defeated  the game",5,0);
         }
 
     }
