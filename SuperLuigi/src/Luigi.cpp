@@ -28,13 +28,14 @@ int Luigi::getCurrentLvl() {
 }
 
 
+
 void Luigi::tick(u16 keys) {
     if(!isDead()){
       if(luigiSprite->getVelocity().y != 0){
            luigiSprite->stopAnimating();
            luigiSprite->animateToFrame(5);
         }
-
+        if(luigiSprite->getX() == GBA_SCREEN_WIDTH) luigiSprite ->moveTo(10, GBA_SCREEN_HEIGHT - bottomHeightFor32);
         if(keys & KEY_RIGHT) {
             if (luigiSprite->getVelocity().y == 0) luigiSprite->animate();
         }

@@ -26,8 +26,7 @@ std::vector<Sprite *> start_scene::sprites() {
     sprites.push_back(luigi.get());
     sprites.push_back(goomba.get());
 
-    return { sprites
-    };
+    return { sprites};
 }
 
 void start_scene::load() {

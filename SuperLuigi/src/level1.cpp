@@ -90,13 +90,16 @@ std::vector<Sprite *> level1::sprites() {
 
 void level1::addPoint() {
     points++;
-    if(points %5 == 0) lives++;
+    if(points %5 == 0) {
+        lives++;
+
+    }
     loadEndScene();
 }
 
 void level1::loadEndScene() {
-    if(points == 5){
-        engine ->transitionIntoScene(new end_scene(engine,points), new FadeOutScene(5));
+    if(lives == 2){
+        engine ->transitionIntoScene(new end_scene(engine,points,lives), new FadeOutScene(5));
     }
 }
 
@@ -176,6 +179,8 @@ void level1::tick(u16 keys) {
            && luigi->getLuigiSprite()->getX()+8 > questionBlock->getQuestionBlockSprite()->getX()){
             luigi->getLuigiSprite()->setVelocity(0,0);
         }
+
+
 
     }
     else{

@@ -16,6 +16,7 @@ private:
     std::unique_ptr<AffineSprite> luigiSprite;
     bool dead;
     int CurrentLvl;
+    int lives;
 
 public:
     Luigi(std::unique_ptr<AffineSprite> s) : luigiSprite(std::move(s)), dead(false) {}
@@ -27,6 +28,9 @@ public:
     bool isDead();
     void setCurrentLvl(int lvl);
     int getCurrentLvl();
+    void subtracktLife();
+    int getLives();
+    void setLives(int lives);
 
 };
 
