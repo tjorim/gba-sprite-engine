@@ -16,7 +16,6 @@ private:
     double distance;
     double directionX;
     double directionY;
-    int teller;
     double newX;
     double newY;
     bool flip_visier;
