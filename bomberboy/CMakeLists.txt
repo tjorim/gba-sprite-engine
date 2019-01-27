@@ -1,10 +1,10 @@
 project(bomberboy)
 
 add_executable(${PROJECT_NAME}.elf
-        src/end_scene.cpp src/end_scene.h
-        src/game_scene.cpp src/game_scene.h
         src/main.cpp src/sound.h
-        src/start_scene.cpp src/start_scene.h
+        src/scenes/end_scene.cpp src/scenes/end_scene.h
+        src/scenes/game_scene.cpp src/scenes/game_scene.h
+        src/scenes/start_scene.cpp src/scenes/start_scene.h
         src/thing.h
         src/thing/solid.h
         src/thing/solid/crate.cpp src/thing/solid/crate.h

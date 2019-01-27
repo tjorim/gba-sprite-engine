@@ -6,7 +6,7 @@
 #include <libgba-sprite-engine/gba_engine.h>
 
 #include "game_scene.h"
-#include "sound.h"
+#include "../sound.h"
 #include "start_scene.h"
 
 StartScene::StartScene(const std::shared_ptr<GBAEngine> &engine) : Scene(engine) {}
