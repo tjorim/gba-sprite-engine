@@ -90,6 +90,7 @@ void GameScene::tick(u16 keys) {
         //     .withVelocity(1,1)
         //     .buildPtr())));
         engine.get()->updateSpritesInScene();
+        //addSprite(bombs[0]->getSprite());
     }
     /*
     if (keys & KEY_ACCEPT) {
