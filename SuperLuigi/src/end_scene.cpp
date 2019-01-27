@@ -62,15 +62,15 @@ std::vector<Sprite *> end_scene::sprites() {
 
 void end_scene::tick(u16 keys) {
     if(!luigi->isDead() ) {
-        TextStream::instance().setText("Points: " + std::to_string(points)+ " timer: " +std::to_string(Bowser->getTimer()) ,0,0);
+        TextStream::instance().setText("Points: " + std::to_string(points)+ " BowserLives: " +std::to_string(Bowser->getLives()) ,0,0);
         Bowser->tick(keys);
         luigi->tickEndScene(keys);
 
-        if(keys & KEY_RIGHT){
-            luigi->getLuigiSprite() -> flipHorizontally(false);
-        }
-        if(keys & KEY_LEFT){
-            luigi->getLuigiSprite() ->flipHorizontally(true);
+        if(luigi->getLuigiSprite()->collidesWith(*Bowser->getBowserSprite()) && luigi->getLuigiSprite()->getY() == Bowser->getBowserSprite()->getY() - 30
+            && luigi->getLuigiSprite()->getVelocity().y >0){
+
+            Bowser->subtractLife();
+            if(Bowser->getLives() == 0) Bowser->kill();
         }
 
     }

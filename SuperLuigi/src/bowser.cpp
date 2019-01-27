@@ -13,12 +13,20 @@ void bowser::kill() {
     dead = true;
 }
 
+void bowser::subtractLife() {
+    lives--;
+}
+
+int bowser::getLives() {
+    return lives;
+}
+
 bool bowser::isDead() {
     return dead;
 }
 
 void bowser::timer() {
-    randomTimer = rand() %100 + 150;
+    randomTimer = rand() %100 + 250;
 }
 
 int bowser::getTimer() {
@@ -27,22 +35,19 @@ int bowser::getTimer() {
 
 void bowser::tick(u16 keys) {
    if(!isDead()) {
-     if(bowserSprite->getVelocity().y == -1 && bowserSprite ->getVelocity().x == 0) bowserSprite->setVelocity( -1,-1);
-     else if( ((bowserSprite->getY() == GBA_SCREEN_HEIGHT-120 && bowserSprite->getVelocity().y < 0)
-                 || (bowserSprite->getY() < GBA_SCREEN_HEIGHT-bottomHeightFor32 && bowserSprite->getVelocity().y == 0))) bowserSprite->setVelocity(-1,1);
+       if(bowserSprite->getY() == GBA_SCREEN_HEIGHT-120 && bowserSprite->getVelocity().y < 0) bowserSprite->setVelocity(-1,1);
 
-     else if(bowserSprite->getY() == GBA_SCREEN_HEIGHT-bottomHeightFor32) bowserSprite ->setVelocity(-1,0);
+       if(bowserSprite->getY() == GBA_SCREEN_HEIGHT-bottomHeightFor32) bowserSprite ->setVelocity(-1,0);
 
-     if(bowserSprite->getX() <= 1) bowserSprite->moveTo(GBA_SCREEN_WIDTH, GBA_SCREEN_HEIGHT-bottomHeightFor32);
+       if(bowserSprite->getX() <= 1) bowserSprite->moveTo(GBA_SCREEN_WIDTH - 32, bowserSprite->getY());
 
-     if (randomTimer > 0) {
+       if (randomTimer > 0) {
            if (randomTimer == 1) {
                dead = false;
-             if(bowserSprite->getY() ==GBA_SCREEN_HEIGHT-bottomHeightFor32) bowserSprite->setVelocity(0,-1);
+             if(bowserSprite->getY() ==GBA_SCREEN_HEIGHT-bottomHeightFor32) bowserSprite->setVelocity(-1,-1);
              timer();
            }
            randomTimer--;
-
        }
    }
 }

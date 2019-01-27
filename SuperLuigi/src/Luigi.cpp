@@ -37,7 +37,6 @@ void Luigi::tick(u16 keys) {
 
         if(keys & KEY_RIGHT) {
             if (luigiSprite->getVelocity().y == 0) luigiSprite->animate();
-            if(getCurrentLvl() == 2)luigiSprite->setVelocity(1,0);
         }
             else if (luigiSprite->getVelocity().y == 0) {
                 luigiSprite->stopAnimating();
@@ -51,7 +50,7 @@ void Luigi::tick(u16 keys) {
         else{
 
             if(luigiSprite->getY() == GBA_SCREEN_HEIGHT-bottomHeightFor32) {
-                if(getCurrentLvl() != 2)luigiSprite->setVelocity(0, 0);
+                luigiSprite->setVelocity(0, 0);
                 if(!(keys & KEY_RIGHT)) luigiSprite->animateToFrame(0);
             }
         }
@@ -62,30 +61,48 @@ void Luigi::tick(u16 keys) {
 }
 
 void Luigi::tickEndScene(u16 keys) {
-    if(!isDead()){
-        luigiSprite->setVelocity(0,0);
-        if(luigiSprite->getVelocity().y != 0){
-            luigiSprite->stopAnimating();
-            luigiSprite->animateToFrame(5);
-        }
-        if(keys & KEY_RIGHT) {
-           // luigiSprite->flipHorizontally(false);
-            luigiSprite->setVelocity(1, 0);
-            if (luigiSprite->getVelocity().y == 0) {
-                luigiSprite->animate();
+        if(!isDead()){
+            if(luigiSprite->getVelocity().y != 0){
+                luigiSprite->stopAnimating();
+                luigiSprite->animateToFrame(5);
             }
+
+            if(keys & KEY_RIGHT) {
+                if (luigiSprite->getVelocity().y == 0) luigiSprite->animate();
+                if(luigiSprite->getVelocity().y <0) luigiSprite->setVelocity(1,-1);
+                else if(luigiSprite->getVelocity().y >0) luigiSprite->setVelocity(1,1);
+                else luigiSprite->setVelocity(1,0);
+            }
+            else if (luigiSprite->getVelocity().y == 0) {
+                luigiSprite->stopAnimating();
+                luigiSprite->animateToFrame(0);
+                if(!(keys & KEY_ANY))luigiSprite->setVelocity(0,0);
+            }
+
+            if(keys & KEY_LEFT){
+                if (luigiSprite->getVelocity().y == 0) luigiSprite->animate();
+                if(luigiSprite->getVelocity().y <0) luigiSprite->setVelocity(-1,-1);
+                else if(luigiSprite->getVelocity().y >0) luigiSprite->setVelocity(-1,1);
+                else luigiSprite->setVelocity(-1,0);
+            }
+            else if (luigiSprite->getVelocity().y == 0) {
+                luigiSprite->stopAnimating();
+                luigiSprite->animateToFrame(0);
+                if(!(keys & KEY_ANY))luigiSprite->setVelocity(0,0);
+            }
+
+            if(keys & KEY_UP){
+                if(luigiSprite->getY() == GBA_SCREEN_HEIGHT-bottomHeightFor32) luigiSprite->setVelocity(0,-1);
+            }
+            else{
+
+                if(luigiSprite->getY() == GBA_SCREEN_HEIGHT-bottomHeightFor32) {
+                    if(luigiSprite->getVelocity().y >0) luigiSprite->setVelocity(0, 0);
+                    if(!(keys & KEY_RIGHT) || !(keys & KEY_LEFT)) luigiSprite->animateToFrame(0);
+                }
+            }
+
+            if((luigiSprite->getY() == GBA_SCREEN_HEIGHT-120 && luigiSprite->getVelocity().y < 0)) luigiSprite->setVelocity(0,1);
+
         }
-        else if (luigiSprite->getVelocity().y == 0) {
-            luigiSprite->stopAnimating();
-            luigiSprite->animateToFrame(0);
-        }
-
-        if(keys & KEY_LEFT){
-            //luigiSprite->flipHorizontally(true);
-            luigiSprite->setVelocity(-1,0);
-        }
-
-
-    }
-
 }
