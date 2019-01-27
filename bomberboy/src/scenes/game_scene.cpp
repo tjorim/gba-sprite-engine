@@ -10,6 +10,7 @@
 #include "end_scene.h"
 #include "../thing/bomb.h"
 #include "../../img/bullet_data.h"
+#include "../../img/avatar.h"
 
 GameScene::GameScene(const std::shared_ptr<GBAEngine> &engine, int level) : Scene(engine), level(level) {}
 
@@ -18,9 +19,9 @@ std::vector<Background *> GameScene::backgrounds() {
 }
 
 std::vector<Sprite *> GameScene::sprites() {
-    std::vector<Sprite *> sprites;
+    // std::vector<Sprite *> sprites;
 
-    sprites.push_back(bompje.get());
+    // sprites.push_back(bompje.get());
 /*
     for(auto& bomb : bombs)
     {
@@ -35,11 +36,12 @@ std::vector<Sprite *> GameScene::sprites() {
         }
     }
     */
-    return sprites;
+    // return sprites;
+    return {bompje.get()};
 }
 
 void GameScene::load() {
-    foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager());
+    foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager(avatar_palette, sizeof(avatar_palette)));
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager());
 
     spriteBuilder = std::unique_ptr<SpriteBuilder<Sprite>>(new SpriteBuilder<Sprite>);
