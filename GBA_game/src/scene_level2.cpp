@@ -19,7 +19,6 @@ std::vector<Sprite *> SceneLevel2::sprites() {
     sprites.push_back(player.get());
     sprites.push_back(portal.get());
     sprites.push_back(boss->getBossSprite());
-    //sprites.push_back(bossSprite.get());
     return sprites;
 }
 
@@ -63,7 +62,6 @@ void SceneLevel2::load() {
             .withLocation(bossSpawnX, GBA_SCREEN_HEIGHT - 60)
             .buildPtr();
     boss = std::unique_ptr<Boss>{new Boss(std::move(bossSprite))};
-    //boss->getBossSprite()->stopAnimating();
 
     TextStream::instance().clear();
     TextStream::instance() << "level 2" << "boss battle";
@@ -73,7 +71,27 @@ void SceneLevel2::load() {
 void SceneLevel2::tick(u16 keys) {
     TextStream::instance().setText("HP : " + std::to_string(player->getAmtLives()), 17, 1);
 
-    boss->getBossSprite()->moveTo(-scrollX + bossSpawnX, boss->getBossSprite()->getY());
+    int bossMoveDistance = 60; //TODO: make a definition of this ?
+    boss->getBossSprite()->moveTo( - scrollX + bossSpawnX + bossMoveDistance *
+    (- boss->getAmtLives() + 10 - player->getAmtLives() + 3), GBA_SCREEN_HEIGHT - 60);
+
+    if(player->collidesWith(*boss->getBossSprite())){
+        if( player->getY() < GBA_SCREEN_HEIGHT - 80){
+            boss->setAmtLives(boss->getAmtLives() - 1);
+        } else if(player->getCanTakeDamage()){
+            player->setAmtLives(player->getAmtLives() - 1);
+        }
+    } else {
+        TextStream::instance().setText(std::to_string(boss->getAmtLives()), 8, 24);
+    }
+
+    if( boss->getAmtLives() < 1 && !engine->isTransitioning()){
+        engine->transitionIntoScene(new SceneLevel2(engine), new FadeOutScene(2));
+        TextStream::instance().clear();
+        TextStream::instance() << "Well done.";
+    }
+
+
 
     if(!(keys & KEY_LEFT) && !(keys & KEY_RIGHT)){
         player->stopAnimating();

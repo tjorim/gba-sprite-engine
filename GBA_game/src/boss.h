@@ -13,7 +13,6 @@ private:
     std::unique_ptr<AffineSprite> bossSprite;
     int amtLives;
 
-
 public:
     void setAmtLives(int amtLives);
     int getAmtLives() const { return  amtLives; }
