@@ -58,7 +58,7 @@ protected:
     bool stayWithinBounds;
     u32 imageSize, tileIndex;
     SpriteSize spriteSize;
-    u32 animationDelay, amountOfFrames, currentFrame, animationCounter;
+    u32 animationDelay, amountOfFrames, currentFrame, animationCounter,startFrame;
     bool animating;
 
     std::unique_ptr<OBJ_ATTR> oam;
@@ -76,6 +76,13 @@ public:
     void makeAnimated(int amountOfFrames, int animationDelay) {
         this->amountOfFrames = amountOfFrames;
         this->animationDelay = animationDelay;
+        animate();
+    }
+    void makeAnimated(int amountOfFrames, int animationDelay, int StartFrame) {
+        this->amountOfFrames = amountOfFrames;
+        this->animationDelay = animationDelay;
+        this->startFrame = StartFrame;
+        this->currentFrame = StartFrame;
         animate();
     }
     void animate() { this->animating = true; }
