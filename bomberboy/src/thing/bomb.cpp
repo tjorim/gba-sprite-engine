@@ -7,15 +7,11 @@
 #include "bomb.h"
 #include "../../sprites/bom.h"
 
-Bomb::Bomb(int xCoGrid, int yCoGrid) : Thing(xCoGrid, yCoGrid) {
+Bomb::Bomb(int xCoGrid, int yCoGrid) : Thing(xCoGrid, yCoGrid, thingType::BOMB) {
     SpriteBuilder<Sprite> spriteBuilder;
     setSprite(spriteBuilder
             .withData(bomTiles, sizeof(bomTiles))
             .withSize(SIZE_8_8)
             .withLocation(8*xCoGrid, 8*yCoGrid)
             .buildPtr());
-}
-
-Thing::thingType Bomb::getType() {
-    return thingType::BOMB;
 }

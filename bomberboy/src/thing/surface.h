@@ -9,7 +9,7 @@
 
 class Surface : public Thing {
 public:
-    Surface(int xCoGrid, int yCoGrid) : Thing(xCoGrid, yCoGrid) {}
+    Surface(int xCoGrid, int yCoGrid, thingType type) : Thing(xCoGrid, yCoGrid, type) {}
 };
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_SURFACE_H

@@ -18,21 +18,23 @@ private:
     // De y-positie van the Thing
     int yCoGrid;
 public:
-    Thing(int xCoGrid, int yCoGrid) {}
+    Thing(int xCoGrid, int yCoGrid, thingType type) {}
+
+    /**
+     * @brief What type is this thing?
+     * @return thingType
+     */
+    thingType getType() { return type; }
+
+    void setType(thingType type) {
+        Thing::type = type;
+    }
 
     Sprite* getSprite() { return sprite.get(); }
 
     void setSprite(std::unique_ptr<Sprite> sprite) {
         Thing::sprite = std::move(sprite);
     }
-    
-    
-
-    /**
-     * @brief What type is this thing?
-     * @return thingType
-     */
-    virtual thingType getType() = 0;
 
     virtual void move(int xValue, int yValue) {
         setXCoGrid(xValue);
