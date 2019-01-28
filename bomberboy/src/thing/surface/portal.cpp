@@ -2,10 +2,20 @@
 // Created by tiele on 27/01/2019.
 //
 
-#include "portal.h"
+#include <libgba-sprite-engine/sprites/sprite_builder.h>
 
-    portalSprite = spriteBuilder
-            ->withData(kruitTiles, sizeof(kruitTiles))
+#include "portal.h"
+#include "../../../sprites/portaal_1.h"
+
+Portal::Portal(int xCo, int yCo) : Surface(xCo, yCo) {
+    SpriteBuilder<Sprite> spriteBuilder;
+    setSprite(spriteBuilder
+            .withData(portaal_1Tiles, sizeof(portaal_1Tiles))
             .withSize(SIZE_8_8)
-            .withLocation(GBA_SCREEN_WIDTH + 20, GBA_SCREEN_HEIGHT + 20)
-            .buildPtr();
+            .withLocation(8*xCo, 8*yCo)
+            .buildPtr());
+}
+
+Thing::thingType Portal::getType() {
+    return thingType::PORTAL;
+}

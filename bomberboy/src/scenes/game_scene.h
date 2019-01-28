@@ -8,6 +8,7 @@
 #include <libgba-sprite-engine/scene.h>
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
 
+#include "../thing.h"
 #include "../thing/bomb.h"
 #include "../thing/player.h"
 
@@ -31,8 +32,6 @@ private:
     std::unique_ptr <Sprite> powerUpSprite;
     std::unique_ptr <Sprite> bombSprite;
     std::unique_ptr <Sprite> playerSprite;
-
-    std::unique_ptr<Bomb> createBomb();
 
 public:
     GameScene(const std::shared_ptr <GBAEngine> &engine, int level);

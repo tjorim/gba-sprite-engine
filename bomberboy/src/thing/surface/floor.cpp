@@ -2,10 +2,20 @@
 // Created by tiele on 27/01/2019.
 //
 
-#include "floor.h"
+#include <libgba-sprite-engine/sprites/sprite_builder.h>
 
-    floorSprite = spriteBuilder
-            ->withData(kruitTiles, sizeof(kruitTiles))
+#include "floor.h"
+#include "../../../sprites/portaal_2.h"
+
+Floor::Floor(int xCo, int yCo) : Surface(xCo, yCo) {
+    SpriteBuilder<Sprite> spriteBuilder;
+    setSprite(spriteBuilder
+            .withData(portaal_2Tiles, sizeof(portaal_2Tiles))
             .withSize(SIZE_8_8)
-            .withLocation(GBA_SCREEN_WIDTH + 20, GBA_SCREEN_HEIGHT + 20)
-            .buildPtr();
+            .withLocation(8*xCo, 8*yCo)
+            .buildPtr());
+}
+
+Thing::thingType Floor::getType() {
+    return thingType::FLOOR;
+}

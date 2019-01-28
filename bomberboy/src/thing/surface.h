@@ -8,8 +8,8 @@
 #include "../thing.h"
 
 class Surface : public Thing {
-
+public:
+    Surface(int xCo, int yCo) : Thing(xCo, yCo) {}
 };
-
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_SURFACE_H

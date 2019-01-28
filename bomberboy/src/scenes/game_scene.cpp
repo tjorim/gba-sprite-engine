@@ -9,9 +9,13 @@
 #include "game_scene.h"
 #include "end_scene.h"
 #include "../thing/bomb.h"
-#include "../../img/bullet_data.h"
-#include "../../img/avatar.h"
-#include "../../img/kruit.h"
+#include "../thing/player.h"
+#include "../thing/solid/crate.h"
+#include "../thing/solid/wall.h"
+#include "../thing/surface/floor.h"
+#include "../thing/surface/gunpowder.h"
+#include "../thing/surface/portal.h"
+#include "../thing/surface/power_up.h"
 #include "../../sprites/blauw_boven.h"
 #include "../../sprites/shared.h"
 
@@ -24,20 +28,21 @@ std::vector<Background *> GameScene::backgrounds() {
 std::vector<Sprite *> GameScene::sprites() {
     std::vector < Sprite * > sprites;
 
-    sprites.push_back(bombSprite.get());
     for (auto &bomb : bombs) {
         sprites.push_back(bomb->getSprite());
     }
-/*
+
+    sprites.push_back(player1->getSprite());
+
     for(auto& rows: board) // Iterating over rows
     {
         for(auto& elem: rows)
         {
             // do some stuff
-            sprites.push_back(elem.getSprite());
+            sprites.push_back(elem->getSprite());
         }
     }
-    */
+
     TextStream::instance().setText(std::string("Sprites ") + std::to_string(sprites.size()), 12, 1);
     return sprites;
 }
@@ -50,12 +55,14 @@ void GameScene::load() {
     spriteBuilder = std::unique_ptr < SpriteBuilder < Sprite >> (new SpriteBuilder <Sprite>);
     // SpriteBuilder<Sprite> spriteBuilder;
 
-    bomSprite = spriteBuilder
+    bombSprite = spriteBuilder
             ->withData(blauw_bovenTiles, sizeof(blauw_bovenTiles))
             .withSize(SIZE_8_16)
             .withinBounds()
             .withLocation(GBA_SCREEN_WIDTH + 20, GBA_SCREEN_HEIGHT + 20)
             .buildPtr();
+
+    player1 = std::unique_ptr<Player>(new Player(5, 5));
 
 /*
     for (int i = 0; i < 5; i++) {
@@ -76,7 +83,7 @@ void GameScene::tick(u16 keys) {
     TextStream::instance().setText(std::string("Game scene"), 5, 1);
 
     if (keys & KEY_ACCEPT) {
-        bombs.push_back(createBomb());
+        bombs.push_back(std::unique_ptr<Bomb>(new Bomb(10, 10)));
         TextStream::instance().setText(std::string("Boms ") + std::to_string(bombs.size()), 10, 1);
         engine.get()->updateSpritesInScene();
 
@@ -87,14 +94,18 @@ void GameScene::tick(u16 keys) {
     /*
     if (keys & KEY_ACCEPT) {
         engine->setScene(new GameScene(engine, getLevel()));
-    } else if (keys & KEY_LEFT) {
-        playerLeft();
+    } */else if (keys & KEY_LEFT) {
+        player1->move(player1->getXCo()-1, player1->getYCo());
+        //playerLeft();
     } else if (keys & KEY_RIGHT) {
-        playerRight();
+        player1->move(player1->getXCo()+1, player1->getYCo());
+        //playerRight();
     } else if (keys & KEY_DOWN) {
-        playerDown();
+        player1->move(player1->getXCo(), player1->getYCo()+1);
+        //playerDown();
     } else if (keys & KEY_UP) {
-        playerUp();
+        player1->move(player1->getXCo(), player1->getYCo()+1);
+        //playerUp();
     }
     /*
     if(engine->getTimer()->getTotalMsecs() < 5000) {

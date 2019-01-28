@@ -8,8 +8,10 @@
 #include "../surface.h"
 
 class PowerUp : public Surface {
+public:
+    PowerUp(int xCo, int yCo);
 
+    thingType getType() override;
 };
-
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_POWER_UP_H
