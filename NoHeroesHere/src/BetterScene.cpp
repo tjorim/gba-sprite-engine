@@ -411,9 +411,18 @@ void BetterScene::interactUp(Sprite &sprite , int cPlayer) {
             else{
                 bom2->moveTo(38,188); bom2Volg = 0;
             }
-            if(kanon->collidesWith(*gunpowder)){gunpowder->moveTo(125,188); gunpowderVolg = 0;}
+            if(kanon->collidesWith(*gunpowder)){
+                gunpowder->moveTo(125,188); gunpowderVolg = 0;
+                if(enemy->getX() < 200) {
+                    enemy->kill();
+                    ++killCounter;
+                }}
             else{
                 gunpowder2->moveTo(145,188); gunpowder2Volg = 0;
+                if(enemy->getX() < 200) {
+                    enemy->kill();
+                    ++killCounter;
+                }
             }
         }
         if(kanon2->collidesWith(sprite) && kanon2Gunpowder == 1 && kanon2Bom == 1){ //fire
@@ -422,9 +431,19 @@ void BetterScene::interactUp(Sprite &sprite , int cPlayer) {
             else{
                 bom2->moveTo(38,188); bom2Volg = 0;
             }
-            if(kanon2->collidesWith(*gunpowder)){gunpowder->moveTo(125,188); gunpowderVolg = 0;}
+            if(kanon2->collidesWith(*gunpowder)){
+                gunpowder->moveTo(125,188); gunpowderVolg = 0;
+                if(enemy->getX() > 200 && enemy->getX() < 240) {
+                    enemy->kill();
+                    ++killCounter;
+                }
+            }
             else{
                 gunpowder2->moveTo(145,188); gunpowder2Volg = 0;
+                if(enemy->getX() > 200 && enemy->getX() < 240) {
+                    enemy->kill();
+                    ++killCounter;
+                }
             }
         }
 
