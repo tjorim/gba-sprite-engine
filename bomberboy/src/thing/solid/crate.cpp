@@ -7,12 +7,12 @@
 #include "crate.h"
 #include "../../../sprites/krat.h"
 
-Crate::Crate(int xCo, int yCo) : Solid(xCo, yCo) {
+Crate::Crate(int xCoGrid, int yCoGrid) : Solid(xCoGrid, yCoGrid) {
     SpriteBuilder<Sprite> spriteBuilder;
     setSprite(spriteBuilder
             .withData(kratTiles, sizeof(kratTiles))
             .withSize(SIZE_8_8)
-            .withLocation(8*xCo, 8*yCo)
+            .withLocation(8*xCoGrid, 8*yCoGrid)
             .buildPtr());
 }
 

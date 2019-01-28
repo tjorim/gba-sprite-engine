@@ -11,11 +11,11 @@ class Thing {
 private:
     std::unique_ptr<Sprite> sprite;
     // De x-positie van the Thing
-    int xCo;
+    int xCoGrid;
     // De y-positie van the Thing
-    int yCo;
+    int yCoGrid;
 public:
-    Thing(int xCo, int yCo) {}
+    Thing(int xCoGrid, int yCoGrid) {}
 
     Sprite* getSprite() { return sprite.get(); }
 
@@ -32,8 +32,8 @@ public:
     virtual thingType getType() = 0;
 
     virtual void move(int xValue, int yValue) {
-        setXCo(xValue);
-        setYCo(yValue);
+        setXCoGrid(xValue);
+        setYCoGrid(yValue);
         sprite->moveTo(8*xValue, 8*yValue);
     }
 
@@ -42,15 +42,15 @@ public:
      *
      * @return De x-positie van this Thing.
      */
-    int getXCo() const {return xCo;}
+    int getXCoGrid() const {return xCoGrid;}
     /**
      * Stel de x-positie van de speler in.
      *
-     * @param xCo De x-positie van de speler.
+     * @param xCoGrid De x-positie van de speler.
      */
-    void setXCo(int value)
+    void setXCoGrid(int value)
     {
-        xCo = value;
+        xCoGrid = value;
     }
 
     /**
@@ -58,15 +58,15 @@ public:
      *
      * @return De y-positie van this Thing.
      */
-    int getYCo() const {return yCo;}
+    int getYCoGrid() const {return yCoGrid;}
     /**
      * Stel de y-positie van de speler in.
      *
-     * @param yCo De y-positie van de speler.
+     * @param yCoGrid De y-positie van de speler.
      */
-    void setYCo(int value)
+    void setYCoGrid(int value)
     {
-        yCo = value;
+        yCoGrid = value;
     }
 };
 

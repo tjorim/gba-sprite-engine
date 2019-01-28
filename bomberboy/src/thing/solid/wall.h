@@ -9,7 +9,7 @@
 
 class Wall : public Solid {
 public:
-    Wall(int xCo, int yCo);
+    Wall(int xCoGrid, int yCoGrid);
 
     thingType getType() override;
 };

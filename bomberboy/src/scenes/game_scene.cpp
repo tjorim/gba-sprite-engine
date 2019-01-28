@@ -80,16 +80,16 @@ void GameScene::tick(u16 keys) {
     if (keys & KEY_ACCEPT) {
         engine->setScene(new GameScene(engine, getLevel()));
     } */else if (keys & KEY_LEFT) {
-        player1->move(player1->getXCo()-1, player1->getYCo());
+        player1->move(player1->getXCoGrid()-1, player1->getYCoGrid());
         //playerLeft();
     } else if (keys & KEY_RIGHT) {
-        player1->move(player1->getXCo()+1, player1->getYCo());
+        player1->move(player1->getXCoGrid()+1, player1->getYCoGrid());
         //playerRight();
     } else if (keys & KEY_DOWN) {
-        player1->move(player1->getXCo(), player1->getYCo()+1);
+        player1->move(player1->getXCoGrid(), player1->getYCoGrid()+1);
         //playerDown();
     } else if (keys & KEY_UP) {
-        player1->move(player1->getXCo(), player1->getYCo()+1);
+        player1->move(player1->getXCoGrid(), player1->getYCoGrid()+1);
         //playerUp();
     }
     /*

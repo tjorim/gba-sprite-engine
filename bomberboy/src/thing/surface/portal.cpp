@@ -7,12 +7,12 @@
 #include "portal.h"
 #include "../../../sprites/portaal_1.h"
 
-Portal::Portal(int xCo, int yCo) : Surface(xCo, yCo) {
+Portal::Portal(int xCoGrid, int yCoGrid) : Surface(xCoGrid, yCoGrid) {
     SpriteBuilder<Sprite> spriteBuilder;
     setSprite(spriteBuilder
             .withData(portaal_1Tiles, sizeof(portaal_1Tiles))
             .withSize(SIZE_8_8)
-            .withLocation(8*xCo, 8*yCo)
+            .withLocation(8*xCoGrid, 8*yCoGrid)
             .buildPtr());
 }
 

@@ -7,12 +7,12 @@
 #include "floor.h"
 #include "../../../sprites/portaal_2.h"
 
-Floor::Floor(int xCo, int yCo) : Surface(xCo, yCo) {
+Floor::Floor(int xCoGrid, int yCoGrid) : Surface(xCoGrid, yCoGrid) {
     SpriteBuilder<Sprite> spriteBuilder;
     setSprite(spriteBuilder
             .withData(portaal_2Tiles, sizeof(portaal_2Tiles))
             .withSize(SIZE_8_8)
-            .withLocation(8*xCo, 8*yCo)
+            .withLocation(8*xCoGrid, 8*yCoGrid)
             .buildPtr());
 }
 
