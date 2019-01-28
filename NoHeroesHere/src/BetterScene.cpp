@@ -550,6 +550,7 @@ void BetterScene::gameOver() {
             engine.get()->enqueueSound(raw_dead, raw_dead_bytes, 32000);
             dood = true;
         }else if (killCounter == 10){
+            TextStream::instance().setText(std::string("Kills: ") + std::to_string(10) + std::string(" / 10"), 1,70);
             TextStream::instance().setText("You won", 10,10);
         }
     }
