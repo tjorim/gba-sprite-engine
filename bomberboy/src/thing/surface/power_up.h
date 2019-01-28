@@ -9,7 +9,7 @@
 
 class PowerUp : public Surface {
 public:
-    PowerUp(int xCo, int yCo);
+    PowerUp(int xCoGrid, int yCoGrid);
 
     thingType getType() override;
 };

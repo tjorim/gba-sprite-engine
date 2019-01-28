@@ -9,7 +9,7 @@
 
 class Player : public Thing {
 public:
-    Player(int xCo, int yCo);
+    Player(int xCoGrid, int yCoGrid);
     void move(int xValue, int yValue);
 
     thingType getType() override;

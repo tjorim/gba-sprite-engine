@@ -9,7 +9,7 @@
 
 class Floor : public Surface {
 public:
-    Floor(int xCo, int yCo);
+    Floor(int xCoGrid, int yCoGrid);
 
     thingType getType() override;
 };

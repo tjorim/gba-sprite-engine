@@ -9,7 +9,7 @@
 
 class Crate : public Solid {
 public:
-    Crate(int xCo, int yCo);
+    Crate(int xCoGrid, int yCoGrid);
 
     thingType getType() override;
 };

@@ -7,12 +7,12 @@
 #include "gunpowder.h"
 #include "../../../sprites/kruit.h"
 
-Gunpowder::Gunpowder(int xCo, int yCo) : Surface(xCo, yCo) {
+Gunpowder::Gunpowder(int xCoGrid, int yCoGrid) : Surface(xCoGrid, yCoGrid) {
     SpriteBuilder<Sprite> spriteBuilder;
     setSprite(spriteBuilder
             .withData(kruitTiles, sizeof(kruitTiles))
             .withSize(SIZE_8_8)
-            .withLocation(8*xCo, 8*yCo)
+            .withLocation(8*xCoGrid, 8*yCoGrid)
             .buildPtr());
 }
 

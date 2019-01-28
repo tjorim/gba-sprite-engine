@@ -9,7 +9,7 @@
 
 class Gunpowder : public Surface {
 public:
-    Gunpowder(int xCo, int yCo);
+    Gunpowder(int xCoGrid, int yCoGrid);
 
     thingType getType() override;
 };
