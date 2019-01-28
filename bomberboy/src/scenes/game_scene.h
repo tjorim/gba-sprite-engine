@@ -33,6 +33,15 @@ public:
     void load() override;
 
     void tick(u16 keys) override;
+
+    void movePlayer(int xValue, int yValue);
+    void movePlayerUp();
+    void movePlayerDown();
+    void movePlayerLeft();
+    void movePlayerRight();
+
+    Thing * getThing(int xValue, int yValue);
+    void dropBomb();
 };
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_GAME_SCENE_H
