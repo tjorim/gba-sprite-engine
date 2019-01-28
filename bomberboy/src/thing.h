@@ -16,7 +16,6 @@ private:
     int yCo;
 public:
     Thing(int xCo, int yCo) {}
-    // sprite(std::move(sprite)
 
     Sprite* getSprite() { return sprite.get(); }
 

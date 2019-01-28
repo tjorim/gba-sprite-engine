@@ -2,10 +2,20 @@
 // Created by tiele on 27/01/2019.
 //
 
-#include "power_up.h"
+#include <libgba-sprite-engine/sprites/sprite_builder.h>
 
-    powerUpSprite = spriteBuilder
-            ->withData(kruitTiles, sizeof(kruitTiles))
+#include "power_up.h"
+#include "../../../sprites/item_random.h"
+
+PowerUp::PowerUp(int xCo, int yCo) : Surface(xCo, yCo) {
+    SpriteBuilder<Sprite> spriteBuilder;
+    setSprite(spriteBuilder
+            .withData(item_randomTiles, sizeof(item_randomTiles))
             .withSize(SIZE_8_8)
-            .withLocation(GBA_SCREEN_WIDTH + 20, GBA_SCREEN_HEIGHT + 20)
-            .buildPtr();
+            .withLocation(8*xCo, 8*yCo)
+            .buildPtr());
+}
+
+Thing::thingType PowerUp::getType() {
+    return thingType::POWERUP;
+}

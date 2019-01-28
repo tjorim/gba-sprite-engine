@@ -2,10 +2,20 @@
 // Created by tiele on 27/01/2019.
 //
 
-#include "gunpowder.h"
+#include <libgba-sprite-engine/sprites/sprite_builder.h>
 
-    gunpowderSprite = spriteBuilder
-            ->withData(kruitTiles, sizeof(kruitTiles))
+#include "gunpowder.h"
+#include "../../../sprites/kruit.h"
+
+Gunpowder::Gunpowder(int xCo, int yCo) : Surface(xCo, yCo) {
+    SpriteBuilder<Sprite> spriteBuilder;
+    setSprite(spriteBuilder
+            .withData(kruitTiles, sizeof(kruitTiles))
             .withSize(SIZE_8_8)
-            .withLocation(GBA_SCREEN_WIDTH + 20, GBA_SCREEN_HEIGHT + 20)
-            .buildPtr();
+            .withLocation(8*xCo, 8*yCo)
+            .buildPtr());
+}
+
+Thing::thingType Gunpowder::getType() {
+    return thingType::GUNPOWDER;
+}

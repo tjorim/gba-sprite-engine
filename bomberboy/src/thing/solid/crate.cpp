@@ -2,10 +2,21 @@
 // Created by tiele on 27/01/2019.
 //
 
-#include "crate.h"
+#include <libgba-sprite-engine/sprites/sprite_builder.h>
 
-    crateSprite = spriteBuilder
-            ->withData(kruitTiles, sizeof(kruitTiles))
+#include "crate.h"
+#include "../../../sprites/krat.h"
+
+Crate::Crate(int xCo, int yCo) : Solid(xCo, yCo) {
+    SpriteBuilder<Sprite> spriteBuilder;
+    setSprite(spriteBuilder
+            .withData(kratTiles, sizeof(kratTiles))
             .withSize(SIZE_8_8)
-            .withLocation(GBA_SCREEN_WIDTH + 20, GBA_SCREEN_HEIGHT + 20)
-            .buildPtr();
+            .withLocation(8*xCo, 8*yCo)
+            .buildPtr());
+}
+
+Thing::thingType Crate::getType() {
+    return thingType::CRATE;
+}
+    

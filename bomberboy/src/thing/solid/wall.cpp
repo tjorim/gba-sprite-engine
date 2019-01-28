@@ -2,10 +2,20 @@
 // Created by tiele on 27/01/2019.
 //
 
-#include "wall.h"
+#include <libgba-sprite-engine/sprites/sprite_builder.h>
 
-    wallSprite = spriteBuilder
-            ->withData(kruitTiles, sizeof(kruitTiles))
+#include "wall.h"
+#include "../../../sprites/muur.h"
+
+Wall::Wall(int xCo, int yCo) : Solid(xCo, yCo) {
+    SpriteBuilder<Sprite> spriteBuilder;
+    setSprite(spriteBuilder
+            .withData(muurTiles, sizeof(muurTiles))
             .withSize(SIZE_8_8)
-            .withLocation(GBA_SCREEN_WIDTH + 20, GBA_SCREEN_HEIGHT + 20)
-            .buildPtr();
+            .withLocation(8*xCo, 8*yCo)
+            .buildPtr());
+}
+
+Thing::thingType Wall::getType() {
+    return thingType::WALL;
+}
