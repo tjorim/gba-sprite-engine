@@ -8,8 +8,10 @@
 #include "../surface.h"
 
 class Gunpowder : public Surface {
+public:
+    Gunpowder(int xCo, int yCo);
 
+    thingType getType() override;
 };
-
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_GUNPOWDER_H

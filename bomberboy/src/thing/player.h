@@ -9,8 +9,10 @@
 
 class Player : public Thing {
 public:
+    Player(int xCo, int yCo);
     void move(int xValue, int yValue);
 
+    thingType getType() override;
 };
 
 

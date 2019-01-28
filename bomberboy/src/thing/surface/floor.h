@@ -8,8 +8,10 @@
 #include "../surface.h"
 
 class Floor : public Surface {
+public:
+    Floor(int xCo, int yCo);
 
+    thingType getType() override;
 };
-
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_FLOOR_H

@@ -8,8 +8,10 @@
 #include "../solid.h"
 
 class Wall : public Solid {
+public:
+    Wall(int xCo, int yCo);
 
+    thingType getType() override;
 };
-
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_WALL_H

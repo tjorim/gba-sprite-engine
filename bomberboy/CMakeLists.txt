@@ -20,8 +20,6 @@ add_executable(${PROJECT_NAME}.elf
         src/thing/surface/portal.cpp src/thing/surface/portal.h
         src/thing/surface/portal.cpp src/thing/surface/portal.h
         src/thing/surface/power_up.cpp src/thing/surface/power_up.h
-        img/bullet_data.h
-        src/scenes/item_life.h
         )
 
 target_link_libraries(${PROJECT_NAME}.elf gba-sprite-engine)
