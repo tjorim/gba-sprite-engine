@@ -9,7 +9,7 @@
 
 class Portal : public Surface {
 public:
-    Portal(int xCo, int yCo);
+    Portal(int xCoGrid, int yCoGrid);
 
     thingType getType() override;
 };

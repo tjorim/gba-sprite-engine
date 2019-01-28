@@ -7,12 +7,12 @@
 #include "bomb.h"
 #include "../../sprites/bom.h"
 
-Bomb::Bomb(int xCo, int yCo) : Thing(xCo, yCo) {
+Bomb::Bomb(int xCoGrid, int yCoGrid) : Thing(xCoGrid, yCoGrid) {
     SpriteBuilder<Sprite> spriteBuilder;
     setSprite(spriteBuilder
             .withData(bomTiles, sizeof(bomTiles))
             .withSize(SIZE_8_8)
-            .withLocation(8*xCo, 8*yCo)
+            .withLocation(8*xCoGrid, 8*yCoGrid)
             .buildPtr());
 }
 

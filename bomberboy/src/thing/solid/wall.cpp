@@ -7,12 +7,12 @@
 #include "wall.h"
 #include "../../../sprites/muur.h"
 
-Wall::Wall(int xCo, int yCo) : Solid(xCo, yCo) {
+Wall::Wall(int xCoGrid, int yCoGrid) : Solid(xCoGrid, yCoGrid) {
     SpriteBuilder<Sprite> spriteBuilder;
     setSprite(spriteBuilder
             .withData(muurTiles, sizeof(muurTiles))
             .withSize(SIZE_8_8)
-            .withLocation(8*xCo, 8*yCo)
+            .withLocation(8*xCoGrid, 8*yCoGrid)
             .buildPtr());
 }
 

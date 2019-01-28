@@ -9,7 +9,7 @@
 
 class Bomb : public Thing {
 public:
-    Bomb(int xCo, int yCo);
+    Bomb(int xCoGrid, int yCoGrid);
 
     thingType getType() override;
 };
