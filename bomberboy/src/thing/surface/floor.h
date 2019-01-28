@@ -10,8 +10,6 @@
 class Floor : public Surface {
 public:
     Floor(int xCoGrid, int yCoGrid);
-
-    thingType getType() override;
 };
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_FLOOR_H

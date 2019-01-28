@@ -10,8 +10,6 @@
 class Crate : public Solid {
 public:
     Crate(int xCoGrid, int yCoGrid);
-
-    thingType getType() override;
 };
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_CRATE_H

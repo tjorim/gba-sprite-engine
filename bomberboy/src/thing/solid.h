@@ -9,7 +9,7 @@
 
 class Solid : public Thing {
 public:
-    Solid(int xCoGrid, int yCoGrid) : Thing(xCoGrid, yCoGrid) {}
+    Solid(int xCoGrid, int yCoGrid, thingType type) : Thing(xCoGrid, yCoGrid, type) {}
 };
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_SOLID_H

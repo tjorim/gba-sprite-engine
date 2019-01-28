@@ -10,8 +10,6 @@
 class Bomb : public Thing {
 public:
     Bomb(int xCoGrid, int yCoGrid);
-
-    thingType getType() override;
 };
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_BOMB_H
