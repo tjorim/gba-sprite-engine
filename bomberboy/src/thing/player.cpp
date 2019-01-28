@@ -20,10 +20,44 @@ Player::Player(int xCoGrid, int yCoGrid) : Thing(xCoGrid, yCoGrid, thingType::PL
             .buildPtr());
 }
 
-void Player::move(int xValue, int yValue) {
+void Player::moveTo(int xValue, int yValue) {
     setXCoSprite(xValue);
     setYCoSprite(yValue);
     getSprite()->moveTo(xValue, yValue-8);
+}
+
+void Player::moveRelative(int xValue, int yValue) {
+    int newX = xCoSprite+xValue;
+    int newY = yCoSprite+yValue;
+    moveTo(newX, newY);
+}
+
+/**
+ * Beweeg 1 vakje naar boven.
+ */
+void Player::moveUp() {
+    moveRelative(0,-1);
+}
+
+/**
+ * Beweeg 1 vakje naar onder.
+ */
+void Player::moveDown() {
+    moveRelative(0,1);
+}
+
+/**
+ * Beweeg 1 vakje naar links.
+ */
+void Player::moveLeft() {
+    moveRelative(-1,0);
+}
+
+/**
+ * Beweeg 1 vakje naar rechts.
+ */
+void Player::moveRight() {
+    moveRelative(1,0);
 }
 
 int Player::getXCoSprite() const {
@@ -49,9 +83,29 @@ int Player::getPlayerNumber() const
     return playerNumber;
 }
 
+bool Player::canShift() const
+{
+    return shift;
+}
+
+bool Player::canKick() const
+{
+    return kick;
+}
+
+Direction Player::getDirection() const
+{
+    return direction;
+}
+
 int Player::getAantalBommen() const
 {
     return aantalBommen;
+}
+
+int Player::getMaxBommen()
+{
+    return maxBommen;
 }
 
 int Player::getHoeveelVuur() const
@@ -64,29 +118,18 @@ int Player::getMaxVuur() const
     return maxVuur;
 }
 
+bool Player::isDood()
+{
+    if (getLives() == 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 int Player::getLives() const
 {
     return lives;
-}
-
-int Player::getSpeed() const
-{
-    return speed;
-}
-
-bool Player::canShift() const
-{
-    return shift;
-}
-
-bool Player::canKick() const
-{
-    return kick;
-}
-
-int Player::getMaxSnelheid()
-{
-    return maxSnelheid;
 }
 
 int Player::getMaxLevens()
@@ -94,9 +137,29 @@ int Player::getMaxLevens()
     return maxLevens;
 }
 
-int Player::getMaxBommen()
+int Player::getSpeed() const
 {
-    return maxBommen;
+    return speed;
+}
+
+int Player::getMaxSnelheid()
+{
+    return maxSnelheid;
+}
+
+void Player::setPlayerNumber(int value)
+{
+    playerNumber = value;
+}
+
+void Player::setShift(bool value)
+{
+    shift = value;
+}
+
+void Player::setKick(bool value)
+{
+    kick = value;
 }
 
 void Player::setDirection(const Direction &value)
@@ -120,6 +183,25 @@ void Player::setDirection(const Direction &value)
     direction = value;
 }
 
+void Player::eenBomMinder()
+{
+    aantalBommen--;
+}
+
+void Player::eenBomMeer()
+{
+    if (getAantalBommen() < getMaxBommen()) {
+        aantalBommen++;
+    } else {
+        aantalBommen = maxBommen;
+    }
+}
+
+void Player::geefMaxBommen()
+{
+    aantalBommen = maxBommen;
+}
+
 void Player::setHoeveelVuur(int value)
 {
     if (getHoeveelVuur() < getMaxVuur()) {
@@ -127,35 +209,6 @@ void Player::setHoeveelVuur(int value)
     } else {
         hoeveelVuur = maxVuur;
     }
-}
-
-void Player::setSpeed(int value)
-{
-    if (getSpeed() < getMaxSnelheid()) {
-        speed = value;
-    } else {
-        speed = maxSnelheid;
-    }
-}
-
-void Player::setPlayerNumber(int value)
-{
-    playerNumber = value;
-}
-
-void Player::setShift(bool value)
-{
-    shift = value;
-}
-
-void Player::setKick(bool value)
-{
-    kick = value;
-}
-
-Direction Player::getDirection() const
-{
-    return direction;
 }
 
 void Player::maakDood()
@@ -185,21 +238,11 @@ void Player::geefMaxLevens()
     lives = maxLevens;
 }
 
-void Player::eenBomMinder()
+void Player::setSpeed(int value)
 {
-    aantalBommen--;
-}
-
-void Player::eenBomMeer()
-{
-    if (getAantalBommen() < getMaxBommen()) {
-        aantalBommen++;
+    if (getSpeed() < getMaxSnelheid()) {
+        speed = value;
     } else {
-        aantalBommen = maxBommen;
+        speed = maxSnelheid;
     }
-}
-
-void Player::geefMaxBommen()
-{
-    aantalBommen = maxBommen;
 }

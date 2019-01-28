@@ -34,13 +34,7 @@ public:
 
     void tick(u16 keys) override;
 
-    void movePlayer(int xValue, int yValue);
-    void movePlayerUp();
-    void movePlayerDown();
-    void movePlayerLeft();
-    void movePlayerRight();
-
-    Thing * getThing(int xValue, int yValue);
+    thingType getThingType(int xValue, int yValue);
     void dropBomb();
 };
 

@@ -24,19 +24,29 @@ private:
     // ONDER, BOVEN, LINKS, RECHTS
     Direction direction = Direction::ONDER;
 
-    int aantalBommen, standaardBommen = 1;
+    int aantalBommen = 1;
+    int standaardBommen = 1;
     int maxBommen = 6;
-    int hoeveelVuur, standaardVuur = 1;
+    int hoeveelVuur = 1;
+    int standaardVuur = 1;
     int maxVuur = 6;
-    int lives, standaardLevens = 3;
+    int lives = 3;
+    int standaardLevens = 3;
     int maxLevens = 3;
-    int speed, standaardSnelheid = 1;
+    int speed = 1;
+    int standaardSnelheid = 1;
     int maxSnelheid = 6;
 
 public:
     Player(int xCoGrid, int yCoGrid);
-    // override the move as well
-    void move(int xValue, int yValue);
+    // override the moveTo as well
+    void moveTo(int xValue, int yValue);
+    void moveRelative(int xValue, int yValue);
+
+    void moveUp();
+    void moveDown();
+    void moveLeft();
+    void moveRight();
 
     /**
      * Wat is de x-positie van this Thing?
@@ -114,6 +124,7 @@ public:
      * @return De maximale 'krachtigheid' van de explosie van de speler.
      */
     int getMaxVuur() const;
+    bool isDood();
     /**
      * Hoeveel levens heeft de speler nog?
      *
@@ -165,19 +176,25 @@ public:
      * @param richting De richting die de speler krijgt.
      */
     void setDirection(const Direction &value);
+
+    /**
+     * Hiermee neem je een bom af van de speler.
+     */
+    void eenBomMinder();
+    /**
+     * Hiermee geef je de speler een bom meer.
+     */
+    void eenBomMeer();
+    /**
+     * Geef de speler max bommen.
+     */
+    void geefMaxBommen();
     /**
      * Hiermee pas je de kracht van de explosie van de speler aan.
      *
      * @param hoeveelVuur De 'krachtigheid' van de explosie van de speler.
      */
     void setHoeveelVuur(int value);
-    /**
-     * Hiermee pas je de snelheid van de speler aan.
-     *
-     * @param snelheid De snelheid van de speler.
-     */
-    void setSpeed(int value);
-
     /**
      * Hiermee vermoord je de speler, het aantal levens wordt op nul gezet.
      */
@@ -195,17 +212,11 @@ public:
      */
     void geefMaxLevens();
     /**
-     * Hiermee neem je een bom af van de speler.
+     * Hiermee pas je de snelheid van de speler aan.
+     *
+     * @param snelheid De snelheid van de speler.
      */
-    void eenBomMinder();
-    /**
-     * Hiermee geef je de speler een bom meer.
-     */
-    void eenBomMeer();
-    /**
-     * Geef de speler max bommen.
-     */
-    void geefMaxBommen();
+    void setSpeed(int value);
 };
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_PLAYER_H
