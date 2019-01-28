@@ -7,15 +7,11 @@
 #include "power_up.h"
 #include "../../../sprites/item_random.h"
 
-PowerUp::PowerUp(int xCoGrid, int yCoGrid) : Surface(xCoGrid, yCoGrid) {
+PowerUp::PowerUp(int xCoGrid, int yCoGrid) : Surface(xCoGrid, yCoGrid, thingType::POWERUP) {
     SpriteBuilder<Sprite> spriteBuilder;
     setSprite(spriteBuilder
             .withData(item_randomTiles, sizeof(item_randomTiles))
             .withSize(SIZE_8_8)
             .withLocation(8*xCoGrid, 8*yCoGrid)
             .buildPtr());
-}
-
-Thing::thingType PowerUp::getType() {
-    return thingType::POWERUP;
 }

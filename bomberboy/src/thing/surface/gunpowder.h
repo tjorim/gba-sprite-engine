@@ -10,8 +10,6 @@
 class Gunpowder : public Surface {
 public:
     Gunpowder(int xCoGrid, int yCoGrid);
-
-    thingType getType() override;
 };
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_GUNPOWDER_H

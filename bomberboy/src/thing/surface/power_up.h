@@ -10,8 +10,6 @@
 class PowerUp : public Surface {
 public:
     PowerUp(int xCoGrid, int yCoGrid);
-
-    thingType getType() override;
 };
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_POWER_UP_H

@@ -10,8 +10,6 @@
 class Wall : public Solid {
 public:
     Wall(int xCoGrid, int yCoGrid);
-
-    thingType getType() override;
 };
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_WALL_H
