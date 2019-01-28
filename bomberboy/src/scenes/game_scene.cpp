@@ -67,31 +67,21 @@ void GameScene::load() {
 void GameScene::tick(u16 keys) {
     TextStream::instance().setText(std::string("Game scene"), 5, 1);
 
-    if (keys & KEY_ACCEPT) {
-        bombs.push_back(std::unique_ptr<Bomb>(new Bomb(10, 10)));
-        TextStream::instance().setText(std::string("Boms ") + std::to_string(bombs.size()), 10, 1);
-        engine.get()->updateSpritesInScene();
-
-        // Dynamically add the sprite
-        // addSprite(bombs[0]->getSprite());
-        // but there is no easy way to remove it
+    if (keys & KEY_FIRE) {
+        dropBomb();
+    } else if (keys & KEY_UP) {
+        movePlayerUp();
+    } else if (keys & KEY_DOWN) {
+        movePlayerDown();
+    } else if (keys & KEY_LEFT) {
+        movePlayerLeft();
+    } else if (keys & KEY_RIGHT) {
+        movePlayerRight();
     }
     /*
     if (keys & KEY_ACCEPT) {
         engine->setScene(new GameScene(engine, getLevel()));
-    } */else if (keys & KEY_LEFT) {
-        player1->move(player1->getXCoGrid()-1, player1->getYCoGrid());
-        //playerLeft();
-    } else if (keys & KEY_RIGHT) {
-        player1->move(player1->getXCoGrid()+1, player1->getYCoGrid());
-        //playerRight();
-    } else if (keys & KEY_DOWN) {
-        player1->move(player1->getXCoGrid(), player1->getYCoGrid()+1);
-        //playerDown();
-    } else if (keys & KEY_UP) {
-        player1->move(player1->getXCoGrid(), player1->getYCoGrid()+1);
-        //playerUp();
-    }
+    } */
     /*
     if(engine->getTimer()->getTotalMsecs() < 5000) {
         counter++;
@@ -101,5 +91,80 @@ void GameScene::tick(u16 keys) {
 
     TextStream::instance().setText(std::to_string(counter) + std::string(" frames/5sec"), 5, 1);
     TextStream::instance().setText(std::string(engine->getTimer()->to_string()), 6, 1);
+    */
+}
+
+void GameScene::movePlayer(int xValue, int yValue) {
+    int newX = player1->getXCoSprite()+xValue;
+    int newY = player1->getYCoSprite()+yValue;
+    player1->move(newX, newY);
+}
+
+/**
+ * Beweeg 1 vakje naar boven.
+ */
+void GameScene::movePlayerUp() {
+    movePlayer(0,-1);
+}
+
+/**
+ * Beweeg 1 vakje naar onder.
+ */
+void GameScene::movePlayerDown() {
+    movePlayer(0,1);
+}
+
+/**
+ * Beweeg 1 vakje naar links.
+ */
+void GameScene::movePlayerLeft() {
+    movePlayer(-1,0);
+}
+
+/**
+ * Beweeg 1 vakje naar rechts.
+ */
+void GameScene::movePlayerRight() {
+    movePlayer(1,0);
+}
+
+Thing * GameScene::getThing(int xValue, int yValue) {
+    return board[xValue][yValue];
+}
+
+void GameScene::dropBomb() {
+    if(player1->getAantalBommen() > 0) {
+        int bombX = player1->getXCoGrid();
+        int bombY = player1->getYCoGrid();
+        thingType thingUnderPlayerType = getThing(bombX, bombY)->getType();
+
+        if(thingUnderPlayerType == thingType::FLOOR || thingUnderPlayerType == thingType::GUNPOWDER) {
+            bombs.push_back(std::unique_ptr<Bomb>(new Bomb(bombX, bombY)));
+            TextStream::instance().setText(std::string("Boms ") + std::to_string(bombs.size()), 10, 1);
+            engine.get()->updateSpritesInScene();
+            player1->eenBomMinder();
+        }
+    }
+
+    // Dynamically add the sprite
+    // addSprite(bombs[0]->getSprite());
+    // but there is no easy way to remove it
+
+    /*
+        if(speler->getThingUnderPlayer()->getType() == Thing::thingType::FLOOR)
+        {
+            // create a bomb with floor under it
+            Bomb *bomb = new Bomb(speler->getPlayerNumber(), new Floor());
+            qDebug() << "Bomb created";
+            bomb->setPos(speler->getXCo(), speler->getYCo());
+            scene->addItem(bomb);
+            //speler->setThingUnderPlayer(new Bomb(speler->getPlayerNumber(), new Floor()));
+        }
+        else if(speler->getThingUnderPlayer()->getType() == Thing::thingType::GUNPOWDER)
+        {
+            speler->setThingUnderPlayer(new Bomb(speler->getPlayerNumber(), new Gunpowder()));
+        }
+        
+        //speelGeluidje(BombDrop);
     */
 }
