@@ -1,4 +1,4 @@
-project(better_game)
+project(NoHeroesHere)
 
 add_executable(${PROJECT_NAME}.elf
         src/main.cpp src/BetterScene.cpp src/BetterScene.h src/castleworker.h src/background.h src/Enemy.cpp src/Enemy.h)
