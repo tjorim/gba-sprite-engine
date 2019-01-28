@@ -10,6 +10,8 @@
 #include "bird1.h"
 #include "achtergrondWolkjes.h"
 #include "flappybird.h"
+#include "time.h"
+#include "../../../../../Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/i686-w64-mingw32/include/time.h"
 
 double y,x;
 int a = 0;
@@ -35,11 +37,11 @@ void MainScene::youDied() {
     birdSprite->setVelocity(0, 0);
     if(score > highScore){
         highScore = score;
-        TextStream::instance().setText(std::string("je score was: ") + std::to_string(score), 1, 1);
+        TextStream::instance().setText(std::string("Je score was: ") + std::to_string(score), 1, 1);
         TextStream::instance().setText(std::string("Nieuwe highscore:") + std::to_string(highScore), 2, 1);
     }else{
-        TextStream::instance().setText(std::string("je score was: ") + std::to_string(score) , 1, 1);
-        TextStream::instance().setText(std::string("highscore:") + std::to_string(highScore), 2, 1);
+        TextStream::instance().setText(std::string("Je score was: ") + std::to_string(score) , 1, 1);
+        TextStream::instance().setText(std::string("Highscore:") + std::to_string(highScore), 2, 1);
     }
     TextStream::instance().setText(std::string("You DIED - start to reset"), 3, 1);
     score = 0;
@@ -54,58 +56,47 @@ void MainScene::youDied() {
 void MainScene::resetGame() {
 
     TextStream::instance().clear();
-    birdSprite->setVelocity(0, 2);
+    birdSprite->setVelocity(0, 1);
     birdSprite->moveTo(40, 20);
-    buisSprite->moveTo(150, 130);
-    buisSprite1->moveTo(250, 100);
+    buisSprite->moveTo(150, (rand() % 40 + 100));
+    buisSprite1->moveTo(250, (rand() % 40 + 100));
 }
 
 void MainScene::tick(u16 keys) {
-    scrollX += 1;
-    if ((birdSprite->collidesWith(*buisSprite)))
+    scrollX += scrollspeed;
+    if ((birdSprite->collidesWith(*buisSprite)) || (birdSprite->collidesWith(*buisSprite1)) || birdSprite.get()->getY() ==0 || birdSprite.get()->getY() >=140)
     {
         scrollX = 0;
         bg.get()->scroll(scrollX, scrollY);
-
+        birdX = 0;
         youDied();
         return;
-    } else if (birdSprite->collidesWith(*buisSprite1)) {
-
-        scrollX = 0;
-        bg.get()->scroll(scrollX, scrollY);
-        youDied();
-        return;
-
     }
-
-
     birdX +=0.3;
     birdY = ((0.05*(birdX*birdX))-3 + birdX);
-
     if (keys & KEY_A) {
         birdX = -2;
     }
-
     buisSprite->setStayWithinBounds(false);
     buisSprite1->setStayWithinBounds(false);
     birdSprite->setStayWithinBounds(true);
-    buisSprite.get()->moveTo(buisSprite.get()->getX() - 1, buisSprite.get()->getY());
-    buisSprite1.get()->moveTo(buisSprite1.get()->getX() - 1, buisSprite1.get()->getY());
+    buisSprite.get()->moveTo(buisSprite.get()->getX() - scrollspeed, buisSprite.get()->getY());
+    buisSprite1.get()->moveTo(buisSprite1.get()->getX() - scrollspeed, buisSprite1.get()->getY());
 
 
     if (buisSprite.get()->getX() <= 0)
     {
-        buisSprite.get()->moveTo(250, 130);
+        buisSprite.get()->moveTo(buisSprite1.get()->getX()+150, (rand() % 40 + 100));
         score += 1;
+
     }
 
     if (buisSprite1.get()->getX() <= 0)
     {
-        buisSprite1.get()->moveTo(300, 110);
+        buisSprite1.get()->moveTo(buisSprite.get()->getX()+150, (rand() % 40 + 100));
         score += 1;
     }
-
-    //score bijhouden
+    scrollspeed = (score / 10) +1;
 
     TextStream::instance().setText(std::string("Score: ") + std::to_string(score), 1, 1);
     birdSprite.get()->setVelocity(0,(int)birdY);
@@ -114,6 +105,7 @@ void MainScene::tick(u16 keys) {
 }
 
 void MainScene::load() {
+    srand(time(NULL));
     score = 0;
     highScore = 0;
     foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager(bird1Pal, sizeof(bird1Pal)));
@@ -154,4 +146,5 @@ void MainScene::load() {
 
     bg = std::unique_ptr<Background>(new Background(1, flappybirdTiles, sizeof(flappybirdTiles), map, sizeof(map)));
     bg.get()->useMapScreenBlock(16);
+    scrollspeed = 1;
 }

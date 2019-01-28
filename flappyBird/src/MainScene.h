@@ -21,7 +21,7 @@ private:
     int scrollX, scrollY;
     double birdX;
     double birdY;
-    int score,highScore;
+    int score,highScore,scrollspeed;
 
 
     void youDied();
