@@ -54,7 +54,11 @@ void GameScene::load() {
 
     for (int i = 0; i < BOARD_WIDTH; i++) { // board.size(), Iterating over rows
         for (int j = 0; j < BOARD_HEIGHT; j++) { // board[i].size()
-            board[i][j] = new Wall(i, j);
+            if(i == 0 || i == BOARD_WIDTH-1 || j == 0 || j == BOARD_HEIGHT-1) {
+                board[i][j] = new Wall(i, j);
+            } else {
+                board[i][j] = new Floor(i, j);
+            }
         }
     }
 
@@ -67,20 +71,24 @@ void GameScene::load() {
 void GameScene::tick(u16 keys) {
     TextStream::instance().setText(std::string("Game scene"), 5, 1);
 
+    if (player1->isDood()) {
+        engine->setScene(new EndScene(engine));
+    }
+
     if (keys & KEY_FIRE) {
         dropBomb();
     } else if (keys & KEY_UP) {
-        movePlayerUp();
+        player1->moveUp();
     } else if (keys & KEY_DOWN) {
-        movePlayerDown();
+        player1->moveDown();
     } else if (keys & KEY_LEFT) {
-        movePlayerLeft();
+        player1->moveLeft();
     } else if (keys & KEY_RIGHT) {
-        movePlayerRight();
+        player1->moveRight();
     }
     /*
     if (keys & KEY_ACCEPT) {
-        engine->setScene(new GameScene(engine, getLevel()));
+        
     } */
     /*
     if(engine->getTimer()->getTotalMsecs() < 5000) {
@@ -94,61 +102,30 @@ void GameScene::tick(u16 keys) {
     */
 }
 
-void GameScene::movePlayer(int xValue, int yValue) {
-    int newX = player1->getXCoSprite()+xValue;
-    int newY = player1->getYCoSprite()+yValue;
-    player1->move(newX, newY);
-}
-
-/**
- * Beweeg 1 vakje naar boven.
- */
-void GameScene::movePlayerUp() {
-    movePlayer(0,-1);
-}
-
-/**
- * Beweeg 1 vakje naar onder.
- */
-void GameScene::movePlayerDown() {
-    movePlayer(0,1);
-}
-
-/**
- * Beweeg 1 vakje naar links.
- */
-void GameScene::movePlayerLeft() {
-    movePlayer(-1,0);
-}
-
-/**
- * Beweeg 1 vakje naar rechts.
- */
-void GameScene::movePlayerRight() {
-    movePlayer(1,0);
-}
-
-Thing * GameScene::getThing(int xValue, int yValue) {
-    return board[xValue][yValue];
+thingType GameScene::getThingType(int xValue, int yValue) {
+    thingType type = board[xValue][yValue]->getType();
+    TextStream::instance().setText(std::string("Type: ") + std::to_string(
+        static_cast<std::underlying_type<thingType>::type>(type)
+        ), 13, 1);
+    return type;
 }
 
 void GameScene::dropBomb() {
     if(player1->getAantalBommen() > 0) {
         int bombX = player1->getXCoGrid();
         int bombY = player1->getYCoGrid();
-        thingType thingUnderPlayerType = getThing(bombX, bombY)->getType();
+        thingType thingUnderPlayerType = getThingType(bombX, bombY);
 
         if(thingUnderPlayerType == thingType::FLOOR || thingUnderPlayerType == thingType::GUNPOWDER) {
             bombs.push_back(std::unique_ptr<Bomb>(new Bomb(bombX, bombY)));
-            TextStream::instance().setText(std::string("Boms ") + std::to_string(bombs.size()), 10, 1);
+            // Dynamically add the sprite
+            //addSprite(bombs.back()->getSprite());
+            // but there is no easy way to remove it
             engine.get()->updateSpritesInScene();
+            TextStream::instance().setText(std::string("Boms ") + std::to_string(bombs.size()), 10, 1);
             player1->eenBomMinder();
         }
-    }
-
-    // Dynamically add the sprite
-    // addSprite(bombs[0]->getSprite());
-    // but there is no easy way to remove it
+    }    
 
     /*
         if(speler->getThingUnderPlayer()->getType() == Thing::thingType::FLOOR)
