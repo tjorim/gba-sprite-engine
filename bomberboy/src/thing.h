@@ -7,8 +7,11 @@
 
 #include <libgba-sprite-engine/sprites/sprite.h>
 
+enum class thingType: char {BOMB = 1, CRATE = 2, FLOOR = 3, GUNPOWDER = 4, PLAYER = 5, PORTAL = 6, POWERUP = 7, WALL = 8};
+
 class Thing {
 private:
+    thingType type;
     std::unique_ptr<Sprite> sprite;
     // De x-positie van the Thing
     int xCoGrid;
@@ -23,7 +26,7 @@ public:
         Thing::sprite = std::move(sprite);
     }
     
-    enum class thingType: char {BOMB = 1, CRATE = 2, FLOOR = 3, GUNPOWDER = 4, PLAYER = 5, PORTAL = 6, POWERUP = 7, WALL = 8};
+    
 
     /**
      * @brief What type is this thing?
@@ -69,6 +72,5 @@ public:
         yCoGrid = value;
     }
 };
-
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_THING_H

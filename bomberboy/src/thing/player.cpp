@@ -25,3 +25,19 @@ void Player::move(int xValue, int yValue) {
 Thing::thingType Player::getType() {
     return thingType::PLAYER;
 }
+
+int Player::getXCoSprite() const {
+    return xCoSprite;
+}
+
+void Player::setXCoSprite(int value) {
+    Player::xCoSprite = value;
+}
+
+int Player::getYCoSprite() const {
+    return yCoSprite;
+}
+
+void Player::setYCoSprite(int value) {
+    Player::yCoSprite = value;
+}
