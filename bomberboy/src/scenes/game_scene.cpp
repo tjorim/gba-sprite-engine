@@ -2,7 +2,6 @@
 // Created by Jorim Tielemans
 //
 
-#include <libgba-sprite-engine/sprites/sprite_builder.h>
 #include <libgba-sprite-engine/background/text_stream.h>
 #include <libgba-sprite-engine/gba_engine.h>
 
@@ -16,7 +15,6 @@
 #include "../thing/surface/gunpowder.h"
 #include "../thing/surface/portal.h"
 #include "../thing/surface/power_up.h"
-#include "../../sprites/blauw_boven.h"
 #include "../../sprites/shared.h"
 
 GameScene::GameScene(const std::shared_ptr <GBAEngine> &engine, int level) : Scene(engine), level(level) {}
@@ -52,27 +50,14 @@ void GameScene::load() {
             new ForegroundPaletteManager(sharedPal, sizeof(sharedPal)));
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager());
 
-    spriteBuilder = std::unique_ptr < SpriteBuilder < Sprite >> (new SpriteBuilder <Sprite>);
-    // SpriteBuilder<Sprite> spriteBuilder;
-
-    bombSprite = spriteBuilder
-            ->withData(blauw_bovenTiles, sizeof(blauw_bovenTiles))
-            .withSize(SIZE_8_16)
-            .withinBounds()
-            .withLocation(GBA_SCREEN_WIDTH + 20, GBA_SCREEN_HEIGHT + 20)
-            .buildPtr();
-
     player1 = std::unique_ptr<Player>(new Player(5, 5));
 
-/*
-    for (int i = 0; i < 5; i++) {
-        for (int j = 0; j < 5; j++) {
-            board[i][j] = new Thing();
-            //cout << board[i][j] << " ";
+    for (int i = 0; i < BOARD_WIDTH; i++) { // board.size(), Iterating over rows
+        for (int j = 0; j < BOARD_HEIGHT; j++) { // board[i].size()
+            board[i][j] = new Wall(i, j);
         }
-        //cout << endl;
     }
-*/
+
     // engine->getTimer()->start();
     // engine->enqueueMusic(cataclysmic_molten_core, sizeof(cataclysmic_molten_core));
 
