@@ -34,3 +34,4 @@ add_subdirectory(demos/demo3-foodthrowing)
 add_subdirectory(demos/demo4-conway)
 
 add_subdirectory(bomberboy)
+add_subdirectory(no-name-party)
