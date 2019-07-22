@@ -1,0 +1,28 @@
+
+//{{BLOCK(space_green_dice)
+
+//======================================================================
+//
+//	space_green_dice, 16x16@8, 
+//	+ 4 tiles not compressed
+//	Total size: 256 = 256
+//
+//	Time-stamp: 2019-07-22, 18:52:57
+//	Exported by Cearn's GBA Image Transmogrifier, v0.8.6
+//	( http://www.coranac.com/projects/#grit )
+//
+//======================================================================
+
+const unsigned int space_green_diceTiles[64] __attribute__((aligned(4)))=
+{
+	0x00000000,0xCDCDD000,0xCDD00000,0xCCCFCDCD,0xCFCDCDD0,0xCED1D1CC,0xD1D2D2CD,0xCED1D1D1,
+	0xD2CCCCCD,0xD1D1D1D2,0xD1D1CCCD,0xD1D2D2D1,0xCECECCCD,0xD2D1D1D1,0xCECECCCD,0xD2D1D1D1,
+	0x00D0CDCD,0x00000000,0xCDCDCFCC,0x0000D0CD,0xCCD1D1CE,0xD0CDCDCF,0xD1D1D1CE,0xCDD2D2D1,
+	0xD2D1D1D1,0xCDCCCCD2,0xCCD2D2D1,0xCDCECED1,0xD1D1CCD2,0xCDCECED1,0xD1D1D1D2,0xCDCCD1D1,
+	0xD1D1CCCD,0xD2D1D1D1,0xD1D1CCCD,0xD2D1D1D1,0xD1D1CCCD,0xD2D1CECE,0xD1D1CCCD,0xD2D1CECE,
+	0xCCCFCDD0,0xD2D1D1D1,0xCDCDD000,0xD2D1CCCF,0xD0000000,0xCFCFCDCD,0x00000000,0xCDCDD000,
+	0xCED1D1D2,0xCDCCD1CE,0xCED1D1D2,0xCDCCD1CE,0xD1D1D1D2,0xCDCCD1D1,0xD1CECED2,0xCDCCD1D1,
+	0xD1CECED2,0xD0CDCFCC,0xCFCCD1D2,0x00D0CDCD,0xCDCDCFCF,0x000000D0,0x00D0CDCD,0x00000000,
+};
+
+//}}BLOCK(space_green_dice)
