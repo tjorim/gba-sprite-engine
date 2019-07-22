@@ -1,4 +1,4 @@
-project(no-name-party)
+project(no-name-party)               # Create project "no-name-party"
 
 add_executable(${PROJECT_NAME}.elf
         src/main.cpp
