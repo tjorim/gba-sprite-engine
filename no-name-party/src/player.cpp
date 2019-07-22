@@ -7,16 +7,16 @@
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
 
 #include "player.h"
-#include "../../sprites/blauw_dood.h"
+#include "../../sprites/luigi_left.h"
 
 Player::Player(int xCoGrid, int yCoGrid) : Thing(xCoGrid, yCoGrid, thingType::PLAYER) {
     setXCoSprite(8*xCoGrid);
     setYCoSprite(8*yCoGrid-8);
     SpriteBuilder<Sprite> spriteBuilder;
     setSprite(spriteBuilder
-            .withData(blauw_doodTiles, sizeof(blauw_doodTiles))
-            .withSize(SIZE_8_16)
-            .withLocation(xCoSprite, yCoSprite)
+            .withData(Luigi_leftTiles, sizeof(Luigi_leftTiles))
+            .withSize(SIZE_32_32)
+            .withLocation(120, 80) // xCoSprite, yCoSprite
             .buildPtr());
 }
 
