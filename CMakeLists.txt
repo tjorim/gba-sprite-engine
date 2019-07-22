@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.13)  # CMake version check
 
 # use the GBA cross-compiler.
 # WARNING: CMAKE_AR and RANLIB didn't use find_program() to scan the PATH yet.
@@ -14,7 +14,7 @@ SET(CMAKE_RANLIB arm-none-eabi-ranlib)
 SET(BASE_CMAKE_LINK_FLAGS "${CMAKE_EXE_LINKER_FLAGS}")
 SET(CMAKE_EXE_LINKER_FLAGS "${BASE_CMAKE_LINK_FLAGS} -mthumb-interwork -mthumb -specs=gba.specs")
 
-SET(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD 11)            # Enable c++11 standard
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-narrowing")
 set(CMAKE_VERBOSE_MAKEFILE on)
 
