@@ -7,28 +7,39 @@
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
 
 #include "player.h"
-#include "../../sprites/luigi_left.h"
+#include "../sprites/luigi_left.h"
 
-Player::Player(int xCoGrid, int yCoGrid) : Thing(xCoGrid, yCoGrid, thingType::PLAYER) {
-    setXCoSprite(8*xCoGrid);
-    setYCoSprite(8*yCoGrid-8);
+Player::Player(int xCo, int yCo) : xCo(xCo), yCo(yCo) {
+    setXCo(xCo);
+    setYCo(yCo);
     SpriteBuilder<Sprite> spriteBuilder;
     setSprite(spriteBuilder
             .withData(Luigi_leftTiles, sizeof(Luigi_leftTiles))
             .withSize(SIZE_32_32)
-            .withLocation(120, 80) // xCoSprite, yCoSprite
+            .withAnimated(2, 4)
+            //.withLocation(GBA_SCREEN_WIDTH / 2 - 32, GBA_SCREEN_HEIGHT / 2 - 32)
+            .withLocation(xCo, yCo)
             .buildPtr());
 }
 
+/*
+Sprite* getSprite() { return sprite.get(); }
+
+void setSprite(std::unique_ptr<Sprite> sprite) {
+    Player::sprite = std::move(sprite);
+}
+*/
+
 void Player::moveTo(int xValue, int yValue) {
-    setXCoSprite(xValue);
-    setYCoSprite(yValue);
-    getSprite()->moveTo(xValue, yValue-8);
+    setXCo(xValue);
+    setYCo(yValue);
+    getSprite()->moveTo(xValue, yValue);
+    //sprite->moveTo(8*xValue, 8*yValue);
 }
 
 void Player::moveRelative(int xValue, int yValue) {
-    int newX = xCoSprite+xValue;
-    int newY = yCoSprite+yValue;
+    int newX = xCo+xValue;
+    int newY = yCo+yValue;
     moveTo(newX, newY);
 }
 
@@ -60,22 +71,20 @@ void Player::moveRight() {
     moveRelative(1,0);
 }
 
-int Player::getXCoSprite() const {
-    return xCoSprite;
+int Player::getXCo() const {
+    return xCo;
 }
 
-void Player::setXCoSprite(int value) {
-    Player::xCoSprite = value;
-    setXCoGrid(round(double(value)/8));
+void Player::setXCo(int value) {
+    Player::xCo = value;
 }
 
-int Player::getYCoSprite() const {
-    return yCoSprite;
+int Player::getYCo() const {
+    return yCo;
 }
 
-void Player::setYCoSprite(int value) {
-    Player::yCoSprite = value;
-    setYCoGrid(round(double(yCoSprite)/8));
+void Player::setYCo(int value) {
+    Player::yCo = value;
 }
 
 int Player::getPlayerNumber() const
@@ -83,83 +92,14 @@ int Player::getPlayerNumber() const
     return playerNumber;
 }
 
-bool Player::canShift() const
-{
-    return shift;
-}
-
-bool Player::canKick() const
-{
-    return kick;
-}
-
 Direction Player::getDirection() const
 {
     return direction;
 }
 
-int Player::getAantalBommen() const
-{
-    return aantalBommen;
-}
-
-int Player::getMaxBommen()
-{
-    return maxBommen;
-}
-
-int Player::getHoeveelVuur() const
-{
-    return hoeveelVuur;
-}
-
-int Player::getMaxVuur() const
-{
-    return maxVuur;
-}
-
-bool Player::isDood()
-{
-    if (getLives() == 0) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-int Player::getLives() const
-{
-    return lives;
-}
-
-int Player::getMaxLevens()
-{
-    return maxLevens;
-}
-
-int Player::getSpeed() const
-{
-    return speed;
-}
-
-int Player::getMaxSnelheid()
-{
-    return maxSnelheid;
-}
-
 void Player::setPlayerNumber(int value)
 {
     playerNumber = value;
-}
-
-void Player::setShift(bool value)
-{
-    shift = value;
-}
-
-void Player::setKick(bool value)
-{
-    kick = value;
 }
 
 void Player::setDirection(const Direction &value)
@@ -183,66 +123,12 @@ void Player::setDirection(const Direction &value)
     direction = value;
 }
 
-void Player::eenBomMinder()
+void Player::scoreHoger()
 {
-    aantalBommen--;
+    score++;
 }
 
-void Player::eenBomMeer()
+void Player::scoreLager()
 {
-    if (getAantalBommen() < getMaxBommen()) {
-        aantalBommen++;
-    } else {
-        aantalBommen = maxBommen;
-    }
-}
-
-void Player::geefMaxBommen()
-{
-    aantalBommen = maxBommen;
-}
-
-void Player::setHoeveelVuur(int value)
-{
-    if (getHoeveelVuur() < getMaxVuur()) {
-        hoeveelVuur = value;
-    } else {
-        hoeveelVuur = maxVuur;
-    }
-}
-
-void Player::maakDood()
-{
-    lives = 0;
-}
-
-void Player::eenLevenMinder()
-{
-    lives--;
-}
-
-void Player::eenLevenMeer()
-{
-    if (getLives() < getMaxLevens())
-    {
-        lives++;
-    }
-    else
-    {
-        lives = maxLevens;
-    }
-}
-
-void Player::geefMaxLevens()
-{
-    lives = maxLevens;
-}
-
-void Player::setSpeed(int value)
-{
-    if (getSpeed() < getMaxSnelheid()) {
-        speed = value;
-    } else {
-        speed = maxSnelheid;
-    }
+    score--;
 }
