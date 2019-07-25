@@ -5,15 +5,18 @@
 #ifndef GBA_SPRITE_ENGINE_PROJECT_PLAYER_H
 #define GBA_SPRITE_ENGINE_PROJECT_PLAYER_H
 
-#include "../thing.h"
+#include <libgba-sprite-engine/sprites/sprite.h>
 
 // we only have four directions, so no need for ints!
 enum class Direction : char {ONDER = 1, BOVEN = 2, LINKS = 3, RECHTS = 4};
 
-class Player : public Thing {
+class Player {
 private:
-    int xCoSprite;
-    int yCoSprite;
+    std::unique_ptr<Sprite> sprite;
+    // De x-positie van the Thing
+    int xCo = 120;
+    // De y-positie van the Thing
+    int yCo = 80;
 
     int playerNumber;
 
@@ -23,8 +26,14 @@ private:
     int score = 3;
 
 public:
-    Player(int xCoGrid, int yCoGrid);
-    // override the moveTo as well
+    Player(int xCo, int yCo);
+
+    Sprite* getSprite() { return sprite.get(); }
+
+    void setSprite(std::unique_ptr<Sprite> sprite) {
+        Player::sprite = std::move(sprite);
+    }
+
     void moveTo(int xValue, int yValue);
     void moveRelative(int xValue, int yValue);
 
@@ -38,26 +47,26 @@ public:
      *
      * @return De x-positie van this Thing.
      */
-    int getXCoSprite() const;
+    int getXCo() const;
     /**
      * Stel de x-positie van de speler in.
      *
-     * @param xCoGrid De x-positie van de speler.
+     * @param xCo De x-positie van de speler.
      */
-    void setXCoSprite(int value);
+    void setXCo(int value);
 
     /**
      * Wat is de y-positie van this Thing?
      *
      * @return De y-positie van this Thing.
      */
-    int getYCoSprite() const;
+    int getYCo() const;
     /**
      * Stel de y-positie van de speler in.
      *
-     * @param yCoGrid De y-positie van de speler.
+     * @param yCo De y-positie van de speler.
      */
-    void setYCoSprite(int value);
+    void setYCo(int value);
 
     // getters
     /**
@@ -96,13 +105,13 @@ public:
     void setDirection(const Direction &value);
 
     /**
-     * Hiermee neem je een bom af van de speler.
+     * Hiermee verhoog je de score van de speler.
      */
-    void eenBomMinder();
+    void scoreHoger();
     /**
-     * Hiermee geef je de speler een bom meer.
+     * Hiermee verlaag je de score van de speler.
      */
-    void eenBomMeer();
+    void scoreLager();
 };
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_PLAYER_H
