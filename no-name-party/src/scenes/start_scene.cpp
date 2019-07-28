@@ -2,12 +2,12 @@
 // Created by Jorim Tielemans
 //
 
-#include <libgba-sprite-engine/background/text_stream.h>
 #include <libgba-sprite-engine/gba_engine.h>
+#include <libgba-sprite-engine/background/text_stream.h>
 
-#include "game_scene.h"
-#include "../sound.h"
 #include "start_scene.h"
+#include "game_scene.h"
+//#include "../sound.h"
 
 StartScene::StartScene(const std::shared_ptr<GBAEngine> &engine) : Scene(engine) {}
 
