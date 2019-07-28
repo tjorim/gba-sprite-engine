@@ -6,29 +6,26 @@
 #define GBA_SPRITE_ENGINE_PROJECT_START_SCENE_H
 
 #include <libgba-sprite-engine/scene.h>
+#include <libgba-sprite-engine/sprites/sprite_builder.h>
+
+#include "../balloon.h"
 
 class StartScene : public Scene {
 private:
-    int level = 1;
-
-    void levelUp();
-
-    void levelDown();
+    std::unique_ptr<Background> bg_map;
+    std::unique_ptr<SpriteBuilder<Sprite>> spriteBuilder;
+    std::unique_ptr<Sprite> press_start_left, press_start_right;
+    std::unique_ptr<Sprite> balloon_blue, balloon_green, balloon_pink, balloon_yellow;
+    std::vector<std::unique_ptr<Balloon>> balloons;
 
 public:
     StartScene(const std::shared_ptr<GBAEngine> &engine);
 
     std::vector<Sprite *> sprites() override;
-
     std::vector<Background *> backgrounds() override;
 
     void load() override;
-
     void tick(u16 keys) override;
-
-    int getLevel() const;
-
-    void setLevel(int level);
 };
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_START_SCENE_H
