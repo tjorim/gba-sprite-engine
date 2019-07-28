@@ -98,29 +98,49 @@ void StartScene::load() {
             ->withLocation(20, 40)
             .buildWithDataOf(*balloon_green.get())))
         );
+/*
+    balloon_blue = std::unique_ptr<Sprite>(new Sprite());
 
-    TextStream::instance().setText(std::string("Start scene"), 5, 1);
+    std::unique_ptr<Sprite> sprite;
 
-    TextStream::instance().setText(std::string("Level: ") + std::to_string(level), 10, 1);
+    Player::Player(int xCo, int yCo) : xCo(xCo), yCo(yCo) {
+    setXCo(xCo);
+    setYCo(yCo);
+
+
+
+Balloon::Balloon(int xCo, int yCo) : xCo(xCo), yCo(yCo) {
+    setXCo(xCo);
+    setYCo(yCo);
+    SpriteBuilder<Sprite> spriteBuilder;
+    setSprite(spriteBuilder
+            .withData(balloon_blueTiles, sizeof(balloon_blueTiles))
+            .withSize(SIZE_16_32)
+            //.withLocation(GBA_SCREEN_WIDTH / 2 - 32, GBA_SCREEN_HEIGHT / 2 - 32)
+            .withLocation(xCo, yCo)
+            .buildPtr());
+}
+    
+    setSprite(spriteBuilder
+            .withData(Luigi_leftTiles, sizeof(Luigi_leftTiles))
+            .withSize(SIZE_32_32)
+            .withAnimated(2, 4)
+            //.withLocation(GBA_SCREEN_WIDTH / 2 - 32, GBA_SCREEN_HEIGHT / 2 - 32)
+            .withLocation(xCo, yCo)
+            .buildPtr());
+}
+ */
+    //engine->enqueueMusic(cataclysmic_molten_core, sizeof(cataclysmic_molten_core));
 }
 
-int StartScene::getLevel() const {
-
-void StartScene::setLevel(int level) {
-}
-
-void StartScene::levelUp() {
-    if (level < 4) {
-        level++;
-    } else {
-        setLevel(4);
+void StartScene::tick(u16 keys) {
+    if (keys & KEY_ACCEPT) {
+        engine->setScene(new GameScene(engine));
+    } else if ((keys & KEY_LEFT) || (keys & KEY_DOWN)) {
+        //levelDown();
+    } else if ((keys & KEY_RIGHT) || (keys & KEY_UP)) {
+        //levelUp();
     }
-}
 
-void StartScene::levelDown() {
-    if (level > 1) {
-        level--;
-    } else {
-        setLevel(1);
-    }
+    TextStream::instance().setText(std::string("Intro scene"), 10, 1);
 }

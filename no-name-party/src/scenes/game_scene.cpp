@@ -8,6 +8,9 @@
 #include "game_scene.h"
 #include "end_scene.h"
 #include "../../sprites/shared.h"
+#include "../../sprites/map.h"
+#include "../../sprites/map_1.h"
+#include "../../sprites/map_2.h"
 
 GameScene::GameScene(const std::shared_ptr <GBAEngine> &engine) : Scene(engine) {}
 
@@ -43,8 +46,9 @@ std::vector<Sprite *> GameScene::sprites() {
 
 void GameScene::load() {
     foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(
-            new ForegroundPaletteManager(sharedPal, sizeof(sharedPal)));
-    backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager());
+        new ForegroundPaletteManager(sharedPal, sizeof(sharedPal)));
+    backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(
+        new BackgroundPaletteManager(mapPal, sizeof(mapPal)));
 
     player1 = std::unique_ptr<Player>(new Player(5, 5));
 
@@ -60,10 +64,10 @@ void GameScene::load() {
     }
 */
 
-    // engine->getTimer()->start();
+    engine->getTimer()->start();
     // engine->enqueueMusic(cataclysmic_molten_core, sizeof(cataclysmic_molten_core));
 
-    // EndScene *endScene = new EndScene(engine);
+    EndScene *endScene = new EndScene(engine);
 }
 
 void GameScene::tick(u16 keys) {
