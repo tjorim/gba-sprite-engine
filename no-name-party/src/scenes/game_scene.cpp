@@ -7,17 +7,9 @@
 
 #include "game_scene.h"
 #include "end_scene.h"
-#include "../thing/bomb.h"
-#include "../thing/player.h"
-#include "../thing/solid/crate.h"
-#include "../thing/solid/wall.h"
-#include "../thing/surface/floor.h"
-#include "../thing/surface/gunpowder.h"
-#include "../thing/surface/portal.h"
-#include "../thing/surface/power_up.h"
 #include "../../sprites/shared.h"
 
-GameScene::GameScene(const std::shared_ptr <GBAEngine> &engine, int level) : Scene(engine), level(level) {}
+GameScene::GameScene(const std::shared_ptr <GBAEngine> &engine) : Scene(engine) {}
 
 std::vector<Background *> GameScene::backgrounds() {
     return {};
@@ -26,12 +18,15 @@ std::vector<Background *> GameScene::backgrounds() {
 std::vector<Sprite *> GameScene::sprites() {
     std::vector < Sprite * > sprites;
 
+    /*
     for (auto &bomb : bombs) {
         sprites.push_back(bomb->getSprite());
     }
+    */
 
     sprites.push_back(player1->getSprite());
 
+    /*
     for(auto& rows: board) // Iterating over rows
     {
         for(auto& elem: rows)
@@ -40,6 +35,7 @@ std::vector<Sprite *> GameScene::sprites() {
             sprites.push_back(elem->getSprite());
         }
     }
+    */
 
     TextStream::instance().setText(std::string("Sprites ") + std::to_string(sprites.size()), 12, 1);
     return sprites;
@@ -52,6 +48,7 @@ void GameScene::load() {
 
     player1 = std::unique_ptr<Player>(new Player(5, 5));
 
+/*
     for (int i = 0; i < BOARD_WIDTH; i++) { // board.size(), Iterating over rows
         for (int j = 0; j < BOARD_HEIGHT; j++) { // board[i].size()
             if(i == 0 || i == BOARD_WIDTH-1 || j == 0 || j == BOARD_HEIGHT-1) {
@@ -61,6 +58,7 @@ void GameScene::load() {
             }
         }
     }
+*/
 
     // engine->getTimer()->start();
     // engine->enqueueMusic(cataclysmic_molten_core, sizeof(cataclysmic_molten_core));
@@ -71,12 +69,14 @@ void GameScene::load() {
 void GameScene::tick(u16 keys) {
     TextStream::instance().setText(std::string("Game scene"), 5, 1);
 
+    /*
     if (player1->isDood()) {
         engine->setScene(new EndScene(engine));
     }
+    */
 
     if (keys & KEY_FIRE) {
-        dropBomb();
+        //dropBomb();
     } else if (keys & KEY_UP) {
         player1->moveUp();
     } else if (keys & KEY_DOWN) {
@@ -86,10 +86,11 @@ void GameScene::tick(u16 keys) {
     } else if (keys & KEY_RIGHT) {
         player1->moveRight();
     }
-    /*
+
     if (keys & KEY_ACCEPT) {
         
-    } */
+    }
+
     /*
     if(engine->getTimer()->getTotalMsecs() < 5000) {
         counter++;
@@ -102,6 +103,7 @@ void GameScene::tick(u16 keys) {
     */
 }
 
+/*
 thingType GameScene::getThingType(int xValue, int yValue) {
     thingType type = board[xValue][yValue]->getType();
     TextStream::instance().setText(std::string("Type: ") + std::to_string(
@@ -109,7 +111,9 @@ thingType GameScene::getThingType(int xValue, int yValue) {
         ), 13, 1);
     return type;
 }
+*/
 
+/*
 void GameScene::dropBomb() {
     if(player1->getAantalBommen() > 0) {
         int bombX = player1->getXCoGrid();
@@ -125,7 +129,8 @@ void GameScene::dropBomb() {
             TextStream::instance().setText(std::string("Boms ") + std::to_string(bombs.size()), 10, 1);
             player1->eenBomMinder();
         }
-    }    
+    }
+    */
 
     /*
         if(speler->getThingUnderPlayer()->getType() == Thing::thingType::FLOOR)
@@ -143,5 +148,5 @@ void GameScene::dropBomb() {
         }
         
         //speelGeluidje(BombDrop);
-    */
 }
+*/
