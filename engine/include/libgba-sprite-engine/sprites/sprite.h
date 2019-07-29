@@ -58,7 +58,7 @@ protected:
     bool stayWithinBounds;
     u32 imageSize, tileIndex;
     SpriteSize spriteSize;
-    u32 animationDelay, amountOfFrames, currentFrame, animationCounter;
+    u32 animationDelay, amountOfFrames, currentFrame, animationCounter, startFrame;
     bool animating;
 
     std::unique_ptr<OBJ_ATTR> oam;
@@ -73,7 +73,8 @@ public:
     explicit Sprite(const void *imageData, int imageSize, int x, int y, SpriteSize size);
     virtual ~Sprite() {}
 
-    void makeAnimated(int amountOfFrames, int animationDelay) {
+    void makeAnimated(int startFrame, int amountOfFrames, int animationDelay) {
+        this->startFrame = startFrame;
         this->amountOfFrames = amountOfFrames;
         this->animationDelay = animationDelay;
         animate();
@@ -91,6 +92,8 @@ public:
     void moveTo(int x, int y);
     void moveTo(VECTOR location);
     bool collidesWith(Sprite &s2);
+    bool collideFromAbove(Sprite &s2);
+    bool KirbyCollide(Sprite &s2);
 
     void flipVertically(bool flip);
     void flipHorizontally(bool flip);
