@@ -1,0 +1,4 @@
+In het domein model hebben we een korte voorstelling gemaakt waarin onze objecten zich situeren in het spel.
+De speler is een classe die erft van affinesprite. Dit was initieel zo ontworpen omdat het dan mogelijk was om zowel de view en model logica te controleren door hetzelfde object aan te spreken.
+Uiteindelijk beseffen we dat die geen goede implementatie is omdat je model en view moeilijker kunt onderscheiden.
+Dus voor de Boss hebben we dan een klasse gemaakt waarin een std::unique_ptr<AffineSprite*> in zit die de view van de speler voorstelt en dit geef je dan weer door aan de scene(controller).

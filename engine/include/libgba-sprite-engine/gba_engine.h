@@ -49,6 +49,7 @@ public:
     void dynamicallyAddSprite(Sprite* s) { spriteManager.add(s); }
     void transitionIntoScene(Scene* scene, SceneEffect* effect);
     bool isTransitioning() { return currentEffectForTransition != nullptr; }
+    void setNullptrAsCurrentEffectForTransistion();
     void disableText() { this->disableTextBg = true; }
     void enableText() { this->disableTextBg = false; }
 
