@@ -1,4 +1,4 @@
-//
+ //
 // Created by Wouter Groeneveld on 28/07/18.
 //
 
@@ -49,6 +49,8 @@ public:
     void dynamicallyAddSprite(Sprite* s) { spriteManager.add(s); }
     void transitionIntoScene(Scene* scene, SceneEffect* effect);
     bool isTransitioning() { return currentEffectForTransition != nullptr; }
+    //stopTransitioning() to make sure the engine isn't transitioning.
+    void stopTransitioning() {this->currentEffectForTransition = nullptr;}
     void setNullptrAsCurrentEffectForTransistion();
     void disableText() { this->disableTextBg = true; }
     void enableText() { this->disableTextBg = false; }

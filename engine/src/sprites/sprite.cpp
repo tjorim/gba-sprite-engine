@@ -80,14 +80,17 @@ void Sprite::updateVelocity() {
         if(this->y > (GBA_SCREEN_HEIGHT - this->h)) this->y = GBA_SCREEN_HEIGHT - this->h;
     }
 }
-
+//Edited this function to make it possible to choose a start frame.
 void Sprite::updateAnimation() {
     if(!animating) return;
 
+    if (currentFrame < startFrame) {
+        currentFrame = startFrame;
+    }
     animationCounter++;
-    if(animationCounter > animationDelay) {
+    if (animationCounter > animationDelay) {
         currentFrame++;
-        if(currentFrame > (amountOfFrames - 1) + beginFrame) {
+        if (currentFrame > (amountOfFrames - 1) + beginFrame) {
             currentFrame = beginFrame;
         }
         if(currentFrame < beginFrame + 1){
@@ -96,6 +99,7 @@ void Sprite::updateAnimation() {
 
         animationCounter = 0;
     }
+
 }
 
 void Sprite::update() {
@@ -128,6 +132,30 @@ bool Sprite::collidesWith(Sprite &s2) {
             s1.x + s1.w > s2.x &&
             s1.y < s2.y + s2.h &&
             s1.h + s1.y > s2.y) {
+        return true;
+    }
+    return false;
+}
+//Detect a collision from above. Added an extra margin to detect fast moving objects like Kirby.
+bool Sprite::collideFromAbove(Sprite &s2) {
+    const Sprite &s1 = *this;
+
+    if(s1.x + s1.w/3 < s2.x + s2.w &&
+       s1.x + (2*s1.w)/3 > s2.x &&
+            (s1.y+32>=s2.y) && (s1.y+32<s2.y+8)){
+
+        return true;
+    }
+    return false;
+}
+//Similar to collide function, but with smaller margins to make the collision look more realistic when using Kirby.
+bool Sprite::KirbyCollide(Sprite &s2) {
+    const Sprite &s1 = *this;
+
+    if(s1.x < s2.x + s2.w -10  &&
+       s1.x + s1.w > s2.x + 10 &&
+       s1.y + 10 < s2.y + s2.h &&
+       s1.h + s1.y > s2.y) {
         return true;
     }
     return false;
