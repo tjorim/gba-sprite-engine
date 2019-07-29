@@ -87,7 +87,10 @@ void Sprite::updateAnimation() {
     animationCounter++;
     if(animationCounter > animationDelay) {
         currentFrame++;
-        if(currentFrame > (amountOfFrames - 1)+ beginFrame) {
+        if(currentFrame > (amountOfFrames - 1) + beginFrame) {
+            currentFrame = beginFrame;
+        }
+        if(currentFrame < beginFrame + 1){
             currentFrame = beginFrame;
         }
 
@@ -153,4 +156,8 @@ void Sprite::buildOam(int tileIndex) {
     this->oam->attr2 = ATTR2_ID(tileIndex) |
             ATTR2_PRIO(priority) |
             ATTR2_PALBANK(0);
+}
+
+bool Sprite::isAnimating() {
+    return animating;
 }

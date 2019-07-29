@@ -88,6 +88,7 @@ public:
     }
     void animate() { this->animating = true; }
     void animateToFrame(int frame) { this->currentFrame = frame; }
+
     void stopAnimating() { this->animating = false; }
     void setStayWithinBounds(bool b) { stayWithinBounds = b; }
     void setVelocity(int dx, int dy) {
@@ -116,6 +117,7 @@ public:
     u32 getY() { return y; }
     u32 getCurrentFrame() { return currentFrame; }
     bool isOffScreen();
+    bool isAnimating();
 
     friend class SpriteManager;
 };

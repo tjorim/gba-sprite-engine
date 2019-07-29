@@ -49,3 +49,10 @@ In level1 moet sonic 3 spikeballs ontwijken om het portaal te bereiken dat hem b
 In level2 moet sonic de spikeball 10 keer goomba-stompen om hem te verslaan.
 
 Beschrijving van het model staat in domain_model folder.
+
+#apple lloyd
+De wereld is overgenomen door de boosaardige Windows! Het is jouw taak om deze slechterikken te doden en de wereld te redden van de ondergang.
+Jouw wapen: apples! Alleen dit meesterlijke wapen is in staat de windows te verslaan...
+
+Lopen doe je met de pijltjes, appels gooien met x(A op GBA). Enemies hebben 5 HP, jijzelf 1. Ontwijkt de aanvallen van
+de windows en versla hen om te winnen. Dood? Herstart door op enter(START op GBA) te drukken.
