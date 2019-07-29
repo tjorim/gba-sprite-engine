@@ -14,7 +14,7 @@ Sprite::Sprite(const Sprite &other) : Sprite(nullptr, 0, other.x, other.y, other
 
 Sprite::Sprite(const void *imageData, int imageSize, int x, int y, SpriteSize size)
         : x(x), y(y), data(imageData), imageSize(imageSize), spriteSize(size),
-          animationDelay(0), amountOfFrames(0), currentFrame(0), animationCounter(0) {
+          animationDelay(0), amountOfFrames(0), currentFrame(0), animationCounter(0),beginFrame(0) {
     setAttributesBasedOnSize(size);
 }
 
@@ -86,8 +86,11 @@ void Sprite::updateAnimation() {
     animationCounter++;
     if(animationCounter > animationDelay) {
         currentFrame++;
-        if(currentFrame > (amountOfFrames - 1)) {
-            currentFrame = 0;
+        if(currentFrame > (amountOfFrames - 1) + beginFrame) {
+            currentFrame = beginFrame;
+        }
+        if(currentFrame < beginFrame + 1){
+            currentFrame = beginFrame;
         }
 
         animationCounter = 0;
@@ -152,4 +155,8 @@ void Sprite::buildOam(int tileIndex) {
     this->oam->attr2 = ATTR2_ID(tileIndex) |
             ATTR2_PRIO(priority) |
             ATTR2_PALBANK(0);
+}
+
+bool Sprite::isAnimating() {
+    return animating;
 }

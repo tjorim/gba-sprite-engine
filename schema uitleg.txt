@@ -1,0 +1,5 @@
+De speler kan door het level lopen en op enemies schieten
+Enemies staan op een vaste plek in het level
+Zowel de speler als de enemies hebben health points
+Er zijn 2 levels: start en city scene
+De speler en de enemies worden voorgesteld als sprites
