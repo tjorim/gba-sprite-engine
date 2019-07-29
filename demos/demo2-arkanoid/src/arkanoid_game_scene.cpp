@@ -63,7 +63,7 @@ void ArkanoidGameScene::tick(u16 keys) {
 
         // lousy implementation; ball could also hit paddle from right/left, meaning *BOOM*
         ball->setVelocity(ball->getDx(), -ball->getDy());
-        engine.get()->enqueueSound(pats, sizeof(pats), 32000);
+        engine.get()->enqueueSound(raw_pats, sizeof(raw_pats), 32000);
 
         ticks++;
     }

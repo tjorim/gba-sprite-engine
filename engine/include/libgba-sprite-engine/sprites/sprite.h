@@ -87,6 +87,7 @@ public:
         this->currentFrame = beginFrame;
         animate();
     }
+
     void animate() { this->animating = true; }
     void animateToFrame(int frame) { this->currentFrame = frame; }
 
@@ -103,6 +104,7 @@ public:
     bool collidesWith(Sprite &s2);
     bool collideFromAbove(Sprite &s2);
     bool KirbyCollide(Sprite &s2);
+    bool shipCollide(Sprite &s2);
 
     void flipVertically(bool flip);
     void flipHorizontally(bool flip);
