@@ -1,8 +1,11 @@
 Samengewerkt met Jolien Jeunen
+Dit is het project van Jolien Jeunen en Jarne Gregoire
 
 Het spel is gebaseerd op Flappy Bird.
+We hebben een eigen versie gemaakt van FlappyBird voor op de GBA!
 
 De vogel moet de buizen ontwijken die random gegenereerd worden en mag niet buiten de bounds gaan. Gebruik de START-knop om te beginnen en te resetten, gebruik de A-knop om te springen. Het springen wordt berekend door een zelf-opgestelde tweedegraadsfunctie.
+In het mapje 'flappyBird' kan u alle bestanden vinden voor ons programma.
 
 Het afgewerkte spel is bijlange niet compleet. We hebben veel problemen gehad met CLion, compilers, ...
 Het grootste probleem was het inladen van de sprites. Onze sprites waren waarschijnlijk te groot en dit leed tot foute kleurschema's en het heel spel begon af te breken.
