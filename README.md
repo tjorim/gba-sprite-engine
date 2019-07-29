@@ -1,25 +1,14 @@
-## Dragonball demo for GBA
 
 ### Information
 This is a project for [3433 Softwareontwerp met C/C++ en Qt](https://uhintra03.uhasselt.be/studiegidswww/opleidingsonderdeel.aspx?a=2018&i=3433&n=4&t=01). The goals of this project was creating a GBA demo based on the [gba-sprite-engine](https://github.com/wgroeneveld/gba-sprite-engine) of [wgroeneveld](https://github.com/wgroeneveld). The demo I created is a 2D fighting game that's inspired on the classic dragonball series, you're fighting with the saiyan kid goku (孫悟空 Son Gokū) also known as kakarot (カカロット Kakarotto) at the world tournament
 against yamcha (ヤムチャ yamucha). Because it's just a demo you can  control and fight with goku but yamcha will not defend himself.
-
-### Controls and rules
-
 a: kick 
-
 b: hit
-
 up: kamehameha wave
-
 left or right: moving left or right
-
 green bar is your health bar, blue  bar is your energy bar
-
 The kamehameha wave needs energy, you cannot replenish you energy
-
 The game ends when your opponents health is 0, press start to restart the game
-
 ### Disclaimer
  DragonBall is Owned by TOEI ANIMATION, Ltd. and Licensed by FUNimation Productions, Ltd.. All Rights Reserved. DragonBall, DragonBall Z, DragonBall GT and all logos, character names and distinctive likenesses thereof are trademarks of TOEI ANIMATION, Ltd. 
 
@@ -56,3 +45,34 @@ Jouw wapen: apples! Alleen dit meesterlijke wapen is in staat de windows te vers
 
 Lopen doe je met de pijltjes, appels gooien met x(A op GBA). Enemies hebben 5 HP, jijzelf 1. Ontwijkt de aanvallen van
 de windows en versla hen om te winnen. Dood? Herstart door op enter(START op GBA) te drukken.
+
+## Dragonball demo for GBA
+
+## Portal 2.5 for GBA
+
+### Controls and rules
+
+
+
+#### Information
+
+The game is made in the gba-sprite-engine of wgroeneveld. The game contains a 2D version of portal. For now, the game contains one puzzle.
+The objective is to reach the red button. This seems impossible at first, but by shooting the red and blue portal at white walls, the player can reach the button.
+
+
+
+#### Controls
+
+A: 				shoot red portal
+B: 				shoot blue portal
+L: 				rotate visor counter clock wise
+R: 				rotate visor clock wise
+Left Arrow: 	walk left
+Right Arrow:	walk right
+Up arrow: 		jump
+
+#### Additional information
+
+- In the game level, the game runs very slow. Set de emulation speed x4 for a normal in game speed.
+- To exit a horizontal portal from above, press the jump button.
+- Sometime the game doesnt render sprites. But they are still there and collision detection works fine.
