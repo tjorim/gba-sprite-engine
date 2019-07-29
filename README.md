@@ -1,3 +1,4 @@
+# NoHeroesHere
 
 ### Information
 This is a project for [3433 Softwareontwerp met C/C++ en Qt](https://uhintra03.uhasselt.be/studiegidswww/opleidingsonderdeel.aspx?a=2018&i=3433&n=4&t=01). The goals of this project was creating a GBA demo based on the [gba-sprite-engine](https://github.com/wgroeneveld/gba-sprite-engine) of [wgroeneveld](https://github.com/wgroeneveld). The demo I created is a 2D fighting game that's inspired on the classic dragonball series, you're fighting with the saiyan kid goku (孫悟空 Son Gokū) also known as kakarot (カカロット Kakarotto) at the world tournament
@@ -76,3 +77,27 @@ Up arrow: 		jump
 - In the game level, the game runs very slow. Set de emulation speed x4 for a normal in game speed.
 - To exit a horizontal portal from above, press the jump button.
 - Sometime the game doesnt render sprites. But they are still there and collision detection works fine.
+
+# NoHeroesHere
+
+De bedoeling van het spel is om de enemies (eendjes) uit je kasteel te houden.
+Deze zullen je kasteel blijven aanvallen totdat het geen hitpoints meer heeft.
+De enemies komen in verschillende waves en je moet ze zo verstandig mogelijk proberen
+te vermoorden.
+
+## Verloop van het spel
+
+In de kelder van het kasteel kan je een kist met bommen en een kist met gunpowder vinden.
+Deze breng 1 voor 1 omhoog en laat je in de kanonnen. Het onderste kanon schiet kort bij
+het kasteel, de bovenste iets verder weg. Je hebt 2 players (poppetjes) om te besturen. 
+De 2de player zou je al klaar kunnen op de rustigere momenten voor als het drukker wordt.
+
+## Controls
+
+Bewegen doe je met de pijltjes toetsen.
+Interacten met ladders, kisten en kanonnen is met de pijltjes omhoog en omlaag.
+Met de L_key wissel je van speler (A op toestenbord)
+
+## Disclaimer
+
+Spel is gemaakt met de gba-sprite-engine binnen GBA MODE0
