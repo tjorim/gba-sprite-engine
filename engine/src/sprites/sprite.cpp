@@ -84,9 +84,6 @@ void Sprite::updateVelocity() {
 void Sprite::updateAnimation() {
     if(!animating) return;
 
-    if (currentFrame < startFrame) {
-        currentFrame = startFrame;
-    }
     animationCounter++;
     if (animationCounter > animationDelay) {
         currentFrame++;
