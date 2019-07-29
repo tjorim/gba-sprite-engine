@@ -14,7 +14,7 @@ Sprite::Sprite(const Sprite &other) : Sprite(nullptr, 0, other.x, other.y, other
 
 Sprite::Sprite(const void *imageData, int imageSize, int x, int y, SpriteSize size)
         : x(x), y(y), data(imageData), imageSize(imageSize), spriteSize(size),
-          animationDelay(0), amountOfFrames(0), currentFrame(0), animationCounter(0) {
+          animationDelay(0), amountOfFrames(0), currentFrame(0), animationCounter(0), beginFrame(0) {
     setAttributesBasedOnSize(size);
 }
 
@@ -86,8 +86,8 @@ void Sprite::updateAnimation() {
     animationCounter++;
     if(animationCounter > animationDelay) {
         currentFrame++;
-        if(currentFrame > (amountOfFrames - 1)) {
-            currentFrame = 0;
+        if(currentFrame > (amountOfFrames - 1) + beginFrame) {
+            currentFrame = beginFrame;
         }
 
         animationCounter = 0;
@@ -129,6 +129,18 @@ bool Sprite::collidesWith(Sprite &s2) {
     return false;
 }
 
+//TODO: make colision more realistic
+bool Sprite::shipCollide(Sprite &s2) {
+    const Sprite &s1 = *this;
+
+    if(s1.x < s2.x + s2.w &&
+       s1.x + s1.w - 10> s2.x &&
+       s1.y + 15 < s2.y + s2.h &&
+       s1.h + s1.y - 15 > s2.y) {
+        return true;
+    }
+    return false;
+}
 
 void Sprite::buildOam(int tileIndex) {
     this->tileIndex = tileIndex;
