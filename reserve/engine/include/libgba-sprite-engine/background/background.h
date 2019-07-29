@@ -16,7 +16,6 @@ private:
 protected:
     const void *data;
     const void *map;
-
     int size, bgIndex;
     int mapSize;
     int screenBlockIndex, charBlockIndex;
@@ -27,14 +26,10 @@ public:
     void useMapScreenBlock(int block) { screenBlockIndex = block; }
     void scroll(int x, int y);
 
-    void setMap(const void *map){map = map;}
     Background(int bgIndex, const void *data, int size, const void* map, int mapSize) : data(data), bgIndex(bgIndex), size(size), map(map),
-                                                                                        screenBlockIndex(0), charBlockIndex(0), mapSize(mapSize) {}
-
+                                                                       screenBlockIndex(0), charBlockIndex(0), mapSize(mapSize) {}
     virtual void persist();
-    void updateMap(const void* map);
     void clearMap();
-    void clearData();
 };
 
 
