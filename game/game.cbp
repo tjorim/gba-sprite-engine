@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="game"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\test\;CMake Files\demos\;CMake Files\demos\demo2-arkanoid\;CMake Files\demos\demo4-conway\;CMake Files\demos\demo1-basicfeatures\;CMake Files\demos\demo3-foodthrowing\;CMake Files\game\;CMake Files\engine\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="C:/Users/Florian/Documents/GBA/gba-sprite-engine/cmake-build-debug/game"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="C:/Dev/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Florian/Documents/GBA/gba-sprite-engine/cmake-build-debug/game/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="C:/Dev/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Florian/Documents/GBA/gba-sprite-engine/cmake-build-debug/game/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/Dev/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Florian/Documents/GBA/gba-sprite-engine/cmake-build-debug/game/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/Dev/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Florian/Documents/GBA/gba-sprite-engine/cmake-build-debug/game/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="game.elf">
+				<Option output="C:/Users/Florian/Documents/GBA/gba-sprite-engine/cmake-build-debug/game/game.elf" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/Florian/Documents/GBA/gba-sprite-engine/cmake-build-debug/game"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="C:/Users/Florian/Documents/GBA/gba-sprite-engine/engine/include"/>
+					<Add directory="c:\devkitpro\devkitarm\bin\../lib/gcc/arm-none-eabi/8.1.0/../../../../arm-none-eabi/include/c++/8.1.0"/>
+					<Add directory="c:\devkitpro\devkitarm\bin\../lib/gcc/arm-none-eabi/8.1.0/../../../../arm-none-eabi/include/c++/8.1.0/arm-none-eabi"/>
+					<Add directory="c:\devkitpro\devkitarm\bin\../lib/gcc/arm-none-eabi/8.1.0/../../../../arm-none-eabi/include/c++/8.1.0/backward"/>
+					<Add directory="c:\devkitpro\devkitarm\bin\../lib/gcc/arm-none-eabi/8.1.0/include"/>
+					<Add directory="c:\devkitpro\devkitarm\bin\../lib/gcc/arm-none-eabi/8.1.0/include-fixed"/>
+					<Add directory="c:\devkitpro\devkitarm\bin\../lib/gcc/arm-none-eabi/8.1.0/../../../../arm-none-eabi/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/Dev/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Florian/Documents/GBA/gba-sprite-engine/cmake-build-debug/game/Makefile&quot;  VERBOSE=1 game.elf"/>
+					<CompileFile command="C:/Dev/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Florian/Documents/GBA/gba-sprite-engine/cmake-build-debug/game/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/Dev/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Florian/Documents/GBA/gba-sprite-engine/cmake-build-debug/game/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/Dev/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Florian/Documents/GBA/gba-sprite-engine/cmake-build-debug/game/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="game.elf/fast">
+				<Option output="C:/Users/Florian/Documents/GBA/gba-sprite-engine/cmake-build-debug/game/game.elf" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/Florian/Documents/GBA/gba-sprite-engine/cmake-build-debug/game"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="C:/Users/Florian/Documents/GBA/gba-sprite-engine/engine/include"/>
+					<Add directory="c:\devkitpro\devkitarm\bin\../lib/gcc/arm-none-eabi/8.1.0/../../../../arm-none-eabi/include/c++/8.1.0"/>
+					<Add directory="c:\devkitpro\devkitarm\bin\../lib/gcc/arm-none-eabi/8.1.0/../../../../arm-none-eabi/include/c++/8.1.0/arm-none-eabi"/>
+					<Add directory="c:\devkitpro\devkitarm\bin\../lib/gcc/arm-none-eabi/8.1.0/../../../../arm-none-eabi/include/c++/8.1.0/backward"/>
+					<Add directory="c:\devkitpro\devkitarm\bin\../lib/gcc/arm-none-eabi/8.1.0/include"/>
+					<Add directory="c:\devkitpro\devkitarm\bin\../lib/gcc/arm-none-eabi/8.1.0/include-fixed"/>
+					<Add directory="c:\devkitpro\devkitarm\bin\../lib/gcc/arm-none-eabi/8.1.0/../../../../arm-none-eabi/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="C:/Dev/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Florian/Documents/GBA/gba-sprite-engine/cmake-build-debug/game/Makefile&quot;  VERBOSE=1 game.elf/fast"/>
+					<CompileFile command="C:/Dev/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Florian/Documents/GBA/gba-sprite-engine/cmake-build-debug/game/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="C:/Dev/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Florian/Documents/GBA/gba-sprite-engine/cmake-build-debug/game/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="C:/Dev/mingw64/bin/mingw32-make.exe -f &quot;C:/Users/Florian/Documents/GBA/gba-sprite-engine/cmake-build-debug/game/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="C:/Users/Florian/Documents/GBA/gba-sprite-engine/game/src/Adventurer.cpp">
+			<Option target="game.elf"/>
+		</Unit>
+		<Unit filename="C:/Users/Florian/Documents/GBA/gba-sprite-engine/game/src/Adventurer.h">
+			<Option target="game.elf"/>
+		</Unit>
+		<Unit filename="C:/Users/Florian/Documents/GBA/gba-sprite-engine/game/src/Background_1.h">
+			<Option target="game.elf"/>
+		</Unit>
+		<Unit filename="C:/Users/Florian/Documents/GBA/gba-sprite-engine/game/src/BattleScene_EyeMonster.cpp">
+			<Option target="game.elf"/>
+		</Unit>
+		<Unit filename="C:/Users/Florian/Documents/GBA/gba-sprite-engine/game/src/BattleScene_EyeMonster.h">
+			<Option target="game.elf"/>
+		</Unit>
+		<Unit filename="C:/Users/Florian/Documents/GBA/gba-sprite-engine/game/src/BattleScene_Ghost.cpp">
+			<Option target="game.elf"/>
+		</Unit>
+		<Unit filename="C:/Users/Florian/Documents/GBA/gba-sprite-engine/game/src/BattleScene_Ghost.h">
+			<Option target="game.elf"/>
+		</Unit>
+		<Unit filename="C:/Users/Florian/Documents/GBA/gba-sprite-engine/game/src/Chalice.cpp">
+			<Option target="game.elf"/>
+		</Unit>
+		<Unit filename="C:/Users/Florian/Documents/GBA/gba-sprite-engine/game/src/Chalice.h">
+			<Option target="game.elf"/>
+		</Unit>
+		<Unit filename="C:/Users/Florian/Documents/GBA/gba-sprite-engine/game/src/DeathScene.cpp">
+			<Option target="game.elf"/>
+		</Unit>
+		<Unit filename="C:/Users/Florian/Documents/GBA/gba-sprite-engine/game/src/DeathScene.h">
+			<Option target="game.elf"/>
+		</Unit>
+		<Unit filename="C:/Users/Florian/Documents/GBA/gba-sprite-engine/game/src/EyeballMonster.cpp">
+			<Option target="game.elf"/>
+		</Unit>
+		<Unit filename="C:/Users/Florian/Documents/GBA/gba-sprite-engine/game/src/EyeballMonster.h">
+			<Option target="game.elf"/>
+		</Unit>
+		<Unit filename="C:/Users/Florian/Documents/GBA/gba-sprite-engine/game/src/Ghost.cpp">
+			<Option target="game.elf"/>
+		</Unit>
+		<Unit filename="C:/Users/Florian/Documents/GBA/gba-sprite-engine/game/src/Ghost.h">
+			<Option target="game.elf"/>
+		</Unit>
+		<Unit filename="C:/Users/Florian/Documents/GBA/gba-sprite-engine/game/src/Scene_2.h">
+			<Option target="game.elf"/>
+		</Unit>
+		<Unit filename="C:/Users/Florian/Documents/GBA/gba-sprite-engine/game/src/Sprites_Palette.h">
+			<Option target="game.elf"/>
+		</Unit>
+		<Unit filename="C:/Users/Florian/Documents/GBA/gba-sprite-engine/game/src/StartScene.cpp">
+			<Option target="game.elf"/>
+		</Unit>
+		<Unit filename="C:/Users/Florian/Documents/GBA/gba-sprite-engine/game/src/StartScene.h">
+			<Option target="game.elf"/>
+		</Unit>
+		<Unit filename="C:/Users/Florian/Documents/GBA/gba-sprite-engine/game/src/Victory.cpp">
+			<Option target="game.elf"/>
+		</Unit>
+		<Unit filename="C:/Users/Florian/Documents/GBA/gba-sprite-engine/game/src/Victory.h">
+			<Option target="game.elf"/>
+		</Unit>
+		<Unit filename="C:/Users/Florian/Documents/GBA/gba-sprite-engine/game/src/Victory_Scene.cpp">
+			<Option target="game.elf"/>
+		</Unit>
+		<Unit filename="C:/Users/Florian/Documents/GBA/gba-sprite-engine/game/src/Victory_Scene.h">
+			<Option target="game.elf"/>
+		</Unit>
+		<Unit filename="C:/Users/Florian/Documents/GBA/gba-sprite-engine/game/src/main.cpp">
+			<Option target="game.elf"/>
+		</Unit>
+		<Unit filename="C:/Users/Florian/Documents/GBA/gba-sprite-engine/game/src/skeleton_sprite.h">
+			<Option target="game.elf"/>
+		</Unit>
+		<Unit filename="C:/Users/Florian/Documents/GBA/gba-sprite-engine/game/src/victory_data.h">
+			<Option target="game.elf"/>
+		</Unit>
+		<Unit filename="C:/Users/Florian/Documents/GBA/gba-sprite-engine/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="C:/Users/Florian/Documents/GBA/gba-sprite-engine/test/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\test\"/>
+		</Unit>
+		<Unit filename="C:/Users/Florian/Documents/GBA/gba-sprite-engine/demos/demo2-arkanoid/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\demos\demo2-arkanoid\"/>
+		</Unit>
+		<Unit filename="C:/Users/Florian/Documents/GBA/gba-sprite-engine/demos/demo4-conway/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\demos\demo4-conway\"/>
+		</Unit>
+		<Unit filename="C:/Users/Florian/Documents/GBA/gba-sprite-engine/demos/demo1-basicfeatures/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\demos\demo1-basicfeatures\"/>
+		</Unit>
+		<Unit filename="C:/Users/Florian/Documents/GBA/gba-sprite-engine/demos/demo3-foodthrowing/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\demos\demo3-foodthrowing\"/>
+		</Unit>
+		<Unit filename="C:/Users/Florian/Documents/GBA/gba-sprite-engine/game/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\game\"/>
+		</Unit>
+		<Unit filename="C:/Users/Florian/Documents/GBA/gba-sprite-engine/engine/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\engine\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
