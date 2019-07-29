@@ -2,7 +2,7 @@ language: cpp
 compiler: g++
 
 notifications:
-  email: false
+  email: Jordijaspers@gmail.com
 
 env:
  - GTEST_DIR=~/gtest/googletest-release-1.8.0/googletest

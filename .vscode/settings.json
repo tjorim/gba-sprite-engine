@@ -10,7 +10,6 @@
         "cstdlib": "cpp",
         "cwchar": "cpp",
         "cwctype": "cpp",
-        "deque": "cpp",
         "unordered_map": "cpp",
         "vector": "cpp",
         "exception": "cpp",
