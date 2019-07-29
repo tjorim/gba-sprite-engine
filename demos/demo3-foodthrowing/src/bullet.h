@@ -21,7 +21,7 @@ private:
     VECTOR dest;
 
 public:
-    Bullet(std::unique_ptr<Sprite> sprite) : sprite(std::move(sprite)), dest(VECTOR()) {}
+    Bullet(std::unique_ptr<Sprite> sprite) : sprite(std::move(sprite)) {}
 
     void tick();
     void setDestination(VECTOR destination);

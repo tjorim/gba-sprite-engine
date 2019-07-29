@@ -9,8 +9,9 @@
 
 class SampleStartScene : public Scene {
 private:
-    std::unique_ptr<Sprite> animation;
+
     std::unique_ptr<Sprite> finalFantasyGuy;
+    std::unique_ptr<Sprite> animation;
     std::unique_ptr<Sprite> smiley;
     bool pressingAorB = false;
 
