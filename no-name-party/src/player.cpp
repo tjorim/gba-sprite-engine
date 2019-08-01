@@ -7,16 +7,16 @@
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
 
 #include "player.h"
-#include "../sprites/luigi_left.h"
+#include "../sprites/car_all.h"
 
 Player::Player(int xCo, int yCo) : xCo(xCo), yCo(yCo) {
     setXCo(xCo);
     setYCo(yCo);
     SpriteBuilder<Sprite> spriteBuilder;
     setSprite(spriteBuilder
-            .withData(Luigi_leftTiles, sizeof(Luigi_leftTiles))
+            .withData(car_allTiles, sizeof(car_allTiles))
             .withSize(SIZE_32_32)
-            .withAnimated(2, 4)
+            .withAnimated(beginFrame, 4, 4)
             //.withLocation(GBA_SCREEN_WIDTH / 2 - 32, GBA_SCREEN_HEIGHT / 2 - 32)
             .withLocation(xCo, yCo)
             .buildPtr());
@@ -76,7 +76,7 @@ void Player::moveRight() {
 }
 
 void Player::updateBeginFrame() {
-    beginFrame = 4 * static_cast<int>(character) + static_cast<int>(direction);
+    beginFrame = 16 * static_cast<int>(character) + 4 * static_cast<int>(direction);
     sprite->setBeginFrame(beginFrame);
 }
 
