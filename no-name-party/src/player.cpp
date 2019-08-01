@@ -47,6 +47,7 @@ void Player::moveRelative(int xValue, int yValue) {
  * Beweeg 1 vakje naar boven.
  */
 void Player::moveUp() {
+    setDirection(Direction::BOVEN);
     moveRelative(0,-1);
 }
 
@@ -54,6 +55,7 @@ void Player::moveUp() {
  * Beweeg 1 vakje naar onder.
  */
 void Player::moveDown() {
+    setDirection(Direction::ONDER);
     moveRelative(0,1);
 }
 
@@ -61,6 +63,7 @@ void Player::moveDown() {
  * Beweeg 1 vakje naar links.
  */
 void Player::moveLeft() {
+    setDirection(Direction::LINKS);
     moveRelative(-1,0);
 }
 
@@ -68,7 +71,13 @@ void Player::moveLeft() {
  * Beweeg 1 vakje naar rechts.
  */
 void Player::moveRight() {
+    setDirection(Direction::RECHTS);
     moveRelative(1,0);
+}
+
+void Player::updateBeginFrame() {
+    beginFrame = 4 * static_cast<int>(character) + static_cast<int>(direction);
+    sprite->setBeginFrame(beginFrame);
 }
 
 int Player::getXCo() const {
@@ -92,6 +101,11 @@ int Player::getPlayerNumber() const
     return playerNumber;
 }
 
+Character Player::getCharacter() const
+{
+    return character;
+}
+
 Direction Player::getDirection() const
 {
     return direction;
@@ -100,6 +114,23 @@ Direction Player::getDirection() const
 void Player::setPlayerNumber(int value)
 {
     playerNumber = value;
+}
+
+void Player::setCharacter(const Character &value)
+{
+    switch (value) {
+    case Character::LUIGI:
+        // pas sprite aan
+        break;
+    case Character::PRINCESS_PEACH:
+        // pas sprite aan
+        break;
+    default:
+        return;
+    }
+    character = value;
+
+    updateBeginFrame();
 }
 
 void Player::setDirection(const Direction &value)
@@ -121,6 +152,8 @@ void Player::setDirection(const Direction &value)
         return;
     }
     direction = value;
+
+    updateBeginFrame();
 }
 
 void Player::scoreHoger()
