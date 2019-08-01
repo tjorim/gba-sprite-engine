@@ -79,8 +79,12 @@ void GameScene::tick(u16 keys) {
     }
     */
 
-    if (keys & KEY_FIRE) {
+    /*if (keys & KEY_FIRE) {
         //dropBomb();
+    } else*/ if (keys & KEY_A) {
+        player1->setCharacter(Character::LUIGI);
+    } else if (keys & KEY_B) {
+        player1->setCharacter(Character::PRINCESS_PEACH);
     } else if (keys & KEY_UP) {
         player1->moveUp();
     } else if (keys & KEY_DOWN) {
@@ -89,10 +93,6 @@ void GameScene::tick(u16 keys) {
         player1->moveLeft();
     } else if (keys & KEY_RIGHT) {
         player1->moveRight();
-    }
-
-    if (keys & KEY_ACCEPT) {
-        
     }
 
     /*
