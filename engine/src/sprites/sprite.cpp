@@ -194,7 +194,3 @@ void Sprite::buildOam(int tileIndex) {
             ATTR2_PRIO(priority) |
             ATTR2_PALBANK(0);
 }
-
-bool Sprite::isAnimating() {
-    return animating;
-}

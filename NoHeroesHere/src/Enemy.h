@@ -23,7 +23,7 @@ public:
     };
     void update();
     Sprite* getSprite(){
-        eendje.get();
+        return eendje.get();
     }
     int getX(){
         return posX;

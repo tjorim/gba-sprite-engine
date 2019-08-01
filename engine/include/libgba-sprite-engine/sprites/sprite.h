@@ -121,7 +121,6 @@ public:
     u32 getCurrentFrame() { return currentFrame; }
     bool isAnimating() { return animating; };
     bool isOffScreen();
-    bool isAnimating();
 
     friend class SpriteManager;
 };
