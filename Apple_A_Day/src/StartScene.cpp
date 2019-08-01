@@ -94,7 +94,7 @@ void StartScene::tick(u16 keys) {
             if (playerX <= GBA_SCREEN_WIDTH - linkAnimation.get()->getWidth()) {
                 if (isNextTileGo) {
                     playerX++;
-                    linkAnimation->makeAnimated(4, 5, 12);
+                    linkAnimation->makeAnimated(12, 4, 5);
                 }
             }
 
@@ -105,7 +105,7 @@ void StartScene::tick(u16 keys) {
                 if (isNextTileGo) {
                     playerY--;
                     //linkAnimation->stopAnimating();
-                    linkAnimation->makeAnimated(6, 5, 0);
+                    linkAnimation->makeAnimated(0, 6, 5);
                 }
             }
         } else if (keys & KEY_LEFT) {
@@ -115,7 +115,7 @@ void StartScene::tick(u16 keys) {
             if (playerX > 1) {
                 if (isNextTileGo) {
                     playerX--;
-                    linkAnimation->makeAnimated(4, 5, 12);
+                    linkAnimation->makeAnimated(12, 4, 5);
                 }
             }
         } else if (keys & KEY_DOWN) {
@@ -124,7 +124,7 @@ void StartScene::tick(u16 keys) {
             if (playerY <= GBA_SCREEN_HEIGHT - linkAnimation.get()->getHeight()) {
                 if (isNextTileGo) {
                     playerY++;
-                    linkAnimation->makeAnimated(6, 5, 6);
+                    linkAnimation->makeAnimated(6, 6, 5);
                 }
             }
         } else if (!keys) {

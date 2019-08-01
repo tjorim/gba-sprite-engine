@@ -2,16 +2,15 @@
 // Created by Jolien Jeunen on 27/01/2019.
 //
 
-#include "MainScene.h"
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
 #include <libgba-sprite-engine/gba_engine.h>
 #include <libgba-sprite-engine/background/text_stream.h>
+#include <time.h>
 
+#include "MainScene.h"
 #include "bird1.h"
 #include "achtergrondWolkjes.h"
 #include "flappybird.h"
-#include "time.h"
-#include "../../../../../Program Files (x86)/mingw-w64/i686-8.1.0-posix-dwarf-rt_v6-rev0/mingw32/i686-w64-mingw32/include/time.h"
 
 double y,x;
 int a = 0;

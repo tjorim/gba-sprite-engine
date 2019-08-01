@@ -178,7 +178,7 @@ void CityScene::tick(u16 keys) {
             if (playerX <= GBA_SCREEN_WIDTH - linkAnimation.get()->getWidth()) {
                 if (isNextTileGo) {
                     playerX++;
-                    linkAnimation->makeAnimated(4, 5, 12);
+                    linkAnimation->makeAnimated(12, 4, 5);
                     if(keys & KEY_A){
                         shoot();
                     }
@@ -191,7 +191,7 @@ void CityScene::tick(u16 keys) {
             if (playerY > 1) {
                 if (isNextTileGo) {
                     playerY--;
-                    linkAnimation->makeAnimated(6, 5, 0);
+                    linkAnimation->makeAnimated(0, 6, 5);
                     if(keys & KEY_A){
                         shoot();
                     }
@@ -204,7 +204,7 @@ void CityScene::tick(u16 keys) {
             if (playerX > 1) {
                 if (isNextTileGo) {
                     playerX--;
-                    linkAnimation->makeAnimated(4, 5, 12);
+                    linkAnimation->makeAnimated(12, 4, 5);
                     if(keys & KEY_A){
                         shoot();
                     }
@@ -216,7 +216,7 @@ void CityScene::tick(u16 keys) {
             if (playerY <= GBA_SCREEN_HEIGHT - linkAnimation.get()->getHeight()) {
                 if (isNextTileGo) {
                     playerY++;
-                    linkAnimation->makeAnimated(6, 5, 6);
+                    linkAnimation->makeAnimated(6, 6, 5);
                     if(keys & KEY_A){
                         shoot();
                     }
@@ -280,9 +280,9 @@ void CityScene::tick(u16 keys) {
             linkHP--;*/
         }
 
-        enemy1->makeAnimated(3,11,0);
-        enemy2->makeAnimated(3,9,-1); // -1 ipv 0 fixt bug waarbij laatste enemy zijn laatste frame fout is
-        //enemy3->makeAnimated(3,13,-1);
+        enemy1->makeAnimated(0,3,11);
+        enemy2->makeAnimated(-1,3,9); // -1 ipv 0 fixt bug waarbij laatste enemy zijn laatste frame fout is
+        //enemy3->makeAnimated(-1,3,13);
 
 
 
