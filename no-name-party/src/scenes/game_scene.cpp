@@ -27,7 +27,7 @@ std::vector<Sprite *> GameScene::sprites() {
     }
     */
 
-    sprites.push_back(player1->getSprite());
+    sprites.push_back(player->getSprite());
 
     /*
     for(auto& rows: board) // Iterating over rows
@@ -50,7 +50,7 @@ void GameScene::load() {
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(
         new BackgroundPaletteManager(mapPal, sizeof(mapPal)));
 
-    player1 = std::unique_ptr<Player>(new Player(5, 5));
+    player = std::unique_ptr<Player>(new Player());
 
 /*
     for (int i = 0; i < BOARD_WIDTH; i++) { // board.size(), Iterating over rows
@@ -74,7 +74,7 @@ void GameScene::tick(u16 keys) {
     TextStream::instance().setText(std::string("Game scene"), 5, 1);
 
     /*
-    if (player1->isDood()) {
+    if (player->isDood()) {
         engine->setScene(new EndScene(engine));
     }
     */
@@ -82,17 +82,17 @@ void GameScene::tick(u16 keys) {
     /*if (keys & KEY_FIRE) {
         //dropBomb();
     } else*/ if (keys & KEY_A) {
-        player1->setCharacter(Character::LUIGI);
+        player->setCharacter(Character::LUIGI);
     } else if (keys & KEY_B) {
-        player1->setCharacter(Character::PRINCESS_PEACH);
+        player->setCharacter(Character::PRINCESS_PEACH);
     } else if (keys & KEY_UP) {
-        player1->moveUp();
+        player->moveUp();
     } else if (keys & KEY_DOWN) {
-        player1->moveDown();
+        player->moveDown();
     } else if (keys & KEY_LEFT) {
-        player1->moveLeft();
+        player->moveLeft();
     } else if (keys & KEY_RIGHT) {
-        player1->moveRight();
+        player->moveRight();
     }
 
     /*
@@ -119,9 +119,9 @@ thingType GameScene::getThingType(int xValue, int yValue) {
 
 /*
 void GameScene::dropBomb() {
-    if(player1->getAantalBommen() > 0) {
-        int bombX = player1->getXCoGrid();
-        int bombY = player1->getYCoGrid();
+    if(player->getAantalBommen() > 0) {
+        int bombX = player->getXCoGrid();
+        int bombY = player->getYCoGrid();
         thingType thingUnderPlayerType = getThingType(bombX, bombY);
 
         if(thingUnderPlayerType == thingType::FLOOR || thingUnderPlayerType == thingType::GUNPOWDER) {
@@ -131,7 +131,7 @@ void GameScene::dropBomb() {
             // but there is no easy way to remove it
             engine.get()->updateSpritesInScene();
             TextStream::instance().setText(std::string("Boms ") + std::to_string(bombs.size()), 10, 1);
-            player1->eenBomMinder();
+            player->eenBomMinder();
         }
     }
     */
