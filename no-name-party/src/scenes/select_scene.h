@@ -13,7 +13,6 @@ private:
     int level = 1;
 
     void levelUp();
-
     void levelDown();
 
 public:

@@ -19,7 +19,7 @@ private:
     std::unique_ptr<Player> player;
 
 public:
-    GameScene(const std::shared_ptr <GBAEngine> &engine);
+    GameScene(const std::shared_ptr<GBAEngine> &engine);
 
     std::vector<Sprite *> sprites() override;
     std::vector<Background *> backgrounds() override;

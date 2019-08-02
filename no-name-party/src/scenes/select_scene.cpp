@@ -7,6 +7,7 @@
 
 #include "select_scene.h"
 #include "game_scene.h"
+#include "../../sprites/shared.h"
 //#include "../sound.h"
 
 SelectScene::SelectScene(const std::shared_ptr<GBAEngine> &engine) : Scene(engine) {}
@@ -20,7 +21,8 @@ std::vector<Sprite *> SelectScene::sprites() {
 }
 
 void SelectScene::load() {
-    foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager());
+    foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(
+        new ForegroundPaletteManager(sharedPal, sizeof(sharedPal)));
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager());
 
     //engine->enqueueMusic(cataclysmic_molten_core, sizeof(cataclysmic_molten_core));
@@ -36,7 +38,6 @@ void SelectScene::tick(u16 keys) {
     }
 
     TextStream::instance().setText(std::string("Start scene"), 5, 1);
-
     TextStream::instance().setText(std::string("Level: ") + std::to_string(level), 10, 1);
 }
 
