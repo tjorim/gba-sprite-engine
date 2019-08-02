@@ -29,7 +29,7 @@ void SelectScene::load() {
 }
 
 void SelectScene::tick(u16 keys) {
-    if (keys & KEY_ACCEPT) {
+    if (keys & KEY_A) {
         engine->setScene(new GameScene(engine/*, getLevel()*/));
     } else if ((keys & KEY_LEFT) || (keys & KEY_DOWN)) {
         levelDown();
