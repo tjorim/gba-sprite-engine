@@ -17,8 +17,8 @@ StartScene::StartScene(const std::shared_ptr<GBAEngine> &engine) : Scene(engine)
 
 std::vector<Background *> StartScene::backgrounds() {
     return {
-        //bg_map.get()
-        };
+        bg_map.get()
+    };
 }
 
 std::vector<Sprite *> StartScene::sprites() {
