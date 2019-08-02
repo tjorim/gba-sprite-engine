@@ -5,19 +5,20 @@
 #ifndef GBA_SPRITE_ENGINE_PROJECT_PLAYER_H
 #define GBA_SPRITE_ENGINE_PROJECT_PLAYER_H
 
+#include <libgba-sprite-engine/gba_engine.h>
 #include <libgba-sprite-engine/sprites/sprite.h>
 
+enum class Character : char {LUIGI = 0, PRINCESS_PEACH = 1};
 // we only have four directions, so no need for ints!
-enum class Character : int {LUIGI = 0, PRINCESS_PEACH = 1};
 enum class Direction : char {ONDER = 0, LINKS = 1, RECHTS = 2, BOVEN = 3};
 
 class Player {
 private:
     std::unique_ptr<Sprite> sprite;
-    // De x-positie van the Thing
-    int xCo = 120;
-    // De y-positie van the Thing
-    int yCo = 80;
+    // De x-positie van the player
+    int xCo = GBA_SCREEN_WIDTH / 2 - 16;
+    // De y-positie van the player
+    int yCo = GBA_SCREEN_HEIGHT / 2 - 16;
 
     int playerNumber = 0;
     int beginFrame = 0;
@@ -30,7 +31,7 @@ private:
     int score = 3;
 
 public:
-    Player(int xCo, int yCo);
+    Player();
 
     Sprite* getSprite() { return sprite.get(); }
 

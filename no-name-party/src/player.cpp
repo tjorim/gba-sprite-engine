@@ -9,15 +9,12 @@
 #include "player.h"
 #include "../sprites/car_all.h"
 
-Player::Player(int xCo, int yCo) : xCo(xCo), yCo(yCo) {
-    setXCo(xCo);
-    setYCo(yCo);
+Player::Player() {
     SpriteBuilder<Sprite> spriteBuilder;
     setSprite(spriteBuilder
             .withData(car_allTiles, sizeof(car_allTiles))
             .withSize(SIZE_32_32)
             .withAnimated(beginFrame, 4, 4)
-            //.withLocation(GBA_SCREEN_WIDTH / 2 - 32, GBA_SCREEN_HEIGHT / 2 - 32)
             .withLocation(xCo, yCo)
             .buildPtr());
 }
