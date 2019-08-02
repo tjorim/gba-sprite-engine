@@ -31,36 +31,36 @@ void SelectScene::load() {
 void SelectScene::tick(u16 keys) {
     if (keys & KEY_A) {
         engine->setScene(new GameScene(engine/*, getLevel()*/));
-    } else if ((keys & KEY_LEFT) || (keys & KEY_DOWN)) {
-        levelDown();
-    } else if ((keys & KEY_RIGHT) || (keys & KEY_UP)) {
-        levelUp();
+    } else if (keys & KEY_LEFT) {
+        characterLeft();
+    } else if (keys & KEY_RIGHT) {
+        characterRight();
     }
 
     TextStream::instance().setText(std::string("Start scene"), 5, 1);
-    TextStream::instance().setText(std::string("Level: ") + std::to_string(level), 10, 1);
+    TextStream::instance().setText(std::string("Character: ") + std::to_string(character), 10, 1);
 }
 
-int SelectScene::getLevel() const {
-    return level;
+int SelectScene::getCharacter() const {
+    return character;
 }
 
-void SelectScene::setLevel(int level) {
-    SelectScene::level = level;
+void SelectScene::setCharacter(int character) {
+    SelectScene::character = character;
 }
 
-void SelectScene::levelUp() {
-    if (level < 4) {
-        level++;
+void SelectScene::characterLeft() {
+    if (character > 1) {
+        character--;
     } else {
-        setLevel(4);
+        setCharacter(1);
     }
 }
 
-void SelectScene::levelDown() {
-    if (level > 1) {
-        level--;
+void SelectScene::characterRight() {
+    if (character < 4) {
+        character++;
     } else {
-        setLevel(1);
+        setCharacter(4);
     }
 }

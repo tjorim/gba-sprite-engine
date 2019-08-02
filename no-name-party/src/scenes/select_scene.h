@@ -10,10 +10,15 @@
 
 class SelectScene : public Scene {
 private:
-    int level = 1;
+    std::unique_ptr<Background> bg_map;
+    std::unique_ptr<SpriteBuilder<Sprite>> spriteBuilder;
+    std::unique_ptr<Sprite> luigi_select, mario_select, princess_peach_select, yoshi_select;
+    std::vector<std::unique_ptr<Sprite>> characters;
 
-    void levelUp();
-    void levelDown();
+    int character = 1;
+
+    void characterLeft();
+    void characterRight();
 
 public:
     SelectScene(const std::shared_ptr<GBAEngine> &engine);
@@ -24,8 +29,8 @@ public:
     void load() override;
     void tick(u16 keys) override;
 
-    int getLevel() const;
-    void setLevel(int level);
+    int getCharacter() const;
+    void setCharacter(int character);
 };
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_SELECT_SCENE_H
