@@ -28,8 +28,8 @@ std::vector<Sprite *> StartScene::sprites() {
         sprites.push_back(balloon->getSprite());
     }
 
-    sprites.push_back(press_start_left.get());
-    sprites.push_back(press_start_right.get());
+    //sprites.push_back(press_start_left.get());
+    //sprites.push_back(press_start_right.get());
 
     TextStream::instance().setText(std::string("Sprites ") + std::to_string(sprites.size()), 12, 1);
     return sprites;
