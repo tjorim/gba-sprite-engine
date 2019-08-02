@@ -6,7 +6,7 @@ add_executable(${PROJECT_NAME}.elf
         src/scenes/game_scene.cpp src/scenes/game_scene.h
         #src/scenes/select_scene.cpp src/scenes/select_scene.h
         src/scenes/start_scene.cpp src/scenes/start_scene.h
-        src/balloon.h
+        src/balloon.h src/character_select.h
         src/player.cpp src/player.h
         )
 
