@@ -6,7 +6,7 @@
 #include <libgba-sprite-engine/background/text_stream.h>
 
 #include "start_scene.h"
-#include "game_scene.h"
+#include "select_scene.h"
 //#include "../sound.h"
 #include "../../sprites/background_rainbow.h"
 #include "../../sprites/press_start_left.h"
