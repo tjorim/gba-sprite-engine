@@ -7,14 +7,14 @@
 
 #include <libgba-sprite-engine/sprites/sprite.h>
 
-class Character_select {
+class CharacterSelect {
 private:
     std::unique_ptr<Sprite> sprite;
 
     bool selected = false;
 
 public:
-    Character_select(std::unique_ptr<Sprite> sprite) : sprite(std::move(sprite)) {}
+    CharacterSelect(std::unique_ptr<Sprite> sprite) : sprite(std::move(sprite)) {}
 
     Sprite* getSprite() { return sprite.get(); }
 
