@@ -29,15 +29,31 @@ void SelectScene::load() {
 }
 
 void SelectScene::tick(u16 keys) {
-    if (keys & KEY_A) {
-        engine->setScene(new GameScene(engine/*, getLevel()*/));
-    } else if (keys & KEY_LEFT) {
+    left_last = left_now;
+    if (keys & KEY_LEFT) {
+        left_now = true;
+    } else {
+        left_now = false;
+    }
+    if (left_now == true && left_last == false) {
         characterLeft();
-    } else if (keys & KEY_RIGHT) {
-        characterRight();
     }
 
-    TextStream::instance().setText(std::string("Start scene"), 5, 1);
+    right_last = right_now;
+    if (keys & KEY_RIGHT) {
+        right_now = true;
+    } else {
+        right_now = false;
+    }
+    if (right_now == true && right_last == false) {
+        characterRight();
+    }
+    
+    if (keys & KEY_A) {
+        engine->setScene(new GameScene(engine/*, getLevel()*/));
+    }
+
+    TextStream::instance().setText(std::string("Select scene"), 5, 1);
     TextStream::instance().setText(std::string("Character: ") + std::to_string(character), 10, 1);
 }
 
@@ -47,6 +63,10 @@ int SelectScene::getCharacter() const {
 
 void SelectScene::setCharacter(int character) {
     SelectScene::character = character;
+    updateCharacter();
+}
+
+void SelectScene::updateCharacter() {
 }
 
 void SelectScene::characterLeft() {

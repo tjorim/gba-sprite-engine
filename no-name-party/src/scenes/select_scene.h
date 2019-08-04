@@ -15,6 +15,9 @@ private:
     std::unique_ptr<Sprite> luigi_select, mario_select, princess_peach_select, yoshi_select;
     std::vector<std::unique_ptr<Sprite>> characters;
 
+    bool left_last = false, right_last = false;
+    bool left_now = false, right_now = false;
+
     int character = 1;
 
     void characterLeft();
@@ -31,6 +34,7 @@ public:
 
     int getCharacter() const;
     void setCharacter(int character);
+    void updateCharacter();
 };
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_SELECT_SCENE_H
