@@ -7,6 +7,7 @@
 
 #include "game_scene.h"
 #include "end_scene.h"
+#include "../character.h"
 #include "../../sprites/shared.h"
 #include "../../sprites/map.h"
 #include "../../sprites/map_1.h"
@@ -28,6 +29,7 @@ std::vector<Sprite *> GameScene::sprites() {
     */
 
     sprites.push_back(player->getSprite());
+    sprites.push_back(result->getSprite());
 
     /*
     for(auto& rows: board) // Iterating over rows
@@ -51,6 +53,7 @@ void GameScene::load() {
         new BackgroundPaletteManager(mapPal, sizeof(mapPal)));
 
     player = std::unique_ptr<Player>(new Player(static_cast<Character>(getCharacter())));
+    result = std::unique_ptr<Result>(new Result(static_cast<Character>(getCharacter()), Game::LOSE));
 
 /*
     for (int i = 0; i < BOARD_WIDTH; i++) { // board.size(), Iterating over rows
