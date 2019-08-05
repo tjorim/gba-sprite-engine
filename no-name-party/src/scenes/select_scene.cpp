@@ -5,61 +5,137 @@
 #include <libgba-sprite-engine/background/text_stream.h>
 #include <libgba-sprite-engine/gba_engine.h>
 
+#include "select_scene.h"
 #include "game_scene.h"
+#include "../../sprites/shared.h"
+#include "../../sprites/luigi_select.h"
+#include "../../sprites/princess_peach_select.h"
+#include "../../sprites/mario_select.h"
+#include "../../sprites/yoshi_select.h"
 //#include "../sound.h"
-#include "start_scene.h"
 
-StartScene::StartScene(const std::shared_ptr<GBAEngine> &engine) : Scene(engine) {}
+SelectScene::SelectScene(const std::shared_ptr<GBAEngine> &engine) : Scene(engine) {}
 
-std::vector<Background *> StartScene::backgrounds() {
+std::vector<Background *> SelectScene::backgrounds() {
     return {};
 }
 
-std::vector<Sprite *> StartScene::sprites() {
-    return {};
+std::vector<Sprite *> SelectScene::sprites() {
+    std::vector < Sprite * > sprites;
+
+    for (auto& character : characters) {
+        sprites.push_back(character.get());
+    }
+
+    return sprites;
 }
 
-void StartScene::load() {
-    foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(new ForegroundPaletteManager());
+void SelectScene::load() {
+    foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(
+        new ForegroundPaletteManager(sharedPal, sizeof(sharedPal)));
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager());
+
+    spriteBuilder = std::unique_ptr<SpriteBuilder<Sprite>>(new SpriteBuilder<Sprite>);
+
+    characters.push_back(
+        spriteBuilder->withData(Luigi_selectTiles, sizeof(Luigi_selectTiles))
+            .withSize(SIZE_32_32)
+            .withLocation(GBA_SCREEN_WIDTH / 2 - 97, GBA_SCREEN_HEIGHT / 2 - 32)
+            .buildPtr()
+    );
+
+    characters.push_back(
+        spriteBuilder->withData(Princess_Peach_selectTiles, sizeof(Princess_Peach_selectTiles))
+            .withSize(SIZE_32_32)
+            .withLocation(GBA_SCREEN_WIDTH / 2 - 43, GBA_SCREEN_HEIGHT / 2 - 32)
+            .buildPtr()
+    );
+
+    characters.push_back(
+        spriteBuilder->withData(Mario_selectTiles, sizeof(Mario_selectTiles))
+            .withSize(SIZE_32_32)
+            .withLocation(GBA_SCREEN_WIDTH / 2 + 11, GBA_SCREEN_HEIGHT / 2 - 32)
+            .buildPtr()
+    );
+
+    characters.push_back(
+        spriteBuilder->withData(Yoshi_selectTiles, sizeof(Yoshi_selectTiles))
+            .withSize(SIZE_32_32)
+            .withLocation(GBA_SCREEN_WIDTH / 2 + 65, GBA_SCREEN_HEIGHT / 2 - 32)
+            .buildPtr()
+    );
+
+    updateCharacter();
 
     //engine->enqueueMusic(cataclysmic_molten_core, sizeof(cataclysmic_molten_core));
 }
 
-void StartScene::tick(u16 keys) {
-    if (keys & KEY_ACCEPT) {
-        engine->setScene(new GameScene(engine, getLevel()));
-    } else if ((keys & KEY_LEFT) || (keys & KEY_DOWN)) {
-        levelDown();
-    } else if ((keys & KEY_RIGHT) || (keys & KEY_UP)) {
-        levelUp();
+void SelectScene::tick(u16 keys) {
+    left_last = left_now;
+    if (keys & KEY_LEFT) {
+        left_now = true;
+    } else {
+        left_now = false;
+    }
+    if (left_now == true && left_last == false) {
+        characterLeft();
     }
 
-    TextStream::instance().setText(std::string("Start scene"), 5, 1);
-
-    TextStream::instance().setText(std::string("Level: ") + std::to_string(level), 10, 1);
-}
-
-int StartScene::getLevel() const {
-    return level;
-}
-
-void StartScene::setLevel(int level) {
-    StartScene::level = level;
-}
-
-void StartScene::levelUp() {
-    if (level < 4) {
-        level++;
+    right_last = right_now;
+    if (keys & KEY_RIGHT) {
+        right_now = true;
     } else {
-        setLevel(4);
+        right_now = false;
+    }
+    if (right_now == true && right_last == false) {
+        characterRight();
+    }
+    
+    if (keys & KEY_A) {
+        if (character_current > 1) {
+            TextStream::instance().setText(std::string("Sorry, enkel Luigi en Princess Peach zijn beschikbaar "), 12, 1);
+        } else {
+            engine->setScene(new GameScene(engine, getCharacter()));
+        }
+    }
+
+    TextStream::instance().setText(std::string("Select scene"), 5, 1);
+    TextStream::instance().setText(std::string("Character: ") + std::to_string(character_current + 1), 10, 1);
+}
+
+int SelectScene::getCharacter() const {
+    return character_current;
+}
+
+void SelectScene::setCharacter(int character) {
+    SelectScene::character_current = character;
+    updateCharacter();
+}
+
+void SelectScene::updateCharacter() {
+    unselectCharacter(character_previous);
+    selectCharacter(character_current);
+    character_previous = character_current;
+}
+
+void SelectScene::unselectCharacter(int character) {
+    characters[character]->animateToFrame(0);
+}
+
+void SelectScene::selectCharacter(int character) {
+    characters[character]->animateToFrame(1);
+}
+
+void SelectScene::characterLeft() {
+    if (character_current > 0) {
+        character_current--;
+        updateCharacter();
     }
 }
 
-void StartScene::levelDown() {
-    if (level > 1) {
-        level--;
-    } else {
-        setLevel(1);
+void SelectScene::characterRight() {
+    if (character_current < 3) {
+        character_current++;
+        updateCharacter();
     }
 }

@@ -5,28 +5,33 @@
 #ifndef GBA_SPRITE_ENGINE_PROJECT_PLAYER_H
 #define GBA_SPRITE_ENGINE_PROJECT_PLAYER_H
 
+#include <libgba-sprite-engine/gba_engine.h>
 #include <libgba-sprite-engine/sprites/sprite.h>
 
+enum class Character : char {LUIGI = 0, PRINCESS_PEACH = 1, MARIO = 2, YOSHI = 3};
 // we only have four directions, so no need for ints!
-enum class Direction : char {ONDER = 1, BOVEN = 2, LINKS = 3, RECHTS = 4};
+enum class Direction : char {ONDER = 0, LINKS = 1, RECHTS = 2, BOVEN = 3};
 
 class Player {
 private:
     std::unique_ptr<Sprite> sprite;
-    // De x-positie van the Thing
-    int xCo = 120;
-    // De y-positie van the Thing
-    int yCo = 80;
+    // De x-positie van the player
+    int xCo = GBA_SCREEN_WIDTH / 2 - 16;
+    // De y-positie van the player
+    int yCo = GBA_SCREEN_HEIGHT / 2 - 16;
 
-    int playerNumber;
+    int playerNumber = 0;
+    int beginFrame = 0;
 
-    // ONDER, BOVEN, LINKS, RECHTS
+    // LUIGI, PRINCESS_PEACH, MARIO, YOSHI
+    Character character = Character::LUIGI;
+    // ONDER, LINKS, RECHTS, BOVEN
     Direction direction = Direction::ONDER;
 
     int score = 3;
 
 public:
-    Player(int xCo, int yCo);
+    Player(Character character);
 
     Sprite* getSprite() { return sprite.get(); }
 
@@ -41,6 +46,9 @@ public:
     void moveDown();
     void moveLeft();
     void moveRight();
+
+    int getBeginFrame();
+    void updateBeginFrame();
 
     /**
      * Wat is de x-positie van this Thing?
@@ -76,6 +84,13 @@ public:
      */
     int getPlayerNumber() const;
     /**
+     * Wat is de character van de speler?
+     * LUIGI, PRINCESS_PEACH
+     *
+     * @return De character van de speler.
+     */
+    Character getCharacter() const;
+    /**
      * Wat is de richting van de speler?
      * ONDER, BOVEN, LINKS, RECHTS
      *
@@ -96,6 +111,13 @@ public:
      * @param spelerNr Het nummer van de speler.
      */
     void setPlayerNumber(int value);
+    /**
+     * Geef de speler een character.
+     * LUIGI, PRINCESS_PEACH
+     *
+     * @param character De character die de speler krijgt.
+     */
+    void setCharacter(const Character &value);
     /**
      * Geef de speler een richting.
      * ONDER, BOVEN, LINKS, RECHTS
