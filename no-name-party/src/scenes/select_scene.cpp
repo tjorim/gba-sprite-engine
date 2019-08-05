@@ -8,6 +8,10 @@
 #include "select_scene.h"
 #include "game_scene.h"
 #include "../../sprites/shared.h"
+#include "../../sprites/luigi_select.h"
+#include "../../sprites/princess_peach_select.h"
+#include "../../sprites/mario_select.h"
+#include "../../sprites/yoshi_select.h"
 //#include "../sound.h"
 
 SelectScene::SelectScene(const std::shared_ptr<GBAEngine> &engine) : Scene(engine) {}
@@ -17,13 +21,51 @@ std::vector<Background *> SelectScene::backgrounds() {
 }
 
 std::vector<Sprite *> SelectScene::sprites() {
-    return {};
+    std::vector < Sprite * > sprites;
+
+    for (auto& character : characters) {
+        sprites.push_back(character.get());
+    }
+
+    return sprites;
 }
 
 void SelectScene::load() {
     foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(
         new ForegroundPaletteManager(sharedPal, sizeof(sharedPal)));
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager());
+
+    spriteBuilder = std::unique_ptr<SpriteBuilder<Sprite>>(new SpriteBuilder<Sprite>);
+
+    characters.push_back(
+        spriteBuilder->withData(Luigi_selectTiles, sizeof(Luigi_selectTiles))
+            .withSize(SIZE_32_32)
+            .withLocation(GBA_SCREEN_WIDTH / 2 - 97, GBA_SCREEN_HEIGHT / 2 - 32)
+            .buildPtr()
+    );
+
+    characters.push_back(
+        spriteBuilder->withData(Princess_Peach_selectTiles, sizeof(Princess_Peach_selectTiles))
+            .withSize(SIZE_32_32)
+            .withLocation(GBA_SCREEN_WIDTH / 2 - 43, GBA_SCREEN_HEIGHT / 2 - 32)
+            .buildPtr()
+    );
+
+    characters.push_back(
+        spriteBuilder->withData(Mario_selectTiles, sizeof(Mario_selectTiles))
+            .withSize(SIZE_32_32)
+            .withLocation(GBA_SCREEN_WIDTH / 2 + 11, GBA_SCREEN_HEIGHT / 2 - 32)
+            .buildPtr()
+    );
+
+    characters.push_back(
+        spriteBuilder->withData(Yoshi_selectTiles, sizeof(Yoshi_selectTiles))
+            .withSize(SIZE_32_32)
+            .withLocation(GBA_SCREEN_WIDTH / 2 + 65, GBA_SCREEN_HEIGHT / 2 - 32)
+            .buildPtr()
+    );
+
+    updateCharacter();
 
     //engine->enqueueMusic(cataclysmic_molten_core, sizeof(cataclysmic_molten_core));
 }
