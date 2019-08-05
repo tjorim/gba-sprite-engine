@@ -5,6 +5,7 @@
 #ifndef GBA_SPRITE_ENGINE_PROJECT_BALLOON_H
 #define GBA_SPRITE_ENGINE_PROJECT_BALLOON_H
 
+#include <libgba-sprite-engine/gba_engine.h>
 #include <libgba-sprite-engine/sprites/sprite.h>
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
 
@@ -17,10 +18,9 @@ class Balloon {
 private:
     std::unique_ptr<Sprite> sprite;
 
+    Colour colour = Colour::BLUE;
     int xCo = GBA_SCREEN_WIDTH;
     int helium = 0, offset = 0;
-
-    Colour colour = Colour::BLUE;
 
 public:
     Balloon(Colour colour, int xCo, int helium, int offset) : colour(colour), xCo(xCo), helium(helium), offset(offset) {
