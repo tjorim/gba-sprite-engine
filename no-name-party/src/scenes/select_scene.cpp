@@ -92,37 +92,50 @@ void SelectScene::tick(u16 keys) {
     }
     
     if (keys & KEY_A) {
-        engine->setScene(new GameScene(engine/*, getLevel()*/));
+        if (character_current > 1) {
+            TextStream::instance().setText(std::string("Sorry, enkel Luigi en Princess Peach zijn beschikbaar "), 12, 1);
+        } else {
+            engine->setScene(new GameScene(engine, getCharacter()));
+        }
     }
 
     TextStream::instance().setText(std::string("Select scene"), 5, 1);
-    TextStream::instance().setText(std::string("Character: ") + std::to_string(character), 10, 1);
+    TextStream::instance().setText(std::string("Character: ") + std::to_string(character_current + 1), 10, 1);
 }
 
 int SelectScene::getCharacter() const {
-    return character;
+    return character_current;
 }
 
 void SelectScene::setCharacter(int character) {
-    SelectScene::character = character;
+    SelectScene::character_current = character;
     updateCharacter();
 }
 
 void SelectScene::updateCharacter() {
+    unselectCharacter(character_previous);
+    selectCharacter(character_current);
+    character_previous = character_current;
+}
+
+void SelectScene::unselectCharacter(int character) {
+    characters[character]->animateToFrame(0);
+}
+
+void SelectScene::selectCharacter(int character) {
+    characters[character]->animateToFrame(1);
 }
 
 void SelectScene::characterLeft() {
-    if (character > 1) {
-        character--;
-    } else {
-        setCharacter(1);
+    if (character_current > 0) {
+        character_current--;
+        updateCharacter();
     }
 }
 
 void SelectScene::characterRight() {
-    if (character < 4) {
-        character++;
-    } else {
-        setCharacter(4);
+    if (character_current < 3) {
+        character_current++;
+        updateCharacter();
     }
 }

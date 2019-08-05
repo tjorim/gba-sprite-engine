@@ -18,7 +18,7 @@ private:
     bool left_last = false, right_last = false;
     bool left_now = false, right_now = false;
 
-    int character = 1;
+    int character_previous = 0, character_current = 0;
 
     void characterLeft();
     void characterRight();
@@ -35,6 +35,8 @@ public:
     int getCharacter() const;
     void setCharacter(int character);
     void updateCharacter();
+    void unselectCharacter(int character);
+    void selectCharacter(int character);
 };
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_SELECT_SCENE_H
