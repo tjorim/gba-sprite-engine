@@ -8,7 +8,7 @@
 #include <libgba-sprite-engine/gba_engine.h>
 #include <libgba-sprite-engine/sprites/sprite.h>
 
-enum class Character : char {LUIGI = 0, PRINCESS_PEACH = 1};
+enum class Character : char {LUIGI = 0, PRINCESS_PEACH = 1, MARIO = 2, YOSHI = 3};
 // we only have four directions, so no need for ints!
 enum class Direction : char {ONDER = 0, LINKS = 1, RECHTS = 2, BOVEN = 3};
 
@@ -23,7 +23,7 @@ private:
     int playerNumber = 0;
     int beginFrame = 0;
 
-    // LUIGI, PRINCESS_PEACH
+    // LUIGI, PRINCESS_PEACH, MARIO, YOSHI
     Character character = Character::LUIGI;
     // ONDER, LINKS, RECHTS, BOVEN
     Direction direction = Direction::ONDER;
@@ -31,7 +31,7 @@ private:
     int score = 3;
 
 public:
-    Player();
+    Player(Character character);
 
     Sprite* getSprite() { return sprite.get(); }
 
@@ -47,6 +47,7 @@ public:
     void moveLeft();
     void moveRight();
 
+    int getBeginFrame();
     void updateBeginFrame();
 
     /**

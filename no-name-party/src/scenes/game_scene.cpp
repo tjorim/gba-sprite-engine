@@ -12,7 +12,7 @@
 #include "../../sprites/map_1.h"
 #include "../../sprites/map_2.h"
 
-GameScene::GameScene(const std::shared_ptr <GBAEngine> &engine) : Scene(engine) {}
+GameScene::GameScene(const std::shared_ptr <GBAEngine> &engine, int character) : Scene(engine), character(character) {}
 
 std::vector<Background *> GameScene::backgrounds() {
     return {};
@@ -50,7 +50,7 @@ void GameScene::load() {
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(
         new BackgroundPaletteManager(mapPal, sizeof(mapPal)));
 
-    player = std::unique_ptr<Player>(new Player());
+    player = std::unique_ptr<Player>(new Player(static_cast<Character>(getCharacter())));
 
 /*
     for (int i = 0; i < BOARD_WIDTH; i++) { // board.size(), Iterating over rows
@@ -79,12 +79,12 @@ void GameScene::tick(u16 keys) {
     }
     */
 
-    /*if (keys & KEY_FIRE) {
+    if (keys & KEY_FIRE) {
         //dropBomb();
-    } else*/ if (keys & KEY_A) {
-        player->setCharacter(Character::LUIGI);
+    } else if (keys & KEY_A) {
+        //player->setCharacter(Character::LUIGI);
     } else if (keys & KEY_B) {
-        player->setCharacter(Character::PRINCESS_PEACH);
+        //player->setCharacter(Character::PRINCESS_PEACH);
     } else if (keys & KEY_UP) {
         player->moveUp();
     } else if (keys & KEY_DOWN) {
@@ -105,6 +105,10 @@ void GameScene::tick(u16 keys) {
     TextStream::instance().setText(std::to_string(counter) + std::string(" frames/5sec"), 5, 1);
     TextStream::instance().setText(std::string(engine->getTimer()->to_string()), 6, 1);
     */
+}
+
+int GameScene::getCharacter() const {
+    return character;
 }
 
 /*

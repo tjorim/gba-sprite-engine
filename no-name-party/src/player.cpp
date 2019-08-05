@@ -9,12 +9,12 @@
 #include "player.h"
 #include "../sprites/car_all.h"
 
-Player::Player() {
+Player::Player(Character character): character(character) {
     SpriteBuilder<Sprite> spriteBuilder;
     setSprite(spriteBuilder
             .withData(car_allTiles, sizeof(car_allTiles))
             .withSize(SIZE_32_32)
-            .withAnimated(beginFrame, 4, 4)
+            .withAnimated(getBeginFrame(), 4, 4)
             .withLocation(xCo, yCo)
             .buildPtr());
 }
@@ -70,6 +70,11 @@ void Player::moveLeft() {
 void Player::moveRight() {
     setDirection(Direction::RECHTS);
     moveRelative(1,0);
+}
+
+int Player::getBeginFrame() {
+    beginFrame = 16 * static_cast<int>(character) + 4 * static_cast<int>(direction);
+    return beginFrame;
 }
 
 void Player::updateBeginFrame() {
