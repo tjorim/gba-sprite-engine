@@ -14,11 +14,13 @@ private:
 
 public:
     std::vector<Sprite *> sprites() override;
+
     std::vector<Background *> backgrounds() override;
 
     EndScene(const std::shared_ptr<GBAEngine> &engine) : Scene(engine) {}
 
     void load() override;
+
     void tick(u16 keys) override;
 
 };

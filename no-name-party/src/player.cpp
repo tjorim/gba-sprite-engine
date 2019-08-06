@@ -9,14 +9,14 @@
 #include "player.h"
 #include "../sprites/car_all.h"
 
-Player::Player(Character character): character(character) {
+Player::Player(Character character) : character(character) {
     SpriteBuilder<Sprite> spriteBuilder;
     setSprite(spriteBuilder
-            .withData(car_allTiles, sizeof(car_allTiles))
-            .withSize(SIZE_32_32)
-            .withAnimated(getBeginFrame(), 4, 4)
-            .withLocation(xCo, yCo)
-            .buildPtr());
+                      .withData(car_allTiles, sizeof(car_allTiles))
+                      .withSize(SIZE_32_32)
+                      .withAnimated(getBeginFrame(), 4, 4)
+                      .withLocation(xCo, yCo)
+                      .buildPtr());
 }
 
 /*
@@ -35,8 +35,8 @@ void Player::moveTo(int xValue, int yValue) {
 }
 
 void Player::moveRelative(int xValue, int yValue) {
-    int newX = xCo+xValue;
-    int newY = yCo+yValue;
+    int newX = xCo + xValue;
+    int newY = yCo + yValue;
     moveTo(newX, newY);
 }
 
@@ -45,7 +45,7 @@ void Player::moveRelative(int xValue, int yValue) {
  */
 void Player::moveUp() {
     setDirection(Direction::BOVEN);
-    moveRelative(0,-1);
+    moveRelative(0, -1);
 }
 
 /**
@@ -53,7 +53,7 @@ void Player::moveUp() {
  */
 void Player::moveDown() {
     setDirection(Direction::ONDER);
-    moveRelative(0,1);
+    moveRelative(0, 1);
 }
 
 /**
@@ -61,7 +61,7 @@ void Player::moveDown() {
  */
 void Player::moveLeft() {
     setDirection(Direction::LINKS);
-    moveRelative(-1,0);
+    moveRelative(-1, 0);
 }
 
 /**
@@ -69,7 +69,7 @@ void Player::moveLeft() {
  */
 void Player::moveRight() {
     setDirection(Direction::RECHTS);
-    moveRelative(1,0);
+    moveRelative(1, 0);
 }
 
 int Player::getBeginFrame() {
@@ -98,72 +98,64 @@ void Player::setYCo(int value) {
     Player::yCo = value;
 }
 
-int Player::getPlayerNumber() const
-{
+int Player::getPlayerNumber() const {
     return playerNumber;
 }
 
-Character Player::getCharacter() const
-{
+Character Player::getCharacter() const {
     return character;
 }
 
-Direction Player::getDirection() const
-{
+Direction Player::getDirection() const {
     return direction;
 }
 
-void Player::setPlayerNumber(int value)
-{
+void Player::setPlayerNumber(int value) {
     playerNumber = value;
 }
 
-void Player::setCharacter(const Character &value)
-{
+void Player::setCharacter(const Character &value) {
     switch (value) {
-    case Character::LUIGI:
-        // pas sprite aan
-        break;
-    case Character::PRINCESS_PEACH:
-        // pas sprite aan
-        break;
-    default:
-        return;
+        case Character::LUIGI:
+            // pas sprite aan
+            break;
+        case Character::PRINCESS_PEACH:
+            // pas sprite aan
+            break;
+        default:
+            return;
     }
     character = value;
 
     updateBeginFrame();
 }
 
-void Player::setDirection(const Direction &value)
-{
+void Player::setDirection(const Direction &value) {
     switch (value) {
-    case Direction::ONDER:
-        // pas sprite aan
-        break;
-    case Direction::BOVEN:
-        // pas sprite aan
-        break;
-    case Direction::LINKS:
-        // pas sprite aan
-        break;
-    case Direction::RECHTS:
-        // pas sprite aan
-        break;
-    default:
-        return;
+        case Direction::ONDER:
+            // pas sprite aan
+            break;
+        case Direction::BOVEN:
+            // pas sprite aan
+            break;
+        case Direction::LINKS:
+            // pas sprite aan
+            break;
+        case Direction::RECHTS:
+            // pas sprite aan
+            break;
+        default:
+            return;
     }
     direction = value;
 
     updateBeginFrame();
 }
 
-void Player::scoreHoger()
-{
+void Player::scoreHoger() {
     score++;
 }
 
-void Player::scoreLager()
-{
+void Player::scoreLager() {
     score--;
 }

@@ -21,9 +21,9 @@ std::vector<Background *> SelectScene::backgrounds() {
 }
 
 std::vector<Sprite *> SelectScene::sprites() {
-    std::vector < Sprite * > sprites;
+    std::vector<Sprite *> sprites;
 
-    for (auto& character : characters) {
+    for (auto &character : characters) {
         sprites.push_back(character.get());
     }
 
@@ -32,37 +32,37 @@ std::vector<Sprite *> SelectScene::sprites() {
 
 void SelectScene::load() {
     foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(
-        new ForegroundPaletteManager(sharedPal, sizeof(sharedPal)));
+            new ForegroundPaletteManager(sharedPal, sizeof(sharedPal)));
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager());
 
     spriteBuilder = std::unique_ptr<SpriteBuilder<Sprite>>(new SpriteBuilder<Sprite>);
 
     characters.push_back(
-        spriteBuilder->withData(Luigi_selectTiles, sizeof(Luigi_selectTiles))
-            .withSize(SIZE_32_32)
-            .withLocation(GBA_SCREEN_WIDTH / 2 - 97, GBA_SCREEN_HEIGHT / 2 - 32)
-            .buildPtr()
+            spriteBuilder->withData(Luigi_selectTiles, sizeof(Luigi_selectTiles))
+                    .withSize(SIZE_32_32)
+                    .withLocation(GBA_SCREEN_WIDTH / 2 - 97, GBA_SCREEN_HEIGHT / 2 - 32)
+                    .buildPtr()
     );
 
     characters.push_back(
-        spriteBuilder->withData(Princess_Peach_selectTiles, sizeof(Princess_Peach_selectTiles))
-            .withSize(SIZE_32_32)
-            .withLocation(GBA_SCREEN_WIDTH / 2 - 43, GBA_SCREEN_HEIGHT / 2 - 32)
-            .buildPtr()
+            spriteBuilder->withData(Princess_Peach_selectTiles, sizeof(Princess_Peach_selectTiles))
+                    .withSize(SIZE_32_32)
+                    .withLocation(GBA_SCREEN_WIDTH / 2 - 43, GBA_SCREEN_HEIGHT / 2 - 32)
+                    .buildPtr()
     );
 
     characters.push_back(
-        spriteBuilder->withData(Mario_selectTiles, sizeof(Mario_selectTiles))
-            .withSize(SIZE_32_32)
-            .withLocation(GBA_SCREEN_WIDTH / 2 + 11, GBA_SCREEN_HEIGHT / 2 - 32)
-            .buildPtr()
+            spriteBuilder->withData(Mario_selectTiles, sizeof(Mario_selectTiles))
+                    .withSize(SIZE_32_32)
+                    .withLocation(GBA_SCREEN_WIDTH / 2 + 11, GBA_SCREEN_HEIGHT / 2 - 32)
+                    .buildPtr()
     );
 
     characters.push_back(
-        spriteBuilder->withData(Yoshi_selectTiles, sizeof(Yoshi_selectTiles))
-            .withSize(SIZE_32_32)
-            .withLocation(GBA_SCREEN_WIDTH / 2 + 65, GBA_SCREEN_HEIGHT / 2 - 32)
-            .buildPtr()
+            spriteBuilder->withData(Yoshi_selectTiles, sizeof(Yoshi_selectTiles))
+                    .withSize(SIZE_32_32)
+                    .withLocation(GBA_SCREEN_WIDTH / 2 + 65, GBA_SCREEN_HEIGHT / 2 - 32)
+                    .buildPtr()
     );
 
     updateCharacter();
@@ -90,10 +90,11 @@ void SelectScene::tick(u16 keys) {
     if (right_now == true && right_last == false) {
         characterRight();
     }
-    
+
     if (keys & KEY_A) {
         if (character_current > 1) {
-            TextStream::instance().setText(std::string("Sorry, enkel Luigi en Princess Peach zijn beschikbaar "), 12, 1);
+            TextStream::instance().setText(std::string("Sorry, enkel Luigi en Princess Peach zijn beschikbaar "), 12,
+                                           1);
         } else {
             engine->setScene(new GameScene(engine, getCharacter()));
         }

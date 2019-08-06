@@ -12,7 +12,9 @@
 #include "character.h"
 #include "../sprites/game_result.h"
 
-enum class Game : char {LOSE = 0, WIN = 1};
+enum class Game : char {
+    LOSE = 0, WIN = 1
+};
 
 class Result {
 private:
@@ -29,14 +31,14 @@ public:
     Result(Character character, Game result) : character(character), result(result) {
         SpriteBuilder<Sprite> spriteBuilder;
         setSprite(spriteBuilder
-                .withData(game_resultTiles, sizeof(game_resultTiles))
-                .withSize(SIZE_64_64)
-                .withAnimated(getBeginFrame(), 1, 0)
-                .withLocation(GBA_SCREEN_WIDTH / 2 - 32, GBA_SCREEN_HEIGHT / 2 - 64)
-                .buildPtr());
+                          .withData(game_resultTiles, sizeof(game_resultTiles))
+                          .withSize(SIZE_64_64)
+                          .withAnimated(getBeginFrame(), 1, 0)
+                          .withLocation(GBA_SCREEN_WIDTH / 2 - 32, GBA_SCREEN_HEIGHT / 2 - 64)
+                          .buildPtr());
     }
 
-    Sprite* getSprite() { return sprite.get(); }
+    Sprite *getSprite() { return sprite.get(); }
 
     void setSprite(std::unique_ptr<Sprite> sprite) {
         Result::sprite = std::move(sprite);
@@ -58,18 +60,17 @@ public:
      *
      * @return De character van de speler.
      */
-    Character getCharacter() const
-    {
+    Character getCharacter() const {
         return character;
     }
+
     /**
      * Wat is de richting van de speler?
      * ONDER, BOVEN, LINKS, RECHTS
      *
      * @return De richting van de speler.
      */
-    Game getResult() const
-    {
+    Game getResult() const {
         return result;
     }
 
@@ -81,19 +82,20 @@ public:
      */
     void setCharacter(const Character &value) {
         switch (value) {
-        case Character::LUIGI:
-            // pas sprite aan
-            break;
-        case Character::PRINCESS_PEACH:
-            // pas sprite aan
-            break;
-        default:
-            return;
+            case Character::LUIGI:
+                // pas sprite aan
+                break;
+            case Character::PRINCESS_PEACH:
+                // pas sprite aan
+                break;
+            default:
+                return;
         }
         character = value;
 
         updateBeginFrame();
     }
+
     /**
      * Geef de speler een richting.
      * ONDER, BOVEN, LINKS, RECHTS
@@ -102,14 +104,14 @@ public:
      */
     void setResult(const Game &value) {
         switch (value) {
-        case Game::LOSE:
-            // pas sprite aan
-            break;
-        case Game::WIN:
-            // pas sprite aan
-            break;
-        default:
-            return;
+            case Game::LOSE:
+                // pas sprite aan
+                break;
+            case Game::WIN:
+                // pas sprite aan
+                break;
+            default:
+                return;
         }
         result = value;
 

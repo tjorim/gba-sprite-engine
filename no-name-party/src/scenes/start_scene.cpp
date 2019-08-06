@@ -17,14 +17,14 @@ StartScene::StartScene(const std::shared_ptr<GBAEngine> &engine) : Scene(engine)
 
 std::vector<Background *> StartScene::backgrounds() {
     return {
-        bg_map.get()
+            bg_map.get()
     };
 }
 
 std::vector<Sprite *> StartScene::sprites() {
-    std::vector < Sprite * > sprites;
+    std::vector<Sprite *> sprites;
 
-    for (auto& balloon : balloons) {
+    for (auto &balloon : balloons) {
         sprites.push_back(balloon->getSprite());
     }
 
@@ -37,12 +37,13 @@ std::vector<Sprite *> StartScene::sprites() {
 
 void StartScene::load() {
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(
-        new BackgroundPaletteManager(background_rainbowPal, sizeof(background_rainbowPal)));
+            new BackgroundPaletteManager(background_rainbowPal, sizeof(background_rainbowPal)));
     foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(
-        new ForegroundPaletteManager(sharedPal, sizeof(sharedPal)));
+            new ForegroundPaletteManager(sharedPal, sizeof(sharedPal)));
 
     bg_map = std::unique_ptr<Background>(
-        new Background(1, background_rainbowTiles, sizeof(background_rainbowTiles), background_rainbowMap, sizeof(background_rainbowMap)));
+            new Background(1, background_rainbowTiles, sizeof(background_rainbowTiles), background_rainbowMap,
+                           sizeof(background_rainbowMap)));
     bg_map->useMapScreenBlock(16);
 
     spriteBuilder = std::unique_ptr<SpriteBuilder<Sprite>>(new SpriteBuilder<Sprite>);
@@ -58,16 +59,16 @@ void StartScene::load() {
             .buildPtr();
 
     balloons.push_back(
-        std::unique_ptr<Balloon>(new Balloon(Colour::BLUE, 10, -1, 0))
+            std::unique_ptr<Balloon>(new Balloon(Colour::BLUE, 10, -1, 0))
     );
     balloons.push_back(
-        std::unique_ptr<Balloon>(new Balloon(Colour::GREEN, 50, -2, 0))
+            std::unique_ptr<Balloon>(new Balloon(Colour::GREEN, 50, -2, 0))
     );
     balloons.push_back(
-        std::unique_ptr<Balloon>(new Balloon(Colour::PINK, 150, -1, 40))
+            std::unique_ptr<Balloon>(new Balloon(Colour::PINK, 150, -1, 40))
     );
     balloons.push_back(
-        std::unique_ptr<Balloon>(new Balloon(Colour::YELLOW, 200, -2, 40))
+            std::unique_ptr<Balloon>(new Balloon(Colour::YELLOW, 200, -2, 40))
     );
 
     //engine->enqueueMusic(cataclysmic_molten_core, sizeof(cataclysmic_molten_core));

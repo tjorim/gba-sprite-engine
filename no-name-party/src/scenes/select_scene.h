@@ -21,21 +21,28 @@ private:
     int character_previous = 0, character_current = 0;
 
     void characterLeft();
+
     void characterRight();
 
 public:
     SelectScene(const std::shared_ptr<GBAEngine> &engine);
 
     std::vector<Sprite *> sprites() override;
+
     std::vector<Background *> backgrounds() override;
 
     void load() override;
+
     void tick(u16 keys) override;
 
     int getCharacter() const;
+
     void setCharacter(int character);
+
     void updateCharacter();
+
     void unselectCharacter(int character);
+
     void selectCharacter(int character);
 };
 

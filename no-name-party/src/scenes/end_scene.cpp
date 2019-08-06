@@ -27,4 +27,4 @@ void EndScene::load() {
 }
 
 void EndScene::tick(u16 keys) {
- }
+}

@@ -11,7 +11,9 @@
 #include "character.h"
 
 // we only have four directions, so no need for ints!
-enum class Direction : char {ONDER = 0, LINKS = 1, RECHTS = 2, BOVEN = 3};
+enum class Direction : char {
+    ONDER = 0, LINKS = 1, RECHTS = 2, BOVEN = 3
+};
 
 class Player {
 private:
@@ -34,21 +36,26 @@ private:
 public:
     Player(Character character);
 
-    Sprite* getSprite() { return sprite.get(); }
+    Sprite *getSprite() { return sprite.get(); }
 
     void setSprite(std::unique_ptr<Sprite> sprite) {
         Player::sprite = std::move(sprite);
     }
 
     void moveTo(int xValue, int yValue);
+
     void moveRelative(int xValue, int yValue);
 
     void moveUp();
+
     void moveDown();
+
     void moveLeft();
+
     void moveRight();
 
     int getBeginFrame();
+
     void updateBeginFrame();
 
     /**
@@ -57,6 +64,7 @@ public:
      * @return De x-positie van this Thing.
      */
     int getXCo() const;
+
     /**
      * Stel de x-positie van de speler in.
      *
@@ -70,6 +78,7 @@ public:
      * @return De y-positie van this Thing.
      */
     int getYCo() const;
+
     /**
      * Stel de y-positie van de speler in.
      *
@@ -84,6 +93,7 @@ public:
      * @return het nummer van de speler.
      */
     int getPlayerNumber() const;
+
     /**
      * Wat is de character van de speler?
      * LUIGI, PRINCESS_PEACH
@@ -91,6 +101,7 @@ public:
      * @return De character van de speler.
      */
     Character getCharacter() const;
+
     /**
      * Wat is de richting van de speler?
      * ONDER, BOVEN, LINKS, RECHTS
@@ -98,6 +109,7 @@ public:
      * @return De richting van de speler.
      */
     Direction getDirection() const;
+
     /**
      * Welke score heeft de speler?
      *
@@ -112,6 +124,7 @@ public:
      * @param spelerNr Het nummer van de speler.
      */
     void setPlayerNumber(int value);
+
     /**
      * Geef de speler een character.
      * LUIGI, PRINCESS_PEACH
@@ -119,6 +132,7 @@ public:
      * @param character De character die de speler krijgt.
      */
     void setCharacter(const Character &value);
+
     /**
      * Geef de speler een richting.
      * ONDER, BOVEN, LINKS, RECHTS
@@ -131,6 +145,7 @@ public:
      * Hiermee verhoog je de score van de speler.
      */
     void scoreHoger();
+
     /**
      * Hiermee verlaag je de score van de speler.
      */

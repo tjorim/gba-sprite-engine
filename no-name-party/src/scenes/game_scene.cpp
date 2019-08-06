@@ -13,14 +13,14 @@
 #include "../../sprites/map_1.h"
 #include "../../sprites/map_2.h"
 
-GameScene::GameScene(const std::shared_ptr <GBAEngine> &engine, int character) : Scene(engine), character(character) {}
+GameScene::GameScene(const std::shared_ptr<GBAEngine> &engine, int character) : Scene(engine), character(character) {}
 
 std::vector<Background *> GameScene::backgrounds() {
     return {};
 }
 
 std::vector<Sprite *> GameScene::sprites() {
-    std::vector < Sprite * > sprites;
+    std::vector<Sprite *> sprites;
 
     /*
     for (auto &bomb : bombs) {
@@ -48,9 +48,9 @@ std::vector<Sprite *> GameScene::sprites() {
 
 void GameScene::load() {
     foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(
-        new ForegroundPaletteManager(sharedPal, sizeof(sharedPal)));
+            new ForegroundPaletteManager(sharedPal, sizeof(sharedPal)));
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(
-        new BackgroundPaletteManager(mapPal, sizeof(mapPal)));
+            new BackgroundPaletteManager(mapPal, sizeof(mapPal)));
 
     player = std::unique_ptr<Player>(new Player(static_cast<Character>(getCharacter())));
     result = std::unique_ptr<Result>(new Result(static_cast<Character>(getCharacter()), Game::LOSE));
@@ -143,21 +143,21 @@ void GameScene::dropBomb() {
     }
     */
 
-    /*
-        if(speler->getThingUnderPlayer()->getType() == Thing::thingType::FLOOR)
-        {
-            // create a bomb with floor under it
-            Bomb *bomb = new Bomb(speler->getPlayerNumber(), new Floor());
-            qDebug() << "Bomb created";
-            bomb->setPos(speler->getXCo(), speler->getYCo());
-            scene->addItem(bomb);
-            //speler->setThingUnderPlayer(new Bomb(speler->getPlayerNumber(), new Floor()));
-        }
-        else if(speler->getThingUnderPlayer()->getType() == Thing::thingType::GUNPOWDER)
-        {
-            speler->setThingUnderPlayer(new Bomb(speler->getPlayerNumber(), new Gunpowder()));
-        }
-        
-        //speelGeluidje(BombDrop);
+/*
+    if(speler->getThingUnderPlayer()->getType() == Thing::thingType::FLOOR)
+    {
+        // create a bomb with floor under it
+        Bomb *bomb = new Bomb(speler->getPlayerNumber(), new Floor());
+        qDebug() << "Bomb created";
+        bomb->setPos(speler->getXCo(), speler->getYCo());
+        scene->addItem(bomb);
+        //speler->setThingUnderPlayer(new Bomb(speler->getPlayerNumber(), new Floor()));
+    }
+    else if(speler->getThingUnderPlayer()->getType() == Thing::thingType::GUNPOWDER)
+    {
+        speler->setThingUnderPlayer(new Bomb(speler->getPlayerNumber(), new Gunpowder()));
+    }
+
+    //speelGeluidje(BombDrop);
 }
 */
