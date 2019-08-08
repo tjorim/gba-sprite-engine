@@ -9,32 +9,52 @@
 #include <libgba-sprite-engine/sprites/sprite.h>
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
 
-#include "../sprites/foreground/press_start_left_single.h"
-#include "../sprites/foreground/press_start_right_single.h"
+#include "../sprites/foreground/press_start_new_1.h"
+#include "../sprites/foreground/press_start_new_2.h"
+#include "../sprites/foreground/press_start_new_3.h"
+#include "../sprites/foreground/press_start_new_4.h"
 
 class PressStart {
 private:
-    std::unique_ptr<Sprite> press_start_left, press_start_right;
+    std::unique_ptr<Sprite> press_start_1, press_start_2, press_start_3, press_start_4;
 
 public:
     PressStart() {
         SpriteBuilder<Sprite> builder;
 
-        press_start_left = std::move(builder.withData(press_start_left_singleTiles,
-                                                          sizeof(press_start_left_singleTiles))
-                                                .withSize(SIZE_64_32)
+        press_start_1 = std::move(builder.withData(press_start_new_1Tiles,
+                                                          sizeof(press_start_new_1Tiles))
+                                                .withSize(SIZE_32_16)
+                                                .withAnimated(4, 4)
                                                 .withLocation(GBA_SCREEN_WIDTH / 2 - 64, GBA_SCREEN_HEIGHT - 32)
                                                 .buildPtr());
 
-        press_start_right = std::move(builder.withData(press_start_right_singleTiles,
-                                                         sizeof(press_start_right_singleTiles))
-                                                .withSize(SIZE_64_32)
+        press_start_2 = std::move(builder.withData(press_start_new_2Tiles,
+                                                         sizeof(press_start_new_2Tiles))
+                                                .withSize(SIZE_32_16)
+                                                .withAnimated(4, 4)
+                                                .withLocation(GBA_SCREEN_WIDTH / 2 - 32, GBA_SCREEN_HEIGHT - 32)
+                                                .buildPtr());
+
+        press_start_3 = std::move(builder.withData(press_start_new_3Tiles,
+                                                          sizeof(press_start_new_3Tiles))
+                                                .withSize(SIZE_32_16)
+                                                .withAnimated(4, 4)
                                                 .withLocation(GBA_SCREEN_WIDTH / 2, GBA_SCREEN_HEIGHT - 32)
+                                                .buildPtr());
+
+        press_start_4 = std::move(builder.withData(press_start_new_4Tiles,
+                                                         sizeof(press_start_new_4Tiles))
+                                                .withSize(SIZE_32_16)
+                                                .withAnimated(4, 4)
+                                                .withLocation(GBA_SCREEN_WIDTH / 2 + 32, GBA_SCREEN_HEIGHT - 32)
                                                 .buildPtr());
     }
 
-    Sprite *getSpriteLeft() { return press_start_left.get(); }
-    Sprite *getSpriteRight() { return press_start_right.get(); }
+    Sprite *getSprite1() { return press_start_1.get(); }
+    Sprite *getSprite2() { return press_start_2.get(); }
+    Sprite *getSprite3() { return press_start_3.get(); }
+    Sprite *getSprite4() { return press_start_4.get(); }
 };
 
 

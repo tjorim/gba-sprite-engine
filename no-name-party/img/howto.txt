@@ -37,8 +37,14 @@ img\foreground\luigi_select.png
 img\foreground\luigi_up.png
 img\foreground\mario_game.png
 img\foreground\mario_select.png
-img\foreground\press_start_left_single.png
-img\foreground\press_start_right_single.png
+img\foreground\press_start_simple_1.png
+img\foreground\press_start_simple_2.png
+img\foreground\press_start_simple_3.png
+img\foreground\press_start_simple_4.png
+img\foreground\press_start_single_1.png
+img\foreground\press_start_single_2.png
+img\foreground\press_start_single_3.png
+img\foreground\press_start_single_4.png
 img\foreground\princess_peach_down.png
 img\foreground\princess_peach_game.png
 img\foreground\princess_peach_left.png
@@ -59,4 +65,4 @@ img\foreground\yoshi_select.png
 -ftc -pS -gB8 -O shared.c
 
 # full foreground command
-grit-0.8.6\grit.exe img\foreground\arrow_down.png img\foreground\arrow_left.png img\foreground\arrow_right.png img\foreground\arrow_up.png img\foreground\balloon_blue.png img\foreground\balloon_green.png img\foreground\balloon_pink.png img\foreground\balloon_yellow.png img\foreground\cloud_left.png img\foreground\cloud_right.png img\foreground\dice_blue.png img\foreground\dice_green.png img\foreground\loading_star.png img\foreground\luigi_down.png img\foreground\luigi_game.png img\foreground\luigi_left.png img\foreground\luigi_right.png img\foreground\luigi_select.png img\foreground\luigi_up.png img\foreground\mario_game.png img\foreground\mario_select.png img\foreground\press_start_left_single.png img\foreground\press_start_right_single.png img\foreground\princess_peach_down.png img\foreground\princess_peach_game.png img\foreground\princess_peach_left.png img\foreground\princess_peach_right.png img\foreground\princess_peach_select.png img\foreground\princess_peach_up.png img\foreground\space_green_dice.png img\foreground\space_mini_game.png img\foreground\space_red_minus.png img\foreground\space_yellow.png img\foreground\title_left.png img\foreground\title_middle.png img\foreground\title_right.png img\foreground\yoshi_game.png img\foreground\yoshi_select.png -ftc -pS -gB8 -O shared.c
+grit-0.8.6\grit.exe img\foreground\arrow_down.png img\foreground\arrow_left.png img\foreground\arrow_right.png img\foreground\arrow_up.png img\foreground\balloon_blue.png img\foreground\balloon_green.png img\foreground\balloon_pink.png img\foreground\balloon_yellow.png img\foreground\cloud_left.png img\foreground\cloud_right.png img\foreground\dice_blue.png img\foreground\dice_green.png img\foreground\loading_star.png img\foreground\luigi_down.png img\foreground\luigi_game.png img\foreground\luigi_left.png img\foreground\luigi_right.png img\foreground\luigi_select.png img\foreground\luigi_up.png img\foreground\mario_game.png img\foreground\mario_select.png img\foreground\press_start_simple_1.png img\foreground\press_start_simple_2.png img\foreground\press_start_simple_3.png img\foreground\press_start_simple_4.png img\foreground\press_start_single_1.png img\foreground\press_start_single_2.png img\foreground\press_start_single_3.png img\foreground\press_start_single_4.png img\foreground\princess_peach_down.png img\foreground\princess_peach_game.png img\foreground\princess_peach_left.png img\foreground\princess_peach_right.png img\foreground\princess_peach_select.png img\foreground\princess_peach_up.png img\foreground\space_green_dice.png img\foreground\space_mini_game.png img\foreground\space_red_minus.png img\foreground\space_yellow.png img\foreground\title_left.png img\foreground\title_middle.png img\foreground\title_right.png img\foreground\yoshi_game.png img\foreground\yoshi_select.png -ftc -pS -gB8 -O shared.c
