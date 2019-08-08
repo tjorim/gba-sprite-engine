@@ -9,10 +9,10 @@
 #include "end_scene.h"
 #include "../enums/character.h"
 #include "../enums/result.h"
-#include "../../sprites/shared.h"
-#include "../../sprites/map.h"
-#include "../../sprites/map_1.h"
-#include "../../sprites/map_2.h"
+#include "../../sprites/foreground/shared.h"
+#include "../../sprites/background/map.h"
+#include "../../sprites/background/map_1.h"
+#include "../../sprites/background/map_2.h"
 
 GameScene::GameScene(const std::shared_ptr<GBAEngine> &engine, int character) : Scene(engine), character(character) {}
 

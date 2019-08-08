@@ -12,10 +12,10 @@
 #include "enums/character.h"
 #include "enums/result.h"
 
-#include "../sprites/luigi_game.h"
-#include "../sprites/mario_game.h"
-#include "../sprites/princess_peach_game.h"
-#include "../sprites/yoshi_game.h"
+#include "../sprites/foreground/luigi_game.h"
+#include "../sprites/foreground/mario_game.h"
+#include "../sprites/foreground/princess_peach_game.h"
+#include "../sprites/foreground/yoshi_game.h"
 
 class GameResult {
 private:

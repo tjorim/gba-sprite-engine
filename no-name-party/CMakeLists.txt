@@ -9,7 +9,7 @@ add_executable(${PROJECT_NAME}.elf
         src/balloon.h src/game_result.h
         src/player.cpp src/player.h
         src/enums/character.h src/enums/colour.h
-        src/enums/direction.h src/enums/result.h)
+        src/enums/direction.h src/enums/result.h src/press_start.h src/title.h src/cloud.h)
 
 target_link_libraries(${PROJECT_NAME}.elf gba-sprite-engine)
 

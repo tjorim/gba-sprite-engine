@@ -8,10 +8,9 @@
 #include "start_scene.h"
 #include "select_scene.h"
 //#include "../sound.h"
-#include "../../sprites/background_rainbow.h"
-#include "../../sprites/press_start_left_clone.h"
-#include "../../sprites/press_start_right_clone.h"
-#include "../../sprites/shared.h"
+
+#include "../../sprites/background/background_rainbow.h"
+#include "../../sprites/foreground/shared.h"
 
 StartScene::StartScene(const std::shared_ptr<GBAEngine> &engine) : Scene(engine) {}
 
@@ -28,10 +27,18 @@ std::vector<Sprite *> StartScene::sprites() {
         sprites.push_back(balloon->getSprite());
     }
 
-    sprites.push_back(press_start_left.get());
-    sprites.push_back(press_start_right.get());
+    sprites.push_back(cloud->getSpriteLeft());
+    sprites.push_back(cloud->getSpriteRight());
 
-    TextStream::instance().setText(std::string("Sprites ") + std::to_string(sprites.size()), 12, 1);
+    sprites.push_back(press_start->getSpriteLeft());
+    sprites.push_back(press_start->getSpriteRight());
+
+    sprites.push_back(title->getSpriteLeft());
+    sprites.push_back(title->getSpriteMiddle());
+    sprites.push_back(title->getSpriteRight());
+
+    TextStream::instance().setText(std::string("Sprites ") + std::to_string(sprites.size()), 1, 0);
+
     return sprites;
 }
 
@@ -48,15 +55,18 @@ void StartScene::load() {
 
     spriteBuilder = std::unique_ptr<SpriteBuilder<Sprite>>(new SpriteBuilder<Sprite>);
 
-    press_start_left = spriteBuilder->withData(press_start_left_cloneTiles, sizeof(press_start_left_cloneTiles))
+    /*press_start_left = spriteBuilder->withData(press_start_left_singleTiles, sizeof(press_start_left_singleTiles))
             .withSize(SIZE_64_32)
             .withLocation(GBA_SCREEN_WIDTH / 2 - 64, GBA_SCREEN_HEIGHT / 2 - 32)
             .buildPtr();
 
-    press_start_right = spriteBuilder->withData(press_start_right_cloneTiles, sizeof(press_start_right_cloneTiles))
+    press_start_right = spriteBuilder->withData(press_start_right_singleTiles, sizeof(press_start_right_singleTiles))
             .withSize(SIZE_64_32)
             .withLocation(GBA_SCREEN_WIDTH / 2, GBA_SCREEN_HEIGHT / 2 - 32)
-            .buildPtr();
+            .buildPtr();*/
+    cloud = std::unique_ptr<Cloud>(new Cloud(GBA_SCREEN_HEIGHT / 2, -1, 0));
+    press_start = std::unique_ptr<PressStart>(new PressStart());
+    title = std::unique_ptr<Title>(new Title());
 
     balloons.push_back(
             std::unique_ptr<Balloon>(new Balloon(Colour::BLUE, 10, -1, 0))
@@ -79,5 +89,5 @@ void StartScene::tick(u16 keys) {
         engine->setScene(new SelectScene(engine));
     }
 
-    TextStream::instance().setText(std::string("Intro scene"), 10, 1);
+    TextStream::instance().setText(std::string("Intro scene"), 0, 0);
 }

@@ -9,8 +9,12 @@
 #include <libgba-sprite-engine/sprites/sprite.h>
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
 
-#include "../sprites/balloon_all.h"
 #include "enums/colour.h"
+
+#include "../sprites/foreground/balloon_blue.h"
+#include "../sprites/foreground/balloon_green.h"
+#include "../sprites/foreground/balloon_pink.h"
+#include "../sprites/foreground/balloon_yellow.h"
 
 class Balloon {
 private:
@@ -22,14 +26,44 @@ private:
 
 public:
     Balloon(Colour colour, int xCo, int helium, int offset) : colour(colour), xCo(xCo), helium(helium), offset(offset) {
-        SpriteBuilder<Sprite> spriteBuilder;
-        setSprite(spriteBuilder
-                          .withData(balloon_allTiles, sizeof(balloon_allTiles))
-                          .withSize(SIZE_16_32)
-                          .withAnimated(static_cast<int>(colour), 1, 0)
-                          .withLocation(xCo, GBA_SCREEN_HEIGHT + offset)
-                          .withVelocity(0, helium)
-                          .buildPtr());
+        SpriteBuilder<Sprite> builder;
+
+        switch (colour) {
+            case Colour::BLUE:
+                setSprite(builder.withData(balloon_blueTiles, sizeof(balloon_blueTiles))
+                                  .withSize(SIZE_16_32)
+                                  .withLocation(xCo, GBA_SCREEN_HEIGHT + offset)
+                                  .withVelocity(0, helium)
+                                  .buildPtr());
+                break;
+
+            case Colour::GREEN:
+                setSprite(builder.withData(balloon_greenTiles, sizeof(balloon_greenTiles))
+                                  .withSize(SIZE_16_32)
+                                  .withLocation(xCo, GBA_SCREEN_HEIGHT + offset)
+                                  .withVelocity(0, helium)
+                                  .buildPtr());
+                break;
+
+            case Colour::PINK:
+                setSprite(builder.withData(balloon_pinkTiles, sizeof(balloon_pinkTiles))
+                                  .withSize(SIZE_16_32)
+                                  .withLocation(xCo, GBA_SCREEN_HEIGHT + offset)
+                                  .withVelocity(0, helium)
+                                  .buildPtr());
+                break;
+
+            case Colour::YELLOW:
+                setSprite(builder.withData(balloon_yellowTiles, sizeof(balloon_yellowTiles))
+                                  .withSize(SIZE_16_32)
+                                  .withLocation(xCo, GBA_SCREEN_HEIGHT + offset)
+                                  .withVelocity(0, helium)
+                                  .buildPtr());
+                break;
+
+            default:
+                break;
+        }
     }
 
     Sprite *getSprite() { return sprite.get(); }

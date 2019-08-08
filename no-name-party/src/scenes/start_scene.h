@@ -9,13 +9,18 @@
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
 
 #include "../balloon.h"
+#include "../cloud.h"
+#include "../press_start.h"
+#include "../title.h"
 
 class StartScene : public Scene {
 private:
     std::unique_ptr<Background> bg_map;
     std::unique_ptr<SpriteBuilder<Sprite>> spriteBuilder;
-    std::unique_ptr<Sprite> press_start_left, press_start_right;
     std::vector<std::unique_ptr<Balloon>> balloons;
+    std::unique_ptr<Cloud> cloud;
+    std::unique_ptr<PressStart> press_start;
+    std::unique_ptr<Title> title;
 
 public:
     StartScene(const std::shared_ptr<GBAEngine> &engine);

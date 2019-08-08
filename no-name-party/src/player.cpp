@@ -7,14 +7,23 @@
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
 
 #include "player.h"
-#include "../sprites/car_all.h"
+
+#include "../sprites/foreground/luigi_down.h"
+#include "../sprites/foreground/luigi_left.h"
+#include "../sprites/foreground/luigi_right.h"
+#include "../sprites/foreground/luigi_up.h"
+
+#include "../sprites/foreground/princess_peach_down.h"
+#include "../sprites/foreground/princess_peach_left.h"
+#include "../sprites/foreground/princess_peach_right.h"
+#include "../sprites/foreground/princess_peach_up.h"
 
 Player::Player(Character character) : character(character) {
     SpriteBuilder<Sprite> spriteBuilder;
     setSprite(spriteBuilder
-                      .withData(car_allTiles, sizeof(car_allTiles))
+                      .withData(luigi_downTiles, sizeof(luigi_downTiles))
                       .withSize(SIZE_32_32)
-                      .withAnimated(getBeginFrame(), 4, 4)
+                      .withAnimated(4, 4)
                       .withLocation(GBA_SCREEN_WIDTH / 2 - 16, GBA_SCREEN_HEIGHT / 2 - 16)
                       .buildPtr());
 }
