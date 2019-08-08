@@ -32,8 +32,10 @@ std::vector<Sprite *> StartScene::sprites() {
         sprites.push_back(cloud->getSpriteRight());
     }
 
-    sprites.push_back(press_start->getSpriteLeft());
-    sprites.push_back(press_start->getSpriteRight());
+    sprites.push_back(press_start->getSprite1());
+    sprites.push_back(press_start->getSprite2());
+    sprites.push_back(press_start->getSprite3());
+    sprites.push_back(press_start->getSprite4());
 
     sprites.push_back(title->getSpriteLeft());
     sprites.push_back(title->getSpriteMiddle());
@@ -54,9 +56,6 @@ void StartScene::load() {
             new Background(1, background_rainbowTiles, sizeof(background_rainbowTiles), background_rainbowMap,
                            sizeof(background_rainbowMap)));
     bg_map->useMapScreenBlock(16);
-
-    press_start = std::unique_ptr<PressStart>(new PressStart());
-    title = std::unique_ptr<Title>(new Title());
 
     balloons.push_back(
             std::unique_ptr<Balloon>(new Balloon(Colour::BLUE, 10, -1, 0))
@@ -86,6 +85,9 @@ void StartScene::load() {
     clouds.push_back(
             std::unique_ptr<Cloud>(new Cloud(GBA_SCREEN_HEIGHT / 2, 1, 0))
     );
+
+    press_start = std::unique_ptr<PressStart>(new PressStart(true));
+    title = std::unique_ptr<Title>(new Title());
 
     //engine->enqueueMusic(cataclysmic_molten_core, sizeof(cataclysmic_molten_core));
 }
