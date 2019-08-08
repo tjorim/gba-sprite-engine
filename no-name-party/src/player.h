@@ -8,12 +8,8 @@
 #include <libgba-sprite-engine/gba_engine.h>
 #include <libgba-sprite-engine/sprites/sprite.h>
 
-#include "character.h"
-
-// we only have four directions, so no need for ints!
-enum class Direction : char {
-    ONDER = 0, LINKS = 1, RECHTS = 2, BOVEN = 3
-};
+#include "enums/character.h"
+#include "enums/direction.h"
 
 class Player {
 private:

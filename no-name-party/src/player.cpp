@@ -15,7 +15,7 @@ Player::Player(Character character) : character(character) {
                       .withData(car_allTiles, sizeof(car_allTiles))
                       .withSize(SIZE_32_32)
                       .withAnimated(getBeginFrame(), 4, 4)
-                      .withLocation(xCo, yCo)
+                      .withLocation(GBA_SCREEN_WIDTH / 2 - 16, GBA_SCREEN_HEIGHT / 2 - 16)
                       .buildPtr());
 }
 

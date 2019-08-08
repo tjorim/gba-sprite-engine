@@ -10,11 +10,7 @@
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
 
 #include "../sprites/balloon_all.h"
-
-// we only have four colours, so no need for ints!
-enum class Colour : char {
-    BLUE = 0, GREEN = 1, PINK = 2, YELLOW = 3
-};
+#include "enums/colour.h"
 
 class Balloon {
 private:

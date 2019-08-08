@@ -9,12 +9,9 @@
 #include <libgba-sprite-engine/sprites/sprite.h>
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
 
-#include "character.h"
+#include "enums/character.h"
+#include "enums/game_result.h"
 #include "../sprites/game_result.h"
-
-enum class Game : char {
-    LOSE = 0, WIN = 1
-};
 
 class Result {
 private:
@@ -25,10 +22,10 @@ private:
     // LUIGI, PRINCESS_PEACH, MARIO, YOSHI
     Character character = Character::LUIGI;
     // ONDER, LINKS, RECHTS, BOVEN
-    Game result = Game::LOSE;
+    GameResult result = GameResult::LOSE;
 
 public:
-    Result(Character character, Game result) : character(character), result(result) {
+    Result(Character character, GameResult result) : character(character), result(result) {
         SpriteBuilder<Sprite> spriteBuilder;
         setSprite(spriteBuilder
                           .withData(game_resultTiles, sizeof(game_resultTiles))
@@ -70,7 +67,7 @@ public:
      *
      * @return De richting van de speler.
      */
-    Game getResult() const {
+    GameResult getResult() const {
         return result;
     }
 
@@ -102,12 +99,12 @@ public:
      *
      * @param richting De richting die de speler krijgt.
      */
-    void setResult(const Game &value) {
+    void setResult(const GameResult &value) {
         switch (value) {
-            case Game::LOSE:
+            case GameResult::LOSE:
                 // pas sprite aan
                 break;
-            case Game::WIN:
+            case GameResult::WIN:
                 // pas sprite aan
                 break;
             default:

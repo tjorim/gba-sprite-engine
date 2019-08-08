@@ -6,9 +6,10 @@ add_executable(${PROJECT_NAME}.elf
         src/scenes/game_scene.cpp src/scenes/game_scene.h
         src/scenes/select_scene.cpp src/scenes/select_scene.h
         src/scenes/start_scene.cpp src/scenes/start_scene.h
-        src/balloon.h src/character.h src/result.h
+        src/balloon.h src/result.h
         src/player.cpp src/player.h
-        )
+        src/enums/character.h src/enums/colour.h
+        src/enums/direction.h src/enums/game_result.h)
 
 target_link_libraries(${PROJECT_NAME}.elf gba-sprite-engine)
 
