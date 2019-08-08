@@ -25,13 +25,13 @@ public:
 
         cloud_left = std::move(builder.withData(cloud_leftTiles, sizeof(cloud_leftTiles))
                                        .withSize(SIZE_64_64)
-                                       .withLocation(GBA_SCREEN_WIDTH + offset, yCo)
+                                       .withLocation(offset - 128, yCo)
                                        .withVelocity(wind, 0)
                                        .buildPtr());
 
         cloud_right = std::move(builder.withData(cloud_rightTiles, sizeof(cloud_rightTiles))
                                         .withSize(SIZE_64_64)
-                                        .withLocation(GBA_SCREEN_WIDTH +offset + 64, yCo)
+                                        .withLocation(offset - 64, yCo)
                                         .withVelocity(wind, 0)
                                         .buildPtr());
     }

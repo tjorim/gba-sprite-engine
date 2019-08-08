@@ -16,9 +16,8 @@
 class StartScene : public Scene {
 private:
     std::unique_ptr<Background> bg_map;
-    std::unique_ptr<SpriteBuilder<Sprite>> spriteBuilder;
     std::vector<std::unique_ptr<Balloon>> balloons;
-    std::unique_ptr<Cloud> cloud;
+    std::vector<std::unique_ptr<Cloud>> clouds;
     std::unique_ptr<PressStart> press_start;
     std::unique_ptr<Title> title;
 

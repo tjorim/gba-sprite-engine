@@ -27,8 +27,10 @@ std::vector<Sprite *> StartScene::sprites() {
         sprites.push_back(balloon->getSprite());
     }
 
-    sprites.push_back(cloud->getSpriteLeft());
-    sprites.push_back(cloud->getSpriteRight());
+    for (auto &cloud : clouds) {
+        sprites.push_back(cloud->getSpriteLeft());
+        sprites.push_back(cloud->getSpriteRight());
+    }
 
     sprites.push_back(press_start->getSpriteLeft());
     sprites.push_back(press_start->getSpriteRight());
@@ -53,18 +55,6 @@ void StartScene::load() {
                            sizeof(background_rainbowMap)));
     bg_map->useMapScreenBlock(16);
 
-    spriteBuilder = std::unique_ptr<SpriteBuilder<Sprite>>(new SpriteBuilder<Sprite>);
-
-    /*press_start_left = spriteBuilder->withData(press_start_left_singleTiles, sizeof(press_start_left_singleTiles))
-            .withSize(SIZE_64_32)
-            .withLocation(GBA_SCREEN_WIDTH / 2 - 64, GBA_SCREEN_HEIGHT / 2 - 32)
-            .buildPtr();
-
-    press_start_right = spriteBuilder->withData(press_start_right_singleTiles, sizeof(press_start_right_singleTiles))
-            .withSize(SIZE_64_32)
-            .withLocation(GBA_SCREEN_WIDTH / 2, GBA_SCREEN_HEIGHT / 2 - 32)
-            .buildPtr();*/
-    cloud = std::unique_ptr<Cloud>(new Cloud(GBA_SCREEN_HEIGHT / 2, -1, 0));
     press_start = std::unique_ptr<PressStart>(new PressStart());
     title = std::unique_ptr<Title>(new Title());
 
@@ -72,13 +62,29 @@ void StartScene::load() {
             std::unique_ptr<Balloon>(new Balloon(Colour::BLUE, 10, -1, 0))
     );
     balloons.push_back(
-            std::unique_ptr<Balloon>(new Balloon(Colour::GREEN, 50, -2, 0))
+            std::unique_ptr<Balloon>(new Balloon(Colour::GREEN, 40, -2, 40))
     );
     balloons.push_back(
-            std::unique_ptr<Balloon>(new Balloon(Colour::PINK, 150, -1, 40))
+            std::unique_ptr<Balloon>(new Balloon(Colour::YELLOW, 70, -1, 60))
     );
     balloons.push_back(
-            std::unique_ptr<Balloon>(new Balloon(Colour::YELLOW, 200, -2, 40))
+            std::unique_ptr<Balloon>(new Balloon(Colour::PINK, 100, -2, 0))
+    );
+    balloons.push_back(
+            std::unique_ptr<Balloon>(new Balloon(Colour::GREEN, 130, -1, 80))
+    );
+    balloons.push_back(
+            std::unique_ptr<Balloon>(new Balloon(Colour::BLUE, 150, -2, 60))
+    );
+    balloons.push_back(
+            std::unique_ptr<Balloon>(new Balloon(Colour::PINK, 180, -1, 40))
+    );
+    balloons.push_back(
+            std::unique_ptr<Balloon>(new Balloon(Colour::YELLOW, 200, -2, 80))
+    );
+
+    clouds.push_back(
+            std::unique_ptr<Cloud>(new Cloud(GBA_SCREEN_HEIGHT / 2, 1, 0))
     );
 
     //engine->enqueueMusic(cataclysmic_molten_core, sizeof(cataclysmic_molten_core));
