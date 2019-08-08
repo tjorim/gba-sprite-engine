@@ -2,18 +2,22 @@
 // Created by tiele on 27/01/2019.
 //
 
-#ifndef GBA_SPRITE_ENGINE_PROJECT_RESULT_H
-#define GBA_SPRITE_ENGINE_PROJECT_RESULT_H
+#ifndef GBA_SPRITE_ENGINE_PROJECT_GAME_RESULT_H
+#define GBA_SPRITE_ENGINE_PROJECT_GAME_RESULT_H
 
 #include <libgba-sprite-engine/gba_engine.h>
 #include <libgba-sprite-engine/sprites/sprite.h>
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
 
 #include "enums/character.h"
-#include "enums/game_result.h"
-#include "../sprites/game_result.h"
+#include "enums/result.h"
 
-class Result {
+#include "../sprites/luigi_game.h"
+#include "../sprites/mario_game.h"
+#include "../sprites/princess_peach_game.h"
+#include "../sprites/yoshi_game.h"
+
+class GameResult {
 private:
     std::unique_ptr<Sprite> sprite;
 
@@ -22,13 +26,13 @@ private:
     // LUIGI, PRINCESS_PEACH, MARIO, YOSHI
     Character character = Character::LUIGI;
     // ONDER, LINKS, RECHTS, BOVEN
-    GameResult result = GameResult::LOSE;
+    Result result = Result::LOSE;
 
 public:
-    Result(Character character, GameResult result) : character(character), result(result) {
+    GameResult(Character character, Result result) : character(character), result(result) {
         SpriteBuilder<Sprite> spriteBuilder;
         setSprite(spriteBuilder
-                          .withData(game_resultTiles, sizeof(game_resultTiles))
+                          //.withData(game_resultTiles, sizeof(game_resultTiles))
                           .withSize(SIZE_64_64)
                           .withAnimated(getBeginFrame(), 1, 0)
                           .withLocation(GBA_SCREEN_WIDTH / 2 - 32, GBA_SCREEN_HEIGHT / 2 - 64)
@@ -38,7 +42,7 @@ public:
     Sprite *getSprite() { return sprite.get(); }
 
     void setSprite(std::unique_ptr<Sprite> sprite) {
-        Result::sprite = std::move(sprite);
+        GameResult::sprite = std::move(sprite);
     }
 
     int getBeginFrame() {
@@ -67,7 +71,7 @@ public:
      *
      * @return De richting van de speler.
      */
-    GameResult getResult() const {
+    Result getResult() const {
         return result;
     }
 
@@ -99,12 +103,12 @@ public:
      *
      * @param richting De richting die de speler krijgt.
      */
-    void setResult(const GameResult &value) {
+    void setResult(const Result &value) {
         switch (value) {
-            case GameResult::LOSE:
+            case Result::LOSE:
                 // pas sprite aan
                 break;
-            case GameResult::WIN:
+            case Result::WIN:
                 // pas sprite aan
                 break;
             default:
@@ -116,4 +120,4 @@ public:
     }
 };
 
-#endif //GBA_SPRITE_ENGINE_PROJECT_RESULT_H
+#endif //GBA_SPRITE_ENGINE_PROJECT_GAME_RESULT_H

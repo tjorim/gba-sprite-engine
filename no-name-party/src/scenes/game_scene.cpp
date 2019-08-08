@@ -8,7 +8,7 @@
 #include "game_scene.h"
 #include "end_scene.h"
 #include "../enums/character.h"
-#include "../enums/game_result.h"
+#include "../enums/result.h"
 #include "../../sprites/shared.h"
 #include "../../sprites/map.h"
 #include "../../sprites/map_1.h"
@@ -54,7 +54,7 @@ void GameScene::load() {
             new BackgroundPaletteManager(mapPal, sizeof(mapPal)));
 
     player = std::unique_ptr<Player>(new Player(static_cast<Character>(getCharacter())));
-    result = std::unique_ptr<Result>(new Result(static_cast<Character>(getCharacter()), GameResult::LOSE));
+    result = std::unique_ptr<GameResult>(new GameResult(static_cast<Character>(getCharacter()), Result::LOSE));
 
 /*
     for (int i = 0; i < BOARD_WIDTH; i++) { // board.size(), Iterating over rows

@@ -9,7 +9,7 @@
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
 
 #include "../player.h"
-#include "../result.h"
+#include "../game_result.h"
 
 class GameScene : public Scene {
 private:
@@ -18,7 +18,7 @@ private:
     //std::array<std::array<Thing, BOARD_WIDTH>, BOARD_HEIGHT> board;
     //std::vector <std::unique_ptr<Bomb>> bombs;
     std::unique_ptr<Player> player;
-    std::unique_ptr<Result> result;
+    std::unique_ptr<GameResult> result;
 
 public:
     GameScene(const std::shared_ptr<GBAEngine> &engine, int character);

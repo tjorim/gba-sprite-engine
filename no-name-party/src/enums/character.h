@@ -8,8 +8,8 @@
 
 enum class Character : char {
     LUIGI = 0,
-    PRINCESS_PEACH = 1,
-    MARIO = 2,
+    MARIO = 1,
+    PRINCESS_PEACH = 2,
     YOSHI = 3
 };
 
