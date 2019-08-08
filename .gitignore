@@ -123,5 +123,8 @@ CTestTestfile.cmake
 *.out
 *.app
 
-#VisualStudio code
+# VisualStudio code
 .vscode
+
+# Grit
+!no-name-party/grit-0.8.6/*
