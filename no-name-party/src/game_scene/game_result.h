@@ -12,18 +12,21 @@
 #include "../enums/character.h"
 #include "../enums/result.h"
 
-#include "sprites/foreground/luigi_game_lose.h"
-#include "sprites/foreground/luigi_game_win.h"
-#include "sprites/foreground/mario_game_lose.h"
-#include "sprites/foreground/mario_game_win.h"
-#include "sprites/foreground/princess_peach_game_lose.h"
-#include "sprites/foreground/princess_peach_game_win.h"
-#include "sprites/foreground/yoshi_game_lose.h"
-#include "sprites/foreground/yoshi_game_win.h"
+#include "foreground/sprites/luigi_game_lose.h"
+#include "foreground/sprites/luigi_game_win.h"
+
+#include "foreground/sprites/mario_game_lose.h"
+#include "foreground/sprites/mario_game_win.h"
+
+#include "foreground/sprites/princess_peach_game_lose.h"
+#include "foreground/sprites/princess_peach_game_win.h"
+
+#include "foreground/sprites/yoshi_game_lose.h"
+#include "foreground/sprites/yoshi_game_win.h"
 
 class GameResult {
 private:
-    std::unique_ptr<Sprite> sprite;
+    std::unique_ptr<Sprite> sprite_lose, sprite_win;
 
     int beginFrame = 0;
 
@@ -38,35 +41,59 @@ public:
 
         switch (character) {
             case Character::LUIGI:
-                setSprite(builder.withData(luigi_gameTiles, sizeof(luigi_gameTiles))
-                                  .withSize(SIZE_64_64)
-                                  .withAnimated(getBeginFrame(), 1, 0)
-                                  .withLocation(GBA_SCREEN_WIDTH / 2 - 32, GBA_SCREEN_HEIGHT / 2 - 64)
-                                  .buildPtr());
+                sprite_lose = std::move(builder.withData(luigi_game_loseTiles,
+                                                         sizeof(luigi_game_loseTiles))
+                                                .withSize(SIZE_64_64)
+                                                .withLocation(GBA_SCREEN_WIDTH / 2 - 32, GBA_SCREEN_HEIGHT / 2 - 64)
+                                                .buildPtr());
+
+                sprite_win = std::move(builder.withData(luigi_game_winTiles,
+                                                        sizeof(luigi_game_winTiles))
+                                               .withSize(SIZE_64_64)
+                                               .withLocation(GBA_SCREEN_WIDTH / 2 - 32, GBA_SCREEN_HEIGHT / 2 - 64)
+                                               .buildPtr());
                 break;
 
             case Character::MARIO:
-                setSprite(builder.withData(mario_gameTiles, sizeof(mario_gameTiles))
-                                  .withSize(SIZE_64_64)
-                                  .withAnimated(getBeginFrame(), 1, 0)
-                                  .withLocation(GBA_SCREEN_WIDTH / 2 - 32, GBA_SCREEN_HEIGHT / 2 - 64)
-                                  .buildPtr());
+                sprite_lose = std::move(builder.withData(mario_game_loseTiles,
+                                                         sizeof(mario_game_loseTiles))
+                                                .withSize(SIZE_64_64)
+                                                .withLocation(GBA_SCREEN_WIDTH / 2 - 32, GBA_SCREEN_HEIGHT / 2 - 64)
+                                                .buildPtr());
+
+                sprite_win = std::move(builder.withData(mario_game_winTiles,
+                                                        sizeof(mario_game_winTiles))
+                                               .withSize(SIZE_64_64)
+                                               .withLocation(GBA_SCREEN_WIDTH / 2 - 32, GBA_SCREEN_HEIGHT / 2 - 64)
+                                               .buildPtr());
                 break;
 
             case Character::PRINCESS_PEACH:
-                setSprite(builder.withData(princess_peach_gameTiles, sizeof(princess_peach_gameTiles))
-                                  .withSize(SIZE_64_64)
-                                  .withAnimated(getBeginFrame(), 1, 0)
-                                  .withLocation(GBA_SCREEN_WIDTH / 2 - 32, GBA_SCREEN_HEIGHT / 2 - 64)
-                                  .buildPtr());
+                sprite_lose = std::move(builder.withData(princess_peach_game_loseTiles,
+                                                         sizeof(princess_peach_game_loseTiles))
+                                                .withSize(SIZE_64_64)
+                                                .withLocation(GBA_SCREEN_WIDTH / 2 - 32, GBA_SCREEN_HEIGHT / 2 - 64)
+                                                .buildPtr());
+
+                sprite_win = std::move(builder.withData(princess_peach_game_winTiles,
+                                                        sizeof(princess_peach_game_winTiles))
+                                               .withSize(SIZE_64_64)
+                                               .withLocation(GBA_SCREEN_WIDTH / 2 - 32, GBA_SCREEN_HEIGHT / 2 - 64)
+                                               .buildPtr());
                 break;
 
             case Character::YOSHI:
-                setSprite(builder.withData(yoshi_gameTiles, sizeof(yoshi_gameTiles))
-                                  .withSize(SIZE_64_64)
-                                  .withAnimated(getBeginFrame(), 1, 0)
-                                  .withLocation(GBA_SCREEN_WIDTH / 2 - 32, GBA_SCREEN_HEIGHT / 2 - 64)
-                                  .buildPtr());
+                sprite_lose = std::move(builder.withData(yoshi_game_loseTiles,
+                                                         sizeof(yoshi_game_loseTiles))
+                                                .withSize(SIZE_64_64)
+                                                .withLocation(GBA_SCREEN_WIDTH / 2 - 32, GBA_SCREEN_HEIGHT / 2 - 64)
+                                                .buildPtr());
+
+                sprite_win = std::move(builder.withData(yoshi_game_winTiles,
+                                                        sizeof(yoshi_game_winTiles))
+                                               .withSize(SIZE_64_64)
+                                               .withLocation(GBA_SCREEN_WIDTH / 2 - 32, GBA_SCREEN_HEIGHT / 2 - 64)
+                                               .buildPtr());
                 break;
 
             default:
@@ -74,9 +101,22 @@ public:
         }
     }
 
-    Sprite *getSprite() { return sprite.get(); }
+    Sprite *getSprite() {
+        switch (result) {
+            case Result::LOSE:
+                return sprite_lose.get();
+                break;
 
-    void setSprite(std::unique_ptr<Sprite> sprite) {
+            case Result::WIN:
+                return sprite_win.get();
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    /*void setSprite(std::unique_ptr<Sprite> sprite) {
         GameResult::sprite = std::move(sprite);
     }
 
@@ -88,7 +128,7 @@ public:
     void updateBeginFrame() {
         beginFrame = static_cast<int>(result);
         sprite->setBeginFrame(beginFrame);
-    }
+    }*/
 
     /**
      * Wat is de character van de speler?
@@ -129,7 +169,7 @@ public:
         }
         character = value;
 
-        updateBeginFrame();
+        //updateBeginFrame();
     }
 
     /**
@@ -151,7 +191,7 @@ public:
         }
         result = value;
 
-        updateBeginFrame();
+        //updateBeginFrame();
     }
 };
 
