@@ -23,20 +23,51 @@ private:
 
     int beginFrame = 0;
 
-    // LUIGI, PRINCESS_PEACH, MARIO, YOSHI
+    // LUIGI, MARIO, PRINCESS_PEACH, YOSHI
     Character character = Character::LUIGI;
-    // ONDER, LINKS, RECHTS, BOVEN
+    // LOSE, WIN
     Result result = Result::LOSE;
 
 public:
     GameResult(Character character, Result result) : character(character), result(result) {
-        SpriteBuilder<Sprite> spriteBuilder;
-        setSprite(spriteBuilder
-                          //.withData(game_resultTiles, sizeof(game_resultTiles))
-                          .withSize(SIZE_64_64)
-                          .withAnimated(getBeginFrame(), 1, 0)
-                          .withLocation(GBA_SCREEN_WIDTH / 2 - 32, GBA_SCREEN_HEIGHT / 2 - 64)
-                          .buildPtr());
+        SpriteBuilder<Sprite> builder;
+
+        switch (character) {
+            case Character::LUIGI:
+                setSprite(builder.withData(luigi_gameTiles, sizeof(luigi_gameTiles))
+                                  .withSize(SIZE_64_64)
+                                  .withAnimated(getBeginFrame(), 1, 0)
+                                  .withLocation(GBA_SCREEN_WIDTH / 2 - 32, GBA_SCREEN_HEIGHT / 2 - 64)
+                                  .buildPtr());
+                break;
+
+            case Character::MARIO:
+                setSprite(builder.withData(mario_gameTiles, sizeof(mario_gameTiles))
+                                  .withSize(SIZE_64_64)
+                                  .withAnimated(getBeginFrame(), 1, 0)
+                                  .withLocation(GBA_SCREEN_WIDTH / 2 - 32, GBA_SCREEN_HEIGHT / 2 - 64)
+                                  .buildPtr());
+                break;
+
+            case Character::PRINCESS_PEACH:
+                setSprite(builder.withData(princess_peach_gameTiles, sizeof(princess_peach_gameTiles))
+                                  .withSize(SIZE_64_64)
+                                  .withAnimated(getBeginFrame(), 1, 0)
+                                  .withLocation(GBA_SCREEN_WIDTH / 2 - 32, GBA_SCREEN_HEIGHT / 2 - 64)
+                                  .buildPtr());
+                break;
+
+            case Character::YOSHI:
+                setSprite(builder.withData(yoshi_gameTiles, sizeof(yoshi_gameTiles))
+                                  .withSize(SIZE_64_64)
+                                  .withAnimated(getBeginFrame(), 1, 0)
+                                  .withLocation(GBA_SCREEN_WIDTH / 2 - 32, GBA_SCREEN_HEIGHT / 2 - 64)
+                                  .buildPtr());
+                break;
+
+            default:
+                break;
+        }
     }
 
     Sprite *getSprite() { return sprite.get(); }
@@ -46,12 +77,12 @@ public:
     }
 
     int getBeginFrame() {
-        beginFrame = 2 * static_cast<int>(character) + static_cast<int>(result);
+        beginFrame = static_cast<int>(result);
         return beginFrame;
     }
 
     void updateBeginFrame() {
-        beginFrame = 2 * static_cast<int>(character) + static_cast<int>(result);
+        beginFrame = static_cast<int>(result);
         sprite->setBeginFrame(beginFrame);
     }
 

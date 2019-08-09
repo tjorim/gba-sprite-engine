@@ -7,10 +7,10 @@
 
 
 enum class Direction : char {
-    ONDER = 0,
-    LINKS = 1,
-    RECHTS = 2,
-    BOVEN = 3
+    DOWN = 0,
+    LEFT = 1,
+    RIGHT = 2,
+    UP = 3
 };
 
 

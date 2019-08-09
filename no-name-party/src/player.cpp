@@ -19,22 +19,106 @@
 #include "../sprites/foreground/princess_peach_up.h"
 
 Player::Player(Character character) : character(character) {
-    SpriteBuilder<Sprite> spriteBuilder;
-    setSprite(spriteBuilder
-                      .withData(luigi_downTiles, sizeof(luigi_downTiles))
-                      .withSize(SIZE_32_32)
-                      .withAnimated(4, 4)
-                      .withLocation(GBA_SCREEN_WIDTH / 2 - 16, GBA_SCREEN_HEIGHT / 2 - 16)
-                      .buildPtr());
+    SpriteBuilder<Sprite> builder;
+
+    switch (character) {
+        case Character::LUIGI:
+            sprite_down = std::move(builder.withData(luigi_downTiles,
+                                                       sizeof(luigi_downTiles))
+                                              .withSize(SIZE_32_32)
+                                              .withAnimated(4, 4)
+                                            .withLocation(GBA_SCREEN_WIDTH / 2 - 16, GBA_SCREEN_HEIGHT / 2 - 16)
+                                              .buildPtr());
+
+            sprite_left = std::move(builder.withData(luigi_leftTiles,
+                                                       sizeof(luigi_leftTiles))
+                                              .withSize(SIZE_32_32)
+                                              .withAnimated(4, 4)
+                                            .withLocation(GBA_SCREEN_WIDTH / 2 - 16, GBA_SCREEN_HEIGHT / 2 - 16)
+                                              .buildPtr());
+
+            sprite_right = std::move(builder.withData(luigi_rightTiles,
+                                                       sizeof(luigi_rightTiles))
+                                              .withSize(SIZE_32_32)
+                                              .withAnimated(4, 4)
+                                             .withLocation(GBA_SCREEN_WIDTH / 2 - 16, GBA_SCREEN_HEIGHT / 2 - 16)
+                                              .buildPtr());
+
+            sprite_up = std::move(builder.withData(luigi_upTiles,
+                                                       sizeof(luigi_upTiles))
+                                              .withSize(SIZE_32_32)
+                                              .withAnimated(4, 4)
+                                          .withLocation(GBA_SCREEN_WIDTH / 2 - 16, GBA_SCREEN_HEIGHT / 2 - 16)
+                                              .buildPtr());
+            break;
+
+        case Character::MARIO:
+            break;
+
+        case Character::PRINCESS_PEACH:
+            sprite_down = std::move(builder.withData(princess_peach_downTiles,
+                                                     sizeof(princess_peach_downTiles))
+                                            .withSize(SIZE_32_32)
+                                            .withAnimated(4, 4)
+                                            .withLocation(GBA_SCREEN_WIDTH / 2 - 16, GBA_SCREEN_HEIGHT / 2 - 16)
+                                            .buildPtr());
+
+            sprite_left = std::move(builder.withData(princess_peach_leftTiles,
+                                                     sizeof(princess_peach_leftTiles))
+                                            .withSize(SIZE_32_32)
+                                            .withAnimated(4, 4)
+                                            .withLocation(GBA_SCREEN_WIDTH / 2 - 16, GBA_SCREEN_HEIGHT / 2 - 16)
+                                            .buildPtr());
+
+            sprite_right = std::move(builder.withData(princess_peach_rightTiles,
+                                                      sizeof(princess_peach_rightTiles))
+                                             .withSize(SIZE_32_32)
+                                             .withAnimated(4, 4)
+                                             .withLocation(GBA_SCREEN_WIDTH / 2 - 16, GBA_SCREEN_HEIGHT / 2 - 16)
+                                             .buildPtr());
+
+            sprite_up = std::move(builder.withData(princess_peach_upTiles,
+                                                   sizeof(princess_peach_upTiles))
+                                          .withSize(SIZE_32_32)
+                                          .withAnimated(4, 4)
+                                          .withLocation(GBA_SCREEN_WIDTH / 2 - 16, GBA_SCREEN_HEIGHT / 2 - 16)
+                                          .buildPtr());
+            break;
+
+        case Character::YOSHI:
+            break;
+
+        default:
+            break;
+    }
 }
 
-/*
-Sprite* getSprite() { return sprite.get(); }
+Sprite* Player::getSprite() {
+    switch (direction) {
+        case Direction::DOWN:
+            return sprite_down.get();
+            break;
 
-void setSprite(std::unique_ptr<Sprite> sprite) {
+        case Direction::LEFT:
+            return sprite_left.get();
+            break;
+
+        case Direction::RIGHT:
+            return sprite_right.get();
+            break;
+
+        case Direction::UP:
+            return sprite_up.get();
+            break;
+
+        default:
+            break;
+    }
+}
+
+/*void setSprite(std::unique_ptr<Sprite> sprite) {
     Player::sprite = std::move(sprite);
-}
-*/
+}*/
 
 void Player::moveTo(int xValue, int yValue) {
     setXCo(xValue);
@@ -53,7 +137,7 @@ void Player::moveRelative(int xValue, int yValue) {
  * Beweeg 1 vakje naar boven.
  */
 void Player::moveUp() {
-    setDirection(Direction::BOVEN);
+    setDirection(Direction::UP);
     moveRelative(0, -1);
 }
 
@@ -61,7 +145,7 @@ void Player::moveUp() {
  * Beweeg 1 vakje naar onder.
  */
 void Player::moveDown() {
-    setDirection(Direction::ONDER);
+    setDirection(Direction::DOWN);
     moveRelative(0, 1);
 }
 
@@ -69,7 +153,7 @@ void Player::moveDown() {
  * Beweeg 1 vakje naar links.
  */
 void Player::moveLeft() {
-    setDirection(Direction::LINKS);
+    setDirection(Direction::LEFT);
     moveRelative(-1, 0);
 }
 
@@ -77,7 +161,7 @@ void Player::moveLeft() {
  * Beweeg 1 vakje naar rechts.
  */
 void Player::moveRight() {
-    setDirection(Direction::RECHTS);
+    setDirection(Direction::RIGHT);
     moveRelative(1, 0);
 }
 
@@ -88,7 +172,7 @@ int Player::getBeginFrame() {
 
 void Player::updateBeginFrame() {
     beginFrame = 16 * static_cast<int>(character) + 4 * static_cast<int>(direction);
-    sprite->setBeginFrame(beginFrame);
+    //sprite->setBeginFrame(beginFrame);
 }
 
 int Player::getXCo() const {
@@ -141,16 +225,16 @@ void Player::setCharacter(const Character &value) {
 
 void Player::setDirection(const Direction &value) {
     switch (value) {
-        case Direction::ONDER:
+        case Direction::DOWN:
             // pas sprite aan
             break;
-        case Direction::BOVEN:
+        case Direction::LEFT:
             // pas sprite aan
             break;
-        case Direction::LINKS:
+        case Direction::RIGHT:
             // pas sprite aan
             break;
-        case Direction::RECHTS:
+        case Direction::UP:
             // pas sprite aan
             break;
         default:
@@ -167,4 +251,8 @@ void Player::scoreHoger() {
 
 void Player::scoreLager() {
     score--;
+}
+
+int Player::getScore() const {
+    return 0;
 }

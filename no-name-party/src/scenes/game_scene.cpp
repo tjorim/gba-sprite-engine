@@ -23,12 +23,6 @@ std::vector<Background *> GameScene::backgrounds() {
 std::vector<Sprite *> GameScene::sprites() {
     std::vector<Sprite *> sprites;
 
-    /*
-    for (auto &bomb : bombs) {
-        sprites.push_back(bomb->getSprite());
-    }
-    */
-
     sprites.push_back(player->getSprite());
     sprites.push_back(result->getSprite());
 
@@ -43,7 +37,8 @@ std::vector<Sprite *> GameScene::sprites() {
     }
     */
 
-    TextStream::instance().setText(std::string("Sprites ") + std::to_string(sprites.size()), 12, 1);
+    TextStream::instance().setText(std::string("Sprites ") + std::to_string(sprites.size()), 1, 0);
+
     return sprites;
 }
 
@@ -75,7 +70,6 @@ void GameScene::load() {
 }
 
 void GameScene::tick(u16 keys) {
-    TextStream::instance().setText(std::string("Game scene"), 5, 1);
 
     /*
     if (player->isDood()) {
@@ -91,12 +85,16 @@ void GameScene::tick(u16 keys) {
         //player->setCharacter(Character::PRINCESS_PEACH);
     } else if (keys & KEY_UP) {
         player->moveUp();
+        engine->updateSpritesInScene();
     } else if (keys & KEY_DOWN) {
         player->moveDown();
+        engine->updateSpritesInScene();
     } else if (keys & KEY_LEFT) {
         player->moveLeft();
+        engine->updateSpritesInScene();
     } else if (keys & KEY_RIGHT) {
         player->moveRight();
+        engine->updateSpritesInScene();
     }
 
     /*
@@ -109,6 +107,7 @@ void GameScene::tick(u16 keys) {
     TextStream::instance().setText(std::to_string(counter) + std::string(" frames/5sec"), 5, 1);
     TextStream::instance().setText(std::string(engine->getTimer()->to_string()), 6, 1);
     */
+    TextStream::instance().setText(std::string("Game scene"), 0, 0);
 }
 
 int GameScene::getCharacter() const {

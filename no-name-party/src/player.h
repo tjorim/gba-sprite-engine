@@ -13,7 +13,8 @@
 
 class Player {
 private:
-    std::unique_ptr<Sprite> sprite;
+    std::unique_ptr<Sprite> sprite_down, sprite_left, sprite_right, sprite_up;
+
     // De x-positie van the player
     int xCo = GBA_SCREEN_WIDTH / 2 - 16;
     // De y-positie van the player
@@ -22,21 +23,17 @@ private:
     int playerNumber = 0;
     int beginFrame = 0;
 
-    // LUIGI, PRINCESS_PEACH, MARIO, YOSHI
+    // LUIGI, MARIO, PRINCESS_PEACH, YOSHI
     Character character = Character::LUIGI;
-    // ONDER, LINKS, RECHTS, BOVEN
-    Direction direction = Direction::ONDER;
+    // DOWN, LEFT, RIGHT, UP
+    Direction direction = Direction::DOWN;
 
     int score = 3;
 
 public:
     Player(Character character);
 
-    Sprite *getSprite() { return sprite.get(); }
-
-    void setSprite(std::unique_ptr<Sprite> sprite) {
-        Player::sprite = std::move(sprite);
-    }
+    Sprite* getSprite();
 
     void moveTo(int xValue, int yValue);
 
