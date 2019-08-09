@@ -29,7 +29,7 @@ public:
     PressStart(bool animated) : animated(animated) {
         SpriteBuilder<Sprite> builder;
 
-        if(animated) {
+        if (animated) {
             press_start_1 = std::move(builder.withData(press_start_simple_1Tiles,
                                                        sizeof(press_start_simple_1Tiles))
                                               .withSize(SIZE_32_16)
@@ -85,8 +85,11 @@ public:
     }
 
     Sprite *getSprite1() { return press_start_1.get(); }
+
     Sprite *getSprite2() { return press_start_2.get(); }
+
     Sprite *getSprite3() { return press_start_3.get(); }
+
     Sprite *getSprite4() { return press_start_4.get(); }
 };
 

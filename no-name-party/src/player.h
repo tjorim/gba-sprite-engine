@@ -33,7 +33,7 @@ private:
 public:
     Player(Character character);
 
-    Sprite* getSprite();
+    Sprite *getSprite();
 
     void moveTo(int xValue, int yValue);
 

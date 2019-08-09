@@ -22,10 +22,10 @@ public:
         SpriteBuilder<Sprite> builder;
 
         title_left = std::move(builder.withData(title_leftTiles,
-                                                      sizeof(title_leftTiles))
-                                             .withSize(SIZE_64_64)
-                                             .withLocation(GBA_SCREEN_WIDTH / 2 - 96, 16)
-                                             .buildPtr());
+                                                sizeof(title_leftTiles))
+                                       .withSize(SIZE_64_64)
+                                       .withLocation(GBA_SCREEN_WIDTH / 2 - 96, 16)
+                                       .buildPtr());
 
         title_middle = std::move(builder.withData(title_middleTiles,
                                                   sizeof(title_middleTiles))
@@ -34,14 +34,16 @@ public:
                                          .buildPtr());
 
         title_right = std::move(builder.withData(title_rightTiles,
-                                                  sizeof(title_rightTiles))
-                                         .withSize(SIZE_64_64)
-                                         .withLocation(GBA_SCREEN_WIDTH / 2 + 32, 16)
-                                         .buildPtr());
+                                                 sizeof(title_rightTiles))
+                                        .withSize(SIZE_64_64)
+                                        .withLocation(GBA_SCREEN_WIDTH / 2 + 32, 16)
+                                        .buildPtr());
     }
 
     Sprite *getSpriteLeft() { return title_left.get(); }
+
     Sprite *getSpriteMiddle() { return title_middle.get(); }
+
     Sprite *getSpriteRight() { return title_right.get(); }
 };
 

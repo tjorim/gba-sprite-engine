@@ -24,32 +24,32 @@ Player::Player(Character character) : character(character) {
     switch (character) {
         case Character::LUIGI:
             sprite_down = std::move(builder.withData(luigi_downTiles,
-                                                       sizeof(luigi_downTiles))
-                                              .withSize(SIZE_32_32)
-                                              .withAnimated(4, 4)
+                                                     sizeof(luigi_downTiles))
+                                            .withSize(SIZE_32_32)
+                                            .withAnimated(4, 4)
                                             .withLocation(GBA_SCREEN_WIDTH / 2 - 16, GBA_SCREEN_HEIGHT / 2 - 16)
-                                              .buildPtr());
+                                            .buildPtr());
 
             sprite_left = std::move(builder.withData(luigi_leftTiles,
-                                                       sizeof(luigi_leftTiles))
-                                              .withSize(SIZE_32_32)
-                                              .withAnimated(4, 4)
+                                                     sizeof(luigi_leftTiles))
+                                            .withSize(SIZE_32_32)
+                                            .withAnimated(4, 4)
                                             .withLocation(GBA_SCREEN_WIDTH / 2 - 16, GBA_SCREEN_HEIGHT / 2 - 16)
-                                              .buildPtr());
+                                            .buildPtr());
 
             sprite_right = std::move(builder.withData(luigi_rightTiles,
-                                                       sizeof(luigi_rightTiles))
-                                              .withSize(SIZE_32_32)
-                                              .withAnimated(4, 4)
+                                                      sizeof(luigi_rightTiles))
+                                             .withSize(SIZE_32_32)
+                                             .withAnimated(4, 4)
                                              .withLocation(GBA_SCREEN_WIDTH / 2 - 16, GBA_SCREEN_HEIGHT / 2 - 16)
-                                              .buildPtr());
+                                             .buildPtr());
 
             sprite_up = std::move(builder.withData(luigi_upTiles,
-                                                       sizeof(luigi_upTiles))
-                                              .withSize(SIZE_32_32)
-                                              .withAnimated(4, 4)
+                                                   sizeof(luigi_upTiles))
+                                          .withSize(SIZE_32_32)
+                                          .withAnimated(4, 4)
                                           .withLocation(GBA_SCREEN_WIDTH / 2 - 16, GBA_SCREEN_HEIGHT / 2 - 16)
-                                              .buildPtr());
+                                          .buildPtr());
             break;
 
         case Character::MARIO:
@@ -93,7 +93,7 @@ Player::Player(Character character) : character(character) {
     }
 }
 
-Sprite* Player::getSprite() {
+Sprite *Player::getSprite() {
     switch (direction) {
         case Direction::DOWN:
             return sprite_down.get();
