@@ -10,9 +10,8 @@
 
 class SelectScene : public Scene {
 private:
-    std::unique_ptr<Background> bg_map;
     std::unique_ptr<SpriteBuilder<Sprite>> spriteBuilder;
-    //std::unique_ptr<Sprite> luigi_select, princess_peach_select, mario_select, yoshi_select;
+    std::unique_ptr<Sprite> luigi_select, mario_select, princess_peach_select, yoshi_select;
     std::vector<std::unique_ptr<Sprite>> characters;
 
     bool left_last = false, right_last = false;
