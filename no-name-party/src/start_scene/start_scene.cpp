@@ -10,7 +10,7 @@
 //#include "../sound.h"
 
 #include "background/background_rainbow.h"
-#include "../../sprites/foreground/shared.h"
+#include "foreground/sprites/shared_start_scene.h"
 
 StartScene::StartScene(const std::shared_ptr<GBAEngine> &engine) : Scene(engine) {}
 
@@ -50,7 +50,7 @@ void StartScene::load() {
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(
             new BackgroundPaletteManager(background_rainbowPal, sizeof(background_rainbowPal)));
     foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(
-            new ForegroundPaletteManager(sharedPal, sizeof(sharedPal)));
+            new ForegroundPaletteManager(shared_start_scenePal, sizeof(shared_start_scenePal)));
 
     bg_map = std::unique_ptr<Background>(
             new Background(1, background_rainbowTiles, sizeof(background_rainbowTiles), background_rainbowMap,

@@ -7,7 +7,7 @@
 
 #include "select_scene.h"
 #include "../game_scene/game_scene.h"
-#include "../../sprites/foreground/shared.h"
+#include "foreground/sprites/shared_select_scene.h"
 #include "foreground/sprites/luigi_select.h"
 #include "foreground/sprites/mario_select.h"
 #include "foreground/sprites/princess_peach_select.h"
@@ -34,7 +34,7 @@ std::vector<Sprite *> SelectScene::sprites() {
 
 void SelectScene::load() {
     foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(
-            new ForegroundPaletteManager(sharedPal, sizeof(sharedPal)));
+            new ForegroundPaletteManager(shared_select_scenePal, sizeof(shared_select_scenePal)));
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager());
 
     spriteBuilder = std::unique_ptr<SpriteBuilder<Sprite>>(new SpriteBuilder<Sprite>);

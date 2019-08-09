@@ -9,7 +9,7 @@
 #include "../end_scene/end_scene.h"
 #include "../enums/character.h"
 #include "../enums/result.h"
-#include "../../sprites/foreground/shared.h"
+#include "foreground/sprites/shared_game_scene.h"
 
 int lol = 1;
 
@@ -43,9 +43,10 @@ std::vector<Sprite *> GameScene::sprites() {
 
 void GameScene::load() {
     foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(
-            new ForegroundPaletteManager(sharedPal, sizeof(sharedPal)));
+            new ForegroundPaletteManager(shared_game_scenePal, sizeof(shared_game_scenePal)));
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(
-            new BackgroundPaletteManager(mapPal, sizeof(mapPal)));
+            new BackgroundPaletteManager());
+            //new BackgroundPaletteManager(mapPal, sizeof(mapPal)));
 
     player = std::unique_ptr<Player>(new Player(static_cast<Character>(getCharacter())));
     result = std::unique_ptr<GameResult>(new GameResult(static_cast<Character>(getCharacter()), Result::LOSE));
