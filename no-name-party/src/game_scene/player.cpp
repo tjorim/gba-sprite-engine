@@ -18,6 +18,11 @@
 #include "foreground/sprites/princess_peach_right.h"
 #include "foreground/sprites/princess_peach_up.h"
 
+#include "foreground/sprites/yoshi_down.h"
+#include "foreground/sprites/yoshi_left.h"
+#include "foreground/sprites/yoshi_right.h"
+#include "foreground/sprites/yoshi_up.h"
+
 Player::Player(Character character) : character(character) {
     SpriteBuilder<Sprite> builder;
 
@@ -86,6 +91,29 @@ Player::Player(Character character) : character(character) {
             break;
 
         case Character::YOSHI:
+            sprite_down = std::move(builder.withData(yoshi_downTiles,
+                                                     sizeof(yoshi_downTiles))
+                                            .withSize(SIZE_32_32)
+                                            .withLocation(GBA_SCREEN_WIDTH / 2 - 16, GBA_SCREEN_HEIGHT / 2 - 16)
+                                            .buildPtr());
+
+            sprite_left = std::move(builder.withData(yoshi_leftTiles,
+                                                     sizeof(yoshi_leftTiles))
+                                            .withSize(SIZE_32_32)
+                                            .withLocation(GBA_SCREEN_WIDTH / 2 - 16, GBA_SCREEN_HEIGHT / 2 - 16)
+                                            .buildPtr());
+
+            sprite_right = std::move(builder.withData(yoshi_rightTiles,
+                                                      sizeof(yoshi_rightTiles))
+                                             .withSize(SIZE_32_32)
+                                             .withLocation(GBA_SCREEN_WIDTH / 2 - 16, GBA_SCREEN_HEIGHT / 2 - 16)
+                                             .buildPtr());
+
+            sprite_up = std::move(builder.withData(yoshi_upTiles,
+                                                   sizeof(yoshi_upTiles))
+                                          .withSize(SIZE_32_32)
+                                          .withLocation(GBA_SCREEN_WIDTH / 2 - 16, GBA_SCREEN_HEIGHT / 2 - 16)
+                                          .buildPtr());
             break;
 
         default:
