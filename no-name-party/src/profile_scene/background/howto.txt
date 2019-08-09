@@ -1,0 +1,16 @@
+# Go to folder
+cd /d D:\Git\gba-sprite-engine\no-name-party\src\profile_scene\background
+
+# full background command
+..\..\..\grit-0.8.6\grit.exe background_profile.png -ftc -gt -gB8 -mRtpf -mLs
+
+del *.h && ren *.c *.h
+
+# grit executable
+..\..\..\grit-0.8.6\grit.exe
+
+# backgrounds
+background_profile.png
+
+# background flags
+-ftc -gt -gB8 -mRtpf -mLs
