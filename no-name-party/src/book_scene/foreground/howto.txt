@@ -1,0 +1,19 @@
+# Go to folder
+cd /d D:\Git\gba-sprite-engine\no-name-party\src\book_scene\foreground\sprites
+
+# full foreground command
+..\..\..\..\grit-0.8.6\grit.exe ..\img\book_blue.png ..\img\book_green.png ..\img\book_red.png ..\img\book_yellow.png -ftc -pS -gB8 -O shared_book_scene.c
+
+del *.h && ren *.c *.h
+
+# grit executable
+..\..\..\..\grit-0.8.6\grit.exe
+
+# foregrounds
+..\img\book_blue.png
+..\img\book_green.png
+..\img\book_red.png
+..\img\book_yellow.png
+
+# foreground flags
+-ftc -pS -gB8 -O shared_book_scene.c

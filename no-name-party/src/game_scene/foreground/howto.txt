@@ -1,0 +1,45 @@
+# Go to folder
+cd /d D:\Git\gba-sprite-engine\no-name-party\src\game_scene\foreground\sprites
+
+# full foreground command
+..\..\..\..\grit-0.8.6\grit.exe ..\img\arrow_down.png ..\img\arrow_left.png ..\img\arrow_right.png ..\img\arrow_up.png ..\img\dice_blue.png ..\img\dice_green.png ..\img\luigi_down.png ..\img\luigi_game_lose.png ..\img\luigi_game_win.png ..\img\luigi_left.png ..\img\luigi_right.png ..\img\luigi_up.png ..\img\mario_game_lose.png ..\img\mario_game_win.png ..\img\princess_peach_down.png ..\img\princess_peach_game_lose.png ..\img\princess_peach_game_win.png ..\img\princess_peach_left.png ..\img\princess_peach_right.png ..\img\princess_peach_up.png ..\img\space_green_dice.png ..\img\space_mini_game.png ..\img\space_red_minus.png ..\img\space_yellow.png ..\img\yoshi_down.png ..\img\yoshi_game_lose.png ..\img\yoshi_game_win.png ..\img\yoshi_left.png ..\img\yoshi_right.png ..\img\yoshi_up.png -ftc -pS -gB8 -O shared_game_scene.c
+
+del *.h && ren *.c *.h
+
+# grit executable
+..\..\..\..\grit-0.8.6\grit.exe
+
+# foregrounds
+..\img\arrow_down.png
+..\img\arrow_left.png
+..\img\arrow_right.png
+..\img\arrow_up.png
+..\img\dice_blue.png
+..\img\dice_green.png
+..\img\luigi_down.png
+..\img\luigi_game_lose.png
+..\img\luigi_game_win.png
+..\img\luigi_left.png
+..\img\luigi_right.png
+..\img\luigi_up.png
+..\img\mario_game_lose.png
+..\img\mario_game_win.png
+..\img\princess_peach_down.png
+..\img\princess_peach_game_lose.png
+..\img\princess_peach_game_win.png
+..\img\princess_peach_left.png
+..\img\princess_peach_right.png
+..\img\princess_peach_up.png
+..\img\space_green_dice.png
+..\img\space_mini_game.png
+..\img\space_red_minus.png
+..\img\space_yellow.png
+..\img\yoshi_down.png
+..\img\yoshi_game_lose.png
+..\img\yoshi_game_win.png
+..\img\yoshi_left.png
+..\img\yoshi_right.png
+..\img\yoshi_up.png
+
+# foreground flags
+-ftc -pS -gB8 -O shared_game_scene.c

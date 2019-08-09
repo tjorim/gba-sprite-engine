@@ -1,0 +1,32 @@
+# Go to folder
+cd /d D:\Git\gba-sprite-engine\no-name-party\src\start_scene\foreground\sprites
+
+# full foreground command
+..\..\..\..\grit-0.8.6\grit.exe ..\img\balloon_blue.png ..\img\balloon_green.png ..\img\balloon_pink.png ..\img\balloon_yellow.png ..\img\cloud_left.png ..\img\cloud_right.png ..\img\press_start_simple_1.png ..\img\press_start_simple_2.png ..\img\press_start_simple_3.png ..\img\press_start_simple_4.png ..\img\press_start_single_1.png ..\img\press_start_single_2.png ..\img\press_start_single_3.png ..\img\press_start_single_4.png ..\img\title_left.png ..\img\title_middle.png ..\img\title_right.png -ftc -pS -gB8 -O shared_start_scene.c
+
+del *.h && ren *.c *.h
+
+# grit executable
+..\..\..\..\grit-0.8.6\grit.exe
+
+# foregrounds
+..\img\balloon_blue.png
+..\img\balloon_green.png
+..\img\balloon_pink.png
+..\img\balloon_yellow.png
+..\img\cloud_left.png
+..\img\cloud_right.png
+..\img\press_start_simple_1.png
+..\img\press_start_simple_2.png
+..\img\press_start_simple_3.png
+..\img\press_start_simple_4.png
+..\img\press_start_single_1.png
+..\img\press_start_single_2.png
+..\img\press_start_single_3.png
+..\img\press_start_single_4.png
+..\img\title_left.png
+..\img\title_middle.png
+..\img\title_right.png
+
+# foreground flags
+-ftc -pS -gB8 -O shared_start_scene.c

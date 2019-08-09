@@ -1,0 +1,14 @@
+//
+// Created by tiele on 9/08/2019.
+//
+
+#ifndef GBA_SPRITE_ENGINE_PROJECT_RACE_SCENE_H
+#define GBA_SPRITE_ENGINE_PROJECT_RACE_SCENE_H
+
+
+class RaceScene {
+
+};
+
+
+#endif //GBA_SPRITE_ENGINE_PROJECT_RACE_SCENE_H

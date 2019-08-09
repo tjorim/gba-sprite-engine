@@ -1,0 +1,19 @@
+# Go to folder
+cd /d D:\Git\gba-sprite-engine\no-name-party\src\select_scene\foreground\sprites
+
+# full foreground command
+..\..\..\..\grit-0.8.6\grit.exe ..\img\luigi_select.png ..\img\mario_select.png ..\img\princess_peach_select.png ..\img\yoshi_select.png -ftc -pS -gB8 -O shared_select_scene.c
+
+del *.h && ren *.c *.h
+
+# grit executable
+..\..\..\..\grit-0.8.6\grit.exe
+
+# foregrounds
+..\img\luigi_select.png
+..\img\mario_select.png
+..\img\princess_peach_select.png
+..\img\yoshi_select.png
+
+# foreground flags
+-ftc -pS -gB8 -O shared_select_scene.c
