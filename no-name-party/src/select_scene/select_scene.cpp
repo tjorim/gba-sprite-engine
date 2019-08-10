@@ -105,8 +105,8 @@ void SelectScene::tick(u16 keys) {
         if (character_current != 1) {
             engine->setScene(new GameScene(engine, getCharacter()));
         } else {
-            TextStream::instance().setText(std::string("Sorry, Mario is niet beschikbaar"),
-                                           12, 1);
+            TextStream::instance().setText(std::string("Mario is niet beschikbaar"),
+                                           16, 2);
         }
     }
 

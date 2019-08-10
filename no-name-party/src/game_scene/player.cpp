@@ -32,28 +32,28 @@ Player::Player(Character character) : character(character) {
                                                      sizeof(luigi_downTiles))
                                             .withSize(SIZE_32_32)
                                             .withAnimated(4, 4)
-                                            .withLocation(GBA_SCREEN_WIDTH / 2 - 16, GBA_SCREEN_HEIGHT / 2 - 16)
+                                            .withLocation(centerX, centerY)
                                             .buildPtr());
 
             sprite_left = std::move(builder.withData(luigi_leftTiles,
                                                      sizeof(luigi_leftTiles))
                                             .withSize(SIZE_32_32)
                                             .withAnimated(4, 4)
-                                            .withLocation(GBA_SCREEN_WIDTH / 2 - 16, GBA_SCREEN_HEIGHT / 2 - 16)
+                                            .withLocation(centerX, centerY)
                                             .buildPtr());
 
             sprite_right = std::move(builder.withData(luigi_rightTiles,
                                                       sizeof(luigi_rightTiles))
                                              .withSize(SIZE_32_32)
                                              .withAnimated(4, 4)
-                                             .withLocation(GBA_SCREEN_WIDTH / 2 - 16, GBA_SCREEN_HEIGHT / 2 - 16)
+                                             .withLocation(centerX, centerY)
                                              .buildPtr());
 
             sprite_up = std::move(builder.withData(luigi_upTiles,
                                                    sizeof(luigi_upTiles))
                                           .withSize(SIZE_32_32)
                                           .withAnimated(4, 4)
-                                          .withLocation(GBA_SCREEN_WIDTH / 2 - 16, GBA_SCREEN_HEIGHT / 2 - 16)
+                                          .withLocation(centerX, centerY)
                                           .buildPtr());
             break;
 
@@ -65,28 +65,28 @@ Player::Player(Character character) : character(character) {
                                                      sizeof(princess_peach_downTiles))
                                             .withSize(SIZE_32_32)
                                             .withAnimated(4, 4)
-                                            .withLocation(GBA_SCREEN_WIDTH / 2 - 16, GBA_SCREEN_HEIGHT / 2 - 16)
+                                            .withLocation(centerX, centerY)
                                             .buildPtr());
 
             sprite_left = std::move(builder.withData(princess_peach_leftTiles,
                                                      sizeof(princess_peach_leftTiles))
                                             .withSize(SIZE_32_32)
                                             .withAnimated(4, 4)
-                                            .withLocation(GBA_SCREEN_WIDTH / 2 - 16, GBA_SCREEN_HEIGHT / 2 - 16)
+                                            .withLocation(centerX, centerY)
                                             .buildPtr());
 
             sprite_right = std::move(builder.withData(princess_peach_rightTiles,
                                                       sizeof(princess_peach_rightTiles))
                                              .withSize(SIZE_32_32)
                                              .withAnimated(4, 4)
-                                             .withLocation(GBA_SCREEN_WIDTH / 2 - 16, GBA_SCREEN_HEIGHT / 2 - 16)
+                                             .withLocation(centerX, centerY)
                                              .buildPtr());
 
             sprite_up = std::move(builder.withData(princess_peach_upTiles,
                                                    sizeof(princess_peach_upTiles))
                                           .withSize(SIZE_32_32)
                                           .withAnimated(4, 4)
-                                          .withLocation(GBA_SCREEN_WIDTH / 2 - 16, GBA_SCREEN_HEIGHT / 2 - 16)
+                                          .withLocation(centerX, centerY)
                                           .buildPtr());
             break;
 
@@ -94,25 +94,25 @@ Player::Player(Character character) : character(character) {
             sprite_down = std::move(builder.withData(yoshi_downTiles,
                                                      sizeof(yoshi_downTiles))
                                             .withSize(SIZE_32_32)
-                                            .withLocation(GBA_SCREEN_WIDTH / 2 - 16, GBA_SCREEN_HEIGHT / 2 - 16)
+                                            .withLocation(centerX, centerY)
                                             .buildPtr());
 
             sprite_left = std::move(builder.withData(yoshi_leftTiles,
                                                      sizeof(yoshi_leftTiles))
                                             .withSize(SIZE_32_32)
-                                            .withLocation(GBA_SCREEN_WIDTH / 2 - 16, GBA_SCREEN_HEIGHT / 2 - 16)
+                                            .withLocation(centerX, centerY)
                                             .buildPtr());
 
             sprite_right = std::move(builder.withData(yoshi_rightTiles,
                                                       sizeof(yoshi_rightTiles))
                                              .withSize(SIZE_32_32)
-                                             .withLocation(GBA_SCREEN_WIDTH / 2 - 16, GBA_SCREEN_HEIGHT / 2 - 16)
+                                             .withLocation(centerX, centerY)
                                              .buildPtr());
 
             sprite_up = std::move(builder.withData(yoshi_upTiles,
                                                    sizeof(yoshi_upTiles))
                                           .withSize(SIZE_32_32)
-                                          .withLocation(GBA_SCREEN_WIDTH / 2 - 16, GBA_SCREEN_HEIGHT / 2 - 16)
+                                          .withLocation(centerX, centerY)
                                           .buildPtr());
             break;
 
@@ -144,71 +144,6 @@ Sprite *Player::getSprite() {
     }
 }
 
-/*void setSprite(std::unique_ptr<Sprite> sprite) {
-    Player::sprite = std::move(sprite);
-}*/
-
-void Player::moveTo(int xValue, int yValue) {
-    setXCo(xValue);
-    setYCo(yValue);
-    getSprite()->moveTo(xValue, yValue);
-    //sprite->moveTo(8*xValue, 8*yValue);
-}
-
-void Player::moveRelative(int xValue, int yValue) {
-    int newX = xCo + xValue;
-    int newY = yCo + yValue;
-    moveTo(newX, newY);
-}
-
-/**
- * Beweeg 1 vakje naar boven.
- */
-void Player::moveUp() {
-    setDirection(Direction::UP);
-    moveRelative(0, -1);
-}
-
-/**
- * Beweeg 1 vakje naar onder.
- */
-void Player::moveDown() {
-    setDirection(Direction::DOWN);
-    moveRelative(0, 1);
-}
-
-/**
- * Beweeg 1 vakje naar links.
- */
-void Player::moveLeft() {
-    setDirection(Direction::LEFT);
-    moveRelative(-1, 0);
-}
-
-/**
- * Beweeg 1 vakje naar rechts.
- */
-void Player::moveRight() {
-    setDirection(Direction::RIGHT);
-    moveRelative(1, 0);
-}
-
-int Player::getXCo() const {
-    return xCo;
-}
-
-void Player::setXCo(int value) {
-    Player::xCo = value;
-}
-
-int Player::getYCo() const {
-    return yCo;
-}
-
-void Player::setYCo(int value) {
-    Player::yCo = value;
-}
-
 int Player::getPlayerNumber() const {
     return playerNumber;
 }
@@ -219,6 +154,10 @@ Character Player::getCharacter() const {
 
 Direction Player::getDirection() const {
     return direction;
+}
+
+int Player::getScore() const {
+    return score;
 }
 
 void Player::setPlayerNumber(int value) {
@@ -239,8 +178,4 @@ void Player::scoreHoger() {
 
 void Player::scoreLager() {
     score--;
-}
-
-int Player::getScore() const {
-    return score;
 }

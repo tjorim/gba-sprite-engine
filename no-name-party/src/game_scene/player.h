@@ -15,11 +15,6 @@ class Player {
 private:
     std::unique_ptr<Sprite> sprite_down, sprite_left, sprite_right, sprite_up;
 
-    // De x-positie van the player
-    int xCo = GBA_SCREEN_WIDTH / 2 - 16;
-    // De y-positie van the player
-    int yCo = GBA_SCREEN_HEIGHT / 2 - 16;
-
     int playerNumber = 0;
 
     // LUIGI, MARIO, PRINCESS_PEACH, YOSHI
@@ -28,51 +23,12 @@ private:
     Direction direction = Direction::DOWN;
 
     int score = 3;
+    int centerX = GBA_SCREEN_WIDTH / 2 - 16, centerY = GBA_SCREEN_HEIGHT / 2 - 16;
 
 public:
     Player(Character character);
 
     Sprite *getSprite();
-
-    void moveTo(int xValue, int yValue);
-
-    void moveRelative(int xValue, int yValue);
-
-    void moveUp();
-
-    void moveDown();
-
-    void moveLeft();
-
-    void moveRight();
-
-    /**
-     * Wat is de x-positie van this Thing?
-     *
-     * @return De x-positie van this Thing.
-     */
-    int getXCo() const;
-
-    /**
-     * Stel de x-positie van de speler in.
-     *
-     * @param xCo De x-positie van de speler.
-     */
-    void setXCo(int value);
-
-    /**
-     * Wat is de y-positie van this Thing?
-     *
-     * @return De y-positie van this Thing.
-     */
-    int getYCo() const;
-
-    /**
-     * Stel de y-positie van de speler in.
-     *
-     * @param yCo De y-positie van de speler.
-     */
-    void setYCo(int value);
 
     // getters
     /**

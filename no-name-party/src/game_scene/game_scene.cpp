@@ -2,7 +2,7 @@
 // Created by Jorim Tielemans
 //
 
-#include <libgba-sprite-engine/background/text_stream.h>
+//#include <libgba-sprite-engine/background/text_stream.h>
 #include <libgba-sprite-engine/gba_engine.h>
 
 #include "game_scene.h"
@@ -28,7 +28,7 @@ std::vector<Sprite *> GameScene::sprites() {
     std::vector<Sprite *> sprites;
 
     sprites.push_back(player->getSprite());
-    sprites.push_back(result->getSprite());
+    //sprites.push_back(result->getSprite());
 
     /*
     for(auto& rows: board) // Iterating over rows
@@ -41,24 +41,25 @@ std::vector<Sprite *> GameScene::sprites() {
     }
     */
 
-    TextStream::instance().setText(std::string("Sprites ") + std::to_string(sprites.size()), 1, 0);
+    //TextStream::instance().setText(std::string("Sprites ") + std::to_string(sprites.size()), 1, 0);
 
     return sprites;
 }
 
 void GameScene::load() {
+    engine->disableText();
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(
             new BackgroundPaletteManager(map_smallPal, sizeof(map_smallPal)));
     foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(
             new ForegroundPaletteManager(shared_game_scenePal, sizeof(shared_game_scenePal)));
 
     map_small = std::unique_ptr<Background>(
-            new Background(1, map_smallTiles, sizeof(map_smallTiles),
+            new Background(0, map_smallTiles, sizeof(map_smallTiles),
                            map_smallMap, sizeof(map_smallMap)));
     map_small->useMapScreenBlock(16);
 
     player = std::unique_ptr<Player>(new Player(static_cast<Character>(getCharacter())));
-    result = std::unique_ptr<GameResult>(new GameResult(static_cast<Character>(getCharacter()), Result::LOSE));
+    //result = std::unique_ptr<GameResult>(new GameResult(static_cast<Character>(getCharacter()), Result::LOSE));
 
 /*
     for (int i = 0; i < BOARD_WIDTH; i++) { // board.size(), Iterating over rows
@@ -89,23 +90,21 @@ void GameScene::tick(u16 keys) {
     if (keys & KEY_FIRE) {
         //dropBomb();
     } else if (keys & KEY_A) {
-        //player->setCharacter(Character::LUIGI);
     } else if (keys & KEY_B) {
-        //player->setCharacter(Character::PRINCESS_PEACH);
-        result = std::unique_ptr<GameResult>(new GameResult(static_cast<Character>(getCharacter()), Result::WIN));
-        engine->updateSpritesInScene();
+        //result = std::unique_ptr<GameResult>(new GameResult(static_cast<Character>(getCharacter()), Result::WIN));
+        //engine->updateSpritesInScene();
     } else if (keys & KEY_UP) {
-        player->moveUp();
-        engine->updateSpritesInScene();
+        scrollY -= 1;
+        moveUp();
     } else if (keys & KEY_DOWN) {
-        player->moveDown();
-        engine->updateSpritesInScene();
+        scrollY += 1;
+        moveDown();
     } else if (keys & KEY_LEFT) {
-        player->moveLeft();
-        engine->updateSpritesInScene();
+        scrollX -= 1;
+        moveLeft();
     } else if (keys & KEY_RIGHT) {
-        player->moveRight();
-        engine->updateSpritesInScene();
+        scrollX += 1;
+        moveRight();
     }
 
     /*
@@ -118,8 +117,7 @@ void GameScene::tick(u16 keys) {
     TextStream::instance().setText(std::to_string(counter) + std::string(" frames/5sec"), 5, 1);
     TextStream::instance().setText(std::string(engine->getTimer()->to_string()), 6, 1);
     */
-    TextStream::instance().setText(std::string("Game scene"), 0, 0);
-    //TextStream::instance().setText(std::string("lollig ") + std::to_string(lol), 2, 0);
+    //TextStream::instance().setText(std::string("Game scene"), 0, 0);
 }
 
 int GameScene::getCharacter() const {
@@ -173,3 +171,64 @@ void GameScene::dropBomb() {
     //speelGeluidje(BombDrop);
 }
 */
+
+void GameScene::moveTo(int xValue, int yValue) {
+    setXCo(xValue);
+    setYCo(yValue);
+    map_small->scroll(xValue, yValue);
+}
+
+void GameScene::moveRelative(int xValue, int yValue) {
+    int newX = xCo + xValue;
+    int newY = yCo + yValue;
+    engine->updateSpritesInScene();
+    moveTo(newX, newY);
+}
+
+/**
+ * Beweeg 1 vakje naar boven.
+ */
+void GameScene::moveUp() {
+    player->setDirection(Direction::UP);
+    moveRelative(0, -1);
+}
+
+/**
+ * Beweeg 1 vakje naar onder.
+ */
+void GameScene::moveDown() {
+    player->setDirection(Direction::DOWN);
+    moveRelative(0, 1);
+}
+
+/**
+ * Beweeg 1 vakje naar links.
+ */
+void GameScene::moveLeft() {
+    player->setDirection(Direction::LEFT);
+    moveRelative(-1, 0);
+}
+
+/**
+ * Beweeg 1 vakje naar rechts.
+ */
+void GameScene::moveRight() {
+    player->setDirection(Direction::RIGHT);
+    moveRelative(1, 0);
+}
+
+int GameScene::getXCo() const {
+    return xCo;
+}
+
+void GameScene::setXCo(int value) {
+    xCo = value;
+}
+
+int GameScene::getYCo() const {
+    return yCo;
+}
+
+void GameScene::setYCo(int value) {
+    yCo = value;
+}
