@@ -193,16 +193,6 @@ void Player::moveRight() {
     moveRelative(1, 0);
 }
 
-int Player::getBeginFrame() {
-    beginFrame = 16 * static_cast<int>(character) + 4 * static_cast<int>(direction);
-    return beginFrame;
-}
-
-void Player::updateBeginFrame() {
-    beginFrame = 16 * static_cast<int>(character) + 4 * static_cast<int>(direction);
-    //sprite->setBeginFrame(beginFrame);
-}
-
 int Player::getXCo() const {
     return xCo;
 }
@@ -236,41 +226,11 @@ void Player::setPlayerNumber(int value) {
 }
 
 void Player::setCharacter(const Character &value) {
-    switch (value) {
-        case Character::LUIGI:
-            // pas sprite aan
-            break;
-        case Character::PRINCESS_PEACH:
-            // pas sprite aan
-            break;
-        default:
-            return;
-    }
     character = value;
-
-    updateBeginFrame();
 }
 
 void Player::setDirection(const Direction &value) {
-    switch (value) {
-        case Direction::DOWN:
-            // pas sprite aan
-            break;
-        case Direction::LEFT:
-            // pas sprite aan
-            break;
-        case Direction::RIGHT:
-            // pas sprite aan
-            break;
-        case Direction::UP:
-            // pas sprite aan
-            break;
-        default:
-            return;
-    }
     direction = value;
-
-    updateBeginFrame();
 }
 
 void Player::scoreHoger() {
@@ -282,5 +242,5 @@ void Player::scoreLager() {
 }
 
 int Player::getScore() const {
-    return 0;
+    return score;
 }

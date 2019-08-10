@@ -15,7 +15,7 @@
 
 class StartScene : public Scene {
 private:
-    std::unique_ptr<Background> bg_map;
+    std::unique_ptr<Background> background_rainbow;
     std::vector<std::unique_ptr<Balloon>> balloons;
     std::vector<std::unique_ptr<Cloud>> clouds;
     std::unique_ptr<PressStart> press_start;
@@ -31,6 +31,8 @@ public:
     void load() override;
 
     void tick(u16 keys) override;
+
+    void inflateBalloons();
 };
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_START_SCENE_H

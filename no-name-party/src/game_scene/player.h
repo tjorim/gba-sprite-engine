@@ -21,7 +21,6 @@ private:
     int yCo = GBA_SCREEN_HEIGHT / 2 - 16;
 
     int playerNumber = 0;
-    int beginFrame = 0;
 
     // LUIGI, MARIO, PRINCESS_PEACH, YOSHI
     Character character = Character::LUIGI;
@@ -46,10 +45,6 @@ public:
     void moveLeft();
 
     void moveRight();
-
-    int getBeginFrame();
-
-    void updateBeginFrame();
 
     /**
      * Wat is de x-positie van this Thing?

@@ -10,6 +10,7 @@
 
 class SelectScene : public Scene {
 private:
+    std::unique_ptr<Background> background_rainbow;
     std::unique_ptr<SpriteBuilder<Sprite>> spriteBuilder;
     std::unique_ptr<Sprite> luigi_select, mario_select, princess_peach_select, yoshi_select;
     std::vector<std::unique_ptr<Sprite>> characters;
@@ -22,6 +23,12 @@ private:
     void characterLeft();
 
     void characterRight();
+
+    void updateCharacter();
+
+    void unselectCharacter(int character);
+
+    void selectCharacter(int character);
 
 public:
     SelectScene(const std::shared_ptr<GBAEngine> &engine);
@@ -37,12 +44,6 @@ public:
     int getCharacter() const;
 
     void setCharacter(int character);
-
-    void updateCharacter();
-
-    void unselectCharacter(int character);
-
-    void selectCharacter(int character);
 };
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_SELECT_SCENE_H

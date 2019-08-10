@@ -2,21 +2,21 @@
 // Created by Jorim Tielemans
 //
 
-#include <libgba-sprite-engine/gba_engine.h>
 #include <libgba-sprite-engine/background/text_stream.h>
+#include <libgba-sprite-engine/gba_engine.h>
 
 #include "start_scene.h"
 #include "../select_scene/select_scene.h"
-//#include "../sound.h"
 
 #include "background/background_rainbow.h"
+//#include "../sound.h"
 #include "foreground/sprites/shared_start_scene.h"
 
 StartScene::StartScene(const std::shared_ptr<GBAEngine> &engine) : Scene(engine) {}
 
 std::vector<Background *> StartScene::backgrounds() {
     return {
-            bg_map.get()
+            background_rainbow.get()
     };
 }
 
@@ -52,11 +52,32 @@ void StartScene::load() {
     foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(
             new ForegroundPaletteManager(shared_start_scenePal, sizeof(shared_start_scenePal)));
 
-    bg_map = std::unique_ptr<Background>(
-            new Background(1, background_rainbowTiles, sizeof(background_rainbowTiles), background_rainbowMap,
-                           sizeof(background_rainbowMap)));
-    bg_map->useMapScreenBlock(16);
+    background_rainbow = std::unique_ptr<Background>(
+            new Background(1, background_rainbowTiles, sizeof(background_rainbowTiles),
+                           background_rainbowMap, sizeof(background_rainbowMap)));
+    background_rainbow->useMapScreenBlock(16);
 
+    inflateBalloons();
+
+    clouds.push_back(
+            std::unique_ptr<Cloud>(new Cloud(GBA_SCREEN_HEIGHT / 2, 1, 0))
+    );
+
+    press_start = std::unique_ptr<PressStart>(new PressStart(true));
+    title = std::unique_ptr<Title>(new Title());
+
+    //engine->enqueueMusic(cataclysmic_molten_core, sizeof(cataclysmic_molten_core));
+}
+
+void StartScene::tick(u16 keys) {
+    if (keys & KEY_START) {
+        engine->setScene(new SelectScene(engine));
+    }
+
+    TextStream::instance().setText(std::string("Intro scene"), 0, 0);
+}
+
+void StartScene::inflateBalloons() {
     balloons.push_back(
             std::unique_ptr<Balloon>(new Balloon(Colour::BLUE, 10, -1, 0))
     );
@@ -81,21 +102,4 @@ void StartScene::load() {
     balloons.push_back(
             std::unique_ptr<Balloon>(new Balloon(Colour::YELLOW, 200, -2, 80))
     );
-
-    clouds.push_back(
-            std::unique_ptr<Cloud>(new Cloud(GBA_SCREEN_HEIGHT / 2, 1, 0))
-    );
-
-    press_start = std::unique_ptr<PressStart>(new PressStart(true));
-    title = std::unique_ptr<Title>(new Title());
-
-    //engine->enqueueMusic(cataclysmic_molten_core, sizeof(cataclysmic_molten_core));
-}
-
-void StartScene::tick(u16 keys) {
-    if (keys & KEY_START) {
-        engine->setScene(new SelectScene(engine));
-    }
-
-    TextStream::instance().setText(std::string("Intro scene"), 0, 0);
 }

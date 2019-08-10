@@ -7,17 +7,22 @@
 
 #include "select_scene.h"
 #include "../game_scene/game_scene.h"
+
+#include "background/background_rainbow.h"
+//#include "../sound.h"
 #include "foreground/sprites/shared_select_scene.h"
+
 #include "foreground/sprites/luigi_select.h"
 #include "foreground/sprites/mario_select.h"
 #include "foreground/sprites/princess_peach_select.h"
 #include "foreground/sprites/yoshi_select.h"
-//#include "../sound.h"
 
 SelectScene::SelectScene(const std::shared_ptr<GBAEngine> &engine) : Scene(engine) {}
 
 std::vector<Background *> SelectScene::backgrounds() {
-    return {};
+    return {
+        background_rainbow.get()
+    };
 }
 
 std::vector<Sprite *> SelectScene::sprites() {
@@ -33,9 +38,15 @@ std::vector<Sprite *> SelectScene::sprites() {
 }
 
 void SelectScene::load() {
+    backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(
+        new BackgroundPaletteManager(background_rainbowPal, sizeof(background_rainbowPal)));
     foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(
-            new ForegroundPaletteManager(shared_select_scenePal, sizeof(shared_select_scenePal)));
-    backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager());
+        new ForegroundPaletteManager(shared_select_scenePal, sizeof(shared_select_scenePal)));
+
+    background_rainbow = std::unique_ptr<Background>(
+            new Background(1, background_rainbowTiles, sizeof(background_rainbowTiles), background_rainbowMap,
+                           sizeof(background_rainbowMap)));
+    background_rainbow->useMapScreenBlock(16);
 
     spriteBuilder = std::unique_ptr<SpriteBuilder<Sprite>>(new SpriteBuilder<Sprite>);
 
@@ -91,11 +102,11 @@ void SelectScene::tick(u16 keys) {
     }
 
     if (keys & KEY_A) {
-        if (character_current % 2) {
-            TextStream::instance().setText(std::string("Sorry, enkel Luigi en Princess Peach zijn beschikbaar "), 12,
-                                           1);
-        } else {
+        if (character_current != 1) {
             engine->setScene(new GameScene(engine, getCharacter()));
+        } else {
+            TextStream::instance().setText(std::string("Sorry, Mario is niet beschikbaar"),
+                                           12, 1);
         }
     }
 

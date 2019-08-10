@@ -13,12 +13,14 @@
 
 class GameScene : public Scene {
 private:
-    int character = 0;
+    std::unique_ptr<Background> map_small;
     //Thing *board[BOARD_HEIGHT][BOARD_WIDTH];
     //std::array<std::array<Thing, BOARD_WIDTH>, BOARD_HEIGHT> board;
     //std::vector <std::unique_ptr<Bomb>> bombs;
     std::unique_ptr<Player> player;
     std::unique_ptr<GameResult> result;
+
+    int character = 0;
 
 public:
     GameScene(const std::shared_ptr<GBAEngine> &engine, int character);

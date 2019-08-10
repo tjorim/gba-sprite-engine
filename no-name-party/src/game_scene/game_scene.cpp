@@ -7,8 +7,11 @@
 
 #include "game_scene.h"
 #include "../end_scene/end_scene.h"
+
 #include "../enums/character.h"
 #include "../enums/result.h"
+
+#include "background/map_small.h"
 #include "foreground/sprites/shared_game_scene.h"
 
 int lol = 1;
@@ -16,7 +19,9 @@ int lol = 1;
 GameScene::GameScene(const std::shared_ptr<GBAEngine> &engine, int character) : Scene(engine), character(character) {}
 
 std::vector<Background *> GameScene::backgrounds() {
-    return {};
+    return {
+        map_small.get()
+    };
 }
 
 std::vector<Sprite *> GameScene::sprites() {
@@ -42,11 +47,15 @@ std::vector<Sprite *> GameScene::sprites() {
 }
 
 void GameScene::load() {
+    backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(
+            new BackgroundPaletteManager(map_smallPal, sizeof(map_smallPal)));
     foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(
             new ForegroundPaletteManager(shared_game_scenePal, sizeof(shared_game_scenePal)));
-    backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(
-            new BackgroundPaletteManager());
-            //new BackgroundPaletteManager(mapPal, sizeof(mapPal)));
+
+    map_small = std::unique_ptr<Background>(
+            new Background(1, map_smallTiles, sizeof(map_smallTiles),
+                           map_smallMap, sizeof(map_smallMap)));
+    map_small->useMapScreenBlock(16);
 
     player = std::unique_ptr<Player>(new Player(static_cast<Character>(getCharacter())));
     result = std::unique_ptr<GameResult>(new GameResult(static_cast<Character>(getCharacter()), Result::LOSE));
@@ -110,7 +119,7 @@ void GameScene::tick(u16 keys) {
     TextStream::instance().setText(std::string(engine->getTimer()->to_string()), 6, 1);
     */
     TextStream::instance().setText(std::string("Game scene"), 0, 0);
-    TextStream::instance().setText(std::string("lollig ") + std::to_string(lol), 2, 0);
+    //TextStream::instance().setText(std::string("lollig ") + std::to_string(lol), 2, 0);
 }
 
 int GameScene::getCharacter() const {
