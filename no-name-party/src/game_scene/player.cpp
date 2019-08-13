@@ -2,8 +2,6 @@
 // Created by tiele on 27/01/2019.
 //
 
-#include <math.h>
-
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
 
 #include "player.h"
