@@ -2,25 +2,24 @@
 // Created by Jorim Tielemans
 //
 
-//#include <libgba-sprite-engine/background/text_stream.h>
+#include <libgba-sprite-engine/background/text_stream.h>
 #include <libgba-sprite-engine/gba_engine.h>
 
 #include "game_scene.h"
 #include "../end_scene/end_scene.h"
+#include "../book_scene/book_scene.h"
 
 #include "../enums/character.h"
 #include "../enums/result.h"
 
-#include "background/map_small.h"
+#include "background/background_map.h"
 #include "foreground/sprites/shared_game_scene.h"
-
-int lol = 1;
 
 GameScene::GameScene(const std::shared_ptr<GBAEngine> &engine, int character) : Scene(engine), character(character) {}
 
 std::vector<Background *> GameScene::backgrounds() {
     return {
-        map_small.get()
+        background_map.get()
     };
 }
 
@@ -41,22 +40,22 @@ std::vector<Sprite *> GameScene::sprites() {
     }
     */
 
-    //TextStream::instance().setText(std::string("Sprites ") + std::to_string(sprites.size()), 1, 0);
+    TextStream::instance().setText(std::string("Sprites ") + std::to_string(sprites.size()), 1, 0);
 
     return sprites;
 }
 
 void GameScene::load() {
-    engine->disableText();
+    //engine->disableText();
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(
-            new BackgroundPaletteManager(map_smallPal, sizeof(map_smallPal)));
+            new BackgroundPaletteManager(background_mapPal, sizeof(background_mapPal)));
     foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(
             new ForegroundPaletteManager(shared_game_scenePal, sizeof(shared_game_scenePal)));
 
-    map_small = std::unique_ptr<Background>(
-            new Background(0, map_smallTiles, sizeof(map_smallTiles),
-                           map_smallMap, sizeof(map_smallMap)));
-    map_small->useMapScreenBlock(16);
+    background_map = std::unique_ptr<Background>(
+            new Background(1, background_mapTiles, sizeof(background_mapTiles),
+                           background_mapMap, sizeof(background_mapMap)));
+    background_map->useMapScreenBlock(16);
 
     player = std::unique_ptr<Player>(new Player(static_cast<Character>(getCharacter())));
     //result = std::unique_ptr<GameResult>(new GameResult(static_cast<Character>(getCharacter()), Result::LOSE));
@@ -76,7 +75,8 @@ void GameScene::load() {
     engine->getTimer()->start();
     // engine->enqueueMusic(cataclysmic_molten_core, sizeof(cataclysmic_molten_core));
 
-    EndScene *endScene = new EndScene(engine);
+    //EndScene *endScene = new EndScene(engine);
+    //BookScene *bookScene = new BookScene(engine);
 }
 
 void GameScene::tick(u16 keys) {
@@ -87,24 +87,31 @@ void GameScene::tick(u16 keys) {
     }
     */
 
-    if (keys & KEY_FIRE) {
+    /*if (keys & KEY_FIRE) {
         //dropBomb();
-    } else if (keys & KEY_A) {
+    } else*/ if (keys & KEY_A) {
+        //engine->dequeueAllSounds();
+        //engine->enqueueMusic(Title_Screen_wav, sizeof(Title_Screen_wav));
     } else if (keys & KEY_B) {
+        //engine->setScene(new BookScene(engine));
         //result = std::unique_ptr<GameResult>(new GameResult(static_cast<Character>(getCharacter()), Result::WIN));
         //engine->updateSpritesInScene();
     } else if (keys & KEY_UP) {
-        scrollY -= 1;
-        moveUp();
+        if (yCo > -24) {
+            moveUp();
+        }
     } else if (keys & KEY_DOWN) {
-        scrollY += 1;
-        moveDown();
+        if (yCo < 136) {
+            moveDown();
+        }
     } else if (keys & KEY_LEFT) {
-        scrollX -= 1;
-        moveLeft();
+        if (xCo > -64) {
+            moveLeft();
+        }
     } else if (keys & KEY_RIGHT) {
-        scrollX += 1;
-        moveRight();
+        if (xCo < 96) {
+            moveRight();
+        }
     }
 
     /*
@@ -117,7 +124,8 @@ void GameScene::tick(u16 keys) {
     TextStream::instance().setText(std::to_string(counter) + std::string(" frames/5sec"), 5, 1);
     TextStream::instance().setText(std::string(engine->getTimer()->to_string()), 6, 1);
     */
-    //TextStream::instance().setText(std::string("Game scene"), 0, 0);
+    TextStream::instance().setText(std::string("Game scene"), 0, 0);
+    TextStream::instance().setText(std::string("X: ") + std::to_string(xCo) + std::string(" Y: ") + std::to_string(yCo), 2, 0);
 }
 
 int GameScene::getCharacter() const {
@@ -175,7 +183,8 @@ void GameScene::dropBomb() {
 void GameScene::moveTo(int xValue, int yValue) {
     setXCo(xValue);
     setYCo(yValue);
-    map_small->scroll(xValue, yValue);
+    background_map->scroll(xValue, yValue);
+    engine->updateSpritesInScene();
 }
 
 void GameScene::moveRelative(int xValue, int yValue) {

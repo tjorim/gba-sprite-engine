@@ -13,7 +13,7 @@
 
 class GameScene : public Scene {
 private:
-    std::unique_ptr<Background> map_small;
+    std::unique_ptr<Background> background_map;
     //Thing *board[BOARD_HEIGHT][BOARD_WIDTH];
     //std::array<std::array<Thing, BOARD_WIDTH>, BOARD_HEIGHT> board;
     //std::vector <std::unique_ptr<Bomb>> bombs;
@@ -21,7 +21,6 @@ private:
     std::unique_ptr<GameResult> result;
 
     int character = 0;
-    int scrollX = 0, scrollY = 0;
 
     // De x-positie van the player
     int xCo = GBA_SCREEN_WIDTH / 2 - 16;
