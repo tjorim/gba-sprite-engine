@@ -8,8 +8,8 @@
 #include "start_scene.h"
 #include "../select_scene/select_scene.h"
 
+#include "sound_02_title_screen.h"
 #include "background/background_rainbow.h"
-//#include "../sound.h"
 #include "foreground/sprites/shared_start_scene.h"
 
 StartScene::StartScene(const std::shared_ptr<GBAEngine> &engine) : Scene(engine) {}
@@ -41,8 +41,6 @@ std::vector<Sprite *> StartScene::sprites() {
     sprites.push_back(title->getSpriteMiddle());
     sprites.push_back(title->getSpriteRight());
 
-    TextStream::instance().setText(std::string("Sprites ") + std::to_string(sprites.size()), 1, 0);
-
     return sprites;
 }
 
@@ -66,7 +64,7 @@ void StartScene::load() {
     press_start = std::unique_ptr<PressStart>(new PressStart(true));
     title = std::unique_ptr<Title>(new Title());
 
-    //engine->enqueueMusic(cataclysmic_molten_core, sizeof(cataclysmic_molten_core));
+    engine->enqueueMusic(sound_02_title_screen, sizeof(sound_02_title_screen));
 }
 
 void StartScene::tick(u16 keys) {

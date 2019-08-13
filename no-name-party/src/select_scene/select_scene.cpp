@@ -6,10 +6,10 @@
 #include <libgba-sprite-engine/gba_engine.h>
 
 #include "select_scene.h"
-#include "../game_scene/game_scene.h"
+#include "../profile_scene/profile_scene.h"
 
+#include "sound_03_passport_setup.h"
 #include "background/background_rainbow.h"
-//#include "../sound.h"
 #include "foreground/sprites/shared_select_scene.h"
 
 #include "foreground/sprites/luigi_select.h"
@@ -32,8 +32,6 @@ std::vector<Sprite *> SelectScene::sprites() {
         sprites.push_back(character.get());
     }
 
-    TextStream::instance().setText(std::string("Sprites ") + std::to_string(sprites.size()), 1, 0);
-
     return sprites;
 }
 
@@ -44,8 +42,8 @@ void SelectScene::load() {
             new ForegroundPaletteManager(shared_select_scenePal, sizeof(shared_select_scenePal)));
 
     background_rainbow = std::unique_ptr<Background>(
-            new Background(1, background_rainbowTiles, sizeof(background_rainbowTiles), background_rainbowMap,
-                           sizeof(background_rainbowMap)));
+            new Background(1, background_rainbowTiles, sizeof(background_rainbowTiles),
+                           background_rainbowMap, sizeof(background_rainbowMap)));
     background_rainbow->useMapScreenBlock(16);
 
     spriteBuilder = std::unique_ptr<SpriteBuilder<Sprite>>(new SpriteBuilder<Sprite>);
@@ -77,7 +75,7 @@ void SelectScene::load() {
 
     updateCharacter();
 
-    //engine->enqueueMusic(cataclysmic_molten_core, sizeof(cataclysmic_molten_core));
+    engine->enqueueMusic(sound_03_passport_setup, sizeof(sound_03_passport_setup));
 }
 
 void SelectScene::tick(u16 keys) {
@@ -103,7 +101,8 @@ void SelectScene::tick(u16 keys) {
 
     if (keys & KEY_A) {
         if (character_current != 1) {
-            engine->setScene(new GameScene(engine, getCharacter()));
+            //engine->setScene(new GameScene(engine, getCharacter()));
+            engine->setScene(new ProfileScene(engine));
         } else {
             TextStream::instance().setText(std::string("Mario is niet beschikbaar"),
                                            16, 2);

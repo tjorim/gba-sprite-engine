@@ -14,6 +14,7 @@
 #include "../enums/character.h"
 #include "../enums/result.h"
 
+#include "sound_09_main_board_shroom_city.h"
 #include "background/background_map.h"
 #include "foreground/sprites/shared_game_scene.h"
 
@@ -73,8 +74,8 @@ void GameScene::load() {
     }
 */
 
-    engine->getTimer()->start();
-    // engine->enqueueMusic(cataclysmic_molten_core, sizeof(cataclysmic_molten_core));
+    //engine->getTimer()->start();
+    engine->enqueueMusic(sound_09_main_board_shroom_city, sizeof(sound_09_main_board_shroom_city));
 
     //EndScene *endScene = new EndScene(engine);
     //BookScene *bookScene = new BookScene(engine);
