@@ -2,6 +2,8 @@
 // Created by Jorim Tielemans
 //
 
+#include <math.h>
+
 #include <libgba-sprite-engine/background/text_stream.h>
 #include <libgba-sprite-engine/gba_engine.h>
 
@@ -19,7 +21,7 @@ GameScene::GameScene(const std::shared_ptr<GBAEngine> &engine, int character) : 
 
 std::vector<Background *> GameScene::backgrounds() {
     return {
-        background_map.get()
+            background_map.get()
     };
 }
 
@@ -46,7 +48,6 @@ std::vector<Sprite *> GameScene::sprites() {
 }
 
 void GameScene::load() {
-    //engine->disableText();
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(
             new BackgroundPaletteManager(background_mapPal, sizeof(background_mapPal)));
     foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(
@@ -57,7 +58,7 @@ void GameScene::load() {
                            background_mapMap, sizeof(background_mapMap)));
     background_map->useMapScreenBlock(16);
 
-    player = std::unique_ptr<Player>(new Player(static_cast<Character>(getCharacter())));
+    player = std::unique_ptr<Player>(new Player(static_cast<Character>(getCharacter()), xCoPlayer, yCoPlayer));
     //result = std::unique_ptr<GameResult>(new GameResult(static_cast<Character>(getCharacter()), Result::LOSE));
 
 /*
@@ -90,6 +91,7 @@ void GameScene::tick(u16 keys) {
     /*if (keys & KEY_FIRE) {
         //dropBomb();
     } else*/ if (keys & KEY_A) {
+        player->scoreHoger();
         //engine->dequeueAllSounds();
         //engine->enqueueMusic(Title_Screen_wav, sizeof(Title_Screen_wav));
     } else if (keys & KEY_B) {
@@ -97,21 +99,13 @@ void GameScene::tick(u16 keys) {
         //result = std::unique_ptr<GameResult>(new GameResult(static_cast<Character>(getCharacter()), Result::WIN));
         //engine->updateSpritesInScene();
     } else if (keys & KEY_UP) {
-        if (yCo > -24) {
-            moveUp();
-        }
+        moveUp();
     } else if (keys & KEY_DOWN) {
-        if (yCo < 136) {
-            moveDown();
-        }
+        moveDown();
     } else if (keys & KEY_LEFT) {
-        if (xCo > -64) {
-            moveLeft();
-        }
+        moveLeft();
     } else if (keys & KEY_RIGHT) {
-        if (xCo < 96) {
-            moveRight();
-        }
+        moveRight();
     }
 
     /*
@@ -125,7 +119,7 @@ void GameScene::tick(u16 keys) {
     TextStream::instance().setText(std::string(engine->getTimer()->to_string()), 6, 1);
     */
     TextStream::instance().setText(std::string("Game scene"), 0, 0);
-    TextStream::instance().setText(std::string("X: ") + std::to_string(xCo) + std::string(" Y: ") + std::to_string(yCo), 2, 0);
+    TextStream::instance().setText(std::string("Score ") + std::to_string(player->getScore()), 0, 21);
 }
 
 int GameScene::getCharacter() const {
@@ -180,18 +174,34 @@ void GameScene::dropBomb() {
 }
 */
 
-void GameScene::moveTo(int xValue, int yValue) {
-    setXCo(xValue);
-    setYCo(yValue);
+void GameScene::moveMapTo(int xValue, int yValue) {
+    setXCoMap(xValue);
+    setYCoMap(yValue);
+
     background_map->scroll(xValue, yValue);
-    engine->updateSpritesInScene();
 }
 
-void GameScene::moveRelative(int xValue, int yValue) {
-    int newX = xCo + xValue;
-    int newY = yCo + yValue;
-    engine->updateSpritesInScene();
-    moveTo(newX, newY);
+void GameScene::movePlayerTo(int xValue, int yValue) {
+    setXCoPlayer(xValue);
+    setYCoPlayer(yValue);
+
+    player->moveTo(xValue, yValue);
+}
+
+int GameScene::getXCo() const {
+    return xCoMap + xCoPlayer;
+}
+
+int GameScene::getYCo() const {
+    return yCoMap + yCoPlayer;
+}
+
+int GameScene::getXCoRelative() const {
+    return std::round(float(getXCo() - 40) / 32);
+}
+
+int GameScene::getYCoRelative() const {
+    return std::round(float(getYCo() - 40) / 32);
 }
 
 /**
@@ -199,7 +209,15 @@ void GameScene::moveRelative(int xValue, int yValue) {
  */
 void GameScene::moveUp() {
     player->setDirection(Direction::UP);
-    moveRelative(0, -1);
+
+    if (yCoMap > 0) {
+        moveMapTo(xCoMap, yCoMap - 1);
+    } else if (yCoPlayer > 40) {
+        movePlayerTo(xCoPlayer, yCoPlayer - 2);
+    }
+
+    engine->updateSpritesInScene();
+    //moveRelative(0, -1);
 }
 
 /**
@@ -207,7 +225,15 @@ void GameScene::moveUp() {
  */
 void GameScene::moveDown() {
     player->setDirection(Direction::DOWN);
-    moveRelative(0, 1);
+
+    if (yCoMap < 112) {
+        moveMapTo(xCoMap, yCoMap + 1);
+    } else if (yCoPlayer < 88) {
+        movePlayerTo(xCoPlayer, yCoPlayer + 2);
+    }
+
+    engine->updateSpritesInScene();
+    //moveRelative(0, 1);
 }
 
 /**
@@ -215,7 +241,15 @@ void GameScene::moveDown() {
  */
 void GameScene::moveLeft() {
     player->setDirection(Direction::LEFT);
-    moveRelative(-1, 0);
+
+    if (xCoMap > 0) {
+        moveMapTo(xCoMap - 1, yCoMap);
+    } else if (xCoPlayer > 40) {
+        movePlayerTo(xCoPlayer - 2, yCoPlayer);
+    }
+
+    engine->updateSpritesInScene();
+    //moveRelative(-1, 0);
 }
 
 /**
@@ -223,21 +257,45 @@ void GameScene::moveLeft() {
  */
 void GameScene::moveRight() {
     player->setDirection(Direction::RIGHT);
-    moveRelative(1, 0);
+
+    if (xCoMap < 32) {
+        moveMapTo(xCoMap + 1, yCoMap);
+    } else if (xCoPlayer < 168) {
+        movePlayerTo(xCoPlayer + 2, yCoPlayer);
+    }
+
+    engine->updateSpritesInScene();
+    //moveRelative(1, 0);
 }
 
-int GameScene::getXCo() const {
-    return xCo;
+int GameScene::getXCoMap() const {
+    return xCoMap;
 }
 
-void GameScene::setXCo(int value) {
-    xCo = value;
+void GameScene::setXCoMap(int value) {
+    xCoMap = value;
 }
 
-int GameScene::getYCo() const {
-    return yCo;
+int GameScene::getYCoMap() const {
+    return yCoMap;
 }
 
-void GameScene::setYCo(int value) {
-    yCo = value;
+void GameScene::setYCoMap(int value) {
+    yCoMap = value;
+}
+
+int GameScene::getXCoPlayer() const {
+    return xCoPlayer;
+}
+
+void GameScene::setXCoPlayer(int value) {
+    xCoPlayer = value;
+}
+
+int GameScene::getYCoPlayer() const {
+    return yCoPlayer;
+}
+
+void GameScene::setYCoPlayer(int value) {
+    yCoPlayer = value;
 }

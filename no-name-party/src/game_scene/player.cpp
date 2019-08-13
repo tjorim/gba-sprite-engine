@@ -21,7 +21,7 @@
 #include "foreground/sprites/yoshi_right.h"
 #include "foreground/sprites/yoshi_up.h"
 
-Player::Player(Character character) : character(character) {
+Player::Player(Character character, int xCo, int yCo) : character(character), xCo(xCo), yCo(yCo) {
     SpriteBuilder<Sprite> builder;
 
     switch (character) {
@@ -30,28 +30,28 @@ Player::Player(Character character) : character(character) {
                                                      sizeof(luigi_downTiles))
                                             .withSize(SIZE_32_32)
                                             .withAnimated(4, 4)
-                                            .withLocation(centerX, centerY)
+                                            .withLocation(xCo, yCo)
                                             .buildPtr());
 
             sprite_left = std::move(builder.withData(luigi_leftTiles,
                                                      sizeof(luigi_leftTiles))
                                             .withSize(SIZE_32_32)
                                             .withAnimated(4, 4)
-                                            .withLocation(centerX, centerY)
+                                            .withLocation(xCo, yCo)
                                             .buildPtr());
 
             sprite_right = std::move(builder.withData(luigi_rightTiles,
                                                       sizeof(luigi_rightTiles))
                                              .withSize(SIZE_32_32)
                                              .withAnimated(4, 4)
-                                             .withLocation(centerX, centerY)
+                                             .withLocation(xCo, yCo)
                                              .buildPtr());
 
             sprite_up = std::move(builder.withData(luigi_upTiles,
                                                    sizeof(luigi_upTiles))
                                           .withSize(SIZE_32_32)
                                           .withAnimated(4, 4)
-                                          .withLocation(centerX, centerY)
+                                          .withLocation(xCo, yCo)
                                           .buildPtr());
             break;
 
@@ -63,28 +63,28 @@ Player::Player(Character character) : character(character) {
                                                      sizeof(princess_peach_downTiles))
                                             .withSize(SIZE_32_32)
                                             .withAnimated(4, 4)
-                                            .withLocation(centerX, centerY)
+                                            .withLocation(xCo, yCo)
                                             .buildPtr());
 
             sprite_left = std::move(builder.withData(princess_peach_leftTiles,
                                                      sizeof(princess_peach_leftTiles))
                                             .withSize(SIZE_32_32)
                                             .withAnimated(4, 4)
-                                            .withLocation(centerX, centerY)
+                                            .withLocation(xCo, yCo)
                                             .buildPtr());
 
             sprite_right = std::move(builder.withData(princess_peach_rightTiles,
                                                       sizeof(princess_peach_rightTiles))
                                              .withSize(SIZE_32_32)
                                              .withAnimated(4, 4)
-                                             .withLocation(centerX, centerY)
+                                             .withLocation(xCo, yCo)
                                              .buildPtr());
 
             sprite_up = std::move(builder.withData(princess_peach_upTiles,
                                                    sizeof(princess_peach_upTiles))
                                           .withSize(SIZE_32_32)
                                           .withAnimated(4, 4)
-                                          .withLocation(centerX, centerY)
+                                          .withLocation(xCo, yCo)
                                           .buildPtr());
             break;
 
@@ -92,25 +92,25 @@ Player::Player(Character character) : character(character) {
             sprite_down = std::move(builder.withData(yoshi_downTiles,
                                                      sizeof(yoshi_downTiles))
                                             .withSize(SIZE_32_32)
-                                            .withLocation(centerX, centerY)
+                                            .withLocation(xCo, yCo)
                                             .buildPtr());
 
             sprite_left = std::move(builder.withData(yoshi_leftTiles,
                                                      sizeof(yoshi_leftTiles))
                                             .withSize(SIZE_32_32)
-                                            .withLocation(centerX, centerY)
+                                            .withLocation(xCo, yCo)
                                             .buildPtr());
 
             sprite_right = std::move(builder.withData(yoshi_rightTiles,
                                                       sizeof(yoshi_rightTiles))
                                              .withSize(SIZE_32_32)
-                                             .withLocation(centerX, centerY)
+                                             .withLocation(xCo, yCo)
                                              .buildPtr());
 
             sprite_up = std::move(builder.withData(yoshi_upTiles,
                                                    sizeof(yoshi_upTiles))
                                           .withSize(SIZE_32_32)
-                                          .withLocation(centerX, centerY)
+                                          .withLocation(xCo, yCo)
                                           .buildPtr());
             break;
 
@@ -142,6 +142,16 @@ Sprite *Player::getSprite() {
     }
 }
 
+void Player::moveTo(int xValue, int yValue) {
+    setXCo(xValue);
+    setYCo(yValue);
+
+    sprite_down->moveTo(xValue, yValue);
+    sprite_left->moveTo(xValue, yValue);
+    sprite_right->moveTo(xValue, yValue);
+    sprite_up->moveTo(xValue, yValue);
+}
+
 int Player::getPlayerNumber() const {
     return playerNumber;
 }
@@ -152,6 +162,14 @@ Character Player::getCharacter() const {
 
 Direction Player::getDirection() const {
     return direction;
+}
+
+int Player::getXCo() const {
+    return xCo;
+}
+
+void Player::setXCo(int value) {
+    xCo = value;
 }
 
 int Player::getScore() const {
@@ -168,6 +186,14 @@ void Player::setCharacter(const Character &value) {
 
 void Player::setDirection(const Direction &value) {
     direction = value;
+}
+
+int Player::getYCo() const {
+    return yCo;
+}
+
+void Player::setYCo(int value) {
+    yCo = value;
 }
 
 void Player::scoreHoger() {

@@ -21,7 +21,7 @@ SelectScene::SelectScene(const std::shared_ptr<GBAEngine> &engine) : Scene(engin
 
 std::vector<Background *> SelectScene::backgrounds() {
     return {
-        background_rainbow.get()
+            background_rainbow.get()
     };
 }
 
@@ -39,9 +39,9 @@ std::vector<Sprite *> SelectScene::sprites() {
 
 void SelectScene::load() {
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(
-        new BackgroundPaletteManager(background_rainbowPal, sizeof(background_rainbowPal)));
+            new BackgroundPaletteManager(background_rainbowPal, sizeof(background_rainbowPal)));
     foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(
-        new ForegroundPaletteManager(shared_select_scenePal, sizeof(shared_select_scenePal)));
+            new ForegroundPaletteManager(shared_select_scenePal, sizeof(shared_select_scenePal)));
 
     background_rainbow = std::unique_ptr<Background>(
             new Background(1, background_rainbowTiles, sizeof(background_rainbowTiles), background_rainbowMap,
@@ -111,7 +111,7 @@ void SelectScene::tick(u16 keys) {
     }
 
     TextStream::instance().setText(std::string("Select scene"), 0, 0);
-    TextStream::instance().setText(std::string("Character: ") + std::to_string(character_current + 1), 2, 0);
+    TextStream::instance().setText(std::string("Character ") + std::to_string(character_current + 1), 0, 18);
 }
 
 int SelectScene::getCharacter() const {

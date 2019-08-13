@@ -21,11 +21,10 @@ private:
     std::unique_ptr<GameResult> result;
 
     int character = 0;
-
-    // De x-positie van the player
-    int xCo = GBA_SCREEN_WIDTH / 2 - 16;
-    // De y-positie van the player
-    int yCo = GBA_SCREEN_HEIGHT / 2 - 16;
+    // De x- en y-positie van de map
+    int xCoMap = 0, yCoMap = 0;
+    // De x- en y-positie van the player
+    int xCoPlayer = 40, yCoPlayer = 40;
 
 public:
     GameScene(const std::shared_ptr<GBAEngine> &engine, int character);
@@ -40,9 +39,17 @@ public:
 
     int getCharacter() const;
 
-    void moveTo(int xValue, int yValue);
+    void moveMapTo(int xValue, int yValue);
 
-    void moveRelative(int xValue, int yValue);
+    void movePlayerTo(int xValue, int yValue);
+
+    int getXCo() const;
+
+    int getYCo() const;
+
+    int getXCoRelative() const;
+
+    int getYCoRelative() const;
 
     void moveUp();
 
@@ -57,28 +64,36 @@ public:
      *
      * @return De x-positie van this Thing.
      */
-    int getXCo() const;
+    int getXCoMap() const;
 
     /**
      * Stel de x-positie van de speler in.
      *
      * @param xCo De x-positie van de speler.
      */
-    void setXCo(int value);
+    void setXCoMap(int value);
 
     /**
      * Wat is de y-positie van this Thing?
      *
      * @return De y-positie van this Thing.
      */
-    int getYCo() const;
+    int getYCoMap() const;
 
     /**
      * Stel de y-positie van de speler in.
      *
      * @param yCo De y-positie van de speler.
      */
-    void setYCo(int value);
+    void setYCoMap(int value);
+
+    int getXCoPlayer() const;
+
+    void setXCoPlayer(int value);
+
+    int getYCoPlayer() const;
+
+    void setYCoPlayer(int value);
 };
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_GAME_SCENE_H

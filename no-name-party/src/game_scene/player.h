@@ -23,12 +23,14 @@ private:
     Direction direction = Direction::DOWN;
 
     int score = 3;
-    int centerX = GBA_SCREEN_WIDTH / 2 - 16, centerY = GBA_SCREEN_HEIGHT / 2 - 16;
+    int xCo = GBA_SCREEN_WIDTH / 2 - 16, yCo = GBA_SCREEN_HEIGHT / 2 - 16;
 
 public:
-    Player(Character character);
+    Player(Character character, int xCo, int yCo);
 
     Sprite *getSprite();
+
+    void moveTo(int xValue, int yValue);
 
     // getters
     /**
@@ -53,6 +55,20 @@ public:
      * @return De richting van de speler.
      */
     Direction getDirection() const;
+
+    /**
+     * Wat is de x-positie van this Thing?
+     *
+     * @return De x-positie van this Thing.
+     */
+    int getXCo() const;
+
+    /**
+     * Stel de x-positie van de speler in.
+     *
+     * @param xCo De x-positie van de speler.
+     */
+    void setXCo(int value);
 
     /**
      * Welke score heeft de speler?
@@ -84,6 +100,20 @@ public:
      * @param richting De richting die de speler krijgt.
      */
     void setDirection(const Direction &value);
+
+    /**
+     * Wat is de y-positie van this Thing?
+     *
+     * @return De y-positie van this Thing.
+     */
+    int getYCo() const;
+
+    /**
+     * Stel de y-positie van de speler in.
+     *
+     * @param yCo De y-positie van de speler.
+     */
+    void setYCo(int value);
 
     /**
      * Hiermee verhoog je de score van de speler.

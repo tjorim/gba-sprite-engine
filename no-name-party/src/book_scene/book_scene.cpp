@@ -43,7 +43,7 @@ void BookScene::load() {
 
     background_books = std::unique_ptr<Background>(
             new Background(1, background_booksTiles, sizeof(background_booksTiles),
-                    background_booksMap, sizeof(background_booksMap)));
+                           background_booksMap, sizeof(background_booksMap)));
     background_books->useMapScreenBlock(16);
 }
 
