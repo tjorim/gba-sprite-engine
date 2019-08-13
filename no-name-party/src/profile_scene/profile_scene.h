@@ -8,6 +8,12 @@
 #include <libgba-sprite-engine/scene.h>
 
 class ProfileScene : public Scene {
+private:
+    std::unique_ptr<Background> background_profile;
+
+    bool a_last = false, b_last = false;
+    bool a_now = false, b_now = false;
+
 public:
     ProfileScene(const std::shared_ptr<GBAEngine> &engine);
 
