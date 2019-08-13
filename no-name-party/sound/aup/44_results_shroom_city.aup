@@ -1,0 +1,55 @@
+<?xml version="1.0" standalone="no" ?>
+<!DOCTYPE project PUBLIC "-//audacityproject-1.3.0//DTD//EN" "http://audacity.sourceforge.net/xml/audacityproject-1.3.0.dtd" >
+<project xmlns="http://audacity.sourceforge.net/xml/" projname="44_results_shroom_city_data" version="1.3.0" audacityversion="2.3.2" sel0="0.0000000000" sel1="59.9248979592" vpos="0" h="0.0000000000" zoom="12.5824160854" rate="16000.0" snapto="off" selectionformat="hh:mm:ss + milliseconds" frequencyformat="Hz" bandwidthformat="octaves">
+	<tags>
+		<tag name="ALBUM" value="Mario Party Advance"/>
+		<tag name="TRACKNUMBER" value="41/72"/>
+		<tag name="replaygain_track_gain" value="+7.22 dB"/>
+		<tag name="ARTIST" value="Video Game Music"/>
+		<tag name="replaygain_track_peak" value="0.298800"/>
+		<tag name="GENRE" value="Game"/>
+		<tag name="COMMENTS" value="3"/>
+		<tag name="TITLE" value="Results (Shroom City)"/>
+		<tag name="BPM (beats per minute)" value="120"/>
+	</tags>
+	<wavetrack name="44_results_shroom_city" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="0" rate="44100" gain="1.0" pan="0.0" colorindex="0">
+		<waveclip offset="0.00000000" colorindex="0">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="2642688">
+				<waveblock start="0">
+					<simpleblockfile filename="e0808b51.au" len="262144" min="-0.249998" max="0.240959" rms="0.042268"/>
+				</waveblock>
+				<waveblock start="262144">
+					<simpleblockfile filename="e0808e11.au" len="262144" min="-0.249099" max="0.263229" rms="0.043235"/>
+				</waveblock>
+				<waveblock start="524288">
+					<simpleblockfile filename="e0808557.au" len="262144" min="-0.266414" max="0.266159" rms="0.049705"/>
+				</waveblock>
+				<waveblock start="786432">
+					<simpleblockfile filename="e080875d.au" len="262144" min="-0.283269" max="0.246415" rms="0.041386"/>
+				</waveblock>
+				<waveblock start="1048576">
+					<simpleblockfile filename="e0808e75.au" len="262144" min="-0.280597" max="0.243632" rms="0.043525"/>
+				</waveblock>
+				<waveblock start="1310720">
+					<simpleblockfile filename="e0808b8f.au" len="262144" min="-0.249099" max="0.263229" rms="0.044615"/>
+				</waveblock>
+				<waveblock start="1572864">
+					<simpleblockfile filename="e080877e.au" len="262144" min="-0.266414" max="0.266159" rms="0.049372"/>
+				</waveblock>
+				<waveblock start="1835008">
+					<simpleblockfile filename="e08082ca.au" len="262144" min="-0.283269" max="0.246415" rms="0.04051"/>
+				</waveblock>
+				<waveblock start="2097152">
+					<simpleblockfile filename="e080812d.au" len="262144" min="-0.280597" max="0.243632" rms="0.038148"/>
+				</waveblock>
+				<waveblock start="2359296">
+					<simpleblockfile filename="e0808470.au" len="262144" min="-0.10324" max="0.114709" rms="0.013843"/>
+				</waveblock>
+				<waveblock start="2621440">
+					<simpleblockfile filename="e08089af.au" len="21248" min="0.0" max="0.0" rms="0.0"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+</project>

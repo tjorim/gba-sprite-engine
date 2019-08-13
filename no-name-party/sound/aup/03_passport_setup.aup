@@ -1,0 +1,70 @@
+<?xml version="1.0" standalone="no" ?>
+<!DOCTYPE project PUBLIC "-//audacityproject-1.3.0//DTD//EN" "http://audacity.sourceforge.net/xml/audacityproject-1.3.0.dtd" >
+<project xmlns="http://audacity.sourceforge.net/xml/" projname="03_passport_setup_data" version="1.3.0" audacityversion="2.3.2" sel0="0.0000000000" sel1="89.3387755102" vpos="0" h="0.0000000000" zoom="8.4397843567" rate="16000.0" snapto="off" selectionformat="hh:mm:ss + milliseconds" frequencyformat="Hz" bandwidthformat="octaves">
+	<tags>
+		<tag name="ALBUM" value="Mario Party Advance"/>
+		<tag name="TRACKNUMBER" value="3/72"/>
+		<tag name="replaygain_track_gain" value="+2.19 dB"/>
+		<tag name="ARTIST" value="Video Game Music"/>
+		<tag name="replaygain_track_peak" value="0.407930"/>
+		<tag name="GENRE" value="Game"/>
+		<tag name="COMMENTS" value="4"/>
+		<tag name="TITLE" value="Passport Setup"/>
+		<tag name="BPM (beats per minute)" value="136"/>
+	</tags>
+	<wavetrack name="03_passport_setup" channel="2" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="1" rate="44100" gain="1.0" pan="0.0" colorindex="0">
+		<waveclip offset="0.00000000" colorindex="0">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="3939840">
+				<waveblock start="0">
+					<simpleblockfile filename="e08082da.au" len="262144" min="-0.213642" max="0.17629" rms="0.042608"/>
+				</waveblock>
+				<waveblock start="262144">
+					<simpleblockfile filename="e0808b1b.au" len="262144" min="-0.373758" max="0.356769" rms="0.084135"/>
+				</waveblock>
+				<waveblock start="524288">
+					<simpleblockfile filename="e080860c.au" len="262144" min="-0.354179" max="0.303824" rms="0.076577"/>
+				</waveblock>
+				<waveblock start="786432">
+					<simpleblockfile filename="e0808d71.au" len="262144" min="-0.398852" max="0.344053" rms="0.090999"/>
+				</waveblock>
+				<waveblock start="1048576">
+					<simpleblockfile filename="e0808c98.au" len="262144" min="-0.34967" max="0.331265" rms="0.081525"/>
+				</waveblock>
+				<waveblock start="1310720">
+					<simpleblockfile filename="e0808d23.au" len="262144" min="-0.363424" max="0.321035" rms="0.075511"/>
+				</waveblock>
+				<waveblock start="1572864">
+					<simpleblockfile filename="e0808f74.au" len="262144" min="-0.37576" max="0.32565" rms="0.070019"/>
+				</waveblock>
+				<waveblock start="1835008">
+					<simpleblockfile filename="e0808ae2.au" len="262144" min="-0.282844" max="0.235189" rms="0.050868"/>
+				</waveblock>
+				<waveblock start="2097152">
+					<simpleblockfile filename="e0808ed6.au" len="262144" min="-0.381928" max="0.345568" rms="0.094012"/>
+				</waveblock>
+				<waveblock start="2359296">
+					<simpleblockfile filename="e0808023.au" len="262144" min="-0.317888" max="0.327596" rms="0.069008"/>
+				</waveblock>
+				<waveblock start="2621440">
+					<simpleblockfile filename="e0808d0e.au" len="262144" min="-0.400175" max="0.342571" rms="0.102426"/>
+				</waveblock>
+				<waveblock start="2883584">
+					<simpleblockfile filename="e08082f1.au" len="262144" min="-0.297266" max="0.23349" rms="0.064892"/>
+				</waveblock>
+				<waveblock start="3145728">
+					<simpleblockfile filename="e080861b.au" len="262144" min="-0.34677" max="0.323322" rms="0.078926"/>
+				</waveblock>
+				<waveblock start="3407872">
+					<simpleblockfile filename="e08085e9.au" len="262144" min="-0.376363" max="0.326709" rms="0.052729"/>
+				</waveblock>
+				<waveblock start="3670016">
+					<simpleblockfile filename="e0808b48.au" len="262144" min="-0.089126" max="0.089685" rms="0.015288"/>
+				</waveblock>
+				<waveblock start="3932160">
+					<simpleblockfile filename="e08082c6.au" len="7680" min="0.0" max="0.0" rms="0.0"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+</project>
