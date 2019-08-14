@@ -29,7 +29,7 @@ private:
 public:
     StairCase(Character character);
 
-    void moveTo(int xValue, int yValue);
+    void moveToX(int xValue);
 
     void higher();
 

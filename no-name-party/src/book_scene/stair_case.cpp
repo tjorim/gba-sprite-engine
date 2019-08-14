@@ -83,8 +83,9 @@ StairCase::StairCase(Character character) : character(character) {
     updateHeight();
 }
 
-void StairCase::moveTo(int xValue, int yValue) {
-
+void StairCase::moveToX(int xValue) {
+    StairCase::xCo = xValue;
+    updateHeight();
 }
 
 void StairCase::higher() {

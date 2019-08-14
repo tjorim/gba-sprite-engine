@@ -24,6 +24,12 @@ private:
     bool down_last = false, up_last = false;
     bool down_now = false, up_now = false;
 
+    bool left_last = false, right_last = false;
+    bool left_now = false, right_now = false;
+
+    int height = 0;
+    int xCo = GBA_SCREEN_WIDTH / 2;
+
     // LUIGI, MARIO, PRINCESS_PEACH, YOSHI
     Character character = Character::LUIGI;
 
@@ -39,6 +45,18 @@ public:
     void tick(u16 keys) override;
 
     void placeBooks();
+
+    void higher();
+
+    void lower();
+
+    void updateHeight();
+
+    void goLeft();
+
+    void goRight();
+
+    void updateXCo();
 
     /**
      * Wat is de character van de speler?

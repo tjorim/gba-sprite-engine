@@ -20,9 +20,13 @@ class Book {
 private:
     std::unique_ptr<Sprite> sprite;
 
-    Colour colour = Colour::BLUE;
-    int xCo = GBA_SCREEN_WIDTH;
+    int book_height[4] = {96, 72, 48, 24};
+
     int height = 0;
+    int xCo = GBA_SCREEN_WIDTH / 2;
+
+    // BLUE, GREEN, RED, YELLOW
+    Colour colour = Colour::BLUE;
 
 public:
     Book(Colour colour, int xCo, int height) : colour(colour), xCo(xCo), height(height) {
@@ -67,6 +71,12 @@ public:
     void setSprite(std::unique_ptr<Sprite> sprite) {
         Book::sprite = std::move(sprite);
     }
+
+    int getHeight() const;
+
+    void setHeight(int height);
+
+    void updateHeight();
 };
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_BOOK_H

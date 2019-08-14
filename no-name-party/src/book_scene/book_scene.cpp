@@ -86,7 +86,7 @@ void BookScene::tick(u16 keys) {
         down_now = false;
     }
     if (down_now == true && down_last == false) {
-        stair_case->lower();
+        lower();
     }
 
     up_last = up_now;
@@ -96,10 +96,66 @@ void BookScene::tick(u16 keys) {
         up_now = false;
     }
     if (up_now == true && up_last == false) {
-        stair_case->higher();
+        higher();
+    }
+
+    left_last = left_now;
+    if (keys & KEY_LEFT) {
+        left_now = true;
+    } else {
+        left_now = false;
+    }
+    if (left_now == true && left_last == false) {
+        goLeft();
+    }
+
+    right_last = right_now;
+    if (keys & KEY_RIGHT) {
+        right_now = true;
+    } else {
+        right_now = false;
+    }
+    if (right_now == true && right_last == false) {
+        goRight();
     }
 
     TextStream::instance().setText(std::string("Book scene"), 0, 0);
+}
+
+void BookScene::higher() {
+    if (height < 3) {
+        height++;
+        updateHeight();
+    }
+}
+
+void BookScene::lower() {
+    if (height > 0) {
+        height--;
+        updateHeight();
+    }
+}
+
+void BookScene::updateHeight() {
+    stair_case->setHeight(height);
+}
+
+void BookScene::goLeft() {
+    if (xCo > 0) {
+        xCo -= 16;
+        updateXCo();
+    }
+}
+
+void BookScene::goRight() {
+    if (xCo < 240) {
+        xCo += 16;
+        updateXCo();
+    }
+}
+
+void BookScene::updateXCo() {
+    stair_case->moveToX(xCo);
 }
 
 Character BookScene::getCharacter() const {
