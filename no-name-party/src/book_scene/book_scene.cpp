@@ -141,14 +141,14 @@ void BookScene::updateHeight() {
 }
 
 void BookScene::goLeft() {
-    if (xCo > 0) {
+    if (xCo > 112) {
         xCo -= 16;
         updateXCo();
     }
 }
 
 void BookScene::goRight() {
-    if (xCo < 240) {
+    if (xCo < 128) {
         xCo += 16;
         updateXCo();
     }

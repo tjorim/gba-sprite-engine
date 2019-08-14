@@ -28,7 +28,7 @@ private:
     bool left_now = false, right_now = false;
 
     int height = 0;
-    int xCo = GBA_SCREEN_WIDTH / 2;
+    int xCo = GBA_SCREEN_WIDTH / 2 - 8;
 
     // LUIGI, MARIO, PRINCESS_PEACH, YOSHI
     Character character = Character::LUIGI;
