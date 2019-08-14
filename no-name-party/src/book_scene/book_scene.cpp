@@ -168,27 +168,27 @@ void BookScene::setCharacter(const Character &value) {
 
 void BookScene::placeBooks() {
     books.push_back(
-            std::unique_ptr<Book>(new Book(Colour::BLUE, 10, 0))
+            std::unique_ptr<Book>(new Book(Colour::BLUE, 112, 3))
     );
     books.push_back(
-            std::unique_ptr<Book>(new Book(Colour::GREEN, 40, 40))
+            std::unique_ptr<Book>(new Book(Colour::GREEN, 112, 2))
     );
     books.push_back(
-            std::unique_ptr<Book>(new Book(Colour::YELLOW, 70, 60))
+            std::unique_ptr<Book>(new Book(Colour::YELLOW, 112, 1))
     );
     books.push_back(
-            std::unique_ptr<Book>(new Book(Colour::RED, 100, 0))
+            std::unique_ptr<Book>(new Book(Colour::RED, 112, 0))
     );
     books.push_back(
-            std::unique_ptr<Book>(new Book(Colour::GREEN, 130, 80))
+            std::unique_ptr<Book>(new Book(Colour::GREEN, 128, 3))
     );
     books.push_back(
-            std::unique_ptr<Book>(new Book(Colour::BLUE, 150, 60))
+            std::unique_ptr<Book>(new Book(Colour::BLUE, 128, 2))
     );
     books.push_back(
-            std::unique_ptr<Book>(new Book(Colour::RED, 180, 40))
+            std::unique_ptr<Book>(new Book(Colour::RED, 128, 1))
     );
     books.push_back(
-            std::unique_ptr<Book>(new Book(Colour::YELLOW, 200, 80))
+            std::unique_ptr<Book>(new Book(Colour::YELLOW, 128, 0))
     );
 }
