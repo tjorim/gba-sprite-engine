@@ -1,9 +1,9 @@
 
-//{{BLOCK(balloon_pink)
+//{{BLOCK(balloon_red)
 
 //======================================================================
 //
-//	balloon_pink, 16x32@8, 
+//	balloon_red, 16x32@8, 
 //	+ 8 tiles not compressed
 //	Total size: 512 = 512
 //
@@ -13,7 +13,7 @@
 //
 //======================================================================
 
-const unsigned int balloon_pinkTiles[128] __attribute__((aligned(4)))=
+const unsigned int balloon_redTiles[128] __attribute__((aligned(4)))=
 {
 	0x00000000,0x10100000,0x00000000,0x11111010,0x10000000,0x0F0F0F11,0x0F111000,0x07071312,
 	0x120F1000,0x07071312,0x12141110,0x13131212,0x12140F10,0x12121212,0x12140F10,0x12131312,
@@ -34,4 +34,4 @@ const unsigned int balloon_pinkTiles[128] __attribute__((aligned(4)))=
 	0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,0x00000000,
 };
 
-//}}BLOCK(balloon_pink)
+//}}BLOCK(balloon_red)

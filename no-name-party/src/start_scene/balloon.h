@@ -13,7 +13,7 @@
 
 #include "foreground/sprites/balloon_blue.h"
 #include "foreground/sprites/balloon_green.h"
-#include "foreground/sprites/balloon_pink.h"
+#include "foreground/sprites/balloon_red.h"
 #include "foreground/sprites/balloon_yellow.h"
 
 class Balloon {
@@ -45,8 +45,8 @@ public:
                                   .buildPtr());
                 break;
 
-            case Colour::PINK:
-                setSprite(builder.withData(balloon_pinkTiles, sizeof(balloon_pinkTiles))
+            case Colour::RED:
+                setSprite(builder.withData(balloon_redTiles, sizeof(balloon_redTiles))
                                   .withSize(SIZE_16_32)
                                   .withLocation(xCo, GBA_SCREEN_HEIGHT + offset)
                                   .withVelocity(0, helium)

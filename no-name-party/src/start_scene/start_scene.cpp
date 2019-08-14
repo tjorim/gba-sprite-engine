@@ -86,7 +86,7 @@ void StartScene::inflateBalloons() {
             std::unique_ptr<Balloon>(new Balloon(Colour::YELLOW, 70, -1, 60))
     );
     balloons.push_back(
-            std::unique_ptr<Balloon>(new Balloon(Colour::PINK, 100, -2, 0))
+            std::unique_ptr<Balloon>(new Balloon(Colour::RED, 100, -2, 0))
     );
     balloons.push_back(
             std::unique_ptr<Balloon>(new Balloon(Colour::GREEN, 130, -1, 80))
@@ -95,7 +95,7 @@ void StartScene::inflateBalloons() {
             std::unique_ptr<Balloon>(new Balloon(Colour::BLUE, 150, -2, 60))
     );
     balloons.push_back(
-            std::unique_ptr<Balloon>(new Balloon(Colour::PINK, 180, -1, 40))
+            std::unique_ptr<Balloon>(new Balloon(Colour::RED, 180, -1, 40))
     );
     balloons.push_back(
             std::unique_ptr<Balloon>(new Balloon(Colour::YELLOW, 200, -2, 80))

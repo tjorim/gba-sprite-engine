@@ -9,7 +9,7 @@
 enum class Colour : char {
     BLUE = 0,
     GREEN = 1,
-    PINK = 2,
+    RED = 2,
     YELLOW = 3
 };
 
