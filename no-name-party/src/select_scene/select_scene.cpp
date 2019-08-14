@@ -8,6 +8,8 @@
 #include "select_scene.h"
 #include "../profile_scene/profile_scene.h"
 
+#include "../enums/character.h"
+
 #include "sound_03_passport_setup.h"
 #include "background/background_rainbow.h"
 #include "foreground/sprites/shared_select_scene.h"
@@ -102,7 +104,7 @@ void SelectScene::tick(u16 keys) {
     if (keys & KEY_A) {
         if (character_current != 1) {
             //engine->setScene(new GameScene(engine, getCharacter()));
-            engine->setScene(new ProfileScene(engine));
+            engine->setScene(new ProfileScene(engine, static_cast<Character>(getCharacter())));
         } else {
             TextStream::instance().setText(std::string("Mario is niet beschikbaar"),
                                            16, 2);

@@ -116,20 +116,6 @@ public:
         }
     }
 
-    /*void setSprite(std::unique_ptr<Sprite> sprite) {
-        GameResult::sprite = std::move(sprite);
-    }
-
-    int getBeginFrame() {
-        beginFrame = static_cast<int>(result);
-        return beginFrame;
-    }
-
-    void updateBeginFrame() {
-        beginFrame = static_cast<int>(result);
-        sprite->setBeginFrame(beginFrame);
-    }*/
-
     /**
      * Wat is de character van de speler?
      * LUIGI, PRINCESS_PEACH

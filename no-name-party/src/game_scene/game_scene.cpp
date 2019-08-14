@@ -11,14 +11,13 @@
 #include "../end_scene/end_scene.h"
 #include "../book_scene/book_scene.h"
 
-#include "../enums/character.h"
 #include "../enums/result.h"
 
 #include "sound_09_main_board_shroom_city.h"
 #include "background/background_map.h"
 #include "foreground/sprites/shared_game_scene.h"
 
-GameScene::GameScene(const std::shared_ptr<GBAEngine> &engine, int character) : Scene(engine), character(character) {}
+GameScene::GameScene(const std::shared_ptr<GBAEngine> &engine, Character character) : Scene(engine), character(character) {}
 
 std::vector<Background *> GameScene::backgrounds() {
     return {
@@ -59,7 +58,7 @@ void GameScene::load() {
                            background_mapMap, sizeof(background_mapMap)));
     background_map->useMapScreenBlock(16);
 
-    player = std::unique_ptr<Player>(new Player(static_cast<Character>(getCharacter()), xCoPlayer, yCoPlayer));
+    player = std::unique_ptr<Player>(new Player(getCharacter(), xCoPlayer, yCoPlayer));
     //result = std::unique_ptr<GameResult>(new GameResult(static_cast<Character>(getCharacter()), Result::LOSE));
 
 /*
@@ -121,10 +120,6 @@ void GameScene::tick(u16 keys) {
     */
     TextStream::instance().setText(std::string("Game scene"), 0, 0);
     TextStream::instance().setText(std::string("Score ") + std::to_string(player->getScore()), 0, 21);
-}
-
-int GameScene::getCharacter() const {
-    return character;
 }
 
 /*
@@ -267,6 +262,14 @@ void GameScene::moveRight() {
 
     engine->updateSpritesInScene();
     //moveRelative(1, 0);
+}
+
+Character GameScene::getCharacter() const {
+    return character;
+}
+
+void GameScene::setCharacter(const Character &value) {
+    character = value;
 }
 
 int GameScene::getXCoMap() const {

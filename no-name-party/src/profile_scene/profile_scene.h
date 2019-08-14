@@ -7,15 +7,20 @@
 
 #include <libgba-sprite-engine/scene.h>
 
+#include "../enums/character.h"
+
 class ProfileScene : public Scene {
 private:
     std::unique_ptr<Background> background_profile;
 
-    bool a_last = false, b_last = false;
-    bool a_now = false, b_now = false;
+    // LUIGI, MARIO, PRINCESS_PEACH, YOSHI
+    Character character = Character::LUIGI;
+
+    bool a_last = true, b_last = true;
+    bool a_now = true, b_now = true;
 
 public:
-    ProfileScene(const std::shared_ptr<GBAEngine> &engine);
+    ProfileScene(const std::shared_ptr<GBAEngine> &engine, Character character);
 
     std::vector<Sprite *> sprites() override;
 
@@ -24,6 +29,22 @@ public:
     void load() override;
 
     void tick(u16 keys) override;
+
+    /**
+     * Wat is de character van de speler?
+     * LUIGI, MARIO, PRINCESS_PEACH, YOSHI
+     *
+     * @return De character van de speler.
+     */
+    Character getCharacter() const;
+
+    /**
+     * Geef de speler een character.
+     * LUIGI, PRINCESS_PEACH
+     *
+     * @param character De character die de speler krijgt.
+     */
+    void setCharacter(const Character &value);
 };
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_PROFILE_SCENE_H

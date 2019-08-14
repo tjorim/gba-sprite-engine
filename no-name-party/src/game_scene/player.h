@@ -42,7 +42,7 @@ public:
 
     /**
      * Wat is de character van de speler?
-     * LUIGI, PRINCESS_PEACH
+     * LUIGI, MARIO, PRINCESS_PEACH, YOSHI
      *
      * @return De character van de speler.
      */

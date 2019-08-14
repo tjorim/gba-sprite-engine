@@ -8,6 +8,8 @@
 #include <libgba-sprite-engine/scene.h>
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
 
+#include "../enums/character.h"
+
 #include "player.h"
 #include "game_result.h"
 
@@ -20,14 +22,16 @@ private:
     std::unique_ptr<Player> player;
     std::unique_ptr<GameResult> result;
 
-    int character = 0;
+    // LUIGI, MARIO, PRINCESS_PEACH, YOSHI
+    Character character = Character::LUIGI;
+
     // De x- en y-positie van de map
     int xCoMap = 0, yCoMap = 0;
     // De x- en y-positie van the player
     int xCoPlayer = 40, yCoPlayer = 40;
 
 public:
-    GameScene(const std::shared_ptr<GBAEngine> &engine, int character);
+    GameScene(const std::shared_ptr<GBAEngine> &engine, Character character);
 
     std::vector<Sprite *> sprites() override;
 
@@ -36,8 +40,6 @@ public:
     void load() override;
 
     void tick(u16 keys) override;
-
-    int getCharacter() const;
 
     void moveMapTo(int xValue, int yValue);
 
@@ -58,6 +60,22 @@ public:
     void moveLeft();
 
     void moveRight();
+
+    /**
+     * Wat is de character van de speler?
+     * LUIGI, MARIO, PRINCESS_PEACH, YOSHI
+     *
+     * @return De character van de speler.
+     */
+    Character getCharacter() const;
+
+    /**
+     * Geef de speler een character.
+     * LUIGI, PRINCESS_PEACH
+     *
+     * @param character De character die de speler krijgt.
+     */
+    void setCharacter(const Character &value);
 
     /**
      * Wat is de x-positie van this Thing?

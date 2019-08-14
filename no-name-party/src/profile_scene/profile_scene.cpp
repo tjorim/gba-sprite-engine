@@ -5,13 +5,14 @@
 #include <libgba-sprite-engine/background/text_stream.h>
 #include <libgba-sprite-engine/gba_engine.h>
 
+#include "../select_scene/select_scene.h"
 #include "profile_scene.h"
 #include "../game_scene/game_scene.h"
 
 #include "sound_04_view_passport.h"
 #include "background/background_profile.h"
 
-ProfileScene::ProfileScene(const std::shared_ptr<GBAEngine> &engine) : Scene(engine) {}
+ProfileScene::ProfileScene(const std::shared_ptr<GBAEngine> &engine, Character character) : Scene(engine), character(character) {}
 
 std::vector<Background *> ProfileScene::backgrounds() {
     return {
@@ -45,7 +46,7 @@ void ProfileScene::tick(u16 keys) {
         a_now = false;
     }
     if (a_now == true && a_last == false) {
-        //engine->setScene(new GameScene(engine, getCharacter()));
+        engine->setScene(new GameScene(engine, getCharacter()));
     }
 
     b_last = b_now;
@@ -55,6 +56,14 @@ void ProfileScene::tick(u16 keys) {
         b_now = false;
     }
     if (b_now == true && b_last == false) {
-        //characterRight();
+        engine->setScene(new SelectScene(engine));
     }
+}
+
+Character ProfileScene::getCharacter() const {
+    return character;
+}
+
+void ProfileScene::setCharacter(const Character &value) {
+    character = value;
 }
