@@ -21,10 +21,6 @@ std::vector<Background *> BookScene::backgrounds() {
 std::vector<Sprite *> BookScene::sprites() {
     std::vector<Sprite *> sprites;
 
-    for (auto &book : books) {
-        sprites.push_back(book->getSprite());
-    }
-
     sprites.push_back(stair_case->getPlayerBookSprite());
 
     sprites.push_back(stair_case->getgetBooksBaseSprite());
@@ -34,6 +30,10 @@ std::vector<Sprite *> BookScene::sprites() {
     sprites.push_back(stair_case->getgetBooksMiddleSprite());
 
     sprites.push_back(stair_case->getgetBooksTopSprite());
+
+    for (auto &book : books) {
+        sprites.push_back(book->getSprite());
+    }
 
     TextStream::instance().setText(std::string("Sprites ") + std::to_string(sprites.size()), 1, 0);
 
