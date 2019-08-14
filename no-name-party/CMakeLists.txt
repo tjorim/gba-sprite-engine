@@ -3,6 +3,7 @@ project(no-name-party)               # Create project "no-name-party"
 add_executable(${PROJECT_NAME}.elf
         src/main.cpp
         src/book_scene/book_scene.cpp src/book_scene/book_scene.h
+        src/book_scene/book.h
         src/book_scene/stair_case.cpp src/book_scene/stair_case.h
         src/end_scene/end_scene.cpp src/end_scene/end_scene.h
         src/enums/character.h src/enums/colour.h
