@@ -54,6 +54,8 @@ void BookScene::load() {
     placeBooks();
 
     stair_case = std::unique_ptr<StairCase>(new StairCase(getCharacter()));
+    
+    updateXCo();
 }
 
 void BookScene::tick(u16 keys) {
