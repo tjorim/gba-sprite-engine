@@ -124,7 +124,7 @@ Character StairCase::getCharacter() const {
 }
 
 void StairCase::setCharacter(const Character &value) {
-    StairCase::character = character;
+    StairCase::character = value;
 }
 
 Sprite *StairCase::getPlayerBookSprite() {
