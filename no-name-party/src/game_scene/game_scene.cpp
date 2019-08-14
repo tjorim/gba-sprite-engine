@@ -42,7 +42,7 @@ std::vector<Sprite *> GameScene::sprites() {
     }
     */
 
-    TextStream::instance().setText(std::string("Sprites ") + std::to_string(sprites.size()), 1, 0);
+    //TextStream::instance().setText(std::string("Sprites ") + std::to_string(sprites.size()), 1, 0);
 
     return sprites;
 }
@@ -95,7 +95,7 @@ void GameScene::tick(u16 keys) {
         //engine->dequeueAllSounds();
         //engine->enqueueMusic(Title_Screen_wav, sizeof(Title_Screen_wav));
     } else if (keys & KEY_B) {
-        //engine->setScene(new BookScene(engine));
+        engine->setScene(new BookScene(engine, getCharacter()));
         //result = std::unique_ptr<GameResult>(new GameResult(static_cast<Character>(getCharacter()), Result::WIN));
         //engine->updateSpritesInScene();
     } else if (keys & KEY_UP) {

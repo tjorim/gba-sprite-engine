@@ -13,11 +13,11 @@ class ProfileScene : public Scene {
 private:
     std::unique_ptr<Background> background_profile;
 
-    // LUIGI, MARIO, PRINCESS_PEACH, YOSHI
-    Character character = Character::LUIGI;
-
     bool a_last = true, b_last = true;
     bool a_now = true, b_now = true;
+
+    // LUIGI, MARIO, PRINCESS_PEACH, YOSHI
+    Character character = Character::LUIGI;
 
 public:
     ProfileScene(const std::shared_ptr<GBAEngine> &engine, Character character);
@@ -40,7 +40,7 @@ public:
 
     /**
      * Geef de speler een character.
-     * LUIGI, PRINCESS_PEACH
+     * LUIGI, MARIO, PRINCESS_PEACH, YOSHI
      *
      * @param character De character die de speler krijgt.
      */

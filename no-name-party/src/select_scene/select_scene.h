@@ -15,6 +15,9 @@ private:
     std::unique_ptr<Sprite> luigi_select, mario_select, princess_peach_select, yoshi_select;
     std::vector<std::unique_ptr<Sprite>> characters;
 
+    bool a_last = true, b_last = true;
+    bool a_now = true, b_now = true;
+
     bool left_last = false, right_last = false;
     bool left_now = false, right_now = false;
 

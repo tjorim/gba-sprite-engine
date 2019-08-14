@@ -8,6 +8,7 @@
 #include "../select_scene/select_scene.h"
 #include "profile_scene.h"
 #include "../game_scene/game_scene.h"
+#include "../book_scene/book_scene.h"
 
 #include "sound_04_view_passport.h"
 #include "background/background_profile.h"
@@ -46,7 +47,8 @@ void ProfileScene::tick(u16 keys) {
         a_now = false;
     }
     if (a_now == true && a_last == false) {
-        engine->setScene(new GameScene(engine, getCharacter()));
+        //engine->setScene(new GameScene(engine, getCharacter()));
+        engine->setScene(new BookScene(engine, getCharacter()));
     }
 
     b_last = b_now;
@@ -56,8 +58,10 @@ void ProfileScene::tick(u16 keys) {
         b_now = false;
     }
     if (b_now == true && b_last == false) {
-        engine->setScene(new SelectScene(engine));
+        //engine->setScene(new SelectScene(engine));
     }
+
+    TextStream::instance().setText(std::string("Profile scene"), 0, 0);
 }
 
 Character ProfileScene::getCharacter() const {

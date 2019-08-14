@@ -5,6 +5,7 @@
 #include <libgba-sprite-engine/background/text_stream.h>
 #include <libgba-sprite-engine/gba_engine.h>
 
+#include "../start_scene/start_scene.h"
 #include "select_scene.h"
 #include "../profile_scene/profile_scene.h"
 
@@ -81,6 +82,31 @@ void SelectScene::load() {
 }
 
 void SelectScene::tick(u16 keys) {
+    a_last = a_now;
+    if (keys & KEY_A) {
+        a_now = true;
+    } else {
+        a_now = false;
+    }
+    if (a_now == true && a_last == false) {
+        if (character_current != 1) {
+            engine->setScene(new ProfileScene(engine, static_cast<Character>(getCharacter())));
+        } else {
+            TextStream::instance().setText(std::string("Mario is niet beschikbaar"),
+                                           16, 2);
+        }
+    }
+
+    b_last = b_now;
+    if (keys & KEY_B) {
+        b_now = true;
+    } else {
+        b_now = false;
+    }
+    if (b_now == true && b_last == false) {
+        //engine->setScene(new StartScene(engine));
+    }
+
     left_last = left_now;
     if (keys & KEY_LEFT) {
         left_now = true;
@@ -99,16 +125,6 @@ void SelectScene::tick(u16 keys) {
     }
     if (right_now == true && right_last == false) {
         characterRight();
-    }
-
-    if (keys & KEY_A) {
-        if (character_current != 1) {
-            //engine->setScene(new GameScene(engine, getCharacter()));
-            engine->setScene(new ProfileScene(engine, static_cast<Character>(getCharacter())));
-        } else {
-            TextStream::instance().setText(std::string("Mario is niet beschikbaar"),
-                                           16, 2);
-        }
     }
 
     TextStream::instance().setText(std::string("Select scene"), 0, 0);
