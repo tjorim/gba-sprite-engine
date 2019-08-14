@@ -24,7 +24,7 @@ StairCase::StairCase(Character character) : character(character) {
             player_book = std::move(builder.withData(luigi_bookTiles,
                                                      sizeof(luigi_bookTiles))
                                             .withSize(SIZE_32_32)
-                                            .withLocation(xCo - 16, GBA_SCREEN_HEIGHT - 64)
+                                            .withLocation(xCo - 16, GBA_SCREEN_HEIGHT)
                                             .buildPtr());
             break;
 
@@ -32,7 +32,7 @@ StairCase::StairCase(Character character) : character(character) {
             player_book = std::move(builder.withData(mario_bookTiles,
                                                      sizeof(mario_bookTiles))
                                             .withSize(SIZE_32_32)
-                                            .withLocation(xCo - 16, GBA_SCREEN_HEIGHT - 64)
+                                            .withLocation(xCo - 16, GBA_SCREEN_HEIGHT)
                                             .buildPtr());
             break;
 
@@ -40,7 +40,7 @@ StairCase::StairCase(Character character) : character(character) {
             player_book = std::move(builder.withData(princess_peach_bookTiles,
                                                      sizeof(princess_peach_bookTiles))
                                             .withSize(SIZE_32_32)
-                                            .withLocation(xCo - 16, GBA_SCREEN_HEIGHT - 64)
+                                            .withLocation(xCo - 16, GBA_SCREEN_HEIGHT)
                                             .buildPtr());
             break;
 
@@ -48,7 +48,7 @@ StairCase::StairCase(Character character) : character(character) {
             player_book = std::move(builder.withData(yoshi_bookTiles,
                                                      sizeof(yoshi_bookTiles))
                                             .withSize(SIZE_32_32)
-                                            .withLocation(xCo - 16, GBA_SCREEN_HEIGHT - 64)
+                                            .withLocation(xCo - 16, GBA_SCREEN_HEIGHT)
                                             .buildPtr());
             break;
 
@@ -59,33 +59,47 @@ StairCase::StairCase(Character character) : character(character) {
     books_base = std::move(builder.withData(books_baseTiles,
                                                 sizeof(books_baseTiles))
                                     .withSize(SIZE_32_16)
-                                    .withLocation(xCo - 16, GBA_SCREEN_HEIGHT / 2 + 32)
+                                    .withLocation(xCo - 16, GBA_SCREEN_HEIGHT)
                                     .buildPtr());
 
     books_bottom = std::move(builder.withData(books_bottomTiles,
                                                 sizeof(books_bottomTiles))
                                     .withSize(SIZE_32_32)
-                                    .withLocation(xCo - 16, GBA_SCREEN_HEIGHT / 2)
+                                    .withLocation(xCo - 16, GBA_SCREEN_HEIGHT)
                                     .buildPtr());
 
     books_middle = std::move(builder.withData(books_middleTiles,
                                                 sizeof(books_middleTiles))
                                     .withSize(SIZE_16_32)
-                                    .withLocation(xCo - 8, GBA_SCREEN_HEIGHT / 2 - 32)
+                                    .withLocation(xCo - 8, GBA_SCREEN_HEIGHT)
                                     .buildPtr());
 
     books_top = std::move(builder.withData(books_topTiles,
                                                 sizeof(books_topTiles))
                                     .withSize(SIZE_32_32)
-                                    .withLocation(xCo - 16, GBA_SCREEN_HEIGHT / 2 - 64)
+                                    .withLocation(xCo - 16, GBA_SCREEN_HEIGHT)
                                     .buildPtr());
+
+    updateHeight();
 }
 
-void moveTo(int xValue, int yValue);
+void StairCase::moveTo(int xValue, int yValue) {
 
-void higher();
+}
 
-void lower();
+void StairCase::higher() {
+    if (height < 3) {
+        height++;
+        updateHeight();
+    }
+}
+
+void StairCase::lower() {
+    if (height > 0) {
+        height--;
+        updateHeight();
+    }
+}
 
 int StairCase::getHeight() const {
     return height;
@@ -93,8 +107,15 @@ int StairCase::getHeight() const {
 
 void StairCase::setHeight(int height) {
     StairCase::height = height;
-        //cloud_left->moveTo(cloud_left->getX(), yCo);
-        //cloud_right->moveTo(cloud_right->getX(), yCo);
+    updateHeight();
+}
+
+void StairCase::updateHeight() {
+    player_book->moveTo(xCo - 16, player_book_height[height]);
+    books_base->moveTo(xCo - 16, books_base_height[height]);
+    books_bottom->moveTo(xCo - 16, books_bottom_height[height]);
+    books_middle->moveTo(xCo - 8, books_middle_height[height]);
+    books_top->moveTo(xCo - 16, books_top_height[height]);
 }
 
 Character StairCase::getCharacter() const {

@@ -10,11 +10,6 @@
 #include "background/background_books.h"
 #include "foreground/sprites/shared_book_scene.h"
 
-#include "foreground/sprites/book_blue.h"
-#include "foreground/sprites/book_green.h"
-#include "foreground/sprites/book_red.h"
-#include "foreground/sprites/book_yellow.h"
-
 BookScene::BookScene(const std::shared_ptr<GBAEngine> &engine, Character character) : Scene(engine), character(character) {}
 
 std::vector<Background *> BookScene::backgrounds() {
@@ -26,6 +21,10 @@ std::vector<Background *> BookScene::backgrounds() {
 std::vector<Sprite *> BookScene::sprites() {
     std::vector<Sprite *> sprites;
 
+    for (auto &book : books) {
+        sprites.push_back(book->getSprite());
+    }
+
     sprites.push_back(stair_case->getPlayerBookSprite());
 
     sprites.push_back(stair_case->getgetBooksBaseSprite());
@@ -35,10 +34,6 @@ std::vector<Sprite *> BookScene::sprites() {
     sprites.push_back(stair_case->getgetBooksMiddleSprite());
 
     sprites.push_back(stair_case->getgetBooksTopSprite());
-
-    /*for (auto &book : books) {
-        sprites.push_back(book.get());
-    }*/
 
     TextStream::instance().setText(std::string("Sprites ") + std::to_string(sprites.size()), 1, 0);
 
@@ -55,6 +50,8 @@ void BookScene::load() {
             new Background(1, background_booksTiles, sizeof(background_booksTiles),
                            background_booksMap, sizeof(background_booksMap)));
     background_books->useMapScreenBlock(16);
+
+    placeBooks();
 
     stair_case = std::unique_ptr<StairCase>(new StairCase(getCharacter()));
 }
@@ -89,7 +86,7 @@ void BookScene::tick(u16 keys) {
         down_now = false;
     }
     if (down_now == true && down_last == false) {
-        //characterLeft();
+        stair_case->lower();
     }
 
     up_last = up_now;
@@ -99,7 +96,7 @@ void BookScene::tick(u16 keys) {
         up_now = false;
     }
     if (up_now == true && up_last == false) {
-        //characterRight();
+        stair_case->higher();
     }
 
     TextStream::instance().setText(std::string("Book scene"), 0, 0);
@@ -111,4 +108,31 @@ Character BookScene::getCharacter() const {
 
 void BookScene::setCharacter(const Character &value) {
     character = value;
+}
+
+void BookScene::placeBooks() {
+    books.push_back(
+            std::unique_ptr<Book>(new Book(Colour::BLUE, 10, 0))
+    );
+    books.push_back(
+            std::unique_ptr<Book>(new Book(Colour::GREEN, 40, 40))
+    );
+    books.push_back(
+            std::unique_ptr<Book>(new Book(Colour::YELLOW, 70, 60))
+    );
+    books.push_back(
+            std::unique_ptr<Book>(new Book(Colour::RED, 100, 0))
+    );
+    books.push_back(
+            std::unique_ptr<Book>(new Book(Colour::GREEN, 130, 80))
+    );
+    books.push_back(
+            std::unique_ptr<Book>(new Book(Colour::BLUE, 150, 60))
+    );
+    books.push_back(
+            std::unique_ptr<Book>(new Book(Colour::RED, 180, 40))
+    );
+    books.push_back(
+            std::unique_ptr<Book>(new Book(Colour::YELLOW, 200, 80))
+    );
 }

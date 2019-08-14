@@ -32,28 +32,28 @@ public:
             case Colour::BLUE:
                 setSprite(builder.withData(book_blueTiles, sizeof(book_blueTiles))
                                   .withSize(SIZE_16_16)
-                                  .withLocation(xCo, GBA_SCREEN_HEIGHT + height)
+                                  .withLocation(xCo, height)
                                   .buildPtr());
                 break;
 
             case Colour::GREEN:
                 setSprite(builder.withData(book_greenTiles, sizeof(book_greenTiles))
                                   .withSize(SIZE_16_16)
-                                  .withLocation(xCo, GBA_SCREEN_HEIGHT + height)
+                                  .withLocation(xCo, height)
                                   .buildPtr());
                 break;
 
             case Colour::RED:
                 setSprite(builder.withData(book_redTiles, sizeof(book_redTiles))
                                   .withSize(SIZE_16_16)
-                                  .withLocation(xCo, GBA_SCREEN_HEIGHT + height)
+                                  .withLocation(xCo, height)
                                   .buildPtr());
                 break;
 
             case Colour::YELLOW:
                 setSprite(builder.withData(book_yellowTiles, sizeof(book_yellowTiles))
                                   .withSize(SIZE_16_16)
-                                  .withLocation(xCo, GBA_SCREEN_HEIGHT + height)
+                                  .withLocation(xCo, height)
                                   .buildPtr());
                 break;
 

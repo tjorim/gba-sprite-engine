@@ -9,12 +9,13 @@
 
 #include "../enums/character.h"
 
+#include "book.h"
 #include "stair_case.h"
 
 class BookScene : public Scene {
 private:
     std::unique_ptr<Background> background_books;
-    std::vector<std::unique_ptr<Sprite>> books;
+    std::vector<std::unique_ptr<Book>> books;
     std::unique_ptr<StairCase> stair_case;
 
     bool a_last = true, b_last = true;
@@ -36,6 +37,8 @@ public:
     void load() override;
 
     void tick(u16 keys) override;
+
+    void placeBooks();
 
     /**
      * Wat is de character van de speler?
