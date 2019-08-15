@@ -41,6 +41,8 @@ std::vector<Sprite *> BookScene::sprites() {
 }
 
 void BookScene::load() {
+    TextStream::instance().clear();
+
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(
             new BackgroundPaletteManager(background_booksPal, sizeof(background_booksPal)));
     foregroundPalette = std::unique_ptr<ForegroundPaletteManager>(

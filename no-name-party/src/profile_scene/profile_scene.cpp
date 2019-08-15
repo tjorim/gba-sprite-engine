@@ -9,6 +9,7 @@
 #include "profile_scene.h"
 #include "../game_scene/game_scene.h"
 #include "../book_scene/book_scene.h"
+#include "../dino_scene/dino_scene.h"
 #include "../race_scene/race_scene.h"
 
 #include "sound_04_view_passport.h"
@@ -48,9 +49,7 @@ void ProfileScene::tick(u16 keys) {
         a_now = false;
     }
     if (a_now == true && a_last == false) {
-        //engine->setScene(new GameScene(engine, getCharacter()));
-        //engine->setScene(new BookScene(engine, getCharacter()));
-        engine->setScene(new RaceScene(engine, getCharacter()));
+        engine->setScene(new GameScene(engine, getCharacter()));
     }
 
     b_last = b_now;
@@ -63,7 +62,52 @@ void ProfileScene::tick(u16 keys) {
         //engine->setScene(new SelectScene(engine));
     }
 
+    down_last = down_now;
+    if (keys & KEY_DOWN) {
+        down_now = true;
+    } else {
+        down_now = false;
+    }
+    if (down_now == true && down_last == false) {
+        engine->setScene(new BookScene(engine, getCharacter()));
+    }
+
+    up_last = up_now;
+    if (keys & KEY_UP) {
+        up_now = true;
+    } else {
+        up_now = false;
+    }
+    if (up_now == true && up_last == false) {
+        engine->setScene(new DinoScene(engine, getCharacter()));
+    }
+
+    left_last = left_now;
+    if (keys & KEY_LEFT) {
+        left_now = true;
+    } else {
+        left_now = false;
+    }
+    if (left_now == true && left_last == false) {
+        engine->setScene(new RaceScene(engine, getCharacter()));
+    }
+
+    right_last = right_now;
+    if (keys & KEY_RIGHT) {
+        right_now = true;
+    } else {
+        right_now = false;
+    }
+    if (right_now == true && right_last == false) {
+        //engine->setScene(new PlantScene(engine, getCharacter()));
+    }
+
     TextStream::instance().setText(std::string("Profile scene"), 0, 0);
+    TextStream::instance().setFontColor(PaletteManager::color(0, 0, 0));
+    TextStream::instance().setText(std::string("Down = book"), 4, 14);
+    TextStream::instance().setText(std::string("Up   = dino"), 8, 14);
+    TextStream::instance().setText(std::string("Left = race"), 12, 14);
+    //TextStream::instance().setText(std::string("Right = plants"), 16, 6);
 }
 
 Character ProfileScene::getCharacter() const {

@@ -1,32 +1,31 @@
 //
-// Created by tiele on 9/08/2019.
+// Created by tiele on 15/08/2019.
 //
 
-#ifndef GBA_SPRITE_ENGINE_PROJECT_PROFILE_SCENE_H
-#define GBA_SPRITE_ENGINE_PROJECT_PROFILE_SCENE_H
+#ifndef GBA_SPRITE_ENGINE_PROJECT_DINO_SCENE_H
+#define GBA_SPRITE_ENGINE_PROJECT_DINO_SCENE_H
 
 #include <libgba-sprite-engine/scene.h>
 
 #include "../enums/character.h"
 
-class ProfileScene : public Scene {
+#include "dino.h"
+
+class DinoScene : public Scene {
 private:
-    std::unique_ptr<Background> background_profile;
+    std::unique_ptr<Background> background_clouds;
+    std::vector<std::unique_ptr<Sprite>> plants;
+    std::unique_ptr<Dino> dino;
 
-    bool a_last = true, b_last = true;
-    bool a_now = true, b_now = true;
+    bool fire_last = true, fire_now = true;
 
-    bool down_last = false, up_last = false;
-    bool down_now = false, up_now = false;
-
-    bool left_last = false, right_last = false;
-    bool left_now = false, right_now = false;
+    int xCo = GBA_SCREEN_WIDTH / 2, yCo = GBA_SCREEN_HEIGHT / 2;
 
     // LUIGI, MARIO, PRINCESS_PEACH, YOSHI
     Character character = Character::LUIGI;
 
 public:
-    ProfileScene(const std::shared_ptr<GBAEngine> &engine, Character character);
+    DinoScene(const std::shared_ptr<GBAEngine> &engine, Character character);
 
     std::vector<Sprite *> sprites() override;
 
@@ -35,6 +34,10 @@ public:
     void load() override;
 
     void tick(u16 keys) override;
+
+    void placePlants();
+
+    void jump();
 
     /**
      * Wat is de character van de speler?
@@ -53,4 +56,4 @@ public:
     void setCharacter(const Character &value);
 };
 
-#endif //GBA_SPRITE_ENGINE_PROJECT_PROFILE_SCENE_H
+#endif //GBA_SPRITE_ENGINE_PROJECT_DINO_SCENE_H

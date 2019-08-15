@@ -3,7 +3,7 @@ cd /d D:\Git\gba-sprite-engine\no-name-party\src\race_scene\foreground\sprites
 
 # full foreground command
 
-..\..\..\..\grit-0.8.6\grit.exe ..\img\bullet_bill.png ..\img\plant.png -ftc -pS -gB8 -O shared_race_scene.c
+..\..\..\..\grit-0.8.6\grit.exe ..\img\bullet_bill_up.png ..\img\walking_bomb.png -ftc -pS -gB8 -O shared_race_scene.c
 
 del *.h && ren *.c *.h
 
@@ -11,8 +11,8 @@ del *.h && ren *.c *.h
 ..\..\..\..\grit-0.8.6\grit.exe
 
 # foregrounds
-..\img\bullet_bill.png
-..\img\plant.png
+..\img\bullet_bill_up.png
+..\img\walking_bomb.png
 
 # foreground flags
 -ftc -pS -gB8 -O shared_race_scene.c

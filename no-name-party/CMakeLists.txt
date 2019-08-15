@@ -5,6 +5,8 @@ add_executable(${PROJECT_NAME}.elf
         src/book_scene/book_scene.cpp src/book_scene/book_scene.h
         src/book_scene/book.h
         src/book_scene/stair_case.cpp src/book_scene/stair_case.h
+        src/dino_scene/dino_scene.cpp src/dino_scene/dino_scene.h
+        src/dino_scene/dino.h
         src/end_scene/end_scene.cpp src/end_scene/end_scene.h
         src/enums/character.h src/enums/colour.h
         src/enums/direction.h src/enums/result.h
@@ -13,6 +15,7 @@ add_executable(${PROJECT_NAME}.elf
         src/game_scene/player.cpp src/game_scene/player.h
         src/profile_scene/profile_scene.cpp src/profile_scene/profile_scene.h
         src/race_scene/race_scene.cpp src/race_scene/race_scene.h
+        src/race_scene/car.h
         src/select_scene/select_scene.cpp src/select_scene/select_scene.h
         src/start_scene/start_scene.cpp src/start_scene/start_scene.h
         src/start_scene/balloon.h src/start_scene/cloud.h
