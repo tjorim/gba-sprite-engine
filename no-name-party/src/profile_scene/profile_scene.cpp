@@ -9,6 +9,7 @@
 #include "profile_scene.h"
 #include "../game_scene/game_scene.h"
 #include "../book_scene/book_scene.h"
+#include "../race_scene/race_scene.h"
 
 #include "sound_04_view_passport.h"
 #include "background/background_profile.h"
@@ -48,7 +49,8 @@ void ProfileScene::tick(u16 keys) {
     }
     if (a_now == true && a_last == false) {
         //engine->setScene(new GameScene(engine, getCharacter()));
-        engine->setScene(new BookScene(engine, getCharacter()));
+        //engine->setScene(new BookScene(engine, getCharacter()));
+        engine->setScene(new RaceScene(engine, getCharacter()));
     }
 
     b_last = b_now;
