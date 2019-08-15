@@ -8,6 +8,7 @@
 
 #include "background/background_clouds.h"
 #include "foreground/sprites/shared_dino_scene.h"
+#include "foreground/sprites/plant.h"
 
 DinoScene::DinoScene(const std::shared_ptr<GBAEngine> &engine, Character character) : Scene(engine), character(character) {}
 
@@ -48,6 +49,9 @@ void DinoScene::load() {
 }
 
 void DinoScene::tick(u16 keys) {
+    xCo++;
+    background_clouds->scroll(xCo, 0);
+
     fire_last = fire_now;
     if (keys & KEY_FIRE) {
         fire_now = true;

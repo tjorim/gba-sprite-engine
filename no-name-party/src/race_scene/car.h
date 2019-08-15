@@ -15,7 +15,7 @@ class Car {
 private:
     std::unique_ptr<Sprite> sprite;
 
-    int xCo = GBA_SCREEN_WIDTH / 2, yCo = 0;
+    int xCo = GBA_SCREEN_WIDTH / 2 - 8, yCo = GBA_SCREEN_HEIGHT - 40;
 
 public:
     Car() {
@@ -28,7 +28,7 @@ public:
                             .buildPtr());
     }
 
-    void moveTo(int xValue) {
+    void moveToX(int xValue) {
         Car::xCo = xValue;
         sprite->moveTo(xCo, yCo);
     }

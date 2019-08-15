@@ -15,7 +15,7 @@ class Dino {
 private:
     std::unique_ptr<Sprite> sprite;
 
-    int xCo = GBA_SCREEN_WIDTH / 2, yCo = 0;
+    int xCo = 40, yCo = GBA_SCREEN_HEIGHT - 16;
 
 public:
     Dino() {

@@ -8,6 +8,7 @@
 
 #include "background/background_tiles.h"
 #include "foreground/sprites/shared_race_scene.h"
+#include "foreground/sprites/walking_bomb.h"
 
 RaceScene::RaceScene(const std::shared_ptr<GBAEngine> &engine, Character character) : Scene(engine), character(character) {}
 
@@ -48,6 +49,11 @@ void RaceScene::load() {
 }
 
 void RaceScene::tick(u16 keys) {
+    
+    TextStream::instance().setFontColor(PaletteManager::color(31, 31, 31));
+    yCo--;
+    background_tiles->scroll(0, yCo);
+
     a_last = a_now;
     if (keys & KEY_A) {
         a_now = true;
@@ -55,7 +61,6 @@ void RaceScene::tick(u16 keys) {
         a_now = false;
     }
     if (a_now == true && a_last == false) {
-        //engine->setScene(new GameScene(engine, getCharacter()));
     }
 
     b_last = b_now;
@@ -65,50 +70,47 @@ void RaceScene::tick(u16 keys) {
         b_now = false;
     }
     if (b_now == true && b_last == false) {
-        //engine->setScene(new StartScene(engine));
-        //engine->dequeueAllSounds();
-        //engine->enqueueMusic(Title_Screen_wav, sizeof(Title_Screen_wav));
     }
 
     left_last = left_now;
     if (keys & KEY_LEFT) {
         left_now = true;
+        goLeft();
     } else {
         left_now = false;
     }
     if (left_now == true && left_last == false) {
-        goLeft();
     }
 
     right_last = right_now;
     if (keys & KEY_RIGHT) {
         right_now = true;
+        goRight();
     } else {
         right_now = false;
     }
     if (right_now == true && right_last == false) {
-        goRight();
     }
 
-    TextStream::instance().setText(std::string("Book scene"), 0, 0);
+    TextStream::instance().setText(std::string("Race scene"), 0, 0);
 }
 
 void RaceScene::goLeft() {
-    if (xCo > 0) {
+    if (xCo > 8) {
         xCo--;
         moveTo();
     }
 }
 
 void RaceScene::goRight() {
-    if (xCo < 240) {
+    if (xCo < GBA_SCREEN_WIDTH - 24) {
         xCo++;
         moveTo();
     }
 }
 
 void RaceScene::moveTo() {
-    car->moveTo(xCo);
+    car->moveToX(xCo);
 }
 
 Character RaceScene::getCharacter() const {

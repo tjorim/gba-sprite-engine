@@ -19,7 +19,7 @@ private:
 
     bool fire_last = true, fire_now = true;
 
-    int xCo = GBA_SCREEN_WIDTH / 2, yCo = GBA_SCREEN_HEIGHT / 2;
+    int xCo = 0, yCo = GBA_SCREEN_HEIGHT - 16;
 
     // LUIGI, MARIO, PRINCESS_PEACH, YOSHI
     Character character = Character::LUIGI;
