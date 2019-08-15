@@ -128,3 +128,4 @@ CTestTestfile.cmake
 
 # Grit
 !no-name-party/grit-0.8.6/*
+!no-name-party/sound/raw2gba-master/*
