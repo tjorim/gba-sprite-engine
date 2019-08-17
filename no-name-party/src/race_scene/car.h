@@ -26,6 +26,9 @@ public:
                             .withAnimated(2, 6)
                             .withLocation(xCo, yCo)
                             .buildPtr());
+
+        sprite->stopAnimating();
+        sprite->animateToFrame(0);
     }
 
     void moveToX(int xValue) {

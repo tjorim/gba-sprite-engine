@@ -16,6 +16,7 @@ private:
     std::unique_ptr<Background> background_tiles;
     std::vector<std::unique_ptr<Sprite>> bombs;
     std::unique_ptr<Car> car;
+    std::vector<std::unique_ptr<Sprite>> mushrooms;
 
     bool a_last = true, b_last = true;
     bool a_now = true, b_now = true;
@@ -24,7 +25,7 @@ private:
     bool left_now = false, right_now = false;
 
     int xCo = GBA_SCREEN_WIDTH / 2 - 8, yCo = 0;
-    bool playing = false;
+    int lives = 3; bool playing = false;
     bool hit_last = false, hit_now = false;
 
     // LUIGI, MARIO, PRINCESS_PEACH, YOSHI
@@ -42,6 +43,12 @@ public:
     void tick(u16 keys) override;
 
     void placeBombs();
+
+    void giveLives();
+
+    int getLives();
+
+    void takeLife();
 
     void startPlaying();
 

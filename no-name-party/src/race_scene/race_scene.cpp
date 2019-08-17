@@ -10,6 +10,7 @@
 #include "background/background_tiles.h"
 #include "foreground/sprites/shared_race_scene.h"
 #include "foreground/sprites/walking_bomb.h"
+#include "foreground/sprites/mushroom.h"
 
 RaceScene::RaceScene(const std::shared_ptr<GBAEngine> &engine, Character character) : Scene(engine), character(character) {}
 
@@ -28,6 +29,10 @@ std::vector<Sprite *> RaceScene::sprites() {
         sprites.push_back(bomb.get());
     }
 
+    for (auto &mushroom : mushrooms) {
+        sprites.push_back(mushroom.get());
+    }
+
     TextStream::instance().setText(std::string("Sprites ") + std::to_string(sprites.size()), 1, 0);
 
     return sprites;
@@ -43,8 +48,6 @@ void RaceScene::load() {
             new Background(1, background_tilesTiles, sizeof(background_tilesTiles),
                            background_tilesMap, sizeof(background_tilesMap)));
     background_tiles->useMapScreenBlock(16);
-
-    placeBombs();
 
     car = std::unique_ptr<Car>(new Car());
 }
@@ -121,7 +124,13 @@ void RaceScene::moveTo() {
 }
 
 void RaceScene::startPlaying() {
+    placeBombs();
+    giveLives();
+    engine->updateSpritesInScene();
+
+    lives = mushrooms.size();
     playing = true;
+    car->getCarSprite()->animate();
 
     for (auto &bomb : bombs) {
         bomb->setVelocity(0, 1);
@@ -130,7 +139,13 @@ void RaceScene::startPlaying() {
 }
 
 void RaceScene::stopPlaying() {
+    bombs.clear();
+    mushrooms.clear();
+    engine->updateSpritesInScene();
+
     playing = false;
+    car->getCarSprite()->stopAnimating();
+    car->getCarSprite()->animateToFrame(0);
 
     for (auto &bomb : bombs) {
         bomb->setVelocity(0, 0);
@@ -155,7 +170,7 @@ void RaceScene::checkCollision() {
         hit_now = false;
     }
     if (hit_now == true && hit_last == false) {
-        stopPlaying();
+        takeLife();
     }
 }
 
@@ -201,6 +216,42 @@ void RaceScene::placeBombs() {
                     .withAnimated(4, 6)
                     .buildPtr()
     );
+}
 
-    stopPlaying();
+void RaceScene::giveLives() {
+    SpriteBuilder<Sprite> builder;
+
+    mushrooms.push_back(
+        builder.withData(mushroomTiles, sizeof(mushroomTiles))
+                    .withSize(SIZE_16_16)
+                    .withLocation(GBA_SCREEN_WIDTH - 32, 8)
+                    .buildPtr()
+    );
+
+    mushrooms.push_back(
+        builder.withData(mushroomTiles, sizeof(mushroomTiles))
+                    .withSize(SIZE_16_16)
+                    .withLocation(GBA_SCREEN_WIDTH - 32, 32)
+                    .buildPtr()
+    );
+
+    mushrooms.push_back(
+        builder.withData(mushroomTiles, sizeof(mushroomTiles))
+                    .withSize(SIZE_16_16)
+                    .withLocation(GBA_SCREEN_WIDTH - 32, 56)
+                    .buildPtr()
+    );
+}
+
+int RaceScene::getLives() {
+    return lives;
+}
+
+void RaceScene::takeLife() {
+    if (lives > 1) {
+        lives--;
+        mushrooms[lives]->moveTo(GBA_SCREEN_WIDTH, GBA_SCREEN_HEIGHT);
+    } else {
+        stopPlaying();
+    }
 }
