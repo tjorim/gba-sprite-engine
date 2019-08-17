@@ -50,10 +50,12 @@ void RaceScene::load() {
 }
 
 void RaceScene::tick(u16 keys) {
-    
     TextStream::instance().setFontColor(PaletteManager::color(31, 31, 31));
-    yCo--;
-    background_tiles->scroll(0, yCo);
+
+    if (playing) {
+        yCo--;
+        background_tiles->scroll(0, yCo);
+    }
 
     a_last = a_now;
     if (keys & KEY_A) {
@@ -62,6 +64,7 @@ void RaceScene::tick(u16 keys) {
         a_now = false;
     }
     if (a_now == true && a_last == false) {
+        startPlaying();
     }
 
     b_last = b_now;
@@ -71,6 +74,7 @@ void RaceScene::tick(u16 keys) {
         b_now = false;
     }
     if (b_now == true && b_last == false) {
+        stopPlaying();
     }
 
     left_last = left_now;
@@ -112,6 +116,25 @@ void RaceScene::goRight() {
 
 void RaceScene::moveTo() {
     car->moveToX(xCo);
+}
+
+void RaceScene::startPlaying() {
+    playing = true;
+
+    for (auto &bomb : bombs) {
+        bomb->setVelocity(0, 1);
+        bomb->animate();
+    }
+}
+
+void RaceScene::stopPlaying() {
+    playing = false;
+
+    for (auto &bomb : bombs) {
+        bomb->setVelocity(0, 0);
+        bomb->stopAnimating();
+        bomb->animateToFrame(0);
+    }
 }
 
 Character RaceScene::getCharacter() const {
@@ -156,4 +179,6 @@ void RaceScene::placeBombs() {
                     .withAnimated(4, 6)
                     .buildPtr()
     );
+
+    stopPlaying();
 }

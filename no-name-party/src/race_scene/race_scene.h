@@ -24,6 +24,7 @@ private:
     bool left_now = false, right_now = false;
 
     int xCo = GBA_SCREEN_WIDTH / 2 - 8, yCo = 0;
+    bool playing = false;
 
     // LUIGI, MARIO, PRINCESS_PEACH, YOSHI
     Character character = Character::LUIGI;
@@ -40,6 +41,10 @@ public:
     void tick(u16 keys) override;
 
     void placeBombs();
+
+    void startPlaying();
+
+    void stopPlaying();
 
     void goLeft();
 
