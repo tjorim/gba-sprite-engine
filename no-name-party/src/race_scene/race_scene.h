@@ -25,6 +25,7 @@ private:
 
     int xCo = GBA_SCREEN_WIDTH / 2 - 8, yCo = 0;
     bool playing = false;
+    bool hit_last = false, hit_now = false;
 
     // LUIGI, MARIO, PRINCESS_PEACH, YOSHI
     Character character = Character::LUIGI;
@@ -45,6 +46,8 @@ public:
     void startPlaying();
 
     void stopPlaying();
+
+    void checkCollision();
 
     void goLeft();
 

@@ -53,6 +53,8 @@ void RaceScene::tick(u16 keys) {
     TextStream::instance().setFontColor(PaletteManager::color(31, 31, 31));
 
     if (playing) {
+        checkCollision();
+
         yCo--;
         background_tiles->scroll(0, yCo);
     }
@@ -134,6 +136,26 @@ void RaceScene::stopPlaying() {
         bomb->setVelocity(0, 0);
         bomb->stopAnimating();
         bomb->animateToFrame(0);
+    }
+}
+
+void RaceScene::checkCollision() {
+    hit_last = hit_now;
+    int collisions = 0;
+
+    for (auto &bomb : bombs) {
+        if (bomb->collidesWith(*car->getCarSprite())) {
+            collisions++;
+        }
+    }
+
+    if (collisions > 0) {
+        hit_now = true;
+    } else {
+        hit_now = false;
+    }
+    if (hit_now == true && hit_last == false) {
+        stopPlaying();
     }
 }
 
