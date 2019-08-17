@@ -3,6 +3,7 @@
 //
 
 #include <libgba-sprite-engine/background/text_stream.h>
+#include <libgba-sprite-engine/sprites/sprite_builder.h>
 
 #include "race_scene.h"
 
@@ -122,7 +123,37 @@ void RaceScene::setCharacter(const Character &value) {
 }
 
 void RaceScene::placeBombs() {
-    /*bombs.push_back(
-            std::unique_ptr<Sprite>(new Sprite())
-    );*/
+    SpriteBuilder<Sprite> builder;
+
+    bombs.push_back(
+        builder.withData(walking_bombTiles, sizeof(walking_bombTiles))
+                    .withSize(SIZE_16_32)
+                    .withLocation(0.5*(GBA_SCREEN_WIDTH/4), 0)
+                    .withAnimated(4, 6)
+                    .buildPtr()
+    );
+
+    bombs.push_back(
+        builder.withData(walking_bombTiles, sizeof(walking_bombTiles))
+                    .withSize(SIZE_16_32)
+                    .withLocation(1.5*(GBA_SCREEN_WIDTH/4), 64)
+                    .withAnimated(4, 6)
+                    .buildPtr()
+    );
+
+    bombs.push_back(
+        builder.withData(walking_bombTiles, sizeof(walking_bombTiles))
+                    .withSize(SIZE_16_32)
+                    .withLocation(2.5*(GBA_SCREEN_WIDTH/4), 128)
+                    .withAnimated(4, 6)
+                    .buildPtr()
+    );
+
+    bombs.push_back(
+        builder.withData(walking_bombTiles, sizeof(walking_bombTiles))
+                    .withSize(SIZE_16_32)
+                    .withLocation(3.5*(GBA_SCREEN_WIDTH/4), 192)
+                    .withAnimated(4, 6)
+                    .buildPtr()
+    );
 }
