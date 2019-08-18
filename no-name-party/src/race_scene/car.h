@@ -25,6 +25,7 @@ public:
                             .withSize(SIZE_16_32)
                             .withAnimated(2, 6)
                             .withLocation(xCo, yCo)
+                            .withinBounds()
                             .buildPtr());
 
         sprite->stopAnimating();

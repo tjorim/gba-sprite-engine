@@ -21,9 +21,6 @@ private:
     bool a_last = true, b_last = true;
     bool a_now = true, b_now = true;
 
-    bool left_last = false, right_last = false;
-    bool left_now = false, right_now = false;
-
     int xCo = GBA_SCREEN_WIDTH / 2 - 8, yCo = 0;
     int lives = 3; bool playing = false;
     bool hit_last = false, hit_now = false;
@@ -55,12 +52,6 @@ public:
     void stopPlaying();
 
     void checkCollision();
-
-    void goLeft();
-
-    void goRight();
-
-    void moveTo();
 
     /**
      * Wat is de character van de speler?

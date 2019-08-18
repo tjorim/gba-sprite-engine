@@ -62,6 +62,16 @@ void RaceScene::tick(u16 keys) {
         if (yCo % 2 == 0) {
             background_tiles->scroll(0, yCo / 2);
         }
+
+        if (keys & KEY_LEFT) {
+            car->getCarSprite()->setVelocity(-2, 0);
+        } else if (keys & KEY_RIGHT) {
+            car->getCarSprite()->setVelocity(2, 0);
+        } else {
+            car->getCarSprite()->setVelocity(0, 0);
+        }
+    } else {
+        car->getCarSprite()->setVelocity(0, 0);
     }
 
     a_last = a_now;
@@ -84,45 +94,7 @@ void RaceScene::tick(u16 keys) {
         stopPlaying();
     }
 
-    left_last = left_now;
-    if (keys & KEY_LEFT) {
-        left_now = true;
-        goLeft();
-    } else {
-        left_now = false;
-    }
-    if (left_now == true && left_last == false) {
-    }
-
-    right_last = right_now;
-    if (keys & KEY_RIGHT) {
-        right_now = true;
-        goRight();
-    } else {
-        right_now = false;
-    }
-    if (right_now == true && right_last == false) {
-    }
-
     TextStream::instance().setText(std::string("Race scene"), 0, 0);
-}
-
-void RaceScene::goLeft() {
-    if (xCo > 8) {
-        xCo--;
-        moveTo();
-    }
-}
-
-void RaceScene::goRight() {
-    if (xCo < GBA_SCREEN_WIDTH - 24) {
-        xCo++;
-        moveTo();
-    }
-}
-
-void RaceScene::moveTo() {
-    car->moveToX(xCo);
 }
 
 void RaceScene::startPlaying() {
