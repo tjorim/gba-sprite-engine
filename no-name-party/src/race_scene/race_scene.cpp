@@ -59,7 +59,9 @@ void RaceScene::tick(u16 keys) {
         checkCollision();
 
         yCo--;
-        background_tiles->scroll(0, yCo);
+        if (yCo % 2 == 0) {
+            background_tiles->scroll(0, yCo / 2);
+        }
     }
 
     a_last = a_now;
