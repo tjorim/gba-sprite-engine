@@ -13,20 +13,20 @@
 
 class Car {
 private:
-    std::unique_ptr<Sprite> sprite;
+    std::unique_ptr <Sprite> sprite;
 
     int xCo = GBA_SCREEN_WIDTH / 2 - 8, yCo = GBA_SCREEN_HEIGHT - 40;
 
 public:
     Car() {
-        SpriteBuilder<Sprite> builder;
+        SpriteBuilder <Sprite> builder;
 
         setSprite(builder.withData(bullet_bill_upTiles, sizeof(bullet_bill_upTiles))
-                            .withSize(SIZE_16_32)
-                            .withAnimated(2, 6)
-                            .withLocation(xCo, yCo)
-                            .withinBounds()
-                            .buildPtr());
+                          .withSize(SIZE_16_32)
+                          .withAnimated(2, 6)
+                          .withLocation(xCo, yCo)
+                          .withinBounds()
+                          .buildPtr());
 
         sprite->stopAnimating();
         sprite->animateToFrame(0);
@@ -57,7 +57,7 @@ public:
         return sprite.get();
     }
 
-    void setSprite(std::unique_ptr<Sprite> sprite) {
+    void setSprite(std::unique_ptr <Sprite> sprite) {
         Car::sprite = std::move(sprite);
     }
 };

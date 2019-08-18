@@ -13,9 +13,9 @@
 
 class DinoScene : public Scene {
 private:
-    std::unique_ptr<Background> background_clouds;
-    std::vector<std::unique_ptr<Sprite>> plants;
-    std::unique_ptr<Dino> dino;
+    std::unique_ptr <Background> background_clouds;
+    std::vector <std::unique_ptr<Sprite>> plants;
+    std::unique_ptr <Dino> dino;
 
     bool fire_last = true, fire_now = true;
 
@@ -25,7 +25,7 @@ private:
     Character character = Character::LUIGI;
 
 public:
-    DinoScene(const std::shared_ptr<GBAEngine> &engine, Character character);
+    DinoScene(const std::shared_ptr <GBAEngine> &engine, Character character);
 
     std::vector<Sprite *> sprites() override;
 

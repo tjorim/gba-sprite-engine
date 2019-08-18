@@ -13,19 +13,19 @@
 
 class Dino {
 private:
-    std::unique_ptr<Sprite> sprite;
+    std::unique_ptr <Sprite> sprite;
 
     int xCo = 40, yCo = GBA_SCREEN_HEIGHT - 16;
 
 public:
     Dino() {
-        SpriteBuilder<Sprite> builder;
+        SpriteBuilder <Sprite> builder;
 
         setSprite(builder.withData(bullet_bill_rightTiles, sizeof(bullet_bill_rightTiles))
-                            .withSize(SIZE_32_16)
-                            .withAnimated(2, 6)
-                            .withLocation(xCo, yCo)
-                            .buildPtr());
+                          .withSize(SIZE_32_16)
+                          .withAnimated(2, 6)
+                          .withLocation(xCo, yCo)
+                          .buildPtr());
     }
 
     int getXCo() const {
@@ -48,7 +48,7 @@ public:
         return sprite.get();
     }
 
-    void setSprite(std::unique_ptr<Sprite> sprite) {
+    void setSprite(std::unique_ptr <Sprite> sprite) {
         Dino::sprite = std::move(sprite);
     }
 };

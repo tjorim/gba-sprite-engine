@@ -12,8 +12,8 @@
 
 class StairCase {
 private:
-    std::unique_ptr<Sprite> player_book, books_base;
-    std::unique_ptr<Sprite> books_bottom, books_middle, books_top; //books_middle_2
+    std::unique_ptr <Sprite> player_book, books_base;
+    std::unique_ptr <Sprite> books_bottom, books_middle, books_top;
 
     int player_book_height[4] = {96, 72, 48, 24};
     int books_base_height[4] = {128, GBA_SCREEN_HEIGHT, GBA_SCREEN_HEIGHT, GBA_SCREEN_HEIGHT};

@@ -17,7 +17,7 @@
 #include "foreground/sprites/yoshi_book.h"
 
 StairCase::StairCase(Character character) : character(character) {
-    SpriteBuilder<Sprite> builder;
+    SpriteBuilder <Sprite> builder;
 
     switch (character) {
         case Character::LUIGI:
@@ -57,28 +57,28 @@ StairCase::StairCase(Character character) : character(character) {
     }
 
     books_base = std::move(builder.withData(books_baseTiles,
-                                                sizeof(books_baseTiles))
-                                    .withSize(SIZE_32_16)
-                                    .withLocation(xCo - 16, GBA_SCREEN_HEIGHT)
-                                    .buildPtr());
+                                            sizeof(books_baseTiles))
+                                   .withSize(SIZE_32_16)
+                                   .withLocation(xCo - 16, GBA_SCREEN_HEIGHT)
+                                   .buildPtr());
 
     books_bottom = std::move(builder.withData(books_bottomTiles,
-                                                sizeof(books_bottomTiles))
-                                    .withSize(SIZE_32_32)
-                                    .withLocation(xCo - 16, GBA_SCREEN_HEIGHT)
-                                    .buildPtr());
+                                              sizeof(books_bottomTiles))
+                                     .withSize(SIZE_32_32)
+                                     .withLocation(xCo - 16, GBA_SCREEN_HEIGHT)
+                                     .buildPtr());
 
     books_middle = std::move(builder.withData(books_middleTiles,
-                                                sizeof(books_middleTiles))
-                                    .withSize(SIZE_16_32)
-                                    .withLocation(xCo - 8, GBA_SCREEN_HEIGHT)
-                                    .buildPtr());
+                                              sizeof(books_middleTiles))
+                                     .withSize(SIZE_16_32)
+                                     .withLocation(xCo - 8, GBA_SCREEN_HEIGHT)
+                                     .buildPtr());
 
     books_top = std::move(builder.withData(books_topTiles,
-                                                sizeof(books_topTiles))
-                                    .withSize(SIZE_32_32)
-                                    .withLocation(xCo - 16, GBA_SCREEN_HEIGHT)
-                                    .buildPtr());
+                                           sizeof(books_topTiles))
+                                  .withSize(SIZE_32_32)
+                                  .withLocation(xCo - 16, GBA_SCREEN_HEIGHT)
+                                  .buildPtr());
 
     updateHeight();
 }

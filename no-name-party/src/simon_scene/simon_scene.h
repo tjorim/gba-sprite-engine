@@ -1,0 +1,14 @@
+//
+// Created by tiele on 18/08/2019.
+//
+
+#ifndef GBA_SPRITE_ENGINE_PROJECT_SIMON_SCENE_H
+#define GBA_SPRITE_ENGINE_PROJECT_SIMON_SCENE_H
+
+
+class SimonScene {
+
+};
+
+
+#endif //GBA_SPRITE_ENGINE_PROJECT_SIMON_SCENE_H

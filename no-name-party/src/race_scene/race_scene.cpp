@@ -12,7 +12,8 @@
 #include "foreground/sprites/walking_bomb.h"
 #include "foreground/sprites/mushroom.h"
 
-RaceScene::RaceScene(const std::shared_ptr<GBAEngine> &engine, Character character) : Scene(engine), character(character) {}
+RaceScene::RaceScene(const std::shared_ptr <GBAEngine> &engine, Character character) : Scene(engine),
+                                                                                       character(character) {}
 
 std::vector<Background *> RaceScene::backgrounds() {
     return {
@@ -21,7 +22,7 @@ std::vector<Background *> RaceScene::backgrounds() {
 }
 
 std::vector<Sprite *> RaceScene::sprites() {
-    std::vector<Sprite *> sprites;
+    std::vector < Sprite * > sprites;
 
     sprites.push_back(car->getCarSprite());
 
@@ -157,60 +158,60 @@ void RaceScene::setCharacter(const Character &value) {
 }
 
 void RaceScene::placeBombs() {
-    SpriteBuilder<Sprite> builder;
+    SpriteBuilder <Sprite> builder;
 
     bombs.push_back(
-        builder.withData(walking_bombTiles, sizeof(walking_bombTiles))
+            builder.withData(walking_bombTiles, sizeof(walking_bombTiles))
                     .withSize(SIZE_16_32)
-                    .withLocation(0.5*(GBA_SCREEN_WIDTH/4), 0)
+                    .withLocation(0.5 * (GBA_SCREEN_WIDTH / 4), 0)
                     .withAnimated(4, 6)
                     .buildPtr()
     );
 
     bombs.push_back(
-        builder.withData(walking_bombTiles, sizeof(walking_bombTiles))
+            builder.withData(walking_bombTiles, sizeof(walking_bombTiles))
                     .withSize(SIZE_16_32)
-                    .withLocation(1.5*(GBA_SCREEN_WIDTH/4), 64)
+                    .withLocation(1.5 * (GBA_SCREEN_WIDTH / 4), 64)
                     .withAnimated(4, 6)
                     .buildPtr()
     );
 
     bombs.push_back(
-        builder.withData(walking_bombTiles, sizeof(walking_bombTiles))
+            builder.withData(walking_bombTiles, sizeof(walking_bombTiles))
                     .withSize(SIZE_16_32)
-                    .withLocation(2.5*(GBA_SCREEN_WIDTH/4), 128)
+                    .withLocation(2.5 * (GBA_SCREEN_WIDTH / 4), 128)
                     .withAnimated(4, 6)
                     .buildPtr()
     );
 
     bombs.push_back(
-        builder.withData(walking_bombTiles, sizeof(walking_bombTiles))
+            builder.withData(walking_bombTiles, sizeof(walking_bombTiles))
                     .withSize(SIZE_16_32)
-                    .withLocation(3.5*(GBA_SCREEN_WIDTH/4), 192)
+                    .withLocation(3.5 * (GBA_SCREEN_WIDTH / 4), 192)
                     .withAnimated(4, 6)
                     .buildPtr()
     );
 }
 
 void RaceScene::giveLives() {
-    SpriteBuilder<Sprite> builder;
+    SpriteBuilder <Sprite> builder;
 
     mushrooms.push_back(
-        builder.withData(mushroomTiles, sizeof(mushroomTiles))
+            builder.withData(mushroomTiles, sizeof(mushroomTiles))
                     .withSize(SIZE_16_16)
                     .withLocation(GBA_SCREEN_WIDTH - 32, 8)
                     .buildPtr()
     );
 
     mushrooms.push_back(
-        builder.withData(mushroomTiles, sizeof(mushroomTiles))
+            builder.withData(mushroomTiles, sizeof(mushroomTiles))
                     .withSize(SIZE_16_16)
                     .withLocation(GBA_SCREEN_WIDTH - 32, 32)
                     .buildPtr()
     );
 
     mushrooms.push_back(
-        builder.withData(mushroomTiles, sizeof(mushroomTiles))
+            builder.withData(mushroomTiles, sizeof(mushroomTiles))
                     .withSize(SIZE_16_16)
                     .withLocation(GBA_SCREEN_WIDTH - 32, 56)
                     .buildPtr()

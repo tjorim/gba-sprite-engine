@@ -18,7 +18,7 @@
 
 class Book {
 private:
-    std::unique_ptr<Sprite> sprite;
+    std::unique_ptr <Sprite> sprite;
 
     int book_height[4] = {109, 85, 61, 37};
 
@@ -30,7 +30,7 @@ private:
 
 public:
     Book(Colour colour, int xCo, int height) : colour(colour), xCo(xCo), height(height) {
-        SpriteBuilder<Sprite> builder;
+        SpriteBuilder <Sprite> builder;
 
         switch (colour) {
             case Colour::BLUE:
@@ -98,7 +98,7 @@ public:
         return sprite.get();
     }
 
-    void setSprite(std::unique_ptr<Sprite> sprite) {
+    void setSprite(std::unique_ptr <Sprite> sprite) {
         Book::sprite = std::move(sprite);
     }
 };

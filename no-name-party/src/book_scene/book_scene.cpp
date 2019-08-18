@@ -10,7 +10,8 @@
 #include "background/background_books.h"
 #include "foreground/sprites/shared_book_scene.h"
 
-BookScene::BookScene(const std::shared_ptr<GBAEngine> &engine, Character character) : Scene(engine), character(character) {}
+BookScene::BookScene(const std::shared_ptr <GBAEngine> &engine, Character character) : Scene(engine),
+                                                                                       character(character) {}
 
 std::vector<Background *> BookScene::backgrounds() {
     return {
@@ -19,7 +20,7 @@ std::vector<Background *> BookScene::backgrounds() {
 }
 
 std::vector<Sprite *> BookScene::sprites() {
-    std::vector<Sprite *> sprites;
+    std::vector < Sprite * > sprites;
 
     sprites.push_back(stair_case->getPlayerBookSprite());
 
@@ -56,7 +57,7 @@ void BookScene::load() {
     placeBooks();
 
     stair_case = std::unique_ptr<StairCase>(new StairCase(getCharacter()));
-    
+
     updateXCo();
 }
 
