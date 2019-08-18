@@ -11,6 +11,7 @@
 #include "../book_scene/book_scene.h"
 #include "../dino_scene/dino_scene.h"
 #include "../race_scene/race_scene.h"
+#include "../simon_scene/simon_scene.h"
 
 #include "sound_04_view_passport.h"
 #include "background/background_profile.h"
@@ -99,6 +100,7 @@ void ProfileScene::tick(u16 keys) {
         right_now = false;
     }
     if (right_now == true && right_last == false) {
+        engine->setScene(new SimonScene(engine, getCharacter()));
         //engine->setScene(new PlantScene(engine, getCharacter()));
     }
 

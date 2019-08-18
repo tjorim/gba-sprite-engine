@@ -17,6 +17,7 @@ add_executable(${PROJECT_NAME}.elf
         src/race_scene/race_scene.cpp src/race_scene/race_scene.h
         src/race_scene/car.h
         src/select_scene/select_scene.cpp src/select_scene/select_scene.h
+        src/simon_scene/simon_scene.cpp src/simon_scene/simon_scene.h
         src/start_scene/start_scene.cpp src/start_scene/start_scene.h
         src/start_scene/balloon.h src/start_scene/cloud.h
         src/start_scene/press_start.h src/start_scene/title.h)
