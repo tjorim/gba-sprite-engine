@@ -1,0 +1,19 @@
+# Go to folder
+cd /d D:\Git\gba-sprite-engine\no-name-party\src\simon_scene\foreground\sprites
+
+# full foreground command
+..\..\..\..\grit-0.8.6\grit.exe ..\img\simon_blue.png ..\img\simon_green.png ..\img\simon_red.png ..\img\simon_yellow.png -ftc -pS -gB8 -O shared_simon_scene.c
+
+del *.h && ren *.c *.h
+
+# grit executable
+..\..\..\..\grit-0.8.6\grit.exe
+
+# foregrounds
+..\img\simon_blue.png
+..\img\simon_green.png
+..\img\simon_red.png
+..\img\simon_yellow.png
+
+# foreground flags
+-ftc -pS -gB8 -O shared_simon_scene.c

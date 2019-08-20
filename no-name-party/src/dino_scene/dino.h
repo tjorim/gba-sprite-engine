@@ -6,7 +6,7 @@
 #define GBA_SPRITE_ENGINE_PROJECT_DINO_H
 
 #include <libgba-sprite-engine/gba_engine.h>
-#include <libgba-sprite-engine/sprites/sprite.h>
+//#include <libgba-sprite-engine/sprites/sprite.h>
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
 
 #include "foreground/sprites/bullet_bill_right.h"

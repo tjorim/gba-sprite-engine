@@ -5,7 +5,8 @@
 #ifndef GBA_SPRITE_ENGINE_PROJECT_SIMON_SCENE_H
 #define GBA_SPRITE_ENGINE_PROJECT_SIMON_SCENE_H
 
-#include <libgba-sprite-engine/scene.h>
+#include <libgba-sprite-engine/gba_engine.h>
+//#include <libgba-sprite-engine/scene.h>
 
 #include "../enums/character.h"
 #include "../enums/colour.h"
