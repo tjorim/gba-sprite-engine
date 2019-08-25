@@ -3,7 +3,7 @@ cd /d D:\Git\gba-sprite-engine\no-name-party\src\race_scene\foreground\sprites
 
 # full foreground command
 
-..\..\..\..\grit-0.8.6\grit.exe ..\img\bullet_bill_up.png ..\img\mushroom.png ..\img\walking_bomb.png -ftc -pS -gB8 -O shared_race_scene.c
+..\..\..\..\grit-0.8.6\grit.exe ..\img\bullet_bill_up.png ..\img\mushroom.png ..\img\walking_bomb.png ..\img\luigi_game_lose.png ..\img\luigi_game_win.png ..\img\mario_game_lose.png ..\img\mario_game_win.png ..\img\princess_peach_game_lose.png ..\img\princess_peach_game_win.png ..\img\yoshi_game_lose.png ..\img\yoshi_game_win.png -ftc -pS -gB8 -O shared_race_scene.c
 
 del *.h && ren *.c *.h
 
@@ -14,6 +14,14 @@ del *.h && ren *.c *.h
 ..\img\bullet_bill_up.png
 ..\img\mushroom.png
 ..\img\walking_bomb.png
+..\img\luigi_game_lose.png
+..\img\luigi_game_win.png
+..\img\mario_game_lose.png
+..\img\mario_game_win.png
+..\img\princess_peach_game_lose.png
+..\img\princess_peach_game_win.png
+..\img\yoshi_game_lose.png
+..\img\yoshi_game_win.png
 
 # foreground flags
 -ftc -pS -gB8 -O shared_race_scene.c

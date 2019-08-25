@@ -2,7 +2,7 @@
 cd /d D:\Git\gba-sprite-engine\no-name-party\src\book_scene\foreground\sprites
 
 # full foreground command
-..\..\..\..\grit-0.8.6\grit.exe ..\img\book_blue.png ..\img\book_green.png ..\img\book_red.png ..\img\book_yellow.png ..\img\books_base.png ..\img\books_bottom.png ..\img\books_middle.png ..\img\books_top.png ..\img\luigi_book.png ..\img\mario_book.png ..\img\princess_peach_book.png ..\img\yoshi_book.png -ftc -pS -gB8 -O shared_book_scene.c
+..\..\..\..\grit-0.8.6\grit.exe ..\img\book_blue.png ..\img\book_green.png ..\img\book_red.png ..\img\book_yellow.png ..\img\books_base.png ..\img\books_bottom.png ..\img\books_middle.png ..\img\books_top.png ..\img\luigi_book.png ..\img\mario_book.png ..\img\princess_peach_book.png ..\img\yoshi_book.png ..\img\luigi_game_lose.png ..\img\luigi_game_win.png ..\img\mario_game_lose.png ..\img\mario_game_win.png ..\img\princess_peach_game_lose.png ..\img\princess_peach_game_win.png ..\img\yoshi_game_lose.png ..\img\yoshi_game_win.png -ftc -pS -gB8 -O shared_book_scene.c
 
 del *.h && ren *.c *.h
 
@@ -22,6 +22,14 @@ del *.h && ren *.c *.h
 ..\img\mario_book.png
 ..\img\princess_peach_book.png
 ..\img\yoshi_book.png
+..\img\luigi_game_lose.png
+..\img\luigi_game_win.png
+..\img\mario_game_lose.png
+..\img\mario_game_win.png
+..\img\princess_peach_game_lose.png
+..\img\princess_peach_game_win.png
+..\img\yoshi_game_lose.png
+..\img\yoshi_game_win.png
 
 # foreground flags
 -ftc -pS -gB8 -O shared_book_scene.c

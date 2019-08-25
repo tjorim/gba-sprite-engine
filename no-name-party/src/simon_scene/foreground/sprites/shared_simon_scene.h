@@ -4,18 +4,24 @@
 //======================================================================
 //
 //	shared_simon_scene, 16x16@8, 
-//	+ palette 8 entries, not compressed
-//	Total size: 16 = 16
+//	+ palette 56 entries, not compressed
+//	Total size: 112 = 112
 //
-//	Time-stamp: 2019-08-21, 00:34:17
+//	Time-stamp: 2019-08-25, 18:13:00
 //	Exported by Cearn's GBA Image Transmogrifier, v0.8.6
 //	( http://www.coranac.com/projects/#grit )
 //
 //======================================================================
 
-const unsigned short shared_simon_scenePal[8] __attribute__((aligned(4)))=
+const unsigned short shared_simon_scenePal[56] __attribute__((aligned(4)))=
 {
 	0x3C00,0x7C00,0x01E0,0x03E0,0x000F,0x001F,0x01EF,0x03FF,
+	0x0000,0x1AEC,0x7ED1,0x0563,0x3EDC,0x5583,0x535E,0x29D6,
+	0x2F3C,0x20CA,0x63BF,0x2FBF,0x0A25,0x6714,0x14EA,0x2E38,
+	0x7FFF,0x6BFF,0x0C14,0x03FD,0x0015,0x004C,0x001D,0x2139,
+	0x55A5,0x730E,0x72CC,0x69A1,0x02FC,0x5F3E,0x4EDD,0x419B,
+	0x6B9F,0x5A3F,0x0B7D,0x2FFF,0x3219,0x1646,0x11C4,0x5F38,
+	0x017B,0x6F9C,0x2308,0x2DAA,0x1AC6,0x274A,0x0C62,0x08EE,
 };
 
 //}}BLOCK(shared_simon_scene)
