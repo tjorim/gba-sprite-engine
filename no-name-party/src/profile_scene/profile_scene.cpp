@@ -111,11 +111,3 @@ void ProfileScene::tick(u16 keys) {
     TextStream::instance().setText(std::string("Left = race"), 12, 14);
     TextStream::instance().setText(std::string("Right = simon"), 16, 6);
 }
-
-Character ProfileScene::getCharacter() const {
-    return character;
-}
-
-void ProfileScene::setCharacter(const Character &value) {
-    character = value;
-}

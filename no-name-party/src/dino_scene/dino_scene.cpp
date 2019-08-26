@@ -67,19 +67,26 @@ void DinoScene::tick(u16 keys) {
     TextStream::instance().setText(std::string("Book scene"), 0, 0);
 }
 
-void DinoScene::jump() {
-}
-
-Character DinoScene::getCharacter() const {
-    return character;
-}
-
-void DinoScene::setCharacter(const Character &value) {
-    character = value;
-}
-
 void DinoScene::placePlants() {
-    /*plants.push_back(
-            std::unique_ptr<Sprite>(new Sprite())
-    );*/
+    SpriteBuilder <Sprite> builder;
+
+    plants.push_back(
+            builder.withData(plantTiles, sizeof(plantTiles))
+                    .withSize(SIZE_32_32)
+                    .withLocation(GBA_SCREEN_WIDTH / 2, GBA_SCREEN_HEIGHT - 32)
+                    .withAnimated(4, 6)
+                    .buildPtr()
+    );
+
+    plants.push_back(
+            builder.withData(plantTiles, sizeof(plantTiles))
+                    .withSize(SIZE_32_32)
+                    .withLocation(3 * (GBA_SCREEN_WIDTH / 4), GBA_SCREEN_HEIGHT - 32)
+                    .withAnimated(4, 6)
+                    .buildPtr()
+    );
+}
+
+void DinoScene::jump() {
+    dino->setYCo(dino->getYCo() - 16);
 }

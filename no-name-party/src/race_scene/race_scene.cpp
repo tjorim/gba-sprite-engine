@@ -170,14 +170,6 @@ void RaceScene::checkCollision() {
     }
 }
 
-Character RaceScene::getCharacter() const {
-    return character;
-}
-
-void RaceScene::setCharacter(const Character &value) {
-    character = value;
-}
-
 void RaceScene::placeBombs() {
     SpriteBuilder <Sprite> builder;
 
@@ -255,6 +247,6 @@ void RaceScene::takeLife() {
 void RaceScene::endGame(Result result) {
     stopPlaying();
     ended = true;
-    game_result = std::unique_ptr<GameResult>(new GameResult(getCharacter(), result));
+    game_result = std::unique_ptr<GameResult>(new GameResult(player->getCharacter(), result));
     engine->updateSpritesInScene();
 }

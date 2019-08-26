@@ -56,7 +56,7 @@ void BookScene::load() {
 
     placeBooks();
 
-    stair_case = std::unique_ptr<StairCase>(new StairCase(getCharacter()));
+    stair_case = std::unique_ptr<StairCase>(new StairCase(player->getCharacter()));
 
     updateXCo();
 }
@@ -161,14 +161,6 @@ void BookScene::goRight() {
 
 void BookScene::updateXCo() {
     stair_case->moveToX(xCo);
-}
-
-Character BookScene::getCharacter() const {
-    return character;
-}
-
-void BookScene::setCharacter(const Character &value) {
-    character = value;
 }
 
 void BookScene::placeBooks() {

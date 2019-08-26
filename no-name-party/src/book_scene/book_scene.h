@@ -7,8 +7,6 @@
 
 #include <libgba-sprite-engine/scene.h>
 
-#include "../enums/character.h"
-
 #include "book.h"
 #include "stair_case.h"
 #include "game_result.h"
@@ -34,9 +32,6 @@ private:
     int height = 0;
     int xCo = GBA_SCREEN_WIDTH / 2 - 8;
 
-    // LUIGI, MARIO, PRINCESS_PEACH, YOSHI
-    Character character = Character::LUIGI;
-
 public:
     BookScene(const std::shared_ptr <GBAEngine> &engine, std::shared_ptr <Player> &player);
 
@@ -61,22 +56,6 @@ public:
     void goRight();
 
     void updateXCo();
-
-    /**
-     * Wat is de character van de speler?
-     * LUIGI, MARIO, PRINCESS_PEACH, YOSHI
-     *
-     * @return De character van de speler.
-     */
-    Character getCharacter() const;
-
-    /**
-     * Geef de speler een character.
-     * LUIGI, MARIO, PRINCESS_PEACH, YOSHI
-     *
-     * @param character De character die de speler krijgt.
-     */
-    void setCharacter(const Character &value);
 };
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_BOOK_SCENE_H

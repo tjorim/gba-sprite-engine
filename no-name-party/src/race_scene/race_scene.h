@@ -7,8 +7,6 @@
 
 #include <libgba-sprite-engine/scene.h>
 
-#include "../enums/character.h"
-
 #include "car.h"
 #include "game_result.h"
 #include "../game_scene/player.h"
@@ -29,9 +27,6 @@ private:
     int lives = 3;
     bool playing = false, ended = false;
     bool hit_last = false, hit_now = false;
-
-    // LUIGI, MARIO, PRINCESS_PEACH, YOSHI
-    Character character = Character::LUIGI;
 
 public:
     RaceScene(const std::shared_ptr <GBAEngine> &engine, std::shared_ptr <Player> &player);
@@ -59,22 +54,6 @@ public:
     void checkCollision();
 
     void endGame(Result result);
-
-    /**
-     * Wat is de character van de speler?
-     * LUIGI, MARIO, PRINCESS_PEACH, YOSHI
-     *
-     * @return De character van de speler.
-     */
-    Character getCharacter() const;
-
-    /**
-     * Geef de speler een character.
-     * LUIGI, MARIO, PRINCESS_PEACH, YOSHI
-     *
-     * @param character De character die de speler krijgt.
-     */
-    void setCharacter(const Character &value);
 };
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_RACE_SCENE_H

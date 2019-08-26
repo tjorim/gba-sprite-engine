@@ -9,7 +9,6 @@
 //#include <libgba-sprite-engine/scene.h>
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
 
-#include "../enums/character.h"
 #include "../enums/colour.h"
 
 #include "game_result.h"
@@ -39,9 +38,6 @@ private:
     int n = 16, score = 1;
 	int input_seq[16], output_seq[16], dood = 0;
 
-    // LUIGI, MARIO, PRINCESS_PEACH, YOSHI
-    Character character = Character::LUIGI;
-
     void createColours();
 
     void updateColours();
@@ -64,22 +60,6 @@ public:
     void load() override;
 
     void tick(u16 keys) override;
-
-    /**
-     * Wat is de character van de speler?
-     * LUIGI, MARIO, PRINCESS_PEACH, YOSHI
-     *
-     * @return De character van de speler.
-     */
-    Character getCharacter() const;
-
-    /**
-     * Geef de speler een character.
-     * LUIGI, MARIO, PRINCESS_PEACH, YOSHI
-     *
-     * @param character De character die de speler krijgt.
-     */
-    void setCharacter(const Character &value);
 };
 
 

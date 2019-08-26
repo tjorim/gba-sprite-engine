@@ -34,6 +34,7 @@ public:
 
     void setXCo(int xCo) {
         Dino::xCo = xCo;
+        updateLocation();
     }
 
     int getYCo() const {
@@ -42,6 +43,11 @@ public:
 
     void setYCo(int yCo) {
         Dino::yCo = yCo;
+        updateLocation();
+    }
+
+    void updateLocation() {
+        sprite->moveTo(xCo, yCo);
     }
 
     Sprite *getDinoSprite() {

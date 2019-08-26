@@ -30,13 +30,11 @@ private:
 
     int beginFrame = 0;
 
-    // LUIGI, MARIO, PRINCESS_PEACH, YOSHI
-    Character character = Character::LUIGI;
     // LOSE, WIN
     Result result = Result::LOSE;
 
 public:
-    GameResult(Character character, Result result) : character(character), result(result) {
+    GameResult(Character character, Result result) : result(result) {
         SpriteBuilder<Sprite> builder;
 
         switch (character) {
@@ -117,16 +115,6 @@ public:
     }
 
     /**
-     * Wat is de character van de speler?
-     * LUIGI, PRINCESS_PEACH
-     *
-     * @return De character van de speler.
-     */
-    Character getCharacter() const {
-        return character;
-    }
-
-    /**
      * Wat is de richting van de speler?
      * ONDER, BOVEN, LINKS, RECHTS
      *
@@ -134,28 +122,6 @@ public:
      */
     Result getResult() const {
         return result;
-    }
-
-    /**
-     * Geef de speler een character.
-     * LUIGI, PRINCESS_PEACH
-     *
-     * @param character De character die de speler krijgt.
-     */
-    void setCharacter(const Character &value) {
-        switch (value) {
-            case Character::LUIGI:
-                // pas sprite aan
-                break;
-            case Character::PRINCESS_PEACH:
-                // pas sprite aan
-                break;
-            default:
-                return;
-        }
-        character = value;
-
-        //updateBeginFrame();
     }
 
     /**

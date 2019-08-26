@@ -17,13 +17,7 @@
 class GameScene : public Scene {
 private:
     std::unique_ptr<Background> background_map;
-    //Thing *board[BOARD_HEIGHT][BOARD_WIDTH];
-    //std::array<std::array<Thing, BOARD_WIDTH>, BOARD_HEIGHT> board;
-    //std::vector <std::unique_ptr<Bomb>> bombs;
     std::shared_ptr<Player> player;
-
-    // LUIGI, MARIO, PRINCESS_PEACH, YOSHI
-    Character character = Character::LUIGI;
 
     // De x- en y-positie van de map
     int xCoMap = 0, yCoMap = 0;
@@ -60,22 +54,6 @@ public:
     void moveLeft();
 
     void moveRight();
-
-    /**
-     * Wat is de character van de speler?
-     * LUIGI, MARIO, PRINCESS_PEACH, YOSHI
-     *
-     * @return De character van de speler.
-     */
-    Character getCharacter() const;
-
-    /**
-     * Geef de speler een character.
-     * LUIGI, PRINCESS_PEACH
-     *
-     * @param character De character die de speler krijgt.
-     */
-    void setCharacter(const Character &value);
 
     /**
      * Wat is de x-positie van this Thing?
