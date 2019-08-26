@@ -16,7 +16,7 @@
 #include "sound_04_view_passport.h"
 #include "background/background_profile.h"
 
-ProfileScene::ProfileScene(const std::shared_ptr<GBAEngine> &engine, Character character) : Scene(engine), character(character) {}
+ProfileScene::ProfileScene(const std::shared_ptr<GBAEngine> &engine, std::shared_ptr<Player> &player) : Scene(engine), player(player) {}
 
 std::vector<Background *> ProfileScene::backgrounds() {
     return {
@@ -50,7 +50,7 @@ void ProfileScene::tick(u16 keys) {
         a_now = false;
     }
     if (a_now == true && a_last == false) {
-        engine->setScene(new GameScene(engine, getCharacter()));
+        engine->setScene(new GameScene(engine, player));
     }
 
     b_last = b_now;
@@ -70,7 +70,7 @@ void ProfileScene::tick(u16 keys) {
         down_now = false;
     }
     if (down_now == true && down_last == false) {
-        engine->setScene(new BookScene(engine, getCharacter()));
+        engine->setScene(new BookScene(engine, player));
     }
 
     up_last = up_now;
@@ -80,7 +80,7 @@ void ProfileScene::tick(u16 keys) {
         up_now = false;
     }
     if (up_now == true && up_last == false) {
-        engine->setScene(new DinoScene(engine, getCharacter()));
+        engine->setScene(new DinoScene(engine, player));
     }
 
     left_last = left_now;
@@ -90,7 +90,7 @@ void ProfileScene::tick(u16 keys) {
         left_now = false;
     }
     if (left_now == true && left_last == false) {
-        engine->setScene(new RaceScene(engine, getCharacter()));
+        engine->setScene(new RaceScene(engine, player));
     }
 
     right_last = right_now;
@@ -100,8 +100,8 @@ void ProfileScene::tick(u16 keys) {
         right_now = false;
     }
     if (right_now == true && right_last == false) {
-        engine->setScene(new SimonScene(engine, getCharacter()));
-        //engine->setScene(new PlantScene(engine, getCharacter()));
+        engine->setScene(new SimonScene(engine, player));
+        //engine->setScene(new PlantScene(engine, player));
     }
 
     TextStream::instance().setText(std::string("Profile scene"), 0, 0);
@@ -109,7 +109,7 @@ void ProfileScene::tick(u16 keys) {
     TextStream::instance().setText(std::string("Down = book"), 4, 14);
     TextStream::instance().setText(std::string("Up   = dino"), 8, 14);
     TextStream::instance().setText(std::string("Left = race"), 12, 14);
-    //TextStream::instance().setText(std::string("Right = plants"), 16, 6);
+    TextStream::instance().setText(std::string("Right = simon"), 16, 6);
 }
 
 Character ProfileScene::getCharacter() const {

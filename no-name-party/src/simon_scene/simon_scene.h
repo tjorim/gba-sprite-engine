@@ -12,11 +12,16 @@
 #include "../enums/character.h"
 #include "../enums/colour.h"
 
+#include "game_result.h"
+#include "../game_scene/player.h"
+
 class SimonScene : public Scene {
 private:
     std::unique_ptr<SpriteBuilder<Sprite>> spriteBuilder;
     std::unique_ptr<Sprite> blue_colour, green_colour, red_colour, yellow_colour;
     std::vector <std::unique_ptr<Sprite>> colours;
+    std::unique_ptr<GameResult> game_result;
+    std::shared_ptr<Player> player;
 
     bool a_last = true, b_last = true;
     bool a_now = true, b_now = true;
@@ -50,7 +55,7 @@ private:
     void getInputSeq();
 
 public:
-    SimonScene(const std::shared_ptr <GBAEngine> &engine, Character character);
+    SimonScene(const std::shared_ptr <GBAEngine> &engine, std::shared_ptr <Player> &player);
 
     std::vector<Sprite *> sprites() override;
 

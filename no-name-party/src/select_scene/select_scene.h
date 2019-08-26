@@ -8,12 +8,15 @@
 #include <libgba-sprite-engine/scene.h>
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
 
+#include "../game_scene/player.h"
+
 class SelectScene : public Scene {
 private:
     std::unique_ptr<Background> background_rainbow;
     std::unique_ptr<SpriteBuilder<Sprite>> spriteBuilder;
     std::unique_ptr<Sprite> luigi_select, mario_select, princess_peach_select, yoshi_select;
     std::vector<std::unique_ptr<Sprite>> characters;
+    std::shared_ptr<Player> player;
 
     bool a_last = true, b_last = true;
     bool a_now = true, b_now = true;

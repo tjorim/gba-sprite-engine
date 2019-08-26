@@ -10,8 +10,8 @@
 #include "background/background_books.h"
 #include "foreground/sprites/shared_book_scene.h"
 
-BookScene::BookScene(const std::shared_ptr <GBAEngine> &engine, Character character) : Scene(engine),
-                                                                                       character(character) {}
+BookScene::BookScene(const std::shared_ptr <GBAEngine> &engine, std::shared_ptr <Player> &player) : Scene(engine),
+                                                                                       player(player) {}
 
 std::vector<Background *> BookScene::backgrounds() {
     return {
@@ -69,7 +69,7 @@ void BookScene::tick(u16 keys) {
         a_now = false;
     }
     if (a_now == true && a_last == false) {
-        engine->setScene(new GameScene(engine, getCharacter()));
+        engine->setScene(new GameScene(engine, player));
     }
 
     b_last = b_now;

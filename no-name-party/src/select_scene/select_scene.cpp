@@ -90,7 +90,10 @@ void SelectScene::tick(u16 keys) {
     }
     if (a_now == true && a_last == false) {
         if (character_current != 1) {
-            engine->setScene(new ProfileScene(engine, static_cast<Character>(getCharacter())));
+            //new GBAEngine();
+            //player = std::unique_ptr<Player>(new Player(getCharacter(), 40, 40));
+            player = std::shared_ptr<Player>(new Player(static_cast<Character>(getCharacter()), 40, 40));
+            engine->setScene(new ProfileScene(engine, player));
         } else {
             TextStream::instance().setText(std::string("Mario is niet beschikbaar"),
                                            16, 2);

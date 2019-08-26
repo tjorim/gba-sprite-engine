@@ -10,12 +10,16 @@
 #include "../enums/character.h"
 
 #include "dino.h"
+#include "game_result.h"
+#include "../game_scene/player.h"
 
 class DinoScene : public Scene {
 private:
     std::unique_ptr <Background> background_clouds;
     std::vector <std::unique_ptr<Sprite>> plants;
     std::unique_ptr <Dino> dino;
+    std::unique_ptr<GameResult> game_result;
+    std::shared_ptr<Player> player;
 
     bool fire_last = true, fire_now = true;
 
@@ -25,7 +29,7 @@ private:
     Character character = Character::LUIGI;
 
 public:
-    DinoScene(const std::shared_ptr <GBAEngine> &engine, Character character);
+    DinoScene(const std::shared_ptr <GBAEngine> &engine, std::shared_ptr <Player> &player);
 
     std::vector<Sprite *> sprites() override;
 

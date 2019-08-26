@@ -14,8 +14,8 @@
 #include "foreground/sprites/simon_red.h"
 #include "foreground/sprites/simon_yellow.h"
 
-SimonScene::SimonScene(const std::shared_ptr <GBAEngine> &engine, Character character) : Scene(engine),
-                                                                                       character(character) {}
+SimonScene::SimonScene(const std::shared_ptr <GBAEngine> &engine, std::shared_ptr <Player> &player) : Scene(engine),
+                                                                                       player(player) {}
 
 std::vector<Background *> SimonScene::backgrounds() {
     return {};

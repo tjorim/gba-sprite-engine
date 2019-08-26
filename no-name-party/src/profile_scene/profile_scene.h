@@ -12,6 +12,7 @@
 class ProfileScene : public Scene {
 private:
     std::unique_ptr<Background> background_profile;
+    std::shared_ptr<Player> player;
 
     bool a_last = true, b_last = true;
     bool a_now = true, b_now = true;
@@ -26,7 +27,7 @@ private:
     Character character = Character::LUIGI;
 
 public:
-    ProfileScene(const std::shared_ptr<GBAEngine> &engine, Character character);
+    ProfileScene(const std::shared_ptr<GBAEngine> &engine, std::shared_ptr<Player> &player);
 
     std::vector<Sprite *> sprites() override;
 

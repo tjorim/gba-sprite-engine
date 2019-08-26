@@ -11,12 +11,16 @@
 
 #include "book.h"
 #include "stair_case.h"
+#include "game_result.h"
+#include "../game_scene/player.h"
 
 class BookScene : public Scene {
 private:
     std::unique_ptr <Background> background_books;
     std::vector <std::unique_ptr<Book>> books;
     std::unique_ptr <StairCase> stair_case;
+    std::unique_ptr<GameResult> game_result;
+    std::shared_ptr<Player> player;
 
     bool a_last = true, b_last = true;
     bool a_now = true, b_now = true;
@@ -34,7 +38,7 @@ private:
     Character character = Character::LUIGI;
 
 public:
-    BookScene(const std::shared_ptr <GBAEngine> &engine, Character character);
+    BookScene(const std::shared_ptr <GBAEngine> &engine, std::shared_ptr <Player> &player);
 
     std::vector<Sprite *> sprites() override;
 

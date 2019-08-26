@@ -10,8 +10,8 @@
 #include "foreground/sprites/shared_dino_scene.h"
 #include "foreground/sprites/plant.h"
 
-DinoScene::DinoScene(const std::shared_ptr <GBAEngine> &engine, Character character) : Scene(engine),
-                                                                                       character(character) {}
+DinoScene::DinoScene(const std::shared_ptr <GBAEngine> &engine, std::shared_ptr <Player> &player) : Scene(engine),
+                                                                                       player(player) {}
 
 std::vector<Background *> DinoScene::backgrounds() {
     return {

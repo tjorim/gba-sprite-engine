@@ -8,7 +8,8 @@
 
 enum class Result : char {
     LOSE = 0,
-    WIN = 1
+    WIN = 1,
+    BREAK = 2
 };
 
 

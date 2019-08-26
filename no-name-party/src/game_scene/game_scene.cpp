@@ -17,7 +17,19 @@
 #include "background/background_map.h"
 #include "foreground/sprites/shared_game_scene.h"
 
-GameScene::GameScene(const std::shared_ptr<GBAEngine> &engine, Character character) : Scene(engine), character(character) {}
+GameScene::GameScene(const std::shared_ptr<GBAEngine> &engine, std::shared_ptr<Player> &player, Result game_result) : Scene(engine), player(player) {
+    switch (game_result) {
+        case Result::LOSE:
+
+            break;
+        case Result::WIN:
+
+            break;
+        case Result::BREAK:
+            
+            break;
+    }
+}
 
 std::vector<Background *> GameScene::backgrounds() {
     return {
@@ -58,7 +70,6 @@ void GameScene::load() {
                            background_mapMap, sizeof(background_mapMap)));
     background_map->useMapScreenBlock(16);
 
-    player = std::unique_ptr<Player>(new Player(getCharacter(), xCoPlayer, yCoPlayer));
     //result = std::unique_ptr<GameResult>(new GameResult(static_cast<Character>(getCharacter()), Result::LOSE));
 
 /*
@@ -95,7 +106,7 @@ void GameScene::tick(u16 keys) {
         //engine->dequeueAllSounds();
         //engine->enqueueMusic(Title_Screen_wav, sizeof(Title_Screen_wav));
     } else if (keys & KEY_B) {
-        engine->setScene(new BookScene(engine, getCharacter()));
+        engine->setScene(new BookScene(engine, player));
         //result = std::unique_ptr<GameResult>(new GameResult(static_cast<Character>(getCharacter()), Result::WIN));
         //engine->updateSpritesInScene();
     } else if (keys & KEY_UP) {

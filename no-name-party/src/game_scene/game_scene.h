@@ -9,6 +9,7 @@
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
 
 #include "../enums/character.h"
+#include "../enums/result.h"
 
 #include "player.h"
 #include "game_result.h"
@@ -19,8 +20,7 @@ private:
     //Thing *board[BOARD_HEIGHT][BOARD_WIDTH];
     //std::array<std::array<Thing, BOARD_WIDTH>, BOARD_HEIGHT> board;
     //std::vector <std::unique_ptr<Bomb>> bombs;
-    std::unique_ptr<Player> player;
-    std::unique_ptr<GameResult> result;
+    std::shared_ptr<Player> player;
 
     // LUIGI, MARIO, PRINCESS_PEACH, YOSHI
     Character character = Character::LUIGI;
@@ -31,7 +31,7 @@ private:
     int xCoPlayer = 40, yCoPlayer = 40;
 
 public:
-    GameScene(const std::shared_ptr<GBAEngine> &engine, Character character);
+    GameScene(const std::shared_ptr<GBAEngine> &engine, std::shared_ptr <Player> &player, Result game_result = Result::BREAK);
 
     std::vector<Sprite *> sprites() override;
 

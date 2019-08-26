@@ -5,6 +5,7 @@
 #include <libgba-sprite-engine/background/text_stream.h>
 #include <libgba-sprite-engine/sprites/sprite_builder.h>
 
+#include "../game_scene/game_scene.h"
 #include "race_scene.h"
 
 #include "background/background_tiles.h"
@@ -12,8 +13,8 @@
 #include "foreground/sprites/walking_bomb.h"
 #include "foreground/sprites/mushroom.h"
 
-RaceScene::RaceScene(const std::shared_ptr <GBAEngine> &engine, Character character) : Scene(engine),
-                                                                                       character(character) {}
+RaceScene::RaceScene(const std::shared_ptr <GBAEngine> &engine, std::shared_ptr <Player> &player) : Scene(engine),
+                                                                                       player(player) {}
 
 std::vector<Background *> RaceScene::backgrounds() {
     return {
@@ -32,6 +33,10 @@ std::vector<Sprite *> RaceScene::sprites() {
 
     for (auto &mushroom : mushrooms) {
         sprites.push_back(mushroom.get());
+    }
+
+    if (ended) {
+        sprites.push_back(game_result->getSprite());
     }
 
     TextStream::instance().setText(std::string("Sprites ") + std::to_string(sprites.size()), 1, 0);
@@ -54,8 +59,6 @@ void RaceScene::load() {
 }
 
 void RaceScene::tick(u16 keys) {
-    TextStream::instance().setFontColor(PaletteManager::color(31, 31, 31));
-
     if (playing) {
         checkCollision();
 
@@ -82,7 +85,11 @@ void RaceScene::tick(u16 keys) {
         a_now = false;
     }
     if (a_now == true && a_last == false) {
-        startPlaying();
+        if (ended) {
+            engine->setScene(new GameScene(engine, player, game_result->getResult()));
+        } else {
+            startPlaying();
+        }
     }
 
     b_last = b_now;
@@ -92,16 +99,24 @@ void RaceScene::tick(u16 keys) {
         b_now = false;
     }
     if (b_now == true && b_last == false) {
-        stopPlaying();
+        //stopPlaying();
     }
 
+    TextStream::instance().setFontColor(PaletteManager::color(31, 31, 31));
     TextStream::instance().setText(std::string("Race scene"), 0, 0);
+    TextStream::instance().setText(std::string(""), 4, 14);
+    TextStream::instance().setText(std::string(""), 8, 14);
+    TextStream::instance().setText(std::string(""), 12, 14);
+    TextStream::instance().setText(std::string(""), 16, 6);
+    TextStream::instance().setText(engine->getTimer()->to_string(), 18, 0);
 }
 
 void RaceScene::startPlaying() {
     placeBombs();
     giveLives();
+    ended = false;
     engine->updateSpritesInScene();
+    engine->getTimer()->start();
 
     lives = mushrooms.size();
     playing = true;
@@ -117,6 +132,8 @@ void RaceScene::stopPlaying() {
     bombs.clear();
     mushrooms.clear();
     engine->updateSpritesInScene();
+    engine->getTimer()->stop();
+    engine->getTimer()->reset();
 
     playing = false;
     car->getCarSprite()->stopAnimating();
@@ -130,6 +147,10 @@ void RaceScene::stopPlaying() {
 }
 
 void RaceScene::checkCollision() {
+    if (engine->getTimer()->getSecs() > 29) {
+        endGame(Result::WIN);
+    }
+
     hit_last = hit_now;
     int collisions = 0;
 
@@ -227,6 +248,13 @@ void RaceScene::takeLife() {
         lives--;
         mushrooms[lives]->moveTo(GBA_SCREEN_WIDTH, GBA_SCREEN_HEIGHT);
     } else {
-        stopPlaying();
+        endGame(Result::LOSE);
     }
+}
+
+void RaceScene::endGame(Result result) {
+    stopPlaying();
+    ended = true;
+    game_result = std::unique_ptr<GameResult>(new GameResult(getCharacter(), result));
+    engine->updateSpritesInScene();
 }
