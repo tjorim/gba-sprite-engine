@@ -1,5 +1,9 @@
 .DS_Store
-build/
+!build
+build/*
+!build/no-name-party
+build/no-name-party/*
+!build/no-name-party/no-name-party.gba
 
 # Created by https://www.gitignore.io/api/clion,cmake
 
