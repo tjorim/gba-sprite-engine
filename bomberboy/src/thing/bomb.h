@@ -8,8 +8,13 @@
 #include "../thing.h"
 
 class Bomb : public Thing {
+private:
+    int ticksUntilExplosion = 120;
+
 public:
     Bomb(int xCoGrid, int yCoGrid);
+
+    bool tick();
 };
 
 #endif //GBA_SPRITE_ENGINE_PROJECT_BOMB_H

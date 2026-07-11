@@ -15,3 +15,9 @@ Bomb::Bomb(int xCoGrid, int yCoGrid) : Thing(xCoGrid, yCoGrid, thingType::BOMB) 
             .withLocation(8*xCoGrid, 8*yCoGrid)
             .buildPtr());
 }
+
+
+bool Bomb::tick() {
+    ticksUntilExplosion--;
+    return ticksUntilExplosion <= 0;
+}

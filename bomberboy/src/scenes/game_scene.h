@@ -19,9 +19,16 @@ class GameScene : public Scene {
 private:
     int level = 1;
     Thing *board[BOARD_HEIGHT][BOARD_WIDTH];
-    //std::array<std::array<Thing, BOARD_WIDTH>, BOARD_HEIGHT> board;
     std::vector <std::unique_ptr<Bomb>> bombs;
     std::unique_ptr<Player> player1;
+    std::unique_ptr<Player> player2;
+
+    void updateBombs();
+    void explodeBomb(Bomb *bomb);
+    bool applyExplosionToTile(int xValue, int yValue);
+    bool isInsideBoard(int xValue, int yValue);
+    bool isWalkable(int xValue, int yValue);
+    void movePlayer(int xValue, int yValue);
 
 public:
     GameScene(const std::shared_ptr <GBAEngine> &engine, int level);
