@@ -30,8 +30,27 @@ void Sprite::moveTo(int x, int y) {
     }
 }
 
+namespace {
+    // OAM's X coordinate is 9-bit (wraps at 512), Y is 8-bit (wraps at 256)
+    // -- see ATTR1_X_MASK/ATTR0_Y_MASK and how they're used in buildOam()
+    // below. Values past the halfway point represent small negative
+    // offsets (e.g. a sprite eased a few pixels above the top edge), so
+    // they're sign-extended back out of the wrapped range. Bitwise AND
+    // instead of % since the ARM7TDMI has no hardware divide.
+    inline int wrapOamX(int x) {
+        int wrapped = x & 0x01FF;
+        return wrapped >= 256 ? wrapped - 512 : wrapped;
+    }
+    inline int wrapOamY(int y) {
+        int wrapped = y & 0x00FF;
+        return wrapped >= 128 ? wrapped - 256 : wrapped;
+    }
+}
+
 bool Sprite::isOffScreen() {
-    return x % 256 < 0 || x % 256 > GBA_SCREEN_WIDTH || y % 256 < 0 || y % 256 > GBA_SCREEN_HEIGHT;
+    int screenX = wrapOamX(x);
+    int screenY = wrapOamY(y);
+    return screenX < 0 || screenX > GBA_SCREEN_WIDTH || screenY < 0 || screenY > GBA_SCREEN_HEIGHT;
 }
 
 void Sprite::flipHorizontally(bool flip) {
@@ -123,10 +142,19 @@ void Sprite::setAttributesBasedOnSize(SpriteSize size) {
 bool Sprite::collidesWith(Sprite &s2) {
     const Sprite &s1 = *this;
 
-    if(s1.x % 256 < s2.x % 256 + s2.w &&
-            s1.x % 256 + s1.w > s2.x % 256 &&
-            s1.y % 256 < s2.y % 256 + s2.h &&
-            s1.h + s1.y % 256 > s2.y % 256) {
+    int s1x = wrapOamX(s1.x), s2x = wrapOamX(s2.x);
+    int s1y = wrapOamY(s1.y), s2y = wrapOamY(s2.y);
+    // w/h are u32; casting to int here avoids the signed/unsigned
+    // promotion that broke this comparison whenever a sprite's wrapped
+    // coordinate went negative (a negative int compared against a u32
+    // sum gets promoted to a huge unsigned value instead).
+    int s1w = (int)s1.w, s2w = (int)s2.w;
+    int s1h = (int)s1.h, s2h = (int)s2.h;
+
+    if(s1x < s2x + s2w &&
+            s1x + s1w > s2x &&
+            s1y < s2y + s2h &&
+            s1h + s1y > s2y) {
         return true;
     }
     return false;
