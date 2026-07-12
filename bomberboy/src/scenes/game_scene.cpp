@@ -13,7 +13,6 @@
 #include "../thing/solid/wall.h"
 #include "../thing/surface/floor.h"
 #include "../thing/surface/gunpowder.h"
-#include "../thing/surface/portal.h"
 #include "../thing/surface/power_up.h"
 #include "../../sprites/shared.h"
 
@@ -31,12 +30,10 @@ std::vector<Sprite *> GameScene::sprites() {
     }
 
     sprites.push_back(player1->getSprite());
+    sprites.push_back(player2->getSprite());
 
-    for(auto& rows: board) // Iterating over rows
-    {
-        for(auto& elem: rows)
-        {
-            // do some stuff
+    for (auto &rows: board) {
+        for (auto &elem: rows) {
             sprites.push_back(elem->getSprite());
         }
     }
@@ -50,56 +47,54 @@ void GameScene::load() {
             new ForegroundPaletteManager(sharedPal, sizeof(sharedPal)));
     backgroundPalette = std::unique_ptr<BackgroundPaletteManager>(new BackgroundPaletteManager());
 
-    player1 = std::unique_ptr<Player>(new Player(5, 5));
+    player1 = std::unique_ptr<Player>(new Player(1, 1));
+    player1->setPlayerNumber(1);
+    player2 = std::unique_ptr<Player>(new Player(BOARD_WIDTH - 2, BOARD_HEIGHT - 2));
+    player2->setPlayerNumber(2);
 
     for (int i = 0; i < BOARD_WIDTH; i++) { // board.size(), Iterating over rows
         for (int j = 0; j < BOARD_HEIGHT; j++) { // board[i].size()
-            if(i == 0 || i == BOARD_WIDTH-1 || j == 0 || j == BOARD_HEIGHT-1) {
+            if(i == 0 || i == BOARD_WIDTH-1 || j == 0 || j == BOARD_HEIGHT-1 || (i % 2 == 0 && j % 2 == 0)) {
                 board[i][j] = new Wall(i, j);
+            } else if ((i == 1 && j == 1) || (i == 1 && j == 2) || (i == 2 && j == 1) ||
+                       (i == BOARD_WIDTH - 2 && j == BOARD_HEIGHT - 2) ||
+                       (i == BOARD_WIDTH - 2 && j == BOARD_HEIGHT - 3) ||
+                       (i == BOARD_WIDTH - 3 && j == BOARD_HEIGHT - 2)) {
+                board[i][j] = new Floor(i, j);
+            } else if ((i + j + level) % 7 == 0) {
+                board[i][j] = new PowerUp(i, j);
+            } else if ((i * j + level) % 5 == 0) {
+                board[i][j] = new Gunpowder(i, j);
+            } else if ((i + j + level) % 2 == 0) {
+                board[i][j] = new Crate(i, j);
             } else {
                 board[i][j] = new Floor(i, j);
             }
         }
     }
 
-    // engine->getTimer()->start();
-    // engine->enqueueMusic(cataclysmic_molten_core, sizeof(cataclysmic_molten_core));
-
-    // EndScene *endScene = new EndScene(engine);
 }
 
 void GameScene::tick(u16 keys) {
     TextStream::instance().setText(std::string("Game scene"), 5, 1);
 
-    if (player1->isDood()) {
+    updateBombs();
+
+    if (player1->isDood() || player2->isDood()) {
         engine->setScene(new EndScene(engine));
     }
 
     if (keys & KEY_FIRE) {
         dropBomb();
     } else if (keys & KEY_UP) {
-        player1->moveUp();
+        movePlayer(0, -1);
     } else if (keys & KEY_DOWN) {
-        player1->moveDown();
+        movePlayer(0, 1);
     } else if (keys & KEY_LEFT) {
-        player1->moveLeft();
+        movePlayer(-1, 0);
     } else if (keys & KEY_RIGHT) {
-        player1->moveRight();
+        movePlayer(1, 0);
     }
-    /*
-    if (keys & KEY_ACCEPT) {
-        
-    } */
-    /*
-    if(engine->getTimer()->getTotalMsecs() < 5000) {
-        counter++;
-    } else {
-        engine->getTimer()->stop();
-    }
-
-    TextStream::instance().setText(std::to_string(counter) + std::string(" frames/5sec"), 5, 1);
-    TextStream::instance().setText(std::string(engine->getTimer()->to_string()), 6, 1);
-    */
 }
 
 thingType GameScene::getThingType(int xValue, int yValue) {
@@ -118,30 +113,98 @@ void GameScene::dropBomb() {
 
         if(thingUnderPlayerType == thingType::FLOOR || thingUnderPlayerType == thingType::GUNPOWDER) {
             bombs.push_back(std::unique_ptr<Bomb>(new Bomb(bombX, bombY)));
-            // Dynamically add the sprite
-            //addSprite(bombs.back()->getSprite());
-            // but there is no easy way to remove it
             engine.get()->updateSpritesInScene();
             TextStream::instance().setText(std::string("Boms ") + std::to_string(bombs.size()), 10, 1);
             player1->eenBomMinder();
         }
-    }    
+    }
+}
 
-    /*
-        if(speler->getThingUnderPlayer()->getType() == Thing::thingType::FLOOR)
-        {
-            // create a bomb with floor under it
-            Bomb *bomb = new Bomb(speler->getPlayerNumber(), new Floor());
-            qDebug() << "Bomb created";
-            bomb->setPos(speler->getXCo(), speler->getYCo());
-            scene->addItem(bomb);
-            //speler->setThingUnderPlayer(new Bomb(speler->getPlayerNumber(), new Floor()));
+void GameScene::updateBombs() {
+    bool spritesChanged = false;
+
+    for (auto bomb = bombs.begin(); bomb != bombs.end();) {
+        if ((*bomb)->tick()) {
+            explodeBomb(bomb->get());
+            bomb = bombs.erase(bomb);
+            player1->eenBomMeer();
+            spritesChanged = true;
+        } else {
+            ++bomb;
         }
-        else if(speler->getThingUnderPlayer()->getType() == Thing::thingType::GUNPOWDER)
-        {
-            speler->setThingUnderPlayer(new Bomb(speler->getPlayerNumber(), new Gunpowder()));
+    }
+
+    if (spritesChanged) {
+        engine.get()->updateSpritesInScene();
+    }
+}
+
+void GameScene::explodeBomb(Bomb *bomb) {
+    static const int directions[4][2] = {{0, -1}, {0, 1}, {-1, 0}, {1, 0}};
+
+    applyExplosionToTile(bomb->getXCoGrid(), bomb->getYCoGrid());
+
+    for (auto &direction : directions) {
+        for (int distance = 1; distance <= player1->getHoeveelVuur(); distance++) {
+            int xValue = bomb->getXCoGrid() + direction[0] * distance;
+            int yValue = bomb->getYCoGrid() + direction[1] * distance;
+
+            if (!applyExplosionToTile(xValue, yValue)) {
+                break;
+            }
         }
-        
-        //speelGeluidje(BombDrop);
-    */
+    }
+}
+
+bool GameScene::applyExplosionToTile(int xValue, int yValue) {
+    if (!isInsideBoard(xValue, yValue)) {
+        return false;
+    }
+
+    if (player1->getXCoGrid() == xValue && player1->getYCoGrid() == yValue) {
+        player1->maakDood();
+    }
+    if (player2->getXCoGrid() == xValue && player2->getYCoGrid() == yValue) {
+        player2->maakDood();
+    }
+
+    thingType type = board[xValue][yValue]->getType();
+
+    if (type == thingType::WALL) {
+        return false;
+    }
+
+    if (type == thingType::CRATE || type == thingType::POWERUP || type == thingType::GUNPOWDER) {
+        delete board[xValue][yValue];
+        board[xValue][yValue] = new Floor(xValue, yValue);
+        return type == thingType::GUNPOWDER;
+    }
+
+    return true;
+}
+
+bool GameScene::isInsideBoard(int xValue, int yValue) {
+    return xValue >= 0 && xValue < BOARD_WIDTH && yValue >= 0 && yValue < BOARD_HEIGHT;
+}
+
+bool GameScene::isWalkable(int xValue, int yValue) {
+    if (!isInsideBoard(xValue, yValue)) {
+        return false;
+    }
+
+    thingType type = board[xValue][yValue]->getType();
+    return type == thingType::FLOOR || type == thingType::GUNPOWDER || type == thingType::POWERUP;
+}
+
+void GameScene::movePlayer(int xValue, int yValue) {
+    int targetX = player1->getXCoGrid() + xValue;
+    int targetY = player1->getYCoGrid() + yValue;
+
+    if (player2->getXCoGrid() == targetX && player2->getYCoGrid() == targetY) {
+        return;
+    }
+
+    if (isWalkable(targetX, targetY)) {
+        player1->moveRelative(xValue, yValue);
+    }
 }
